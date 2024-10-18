@@ -12,7 +12,8 @@
 import os
 import requests
 import pandas as pd
-from pathlib import Path check for file path in separate
+from pathlib import Path
+
 EXCEL_URL = "https://www.xrepository.de/api/xrepository/urn:de:bund:destatis:bevoelkerungsstatistik:schluessel:rs_2024-10-31/download/Regionalschl_ssel_2024-10-31.xlsx"  
 
 def save_path_exists(save_path: str, save_dir: str, activity: str) -> str:
