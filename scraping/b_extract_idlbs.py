@@ -1,18 +1,17 @@
 """
- 1_identify_administrative_services.py
+ b_extract_unique_idlbs.py
 
  Master's Thesis
  Seike Appold
  
  - Use the Suchdienst API (https://anbindung.pvog.cloud-bdc.dataport.de/docs/sud/sud-ueberblick/)
- and the extracted ARS to generate a set of the ID-LB of all administrative services.
+ to generate a set of the ID-LB of administrative services by ARS.
 """
 
 import os
 # import re
 import requests
 import pandas as pd
-from pathlib import Path
 from a_extract_ars import save_path_exists
 
 SUCHDIENST_URL = "https://public.demo.pvog.cloud-bdc.dataport.de/suchdienst/api/v5/servicedescriptions/csv"
@@ -93,10 +92,6 @@ if __name__ == "__main__":
         # Provide feedback on progress
         progress = (idx + 1) / len(ars_df["ARS"]) * 100
         print(f"Progress: File {idx+1}/{nof_ars}. {progress:.2f}% completed.")
-
-        # FOR TESTING: Process only the first 5 ARS
-        if idx == 5:
-            break
     
     # Save the set of unique ID-LBs to a CSV file
     idlbs_filename = "unique_idlbs_all.csv"

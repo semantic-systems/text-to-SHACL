@@ -1,12 +1,11 @@
 """
- 0_extract_ars.py
+ a_extract_ars.py
 
  Master's Thesis
  Seike Appold
  
- - Extract the Amtliche Regionalschlüssel (ARS) that uniquely identify
- all German municipalities with 12-digit keys from XRepository 
- (https://www.xrepository.de/)
+ - Extract the Amtliche Regionalschlüssel (ARS) that uniquely identify all
+ German municipalities with 12-digit keys from XRepository (https://www.xrepository.de/)
 """
 
 import os
