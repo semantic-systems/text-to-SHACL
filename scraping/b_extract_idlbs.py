@@ -9,8 +9,7 @@
 """
 
 import os
-import re
-import csv
+# import re
 import requests
 import pandas as pd
 from pathlib import Path
@@ -21,101 +20,85 @@ SUCHDIENST_URL = "https://public.demo.pvog.cloud-bdc.dataport.de/suchdienst/api/
 def download_csv(url: str, ars: str, save_dir: str, filename) -> str:
     """
     Call the Suchdienst API to fetch a CSV file for the given ARS and
-    save it to the specified directory.
-
-    :param url: The base URL to download the CSV from.
-    :param ars: The ARS for which the CSV is fetched.
-    :param save_dir: Directory where the downloaded file will be saved.
-    :param filename: Name of the file to save.
-    :return: The path to the saved CSV file.
+    save it to the specified directory. Return the path to the saved file
+    if the download was completed or the file already existed, else None.
     """
-    # Create the save directory if it does not yet exist
-    Path(save_dir).mkdir(parents=True, exist_ok=True)
-
     save_path = os.path.join(save_dir, filename)
 
-    # If file already exists locally, skip the download
-    if os.path.isfile(save_path):
-        print(f"File already exists at {save_path}. Skipping download.")
+    # If file already exists, do not download it again
+    if save_path_exists(save_path, save_dir, "download"):
         return save_path
     
     try:
-        response = requests.get(SUCHDIENST_URL, params={"ars": ars})
+        response = requests.get(url, params={"ars": ars})
         response.raise_for_status()
-        
         with open(save_path, 'wb') as file:
             file.write(response.content)
-        
         print(f"CSV for ARS {ars} saved to {save_path}.")
         return save_path
-
     except requests.exceptions.RequestException as e:
         print(f"Error: {e}")
+        return None
 
-def extract_idlb(filepath: str) -> set:
+def update_idlb_dict(filepath: str, ars: str, idlb_dict: dict) -> dict:
     """
-    Extract valid ID-LB entries from a CSV file.
-
-    :param filepath: Path to the CSV file.
-    :return: A set of valid ID-LB entries.
+    Append the ID-LBs from the input file to the dictionary, where ID-LBs
+    are the keys (hence, unique) and the ARS are the values. Return the
+    updated dictionary.
     """
-    idlbs = set()
     # valid_idlb_pattern = "^[B|L]\d{6}\.LB\.[\d{9}|\d{6}]$"
 
     try:
         df = pd.read_csv(filepath, delimiter="|")
         # valid_idlbs = [idlb for idlb in df["ID-LB"] if re.match(valid_idlb_pattern, idlb)]
         valid_idlbs = df["ID-LB"]
-        idlbs.update(valid_idlbs)
-        return idlbs
-    
+        for idlb in valid_idlbs:
+            idlb_dict[idlb] = ars
     except Exception as e:
         print(f"Failed to extract ID-LB from {filepath}: {e}")
-        return set()
+    
+    return idlb_dict
 
-def save_idlbs_to_csv(idlbs: set, save_dir: str, filename: str) -> None:
+def save_idlbs_to_csv(idlb_dict: dict, save_dir: str, filename: str) -> None:
     """
-    Save a set of ID-LBs to a CSV file.
-
-    :param data: The set of ID-LBs to save.
-    :param save_dir: Directory where the file will be saved.
-    :param filename: Name of the file to save.
+    Save a dictionary of ID-LBs and corresponding ARS to a CSV file.
     """
-    # Create the save directory if it does not yet exist
-    Path(save_dir).mkdir(parents=True, exist_ok=True)
     save_path = os.path.join(save_dir, filename)
 
-    # If file already exists locally, skip the download
-    if os.path.isfile(save_path):
-        print(f"File already exists at {save_path}. Skipping download.")
+    # If file already exists, do not generate it again
+    if save_path_exists(save_path, save_dir, "generation of ID-LB file"):
         return save_path
 
-    df = pd.DataFrame(list(idlbs), columns=["ID-LB"])
+    df = pd.DataFrame(idlb_dict.items(), columns=["ID-LB", "ARS"])
     df.to_csv(save_path, index=False)
-
-    print(f"Set of ID-LBs saved to {save_path}.")
+    print(f"Dictionary of ID-LBs saved to {save_path}.")
     
 if __name__ == "__main__":
+    # Retrieve the ARS from locally stored file
     ars_path = "scraping/data/ars/ars_clean.csv"
     ars_df = pd.read_csv(ars_path, dtype ='str')
     nof_ars = len(ars_df["ARS"])
 
-    unique_idlbs = set()
-    services_dir = "scraping/data/services"
+    idlb_dict= {}
+    services_save_dir = "scraping/data/service_catalogs"
 
+    # For each ARS, download the catalog of services
     for idx, ars in enumerate(ars_df["ARS"]):
-        services_filename = f"ars_{ars}.csv"
-        services_path = download_csv(SUCHDIENST_URL, ars, services_dir, services_filename)
+        service_catalog_filename = f"ars_{ars}.csv"
+        service_catalog_path = download_csv(SUCHDIENST_URL, ars, services_save_dir, service_catalog_filename)
 
-        if services_path:
-            idlbs = extract_idlb(services_path)
-            unique_idlbs.update(idlbs)
+        if service_catalog_path:
+            idlb_dict = update_idlb_dict(service_catalog_path, ars, idlb_dict)
 
+        # Provide feedback on progress
         progress = (idx + 1) / len(ars_df["ARS"]) * 100
-        print(f"Progress: {progress:.2f}% completed")
+        print(f"Progress: File {idx+1}/{nof_ars}. {progress:.2f}% completed.")
 
+        # FOR TESTING: Process only the first 5 ARS
         if idx == 5:
             break
     
-    idlbs_filename = "unique_idlbs.csv"
-    save_set_to_csv(unique_idlbs, services_dir, idlbs_filename)
+    # Save the set of unique ID-LBs to a CSV file
+    idlbs_filename = "unique_idlbs_all.csv"
+    idlbs_save_dir = "scraping/data/idlbs"
+    save_idlbs_to_csv(idlb_dict, idlbs_save_dir, idlbs_filename)
