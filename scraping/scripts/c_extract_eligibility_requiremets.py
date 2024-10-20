@@ -10,6 +10,7 @@
 
 import os
 import json
+import datetime
 import pandas as pd
 from utils import download_file, remove_html_tags, save_path_exists
 
@@ -60,6 +61,8 @@ def save_reqs_to_csv(services: list, save_dir: str, filename: str) -> None:
         print(f"Failed to save eligibility requirements to {save_path}: {e}")
 
 if __name__ == "__main__":
+    start_time = datetime.datetime.now()
+
     # Retrieve the unique ID-LBs and matching ARS
     idlbs_filepath = "scraping/data/processed/unique_idlbs.csv" 
     unique_services = pd.read_csv(idlbs_filepath, dtype=str)
@@ -95,3 +98,7 @@ if __name__ == "__main__":
     save_dir = "scraping/data/processed"
     filename = os.path.join("eligibility_requirements.csv")
     save_reqs_to_csv(eligibility_reqs, save_dir, filename)
+
+    end_time = datetime.datetime.now()
+    duration = end_time - start_time
+    print(f"Starttime: {start_time}. Endtime: {end_time}. Duration: {duration}.")

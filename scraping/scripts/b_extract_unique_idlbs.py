@@ -10,6 +10,7 @@
 """
 
 import os
+import datetime
 import pandas as pd
 from utils import download_file, save_path_exists
 
@@ -49,6 +50,8 @@ def save_idlbs_to_csv(idlb_dict: dict, save_dir: str, filename: str) -> None:
     print(f"ID-LBs with ARS saved to {save_path}.")
     
 if __name__ == "__main__":
+    start_time = datetime.datetime.now()
+
     # Retrieve the ARS from locally stored file
     ars_path = "scraping/data/processed/all_ars.csv"
     ars_df = pd.read_csv(ars_path, dtype ='str')
@@ -72,10 +75,14 @@ if __name__ == "__main__":
         print(f"Progress: File {idx+1}/{nof_ars}. {progress:.2f}% completed.")
 
         # For testing: break after 10 files
-        if idx == 10:
-            break
+        #if idx == 50:
+            #break
     
     # Save unique ID-LBs to a CSV file
     idlbs_filename = "unique_idlbs.csv"
     idlbs_save_dir = "scraping/data/processed"
     save_idlbs_to_csv(idlb_dict=idlb_dict, save_dir=idlbs_save_dir, filename=idlbs_filename)
+
+    end_time = datetime.datetime.now()
+    duration = end_time - start_time
+    print(f"Starttime: {start_time}. Endtime: {end_time}. Duration: {duration}.")
