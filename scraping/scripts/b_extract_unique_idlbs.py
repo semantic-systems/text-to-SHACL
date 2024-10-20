@@ -27,8 +27,10 @@ def update_idlb_dict(filepath: str, ars: str, idlb_dict: dict) -> dict:
     try:
         df = pd.read_csv(filepath, delimiter="|")
         # valid_idlbs = [idlb for idlb in df["ID-LB"] if re.match(valid_idlb_pattern, idlb)]
-        valid_idlbs = df["ID-LB"]
-        for idlb in valid_idlbs:
+        # If ID-LB starts with TEST, do not update the dictionary
+        for idlb in df["ID-LB"]:
+            if "TEST" in idlb:
+                continue
             idlb_dict[idlb] = ars
     except Exception as e:
         print(f"Failed to extract ID-LB from {filepath}: {e}")
