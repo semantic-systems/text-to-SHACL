@@ -5,8 +5,11 @@ This repository contains the code for my Master's thesis **Without Title**. The 
 ## Author
 
 **Name**: Seike Appold
+
 **Email**: seike.appold@stud.leuphana.de
+
 **Institution**: Leuphana University Lüneburg, Institute of Information Systems
+
 **Program**: Management & Data Science
 
 ## Repo Structure
