@@ -11,20 +11,3 @@ This repository contains the code for my Master's thesis **Without Title**. The 
 **Institution**: Leuphana University Lüneburg, Institute of Information Systems
 
 **Program**: Management & Data Science
-
-## Repo Structure
-
-├── scraping/
-    ├── data/
-        ├── ars/
-            ├── ars_clean.csv
-            ├── ars_raw.csv
-        ├── services/
-            ├── ars_010010000000.csv
-            ├── ...
-            ├── unique_idlbs.csv
-    ├── code/
-        ├── a_extract_ars.py
-        ├── b_extract_idlbs.py
-        ├── c_extract_eligibility_requirements.py
-    ├── inspection.ipynb
