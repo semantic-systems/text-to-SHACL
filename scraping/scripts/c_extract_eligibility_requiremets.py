@@ -1,21 +1,17 @@
 """
- c_extract_service_description.py
+ c_extract_eligibiliy_requirements.py
 
  Master's Thesis
  Seike Appold
  
- - From descriptions of administrative services in JSON format, extract
- only the eligibility requirements and save them in a csv file.
+ - Use the Suchdienst API (https://anbindung.pvog.cloud-bdc.dataport.de/docs/sud/sud-ueberblick/)
+ to download and save the descriptions of administrative services by ID-LB and ARS in JSON format.
 """
 
 import os
 import json
-from bs4 import BeautifulSoup 
-from a_extract_ars import save_path_exists
-
-def remove_html_tags(text):
-    soup = BeautifulSoup(text, "html.parser")
-    return soup.text.strip()
+import pandas as pd
+from utils import download_file, remove_html_tags, save_path_exists
 
 def extract_properties(filepath: str) -> dict:
     """
@@ -51,7 +47,7 @@ def save_reqs_to_csv(services: list, save_dir: str, filename: str) -> None:
     save_path = os.path.join(save_dir, filename)
 
     # If file already exists, do not generate it again
-    if save_path_exists(save_path, save_dir, "save eligibility requirements to csv"):
+    if save_path_exists(save_dir, save_path, "save eligibility requirements to CSV"):
         return save_path
 
     try:
@@ -64,27 +60,38 @@ def save_reqs_to_csv(services: list, save_dir: str, filename: str) -> None:
         print(f"Failed to save eligibility requirements to {save_path}: {e}")
 
 if __name__ == "__main__":
-    # Retrieve the JSON files with service descriptions
-    service_descriptions_dir = "scraping/data/service_descriptions"
-    service_descriptions = os.listdir(service_descriptions_dir)
-    nof_service_description = len(service_descriptions)
+    # Retrieve the unique ID-LBs and matching ARS
+    idlbs_filepath = "scraping/data/processed/unique_idlbs.csv" 
+    unique_services = pd.read_csv(idlbs_filepath, dtype=str)
+    nof_unique_services = len(unique_services)
+
+    full_description_save_dir = "scraping/data/raw/service_descriptions" 
 
     eligibility_reqs = []
 
-    # Extract the eligibility requirements from each JSON file
-    for idx, json_file in enumerate(service_descriptions):
-        filepath = os.path.join(service_descriptions_dir, json_file)
-        eligibility_reqs_dict = extract_properties(filepath)
+    # Download the service description for each ID-LB
+    for idx, service in unique_services.iterrows():
+        idlb = service["ID-LB"]
+        ars = service["ARS"]
+        idlb_without_dot = idlb.replace('.', '_')
+        full_description_filename = f"{idlb_without_dot}.json"
+        url = f"https://public.demo.pvog.cloud-bdc.dataport.de/suchdienst/api/v5/servicedescriptions/{ars}/detail"
+
+        # For each ID-LB, download the full service description
+        full_descrpition_path = download_file(url=url, params={"q": idlb}, save_dir=full_description_save_dir, filename=full_description_filename)
+
+        # Extract the eligibility requirements from the full description
+        eligibility_reqs_dict = extract_properties(full_descrpition_path)
         eligibility_reqs.append(eligibility_reqs_dict)
 
-        progress = (idx + 1) / nof_service_description * 100
-        print(f"Progress: File {idx+1}/{nof_service_description}. {progress:.2f}% completed.")
+        progress = (idx + 1) / nof_unique_services * 100
+        print(f"Progress: Service {idx+1}/{nof_unique_services}. {progress:.2f}% completed.")
 
-        # For testing: break after 10 files
+        # For testing: break after 10 services
         if idx == 10:
             break
     
-    # Save the eligibility requirements to a single csv file
-    save_dir = "scraping/data/eligibility_requirements"
+    # Save the eligibility requirements to a CSV file
+    save_dir = "scraping/data/processed"
     filename = os.path.join("eligibility_requirements.csv")
     save_reqs_to_csv(eligibility_reqs, save_dir, filename)
