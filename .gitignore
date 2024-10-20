@@ -2,3 +2,9 @@
 *.csv
 *.xlsx
 *.json
+
+# Ignore pycache
+__pycache__/
+
+# Ignore inspection files
+inspection.ipynb
