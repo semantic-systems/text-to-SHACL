@@ -46,5 +46,5 @@ def download_file(url: str, params: dict, save_dir: str, filename: str) -> str:
         print(f"File successfully downloaded and saved to {save_path}.")
         return save_path
     except requests.RequestException as e:
-        print(f"Failed to download file: {e}")
+        print(f"Failed to download file {filename}: {e}")
         return None

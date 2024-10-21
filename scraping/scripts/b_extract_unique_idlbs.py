@@ -22,15 +22,13 @@ def update_idlb_dict(filepath: str, ars: str, idlb_dict: dict) -> dict:
     are the keys (hence, unique) and the ARS are the values. Return the
     updated dictionary.
     """
-    # valid_idlb_pattern = "^[B|L]\d{6}\.LB\.[\d{9}|\d{6}]$"
+    # Only extract valid ID-LBs
+    valid_idlb_pattern = r'^[A-Za-z]\d{6}'
 
     try:
         df = pd.read_csv(filepath, delimiter="|")
-        # valid_idlbs = [idlb for idlb in df["ID-LB"] if re.match(valid_idlb_pattern, idlb)]
-        # If ID-LB starts with TEST, do not update the dictionary
-        for idlb in df["ID-LB"]:
-            if "TEST" in idlb:
-                continue
+        valid_idlbs = df[df["ID-LB"].str.match(valid_idlb_pattern, na=False)]["ID-LB"]
+        for idlb in valid_idlbs:
             idlb_dict[idlb] = ars
     except Exception as e:
         print(f"Failed to extract ID-LB from {filepath}: {e}")
@@ -78,10 +76,10 @@ if __name__ == "__main__":
 
         # For testing: break after 10 files
         #if idx == 50:
-            #break
+           # break
     
     # Save unique ID-LBs to a CSV file
-    idlbs_filename = "unique_idlbs.csv"
+    idlbs_filename = "valid_unique_idlbs.csv"
     idlbs_save_dir = "scraping/data/processed"
     save_idlbs_to_csv(idlb_dict=idlb_dict, save_dir=idlbs_save_dir, filename=idlbs_filename)
 

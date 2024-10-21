@@ -64,7 +64,7 @@ if __name__ == "__main__":
     start_time = datetime.datetime.now()
 
     # Retrieve the unique ID-LBs and matching ARS
-    idlbs_filepath = "scraping/data/processed/unique_idlbs.csv" 
+    idlbs_filepath = "scraping/data/processed/valid_unique_idlbs.csv" 
     unique_services = pd.read_csv(idlbs_filepath, dtype=str)
     nof_unique_services = len(unique_services)
 
@@ -91,8 +91,8 @@ if __name__ == "__main__":
         print(f"Progress: Service {idx+1}/{nof_unique_services}. {progress:.2f}% completed.")
 
         # For testing: break after 10 services
-        if idx == 10:
-            break
+        # if idx == 10:
+            # break
     
     # Save the eligibility requirements to a CSV file
     save_dir = "scraping/data/processed"
