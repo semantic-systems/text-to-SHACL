@@ -5,7 +5,8 @@
  Seike Appold
  
  - Use the Suchdienst API (https://anbindung.pvog.cloud-bdc.dataport.de/docs/sud/sud-ueberblick/)
- to download and save the descriptions of administrative services by ID-LB and ARS in JSON format.
+ to download the full descriptions of administrative services by ID-LB and ARS, then extract
+ the eligibility requirements and save to CSV.
 """
 
 import os

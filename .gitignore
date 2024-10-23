@@ -1,7 +1,5 @@
-# Ignore csv files, excel files ad json files
-*.csv
-*.xlsx
-*.json
+# Ignore raw data
+scraping/data/raw
 
 # Ignore pycache
 __pycache__/
