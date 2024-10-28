@@ -26,12 +26,13 @@ def update_idlb_dict(filepath: str, ars: str, idlb_dict: dict) -> dict:
     valid_idlb_pattern = r'^[A-Za-z]\d{6}'
 
     try:
-        df = pd.read_csv(filepath, delimiter="|")
+        df = pd.read_csv(filepath, delimiter="|", usecols=["ID-LB"])
         valid_idlbs = df[df["ID-LB"].str.match(valid_idlb_pattern, na=False)]["ID-LB"]
         for idlb in valid_idlbs:
             idlb_dict[idlb] = ars
     except Exception as e:
         print(f"Failed to extract ID-LB from {filepath}: {e}")
+        return False
     
     return idlb_dict
 
@@ -60,6 +61,8 @@ if __name__ == "__main__":
     idlb_dict= {}
     services_save_dir = "scraping/data/raw/service_catalogs"
 
+    error_counter = 0
+
     # For each ARS, download the catalog of services
     for idx, ars in enumerate(ars_df["ARS"]):
         services_filename = f"ars_{ars}.csv"
@@ -75,8 +78,8 @@ if __name__ == "__main__":
         print(f"Progress: File {idx+1}/{nof_ars}. {progress:.2f}% completed.")
 
         # For testing: break after 10 files
-        #if idx == 50:
-           # break
+        # if idx == 1000:
+        #   break
     
     # Save unique ID-LBs to a CSV file
     idlbs_filename = "valid_unique_idlbs.csv"
@@ -86,3 +89,4 @@ if __name__ == "__main__":
     end_time = datetime.datetime.now()
     duration = end_time - start_time
     print(f"Starttime: {start_time}. Endtime: {end_time}. Duration: {duration}.")
+    print(f"Number of errors: {error_counter}.")
