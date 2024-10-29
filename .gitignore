@@ -1,8 +1,10 @@
-# Ignore raw data
+# Raw and exploratory data
 scraping/data/raw
+scraping/data/processed/eligibility_reqs_all.csv
+scraping/data/processed/unique_idlbs_unfiltered.csv
 
-# Ignore pycache
+# Pycache
 __pycache__/
 
-# Ignore inspection files
+# Inspection files
 inspection.ipynb
