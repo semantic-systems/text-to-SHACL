@@ -16,33 +16,6 @@ import datetime
 import pandas as pd
 from utils import download_file, remove_html_tags, save_path_exists
 
-def extract_properties(filepath: str) -> dict:
-    """
-    Extract properties, in particular the eligibility requirements, from
-    full description of an administrative service in JSON format. Return
-    a dictionary with the extracted information.
-    """
-    properties = {}
-
-    with open(filepath, 'r') as file:
-        full_description = json.load(file)
-
-    # Extract the eligibility requirements
-    for detail in full_description["details"]:
-        if detail["title"] == "Voraussetzungen":
-                eligibility_req = remove_html_tags(detail["text"])
-                break
-    
-    # Populate the dictionary with the extracted information
-    properties = {
-    "name": full_description["name"],
-    "idlb": full_description["id"],
-    "ars": full_description["ars"],
-    "eligibility_req": eligibility_req
-    }
-    
-    return properties
-
 def is_social_service(filepath: str) -> bool:
     """
     Return true if a service description at the given location is a social
@@ -60,7 +33,6 @@ def is_social_service(filepath: str) -> bool:
 
     except (IndexError, KeyError, FileNotFoundError) as e:
         print(f"Error accessing data: {e}")
-        return "Error"
     
     return False
 
@@ -80,6 +52,7 @@ def save_reqs_to_csv(services: list, save_dir: str, filename: str) -> None:
             for service in services:
                 file.write(f"{service['name']}|{service['idlb']}|{service['ars']}|{service['eligibility_req']}\n")
         print(f"Eligibility requirements saved to {save_path}.")
+    
     except Exception as e:
         print(f"Failed to save eligibility requirements to {save_path}: {e}")
 
