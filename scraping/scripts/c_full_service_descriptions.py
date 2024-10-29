@@ -57,13 +57,12 @@ def is_social_service(filepath: str) -> bool:
 
         if personal_matters_child.get('code') == "1140000":
             return True
-        
-        return False
 
     except (IndexError, KeyError, FileNotFoundError) as e:
         print(f"Error accessing data: {e}")
-        return False
-
+        return "Error"
+    
+    return False
 
 def save_reqs_to_csv(services: list, save_dir: str, filename: str) -> None:
     """
@@ -88,48 +87,37 @@ if __name__ == "__main__":
     start_time = datetime.datetime.now()
 
     # Retrieve the unique ID-LBs and matching ARS
-    idlbs_filepath = "scraping/data/processed/valid_unique_idlbs.csv" 
+    idlbs_filepath = "scraping/data/processed/unique_idlbs.csv" 
     unique_services = pd.read_csv(idlbs_filepath, dtype=str)
     nof_unique_services = len(unique_services)
 
-    all_descriptions_save_dir = "scraping/data/raw/service_descriptions"
+    all_services_save_dir = "scraping/data/raw/service_descriptions"
     social_services_save_dir = "scraping/data/raw/social_services"
 
-    # eligibility_reqs = []
+    req_profile_data = []
+
+    error_counter = 0
 
     # Download the service description for each ID-LB
     for idx, service in unique_services.iterrows():
         idlb = service["ID-LB"]
         ars = service["ARS"]
+        
         idlb_without_dot = idlb.replace('.', '_')
-        description_filename = f"{idlb_without_dot}.json"
+        service_filename = f"{idlb_without_dot}.json"
+        
         url = f"https://public.demo.pvog.cloud-bdc.dataport.de/suchdienst/api/v5/servicedescriptions/{ars}/detail"
 
         # For each ID-LB, download the full service description
-        description_path = download_file(url=url, params={"q": idlb}, save_dir=all_descriptions_save_dir, filename=description_filename)
+        description_path = download_file(url=url, params={"q": idlb}, save_dir=all_services_save_dir, filename=service_filename)
 
         # Save descriptions of social services ("Sozialleistungen") separately  
-        if is_social_service(description_path) and not save_path_exists(social_services_save_dir, description_filename, activity="save social service file separately"):
-            # Save file to social_services_dir
+        if is_social_service(description_path) and not save_path_exists(social_services_save_dir, service_filename, activity="save social service file separately"):
             shutil.copy(description_path, social_services_save_dir)
-
-
-        # Extract the eligibility requirements from the full description
-        # eligibility_reqs_dict = extract_properties(full_descrpition_path)
-        # eligibility_reqs.append(eligibility_reqs_dict)
 
         progress = (idx + 1) / nof_unique_services * 100
         print(f"Progress: Service {idx+1}/{nof_unique_services}. {progress:.2f}% completed.")
 
-        # For testing: break after 10 services
-        # if idx == 10:
-        #    break
-    
-    # Save the eligibility requirements to a CSV file
-    # save_dir = "scraping/data/processed"
-    # filename = os.path.join("eligibility_requirements.csv")
-    # save_reqs_to_csv(eligibility_reqs, save_dir, filename)
-
     end_time = datetime.datetime.now()
     duration = end_time - start_time
-    print(f"Starttime: {start_time}. Endtime: {end_time}. Duration: {duration}.")
+    print(f"Starttime: {start_time}. Endtime: {end_time}. Duration: {duration}. Errors: {error_counter}")
