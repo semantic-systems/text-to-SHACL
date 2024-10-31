@@ -15,9 +15,15 @@ from utils import download_file, save_path_exists
 EXCEL_URL = "https://www.xrepository.de/api/xrepository/urn:de:bund:destatis:bevoelkerungsstatistik:schluessel:rs_2024-10-31/download/Regionalschl_ssel_2024-10-31.xlsx"  
 
 def extract_ars(input_filepath: str, save_dir: str, filename: str) -> None:
-    """service_description
-    Extract ARS for all German municipalities from the input excel at the
-    specified location and save as csv.
+    """From input file, generate an CSV file with all ARS and municipality names.
+
+    Extract the ARS and corresponding Municipality from input file and add
+    ARS for federal services. Save extracted data to a CSV file.
+
+    :param input_filepath: Path to the input file with ARS and municipality names.
+    :param save_dir: Directory to save the extracted ARS.
+    :param filename: Name of the CSV file to save the extracted ARS.
+    :return: None
     """
     save_path = os.path.join(save_dir, filename)
 
@@ -28,10 +34,16 @@ def extract_ars(input_filepath: str, save_dir: str, filename: str) -> None:
     # Extract ARS from excel file and save to CSV
     try:
         df = pd.read_excel(input_filepath)
-        column_data = df.iloc[7:, [1, 2]].dropna()
-        column_data.columns = ["ARS", "Municipality"]
-        column_data["ARS"] = column_data["ARS"].astype(str)  
-        column_data.to_csv(save_path, index=False)
+        data = df.iloc[7:, [1, 2]].dropna()
+        data.columns = ["ARS", "Municipality"]
+        data["ARS"] = data["ARS"].astype(str)  
+
+        # Add ARS for federal services
+        ars_bund = pd.DataFrame({"ARS": ["000000000000"], "Municipality": ["Bund"]})
+        data = pd.concat([data, ars_bund], ignore_index=True)
+
+        data.to_csv(save_path, index=False)
+
         print(f"ARS extracted ad saved to {save_path}")    
     except Exception as e:
         print(f"Failed to extract ARS: {e}")
