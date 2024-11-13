@@ -3,8 +3,7 @@ archive/
 inspection.ipynb
 knowledge_graph/test_graphs/
 data/raw/
+generation/llm/
 
 # Pycache
 __pycache__/
-
-generation/llm/
