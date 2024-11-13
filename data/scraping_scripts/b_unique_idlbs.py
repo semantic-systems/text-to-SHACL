@@ -17,10 +17,15 @@ from utils import download_file, save_path_exists
 SUCHDIENST_URL = "https://public.demo.pvog.cloud-bdc.dataport.de/suchdienst/api/v5/servicedescriptions/csv"
 
 def update_idlb_dict(filepath: str, ars: str, idlb_dict: dict) -> dict:
-    """
-    Append the ID-LBs from the input file to the dictionary, where ID-LBs
-    are the keys (hence, unique) and the ARS are the values. Return the
-    updated dictionary.
+    """Append ID-LBs wth corresponding ARS to the dictionary.
+    
+    ID-LBs are the keys (hence, unique) and the ARS are the values. If an
+    ID-LB is already in the dictionary, the ARS is updated to the new ARS.
+
+    :param filepath: Path to catalog of ID-LBs.
+    :param ars: ARS for which the service catalog was downloaded.
+    :param idlb_dict: Current dictionary with ID-LBs and ARS.
+    :return: Updated dictionary with ID-LBs and ARS.
     """
     # Only extract valid ID-LBs
     valid_idlb_pattern = r'^[A-Za-z]\d{6}'
@@ -36,8 +41,12 @@ def update_idlb_dict(filepath: str, ars: str, idlb_dict: dict) -> dict:
     return idlb_dict
 
 def save_idlbs_to_csv(idlb_dict: dict, save_dir: str, filename: str) -> None:
-    """
-    Save a dictionary of ID-LBs and corresponding ARS to a CSV file.
+    """Save a dictionary of ID-LBs and ARS to a CSV file.
+
+    :param idlb_dict: Dictionary with ID-LBs as keys and ARS as values.
+    :param save_dir: Directory to save the CSV file.
+    :param filename: Name of the CSV file.
+    :return: None
     """
     save_path = os.path.join(save_dir, filename)
 
@@ -53,12 +62,12 @@ if __name__ == "__main__":
     start_time = datetime.datetime.now()
 
     # Retrieve the ARS from locally stored file
-    ars_path = "scraping/data/processed/all_ars.csv"
+    ars_path = "data/social_service_descriptions/processed/all_ars.csv"
     ars_df = pd.read_csv(ars_path, dtype ='str')
     nof_ars = len(ars_df["ARS"])
 
     idlb_dict= {}
-    services_save_dir = "scraping/data/raw/service_catalogs"
+    services_save_dir = "data/social_service_descriptions/raw/service_catalogs"
 
     # For each ARS, download the catalog of services
     for idx, ars in enumerate(ars_df["ARS"]):
@@ -75,7 +84,7 @@ if __name__ == "__main__":
     
     # Save unique ID-LBs to a CSV file
     idlbs_filename = "unique_idlbs.csv"
-    idlbs_save_dir = "scraping/data/processed"
+    idlbs_save_dir = "data/social_service_descriptions/processed"
     save_idlbs_to_csv(idlb_dict=idlb_dict, save_dir=idlbs_save_dir, filename=idlbs_filename)
 
     end_time = datetime.datetime.now()

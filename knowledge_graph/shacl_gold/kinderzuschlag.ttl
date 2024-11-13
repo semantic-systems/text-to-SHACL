@@ -1,0 +1,93 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@base <https://foerderfunke.org/default#> .
+
+#################################################################
+#    METADATA
+#################################################################
+
+<Kinderzuschlag> a <FundingProgram> ;
+    <idlb> "B100019.LB.581863" ;
+    dc:title "Kinderzuschlag"@de ;
+    dc:description "Wenn Sie als Eltern genug Einkommen für sich selbst verdienen, aber das Einkommen nicht oder nur knapp für die gesamte Familie reicht, können Sie den Kinderzuschlag beantragen."@de . 
+    # Note: Theoretically, this could contain the whole description of the funding program. This work only includes identificatory information because it generally focuses on eligibility requirements.
+
+#################################################################
+#    CONSTRAINTS
+#################################################################
+
+<KinderzuschlagShape> a sh:NodeShape;
+    <checksFundingProgram> <Kinderzuschlag> ;
+    sh:targetClass <User> ;
+    sh:property <ChildProperty>;
+    sh:or (
+            <IncomeShapeA>
+            <IncomeShapeB>
+    ) ;
+    sh:property <WarningProperty> . # Ambiguous constraints that require more information
+
+# Must have at least one child that conforms to the ChildShape
+<ChildProperty> a sh:PropertyShape ;
+    sh:path <hasChild> ;
+    sh:qualifiedValueShape <ChildShape> ;
+    sh:qualifiedMinCount 1 .
+
+# Child must be younger than 25, unmarried, live in the same household, and receive child benefit
+<ChildShape> a sh:NodeShape ;
+    sh:targetClass <Child> ;
+    sh:and (
+        [
+            sh:path (<hasAge>) ; 
+            sh:minCount 1 ;
+            sh:maxExclusive "25"^^xsd:integer ;
+        ]
+        [
+            sh:path (<maritalStatus>) ;
+            sh:minCount 1 ;
+            sh:Value <single> ;
+        ]
+        [
+            sh:path (<livesWithUser>) ;
+            sh:minCount 1 ;
+            sh:in (true) ; 
+        ]
+        [
+            sh:path (<receivesChildBenefit>) ;
+            sh:minCount 1 ;
+            sh:minInclusive 1 ;
+        ]
+    ) .
+
+# If the user is not a single parent, their brutto income must be at least 900 Euros
+<IncomeShapeA> a sh:NodeShape, <IncomeShape> ;
+    sh:property [
+                sh:path <singleParent> ;
+                sh:maxCount 1;
+                sh:in ("false"^^xsd:boolean);
+
+    ] ;
+    sh:property [
+                sh:path <bruttoIncome> ;
+                sh:minCount 1 ;
+                sh:minInclusive "900"^^xsd:float ;
+    ] .
+
+# If the user is a single parent, their brutto income must be at least 600 Euros
+<IncomeShapeB> a sh:NodeShape ;
+    sh:property [
+                sh:path <singleParent> ;
+                sh:minCount 1 ;
+                sh:in ("true"^^xsd:boolean);
+    ] ;
+    sh:property[
+                sh:path <bruttoIncome> ;
+                sh:minCount 1 ;
+                sh:minInclusive "600"^^xsd:float ;
+    ] .
+
+# Some constraints are ambiguous or require more information
+<WarningProperty> a sh:PropertyShape ;
+    sh:path <NonExistentPath>;
+    sh:minCount 1 ;
+    sh:message "Zusätzlich zu beachten: Ihr anzurechnendes Einkommen darf den Kinderzuschlag nicht auf null reduzieren. Sie dürfen über kein erhebliches Vermögen verfügen. Ihr Gesamteinkommen, inklusive Kindergeld, Wohngeld und Kinderzuschlag, muss den Bedarf der Familie nach SGB II decken. Der Kinderzuschlag ist nachrangig gegenüber anderen möglichen Einkünften des Kindes; gegebenenfalls besteht die Verpflichtung, sich um vorrangige Ansprüche wie Unterhalt oder Unterhaltsvorschuss zu bemühen."@de ;
+    sh:severity sh:Warning .

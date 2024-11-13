@@ -1,0 +1,14 @@
+@prefix ff: <https://foerderfunke.org/default> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+
+ff:Bob a ff:User;
+ff:hasChild ff:child1;
+ff:bruttoIncome "600"^^xsd:float;
+ff:singleParent "true"^^xsd:boolean.
+
+ff:child1 a ff:Child;
+ff:hasAge "24"^^xsd:integer;
+ff:maritalStatus ff:single;
+ff:livesWithUser "true"^^xsd:boolean;
+ff:receivesChildBenefit "1"^^xsd:float.

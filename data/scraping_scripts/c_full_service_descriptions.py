@@ -8,28 +8,27 @@
  to download the full descriptions of all administrative services in JSON format. Additionally, 
  save the descriptions of "Sozialleistungen" (social services) separately.
 """
-
 import os
 import json
 import shutil
 import datetime
 import pandas as pd
-from utils import download_file, remove_html_tags, save_path_exists
+from utils import download_file, save_path_exists
 
 def is_social_service(filepath: str) -> bool:
-    """
-    Return true if a service description at the given location is a social
-    service, else false.
+    """Check if the service described in the file is a social service.
+
+    :param filepath: Path to the file containing the service description.
+    :return: True if the service is a social service, False otherwise.
     """
     try:
         with open(filepath, 'r') as file:
             service_description = json.load(file)
-
-        personal_matters = service_description.get('personalMatters')[0]
-        personal_matters_child = personal_matters.get('children')[0]
-
-        if personal_matters_child.get('code') == "1140000":
-            return True
+        
+        matters = service_description["personalMatters"]
+        for matter in matters:
+            if any(submatter["code"] == "1140000" for submatter in matter["children"]):
+                return True
 
     except (IndexError, KeyError, FileNotFoundError) as e:
         print(f"Error accessing data: {e}")
@@ -37,8 +36,13 @@ def is_social_service(filepath: str) -> bool:
     return False
 
 def save_reqs_to_csv(services: list, save_dir: str, filename: str) -> None:
-    """
-    Take a list of dictionaries and save them to a CSV file.
+    """Save a list of administrative service descriptions to a CSV file.
+
+    :param services: A list of dictionaries where each item describes an
+    administrative service.
+    :param save_dir: Directory to save the CSV file to.
+    :param filename: Name of the CSV file.
+    :return: None
     """
     save_path = os.path.join(save_dir, filename)
 
@@ -69,8 +73,6 @@ if __name__ == "__main__":
 
     req_profile_data = []
 
-    error_counter = 0
-
     # Download the service description for each ID-LB
     for idx, service in unique_services.iterrows():
         idlb = service["ID-LB"]
@@ -85,7 +87,7 @@ if __name__ == "__main__":
         description_path = download_file(url=url, params={"q": idlb}, save_dir=all_services_save_dir, filename=service_filename)
 
         # Save descriptions of social services ("Sozialleistungen") separately  
-        if is_social_service(description_path) and not save_path_exists(social_services_save_dir, service_filename, activity="save social service file separately"):
+        if description_path and is_social_service(description_path) and not save_path_exists(social_services_save_dir, service_filename, activity="save social service file separately"):
             shutil.copy(description_path, social_services_save_dir)
 
         progress = (idx + 1) / nof_unique_services * 100
@@ -93,4 +95,4 @@ if __name__ == "__main__":
 
     end_time = datetime.datetime.now()
     duration = end_time - start_time
-    print(f"Starttime: {start_time}. Endtime: {end_time}. Duration: {duration}. Errors: {error_counter}")
+    print(f"Starttime: {start_time}. Endtime: {end_time}. Duration: {duration}.")

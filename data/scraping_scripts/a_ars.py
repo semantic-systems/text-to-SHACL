@@ -49,8 +49,8 @@ def extract_ars(input_filepath: str, save_dir: str, filename: str) -> None:
         print(f"Failed to extract ARS: {e}")
 
 if __name__ == "__main__":
-    ars_raw_save_dir = "scraping/data/raw/ars"
-    ars_processed_save_dir = "scraping/data/processed"
+    ars_raw_save_dir = "data/social_service_descriptions/raw/ars"
+    ars_processed_save_dir = "data/social_service_descriptions/processed"
 
     # Download excel file with all ARS
     input_filepath = download_file(url=EXCEL_URL, params=None, save_dir=ars_raw_save_dir, filename="ars_raw.xlsx")

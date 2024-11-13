@@ -1,0 +1,110 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@base <https://foerderfunke.org/default#> .
+
+<http://visualdataweb.org/social-service-descriptions/> rdf:type owl:Ontology ;
+                                                        dc:title "Social Service Descriptions"@en ;
+                                                        dc:description "An ontology that conceptualizes social service descriptions from the perspectives of personal information relevant to determine whether an individual may be elgibile for the service."@en .
+
+#################################################################
+#    ANNOTATION PROPERTIES
+#################################################################
+
+rdfs:comment rdf:type owl:AnnotationProperty .
+rdfs:label rdf:type owl:AnnotationProperty .
+
+
+#################################################################
+#    OBJECT RPOPERTIES
+#################################################################
+
+<hasChild> rdf:type owl:ObjectProperty ;
+           rdfs:domain <Person> ;
+           rdfs:range <Child> ;
+           rdfs:label "has child"@en .
+
+<hasMaritalStatus> rdf:type owl:ObjectProperty ;
+                   rdfs:domain <Person> ;
+                   rdfs:range <MaritalStatus> ;
+                   rdfs:label "has marital status"@en .
+
+
+#################################################################
+#    DATA PROPERTIES
+#################################################################
+
+<childBenefit> rdf:type owl:DatatypeProperty ;
+               rdfs:domain <Child> ;
+               rdfs:range xsd:float ;
+               rdfs:comment "The amount of child benefit a child is entitled to in Euros. Must be larger than or equal zero."@en ;
+               rdfs:label "receives child benefit"@en .
+
+
+<bruttoIncome> rdf:type owl:DatatypeProperty ;
+               rdfs:domain <Person> ;
+               rdfs:range xsd:float ;
+               rdfs:comment "A person's brutto income in Euros."@en ;
+               rdfs:label "brutto income"@en .
+
+
+<hasAge> rdf:type owl:DatatypeProperty ;
+         rdfs:domain <Person> ;
+         rdfs:range xsd:integer ;
+         rdfs:comment "A person's age expressed as an integer."@en ;
+         rdfs:label "age"@en .
+
+
+<livesWithUser> rdf:type owl:DatatypeProperty ;
+                rdfs:domain <Child> ;
+                rdfs:range xsd:boolean ;
+                rdfs:comment "True if the person lives in the same houshold as the user, false otherwise."@en ;
+                rdfs:label "lives with user"@en .
+
+
+<singleParent> rdf:type owl:DatatypeProperty ;
+               rdfs:domain <Person> ;
+               rdfs:range xsd:boolean ;
+               rdfs:comment "Whether the user is a single parent"@en ;
+               rdfs:label "single parent"@en .
+
+
+#################################################################
+#    CLASSES
+#################################################################
+
+<Person> rdf:type owl:Class ;
+         rdfs:label "Person"@en .
+
+
+<User> rdf:type owl:Class ;
+       rdfs:subClassOf <Person> ;
+       rdfs:label "User"@en .
+                       
+
+<Child> rdf:type owl:Class ;
+        rdfs:subClassOf <Person> ;
+        rdfs:label "Child"@en .
+
+
+<MaritalStatus> rdf:type owl:Class ;
+                rdfs:label "Marital Status"@en .
+
+
+#################################################################
+#    INDIVIDUALS
+#################################################################
+
+<single> rdf:type owl:NamedIndividual , <MaritalStatus> ;
+         rdfs:label "single"@en .
+
+
+<married> rdf:type owl:NamedIndividual , <MaritalStatus> ;
+          rdfs:label "married"@en .
+
+
+<registeredPartnership> rdf:type owl:NamedIndividual , <MaritalStatus> ;
+                        rdfs:label "registered partnership"@en .

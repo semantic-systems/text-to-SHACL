@@ -12,12 +12,12 @@ import os
 import re
 import csv
 import json
-from utils import remove_html_tags, save_path_exists, report_delimiter_conflict
+from utils import remove_html_tags, save_path_exists
 
 def report_delimiter_conflict(legal_basis_title: str, legal_basis_link: str) -> None:
-    if "<>" in legal_basis_title or "|" in legal_basis_title:
+    if "<>" in legal_basis_title or "||" in legal_basis_title:
         raise ValueError(f"Illegal character found in legal basis title: '{legal_basis_title}'")
-    if "<>" in legal_basis_link or "|" in legal_basis_link:
+    if "<>" in legal_basis_link or "||" in legal_basis_link:
         raise ValueError(f"Illegal character found in legal basis link: '{legal_basis_link}'")
     
 def extract_req_profile_data(filepath: str) -> dict:
@@ -35,6 +35,11 @@ def extract_req_profile_data(filepath: str) -> dict:
     with open(filepath, 'r') as file:
         full_description = json.load(file)
     
+    name = full_description["name"]
+    description = remove_html_tags(full_description["description"])
+    idlb = full_description["id"].replace('_', '.')
+    ars = full_description["ars"][0]
+    
     legal_bases = []
 
     for detail in full_description["details"]:
@@ -47,9 +52,7 @@ def extract_req_profile_data(filepath: str) -> dict:
             for law in detail["links"]:
                 legal_basis_title = law["title"]
                 legal_basis_link = law["uri"]
-
                 report_delimiter_conflict(legal_basis_title, legal_basis_link)
-        
                 legal_bases.append(f"{legal_basis_title}<>{legal_basis_link}")
         
         # Extract legal bases, if stored in "text"
@@ -57,6 +60,7 @@ def extract_req_profile_data(filepath: str) -> dict:
             # Find title and matching link for legal bases with regex pattern
             link_title_pattern = r'<a href="(.*?)">(.*?)</a>'
             link_title_matches = re.findall(link_title_pattern, detail["text"])
+
             if not link_title_matches:
                 legal_bases_text = remove_html_tags(detail["text"])
                 legal_bases.append(legal_bases_text)
@@ -66,14 +70,12 @@ def extract_req_profile_data(filepath: str) -> dict:
                 report_delimiter_conflict(legal_basis_title, legal_basis_link)
                 legal_bases.append(f"{legal_basis_title}<>{legal_basis_link}")
     
-    legal_bases_str = "|".join(legal_bases)
-
-    ars = full_description["ars"][0]
-    idlb = full_description["id"].replace('_', '.')
+    legal_bases_str = " || ".join(legal_bases)
     # see_also = f"https://pvog.fitko.de/#/de/result/{ars}/{idlb}"
     
     req_profile_data = {
-    "Name": full_description["name"],
+    "Name": name,
+    "Description": description,
     "ID-LB": idlb,
     "ARS": ars,
     "Eligibility Requirements": eligibility_req,
@@ -110,19 +112,22 @@ def save_reqs_to_csv(services: list, save_dir: str, filename: str) -> None:
 
 if __name__ == "__main__":
     descriptions_dir = "scraping/data/raw/social_services"
-    requirements = []
+    save_dir = "scraping/data/processed"
+    filename = "social_services.csv"
+
+    service_data = []
 
     # For each service description, extract data for requirement profiles
     for filename in os.listdir(descriptions_dir):
         description_path = os.path.join(descriptions_dir, filename)
-        requirements_dict = extract_req_profile_data(description_path)
+        service_dict = extract_req_profile_data(description_path)
         
         # If no requirements are provided, skip the service
-        if requirements_dict["Eligibility Requirements"] == "nicht angegeben":
+        if service_dict["Eligibility Requirements"] == "nicht angegeben":
             continue
 
-        requirements.append(requirements_dict)
+        service_data.append(service_dict)
     
     save_dir = "scraping/data/processed"
-    filename = os.path.join("requirement_profiles_social_services.csv")
-    save_reqs_to_csv(requirements, save_dir, filename)
+    filename = os.path.join("social_services.csv")
+    save_reqs_to_csv(service_data, save_dir, filename)

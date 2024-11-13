@@ -1,10 +1,8 @@
-# Raw and exploratory data
-scraping/data/raw
-scraping/data/processed/eligibility_reqs_all.csv
-scraping/data/processed/unique_idlbs_unfiltered.csv
+# Outdated and exploratory data and code
+archive/
+inspection.ipynb
+knowledge_graph/test_graphs/
+data/raw/
 
 # Pycache
 __pycache__/
-
-# Inspection files
-inspection.ipynb
