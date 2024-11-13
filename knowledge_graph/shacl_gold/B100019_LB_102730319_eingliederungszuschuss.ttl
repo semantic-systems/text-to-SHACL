@@ -1,0 +1,18 @@
+# Sie wollen eine schwer in den Arbeitsmarkt zu vermittelnde Person beschäftigen. Bei der Arbeitnehmerin oder dem Arbeitnehmer ist anfänglich eine geringere Leistung als üblich zu erwarten. Der finanzielle Ausgleich durch den Eingliederungszuschuss ist notwendig, um die Arbeitnehmerin oder den Arbeitnehmer dauerhaft beruflich einzugliedern.
+
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@base <https://foerderfunke.org/default#> .
+
+#################################################################
+#    METADATA
+#################################################################
+
+<Eingliederungszuschuss> a <FundingProgram> ;
+    <idlb> "B100019.LB.102730319" ;
+    dc:title "Eingliederungszuschuss"@de ;
+    dc:description "Wenn Sie in Ihrem Unternehmen Menschen einstellen, die zu Beginn der Beschäftigung noch nicht die volle Arbeitsleistung erbringen, können Sie Zuschüsse zu den Lohnkosten beantragen."@de . 
+
+#################################################################
+#    CONSTRAINTS
+#################################################################
