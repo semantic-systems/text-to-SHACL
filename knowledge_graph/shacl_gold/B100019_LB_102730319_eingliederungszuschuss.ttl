@@ -16,3 +16,29 @@
 #################################################################
 #    CONSTRAINTS
 #################################################################
+
+<EingliederungszuschussShape> a sh:NodeShape;
+    <checksFundingProgram> <Eingliederungszuschuss> ;
+    sh:targetClass <User> ;
+    sh:class <Employer> ; # User must be an employer
+    sh:property <EmployeeProperty> ; 
+    sh:property <NecessityProperty> .
+
+# The employee's initial performance is expected to be below average. 
+<EmployeeProperty> a sh:PropertyShape ;
+    sh:path <wantsToEmploy> ;
+    sh:qualifiedValueShape <EmployeeShape> ;
+    sh:qualifiedMinCount 1 ;
+    sh:message "Sie müssen eine Person beschäftigen wollen, bei der anfänglich eine geringere Leistung als üblich zu erwarten ist."@de .
+     
+<EmployeeShape> a sh:NodeShape ;
+    sh:path <expectedPerformance> ;
+    sh:minCount 1 ;
+    sh:hasValue <BelowAverage> .
+
+# The employer requires financial support to integrate the employee long-term.
+<NecessityProperty> a sh:PropertyShape ;
+    sh:path <requiresSubsidyForLongtermEmployment> ;
+    sh:minCount 1 ;
+    sh:hasValue "true"^^xsd:boolean ;
+    sh:message "Sie müssen finanzielle Unterstützung benötigen, um den/die Arbeitnehmer*in langfristig zu integrieren"@de .
