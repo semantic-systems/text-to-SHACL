@@ -43,7 +43,8 @@
         [
             sh:path <hasAge> ; 
             sh:minCount 1 ;
-            sh:maxExclusive "25"^^xsd:integer ; # How to enforce that age must be an integer?
+            sh:maxExclusive "25" ;
+            sh:datatype xsd:integer ;
         ]
         [
             sh:path <hasMaritalStatus> ;
@@ -67,12 +68,13 @@
     sh:property [
                 sh:path <singleParent> ;
                 sh:maxCount 1 ;
-                sh:hasValue "false"^^xsd:boolean;
+                sh:hasValue "false" ;
     ] ;
     sh:property [
                 sh:path <bruttoIncome> ;
                 sh:minCount 1 ;
-                sh:minInclusive "900"^^xsd:float ;
+                sh:minInclusive "900" ;
+                sh:datatype xsd:float ;
     ] .
 
 # If the user is a single parent, their brutto income must be at least 600 Euros
@@ -80,23 +82,24 @@
     sh:property [
                 sh:path <singleParent> ;
                 sh:minCount 1 ;
-                sh:hasValue "true"^^xsd:boolean;
+                sh:hasValue "true" ;
     ] ;
     sh:property[
                 sh:path <bruttoIncome> ;
                 sh:minCount 1 ;
-                sh:minInclusive "600"^^xsd:float ;
+                sh:minInclusive "600" ;
+                sh:datatype xsd:float ;
     ] .
 
-# AMBIGUOUS 1: Specific path + warning
+# User must check if the child is eligible for other claims with priority (e.g., alimony)
 <PriotrityClaimsProperty> a sh:PropertyShape ;
     sh:path <checkedPriorityClaims> ;
     sh:minCount 1 ;
-    sh:hasValue "true"^^xsd:boolean ;
+    sh:hasValue "true" ;
     sh:severity sh:Warning ;
     sh:message "Der Kinderzuschlag ist nachrangig gegenüber anderen möglichen Einkünften des Kindes; gegebenenfalls besteht die Verpflichtung, sich um vorrangige Ansprüche wie Unterhalt oder Unterhaltsvorschuss zu bemühen."@de.
 
-# AMBIGUOUS 2: Shape that will always be invalid + warning
+# Shape that will always be invalid and trigger warning
 <WarningProperty> a sh:PropertyShape ;
     sh:path <NonExistentPath>;
     sh:minCount 1 ;
