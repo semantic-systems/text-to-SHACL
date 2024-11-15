@@ -1,21 +1,23 @@
 """
- a_download_ars.py
+a_download_ars.py
 
- Master's Thesis
- Seike Appold
- 
- - Extract the Amtliche Regionalschlüssel (ARS) that uniquely identify all
- German municipalities with 12-digit keys from XRepository (https://www.xrepository.de/)
+Master's Thesis
+Seike Appold
+
+- Extract the Amtliche Regionalschlüssel (ARS) that uniquely identify all
+German municipalities with 12-digit keys from XRepository (https://www.xrepository.de/)
 """
 
 import os
+import sys
 import pandas as pd
+import tempfile
 from utils import download_file, save_path_exists
 
-EXCEL_URL = "https://www.xrepository.de/api/xrepository/urn:de:bund:destatis:bevoelkerungsstatistik:schluessel:rs_2024-10-31/download/Regionalschl_ssel_2024-10-31.xlsx"  
+EXCEL_URL = "https://www.xrepository.de/api/xrepository/urn:de:bund:destatis:bevoelkerungsstatistik:schluessel:rs_2024-10-31/download/Regionalschl_ssel_2024-10-31.xlsx"
 
 def extract_ars(input_filepath: str, save_dir: str, filename: str) -> None:
-    """From input file, generate an CSV file with all ARS and municipality names.
+    """From input file, generate a CSV file with all ARS and municipality names.
 
     Extract the ARS and corresponding Municipality from input file and add
     ARS for federal services. Save extracted data to a CSV file.
@@ -33,10 +35,10 @@ def extract_ars(input_filepath: str, save_dir: str, filename: str) -> None:
 
     # Extract ARS from excel file and save to CSV
     try:
-        df = pd.read_excel(input_filepath)
+        df = pd.read_excel(input_filepath, engine="openpyxl")
         data = df.iloc[7:, [1, 2]].dropna()
         data.columns = ["ARS", "Municipality"]
-        data["ARS"] = data["ARS"].astype(str)  
+        data["ARS"] = data["ARS"].astype(str)
 
         # Add ARS for federal services
         ars_bund = pd.DataFrame({"ARS": ["000000000000"], "Municipality": ["Bund"]})
@@ -44,17 +46,35 @@ def extract_ars(input_filepath: str, save_dir: str, filename: str) -> None:
 
         data.to_csv(save_path, index=False)
 
-        print(f"ARS extracted ad saved to {save_path}")    
+        print(f"ARS extracted and saved to {save_path}")
     except Exception as e:
         print(f"Failed to extract ARS: {e}")
 
-if __name__ == "__main__":
-    ars_raw_save_dir = "data/social_service_descriptions/raw/ars"
-    ars_processed_save_dir = "data/social_service_descriptions/processed"
+def main(output_directory: str, output_filename: str):
+    # Ensure the output directory exists
+    os.makedirs(output_directory, exist_ok=True)
 
-    # Download excel file with all ARS
-    input_filepath = download_file(url=EXCEL_URL, params=None, save_dir=ars_raw_save_dir, filename="ars_raw.xlsx")
-    
-    # If the download was successful, extract the ARS
-    if input_filepath:
-        extract_ars(input_filepath, ars_processed_save_dir, filename="all_ars.csv")
+    # Download excel file with all ARS to a temporary file
+    with tempfile.NamedTemporaryFile(suffix=".xlsx") as temp_file:
+        # NOTE: When asked to overwrite the temporary file, the user should always answer "y"
+        input_filepath = download_file(
+            url=EXCEL_URL,
+            params=None,
+            save_dir=os.path.dirname(temp_file.name),
+            filename=os.path.basename(temp_file.name)
+        )
+
+        # Save a cleaned version of the file to specified output directory
+        if input_filepath:
+            extract_ars(input_filepath, output_directory, output_filename)
+        
+    # Close and thereby delete temporary file
+    temp_file.close()
+
+if __name__ == "__main__":
+    if len(sys.argv) != 3:
+        print("Usage: python a_download_ars.py <output_directory> <output_filename>")
+    else:
+        output_directory = sys.argv[1]
+        output_filename = sys.argv[2]
+        main(output_directory, output_filename)
