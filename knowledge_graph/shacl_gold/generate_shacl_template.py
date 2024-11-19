@@ -19,9 +19,7 @@ def remove_html_tags(text):
     return soup.text.strip()
 
 def generate_template_content(name, description, idlb, prerequisites):
-    return f"""# {prerequisites}
-
-@prefix sh: <http://www.w3.org/ns/shacl#> .
+    return f"""@prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
 @base <https://foerderfunke.org/default#> .
 
@@ -68,7 +66,7 @@ def main(input_file_path, output_file_path):
 # Run the script with command line arguments
 if __name__ == "__main__":
     if len(sys.argv) != 3:
-        print("Usage: python generate_shacl_template.py <input_file_path> <output_file_path>")
+        print("Usage: python generate_shacl_template.py <input_file_path> <shacl_file_path>")
     else:
         input_file_path = sys.argv[1]
         output_file_path = sys.argv[2]
