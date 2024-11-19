@@ -1,5 +1,3 @@
-# Sie wollen eine schwer in den Arbeitsmarkt zu vermittelnde Person beschäftigen. Bei der Arbeitnehmerin oder dem Arbeitnehmer ist anfänglich eine geringere Leistung als üblich zu erwarten. Der finanzielle Ausgleich durch den Eingliederungszuschuss ist notwendig, um die Arbeitnehmerin oder den Arbeitnehmer dauerhaft beruflich einzugliedern.
-
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
 @base <https://foerderfunke.org/default#> .
@@ -32,15 +30,15 @@
 <EmployeeShape> a sh:NodeShape ;
     sh:and (
         [
-            sh:path <expectedPerformance> ; # The employee's initial performance is expected to be below average. 
+            sh:path <expectedJobPerformance> ; # The employee's initial performance is expected to be below average. 
             sh:minCount 1 ;
-            sh:hasValue <BelowAveragePerformance> ;
+            sh:hasValue <belowAverage> ;
             sh:message "Die Arbeitnehmerin oder der Arbeitnehmer wird anfänglich eine geringere Leistung als üblich erbringen."@de ;
         ]
         [
             sh:path <integrationRequiresSubsidy> ; # The employer requires financial support to integrate the employee long-term.
             sh:minCount 1 ;
-            sh:hasValue "true"^^xsd:boolean ;
+            sh:hasValue true ;
             sh:message "Sie müssen finanzielle Unterstützung benötigen, um den/die Arbeitnehmer*in langfristig zu integrieren"@de ;
         ]
     ) .

@@ -1,5 +1,3 @@
-# Um einen Kinderzuschlag zu bekommen, müssen folgende Voraussetzungen erfüllt sein:  Ihr Kind/Ihre Kinder ist/sind jünger als 25 Jahre, nicht verheiratet oder verpartnert und lebt/leben in Ihrem Haushalt. Sie beziehen für Ihr Kind/Ihre Kinder Kindergeld oder eine vergleichbare Leistung zum Beispiel aus dem Ausland. Sie verfügen  als Paar gemeinsam über ein Bruttoeinkommen von mindestens 900,00 EUR im Monat (ohne Wohngeld, Kindergeld und Kinderzuschlag) oder als alleinerziehende Person über mindestens 600,00 EUR im Monat.   Ihr Einkommen, das auf den Kinderzuschlag angerechnet wird, ist nicht so hoch, dass sich der Kinderzuschlag auf null reduziert. Sie verfügen über kein erhebliches Vermögen. Den Kinderzuschlag können Sie in der Regel erhalten, wenn Sie mit Ihrem Einkommen, dem Kindergeld, dem eventuell zustehendem Wohngeld und dem Kinderzuschlag den Bedarf der ganzen Familie im Sinne des SGB II decken können. Kinderzuschlag ist nachrangig gegenüber anderen möglichen Einkünften des Kindes; gegebenenfalls besteht die Verpflichtung, sich um vorrangige Ansprüche wie Unterhalt oder Unterhaltsvorschuss zu bemühen.
-
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
 @base <https://foerderfunke.org/default#> .
@@ -12,8 +10,7 @@
     <idlb> "B100019.LB.581863" ;
     dc:title "Kinderzuschlag"@de ;
     dc:description "Wenn Sie als Eltern genug Einkommen für sich selbst verdienen, aber das Einkommen nicht oder nur knapp für die gesamte Familie reicht, können Sie den Kinderzuschlag beantragen."@de . 
-    # This work only includes identificatory information because it focuses on eligibility requirements.
-
+    
 #################################################################
 #    CONSTRAINTS
 #################################################################
@@ -41,7 +38,7 @@
     sh:targetClass <Child> ;
     sh:and (
         [
-            sh:path <hasAge> ; 
+            sh:path <age> ; 
             sh:minCount 1 ;
             sh:maxExclusive "25" ;
             sh:datatype xsd:integer ;
@@ -63,7 +60,7 @@
         ]
     ) .
 
-# If the user is not a single parent, their brutto income must be at least 900 Euros
+# If the user is not a single parent, their gross income must be at least 900 Euros
 <IncomeShapeA> a sh:NodeShape ;
     sh:property [
                 sh:path <singleParent> ;
@@ -71,35 +68,36 @@
                 sh:hasValue "false" ;
     ] ;
     sh:property [
-                sh:path <bruttoIncome> ;
+                sh:path <grossIncome> ;
                 sh:minCount 1 ;
                 sh:minInclusive "900" ;
                 sh:datatype xsd:float ;
     ] .
 
-# If the user is a single parent, their brutto income must be at least 600 Euros
+# If the user is a single parent, their gross income must be at least 600 Euros
 <IncomeShapeB> a sh:NodeShape ;
     sh:property [
                 sh:path <singleParent> ;
                 sh:minCount 1 ;
-                sh:hasValue "true" ;
+                sh:hasValue true ;
     ] ;
     sh:property[
-                sh:path <bruttoIncome> ;
+                sh:path <grossIncome> ;
                 sh:minCount 1 ;
                 sh:minInclusive "600" ;
                 sh:datatype xsd:float ;
     ] .
 
 # User must check if the child is eligible for other claims with priority (e.g., alimony)
-<PriotrityClaimsProperty> a sh:PropertyShape ;
+<PriorityClaimsProperty> a sh:PropertyShape ;
     sh:path <checkedPriorityClaims> ;
     sh:minCount 1 ;
-    sh:hasValue "true" ;
+    sh:hasValue true ;
     sh:severity sh:Warning ;
     sh:message "Der Kinderzuschlag ist nachrangig gegenüber anderen möglichen Einkünften des Kindes; gegebenenfalls besteht die Verpflichtung, sich um vorrangige Ansprüche wie Unterhalt oder Unterhaltsvorschuss zu bemühen."@de.
 
 # Shape that will always be invalid and trigger warning
+# TODO: Split up into individual properties. 
 <WarningProperty> a sh:PropertyShape ;
     sh:path <NonExistentPath>;
     sh:minCount 1 ;

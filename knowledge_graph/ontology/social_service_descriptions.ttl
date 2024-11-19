@@ -26,115 +26,148 @@ rdfs:label rdf:type owl:AnnotationProperty .
 <hasChild> rdf:type owl:ObjectProperty ;
            rdfs:domain <Person> ;
            rdfs:range <Child> ;
+           rdfs:comment "Links a parent to their legal child."@en ;
            rdfs:label "has child"@en .
 
 <hasMaritalStatus> rdf:type owl:ObjectProperty ;
                    rdfs:domain <Person> ;
                    rdfs:range <MaritalStatus> ;
+                   rdfs:comment "A person’s marital status."@en ;
                    rdfs:label "has marital status"@en .
 
 <sameHouseholdAs> rdf:type owl:ObjectProperty, owl:SymmetricProperty ;
                   rdfs:domain <Person> ;
                   rdfs:range <Person> ;
+                  rdfs:comment "Links two persons who live in the same household"@en ;
                   rdfs:label "lives in same household as"@en .
 
-<expectedPerformance> rdf:type owl:ObjectProperty ;
-                      rdfs:domain <Person> ;
-                      rdfs:range <Performance> ;
-                      rdfs:comment "Indicates the expected job performance of Person compared to an average employee."@en ;
-                      rdfs:label "expected performance"@en .
+<expectedJobPerformance> rdf:type owl:ObjectProperty ;
+                         rdfs:domain <Person> ;
+                         rdfs:range <Performance> ;
+                         rdfs:comment "A person’s expected job performance compared to an average employee."@en ;
+                         rdfs:label "expected job performance"@en .
 
+<wantsToEmploy> rdf:type owl:ObjectProperty ;
+                rdfs:domain <Employer> ;
+                rdfs:range <Person> ;
+                rdfs:comment "Links an employer to a person they intend to employ."@en ;
+                rdfs:label "wants to employ"@en .
 
 #################################################################
 #    Data properties
 #################################################################
 
-<bruttoIncome> rdf:type owl:DatatypeProperty ;
-               rdfs:domain <Person> ;
-               rdfs:range xsd:float ;
-               rdfs:comment "Person's brutto income in Euros."@en ;
-               rdfs:label "brutto income"@en .
+<grossIncome> rdf:type owl:DatatypeProperty ;
+              rdfs:domain <Person> ;
+              rdfs:range xsd:float ;
+              rdfs:comment "Person's brutto income in EUROS."@en ;
+              rdfs:label "brutto income (in Euros)"@en .
 
-<childBenefit> rdf:type owl:DatatypeProperty ;
-               rdfs:domain <Child> ;
-               rdfs:range xsd:float ;
-               rdfs:comment "The amount of child benefit that Child receives in Euros. 0 if it receives no child benefit."@en ;
-               rdfs:label "child benefit"@en .
+<receivesChildBenefitchildBenefit> rdf:type owl:DatatypeProperty ;
+                                   rdfs:domain <Child> ;
+                                   rdfs:range xsd:float ;
+                                   rdfs:comment "The amount of child benefit a child receives in EUROS. 0 if it receives no child benefit."@en ;
+                                   rdfs:label "child benefit (in Euros)"@en .
 
-<hasAge> rdf:type owl:DatatypeProperty ;
-         rdfs:domain <Person> ;
-         rdfs:range xsd:integer ;
-         rdfs:comment "Person's age expressed as an integer."@en ;
-         rdfs:label "age"@en .
+<age> rdf:type owl:DatatypeProperty ;
+      rdfs:domain <Person> ;
+      rdfs:range xsd:integer ;
+      rdfs:comment "A person's age in completed YEARS."@en ;
+      rdfs:label "age (in years)"@en .
 
 <singleParent> rdf:type owl:DatatypeProperty ;
                rdfs:domain <Person> ;
                rdfs:range xsd:boolean ;
-               rdfs:comment "True if Person is a single parent."@en ;
+               rdfs:comment "True if a person is a single parent, false otherwise."@en ;
                rdfs:label "single parent"@en .
 
 <checkedPriorityClaims> rdf:type owl:DatatypeProperty ;
                         rdfs:domain <Person> ;
                         rdfs:range xsd:boolean ;
-                        rdfs:comment "True if Person has checked claims that have priority over the current claim."@en ;
+                        rdfs:comment "True if a person has checked their eligibility for funding programs that have priority over the current claim."@en ;
                         rdfs:label "checked priority claims"@en .
 
 <integrationRequiresSubsidy> rdf:type owl:DatatypeProperty ;
                              rdfs:domain <Person> ;
                              rdfs:range xsd:boolean ;
-                             rdfs:comment "True if financial support is necessary to integrate Person long-term."@en ;
+                             rdfs:comment "True if financial support is necessary to integrate a person long-term as an employee."@en ;
                              rdfs:label "integration requires subsidy"@en .
+
+<workExperience> rdf:type owl:DatatypeProperty ;
+                 rdfs:domain <Person> ;
+                 rdfs:range xsd:integer ;
+                 rdfs:comment "A person’s work experience in completed YEARS."@en ;
+                 rdfs:label "work experience (in years)"@en .
 
 #################################################################
 #    Classes
 #################################################################
 
 <Person> rdf:type owl:Class ;
+         rdfs:comment "A human individual."@en ;
          rdfs:label "Person"@en .
 
 <User> rdf:type owl:Class ;
        rdfs:subClassOf <Person> ;
+       rdfs:comment "The person from whose perspective the system evaluates the eligibility for funding programs."@en ;
        rdfs:label "User"@en .
 
 <Child> rdf:type owl:Class ;
         rdfs:subClassOf <Person> ;
+        rdfs:comment "A person who is explicitly identified as another person’s legal child."@en ;
         rdfs:label "Child"@en .
 
 <Employer> rdf:type owl:Class ;
            rdfs:subClassOf <Person> ;
+           rdfs:comment "A person who employs or intends to employ other persons."@en ;
            rdfs:label "Employer"@en .
 
 <MaritalStatus> rdf:type owl:Class ;
+                rdfs:comment "A person’s legal relationship with a significant other."@en ;
                 rdfs:label "Marital status"@en .
 
-<Married> rdf:type owl:Class ;
-          rdfs:subClassOf <MaritalStatus> ;
-          rdfs:label "Married"@en ;
-          owl:disjointWith <RegisteredPartnership>,<Single> .
-
-<RegisteredPartnership> rdf:type owl:Class ;
-                        rdfs:subClassOf <MaritalStatus> ;
-                        rdfs:label "Registered partnership"@en ;
-                        owl:disjointWith <Single> .
-
-<Single> rdf:type owl:Class ;
-         rdfs:subClassOf <MaritalStatus> ;
-         rdfs:label "Single"@en .
-
 <Performance> rdf:type owl:Class ;
-              rdfs:comment "Indicates job performance compared to an average employee."@en ;
+              rdfs:comment "Performance compared to some reference (e.g., job performance of an average employee)."@en ;
               rdfs:label "Performance"@en .
 
-<BelowAveragePerformance> rdf:type owl:Class ;
-                          rdfs:subClassOf <Performance> ;
-                          rdfs:label "Below average performance"@en ;
-                          owl:disjointWith <AveragePerformance>,<AboveAveragePerformance> .
+#################################################################
+#    Individuals
+#################################################################
 
-<AveragePerformance> rdf:type owl:Class ;
-                     rdfs:subClassOf <Performance> ;
-                     rdfs:label "Average performance"@en ;
-                     owl:disjointWith <AboveAveragePerformance> .
+<married> rdf:type <MaritalStatus> ;
+          rdfs:comment "Is currently married."@en ;
+          rdfs:label "married"@en .
 
-<AboveAveragePerformance> rdf:type owl:Class ;
-                          rdfs:subClassOf <Performance> ;
-                          rdfs:label "Above average performance"@en .
+<registeredPartnership> rdf:type <MaritalStatus> ;
+                        rdfs:comment "Is curently in a registered partnership."@en ;
+                        rdfs:label "registered partnership"@en .
+
+<single> rdf:type <MaritalStatus> ;
+         rdfs:comment "Is neither married nor in a registered partnership."@en ;
+         rdfs:label "single"@en .
+
+<widowed> rdf:type <MaritalStatus> ;
+          rdfs:comment "Spouse has deceased."@en ;
+          rdfs:label "widowed"@en .
+
+<registeredPartnerDeceased> rdf:type <MaritalStatus> ;
+                            rdfs:comment "Registered partner has deceased."@en ;
+                            rdfs:label "registered partner deceased"@en .
+
+<registeredPartnershipDissolved> rdf:type <MaritalStatus> ;
+                                 rdfs:comment "Registered partnership has been dissolved."@en ;
+                                 rdfs:label "registered partnership dissolved"@en .
+
+<belowAverage> rdf:type <Performance> ;
+               rdfs:comment "A performance that is worse than some reference."@en ;
+               rdfs:label "Below average performance"@en ;
+               owl:disjointWith <average>,<aboveAverage> .
+
+<average> rdf:type <Performance> ;
+          rdfs:comment "An average performance compared to some reference."@en ;
+          rdfs:label "Average performance"@en ;
+          owl:disjointWith <aboveAverage> .
+
+<aboveAverage> rdf:type <Performance> ;
+               rdfs:comment "A performance that is better than some reference."@en ;
+               rdfs:label "Above average performance"@en .
