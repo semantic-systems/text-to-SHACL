@@ -20,14 +20,14 @@
 <BildungsgutscheinShape> a sh:NodeShape;
     <checksFundingProgram> <Bildungsgutschein> ;
     sh:targetClass <User> ;
-    sh:property <EmploymentProperty> ; # Declare property shapes explicitly
+    sh:property <WorkExperienceProperty> ; # Declare property shapes explicitly
     sh:property <ConsultationProperty> ;
     sh:property <NecessityProperty> ;
     sh:property <EducationalProgramProperty> ;
-    sh:property <WarningProperty> .
+    sh:property <SelfEffortProperty> .
 
 # User must have worked for at least three years
-<EmploymentProperty> a sh:PropertyShape ;
+<WorkExperienceProperty> a sh:PropertyShape ;
     sh:path <workExperience> ;
     sh:minCount 1 ;
     sh:minInclusive 3 ;
@@ -48,38 +48,37 @@
     sh:severity sh:Warning ;
     sh:message "Die Weiterbildung muss notwendig sein, um Ihre Arbeitslosigkeit zu beenden oder eine drohende Arbeitslosigkeit abzuwenden"@de .
 
-<EducationalProgramProperty> a sh:PropertyShape ;
+<EducationProgramProperty> a sh:PropertyShape ;
     sh:path <selectedEducationProgram> ;
-    sh:qualifiedValueShape <EducationalProgramShape> ;
+    sh:qualifiedValueShape <EducationProgramShape> ;
     sh:qualifiedMinCount 1 ;
     sh:severity sh:Warning ;
     sh:message "Die Bildungsmaßnahme und der Bildungsträger müssen zugelassen sein und sie muss im Gespräch mit der Arbeitsagentur als die 'am besten geeignete Maßname' festgelegt worden sein."@de .
 
-<EducationalProgramShape> a sh:NodeShape ;
-sh:and (
+<EducationProgramShape> a sh:NodeShape ;
     # Education must be declared "most suitable measure" in consultation with employment agency
-    [
-        sh:path <declaredBestSuitedMeasure> ;
+    sh:property [
+        sh:path <mostSuitableMeasure> ;
         sh:minCount 1 ;
         sh:hasValue true ;
-    ]
+    ] ;
     # Education must be approved
-    [
+    sh:property [
         sh:path <isApproved> ;
         sh:minCount 1 ;
         sh:hasValue true ;
-    ]
+    ] ;
     # Education provider must be approved
-    [
-        sh:path (<hasProvider> <isApproved>) ; # Does this trigger Warning if there is no provider or only if there is a provider hat is not approved?
+    sh:property [
+        sh:path (<hasProvider> <isApproved>) ;
         sh:minCount 1 ;
         sh:hasValue true ;
-    ]
-) .
+    ] .
 
-# Inform user that they must have tried to end unemployment with "considerable effort" by themselves
-<WarningProperty> a sh:PropertyShape ;
-    sh:path <nonExistentPath>;
+# User must have tried to end unemployment with "considerable effort" by themselves
+<SelfEffortProperty> a sh:PropertyShape ;
+    sh:path <triedToEndUnemployment>;
     sh:minCount 1 ;
+    sh:hasValue true ;
     sh:severity sh:Warning ;
-    sh:message "Zusätzlich zu beachten: Sie müssen in 'erheblichem Umfang' selbst versucht haben, Ihre Arbeitslosigkeit zu beenden."@de .
+    sh:message "Sie müssen in 'erheblichem Umfang' selbst versucht haben, Ihre Arbeitslosigkeit zu beenden."@de .

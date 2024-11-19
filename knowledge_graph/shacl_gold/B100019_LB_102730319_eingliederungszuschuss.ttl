@@ -23,22 +23,21 @@
 
 <ProspectiveEmployeeProperty> a sh:PropertyShape ;
     sh:path <wantsToEmploy> ;
-    sh:qualifiedValueShape <EmployeeShape> ;
+    sh:qualifiedValueShape <ProspectiveEmployeeShape> ;
     sh:qualifiedMinCount 1 ;
     sh:message "Sie müssen eine Person beschäftigen wollen, bei der anfänglich eine geringere Leistung als üblich zu erwarten ist."@de .
      
-<EmployeeShape> a sh:NodeShape ;
-    sh:and (
-        [
+<ProspectiveEmployeeShape> a sh:NodeShape ;
+    sh:targetClass <ProspectiveEmployee> ;
+    sh:property [
             sh:path <expectedJobPerformance> ; # The employee's initial performance is expected to be below average. 
             sh:minCount 1 ;
             sh:hasValue <belowAverage> ;
             sh:message "Die Arbeitnehmerin oder der Arbeitnehmer wird anfänglich eine geringere Leistung als üblich erbringen."@de ;
-        ]
-        [
+        ] ;
+    sh:property [
             sh:path <integrationRequiresSubsidy> ; # The employer requires financial support to integrate the employee long-term.
             sh:minCount 1 ;
             sh:hasValue true ;
             sh:message "Sie müssen finanzielle Unterstützung benötigen, um den/die Arbeitnehmer*in langfristig zu integrieren"@de ;
-        ]
-    ) .
+        ] .

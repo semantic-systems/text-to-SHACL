@@ -35,30 +35,27 @@
 
 # Child must be younger than 25, unmarried, live in the same household, and receive child benefit
 <ChildShape> a sh:NodeShape ;
-    sh:targetClass <Child> ;
-    sh:and (
-        [
+    sh:property [
             sh:path <age> ; 
             sh:minCount 1 ;
             sh:maxExclusive "25" ;
             sh:datatype xsd:integer ;
-        ]
-        [
+        ] ;
+    sh:property [
             sh:path <hasMaritalStatus> ;
             sh:minCount 1 ;
             sh:Value <Single> ;
-        ]
-        [
+        ] ;
+    sh:property [
             sh:path <sameHouseholdAs> ;
             sh:minCount 1 ;
             sh:class <User> ; # We assume that there will always only be one user
-        ]
-        [
+        ] ;
+    sh:property [
             sh:path <receivesChildBenefit> ;
             sh:minCount 1 ;
             sh:minInclusive 1 ;
-        ]
-    ) .
+        ] .
 
 # If the user is not a single parent, their gross income must be at least 900 Euros
 <IncomeShapeA> a sh:NodeShape ;
