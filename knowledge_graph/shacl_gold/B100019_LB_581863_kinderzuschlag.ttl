@@ -44,7 +44,7 @@
     sh:property [
             sh:path <hasMaritalStatus> ;
             sh:minCount 1 ;
-            sh:Value <Single> ;
+            sh:hasValue <Single> ;
         ] ;
     sh:property [
             sh:path <sameHouseholdAs> ;
