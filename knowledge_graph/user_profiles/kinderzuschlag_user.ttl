@@ -1,14 +1,12 @@
-@prefix ff: <https://foerderfunke.org/default> .
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ex: <http://example.org/ns#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
 
+ex:John a ff:User ; 
+	ff:hasChild ex:Jane .
 
-ff:Bob a ff:User;
-ff:hasChild ff:child1;
-ff:bruttoIncome "600"^^xsd:float;
-ff:singleParent "true"^^xsd:boolean.
-
-ff:child1 a ff:Child;
-ff:hasAge "24"^^xsd:integer;
-ff:maritalStatus ff:single;
-ff:livesWithUser "true"^^xsd:boolean;
-ff:receivesChildBenefit "1"^^xsd:float.
+ex:Jane a ff:Child ;
+	ff:age 24 ;
+	ff:hasMaritalStatus ff:Single ;
+	ff:sameHouseholdAs ex:John ;
+	ff:receivesChildBenefit 0 .
