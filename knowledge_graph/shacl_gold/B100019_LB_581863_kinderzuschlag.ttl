@@ -1,14 +1,14 @@
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-@base <https://foerderfunke.org/default#> .
+@prefix ff: <https://foerderfunke.org/default#> .
 
 #################################################################
 #    METADATA
 #################################################################
 
-<Kinderzuschlag> a <FundingProgram> ;
-    <idlb> "B100019.LB.581863" ;
+ff:Kinderzuschlag a ff:FundingProgram ;
+    ff:idlb "B100019.LB.581863" ;
     dc:title "Kinderzuschlag"@de ;
     dc:description "Wenn Sie als Eltern genug Einkommen für sich selbst verdienen, aber das Einkommen nicht oder nur knapp für die gesamte Familie reicht, können Sie den Kinderzuschlag beantragen."@de . 
     
@@ -16,78 +16,78 @@
 #    CONSTRAINTS
 #################################################################
 
-<KinderzuschlagShape> a sh:NodeShape;
-    <checksFundingProgram> <Kinderzuschlag> ;
-    sh:targetClass <User> ;
-    sh:property <ChildProperty> ;
+ff:KinderzuschlagShape a sh:NodeShape;
+    ff:checksFundingProgram ff:Kinderzuschlag ;
+    sh:targetClass ff:User ;
+    sh:property ff:ChildProperty ;
     sh:or (
-            <IncomeShapeA>
-            <IncomeShapeB>
+            ff:IncomeShapeA
+            ff:IncomeShapeB
     ) ;
-    sh:property <PriorityClaimsProperty> ;
-    sh:property <WarningProperty> . # Ambiguous constraints that require more information
+    sh:property ff:PriorityClaimsProperty ;
+    sh:property ff:WarningProperty . # Ambiguous constraints that require more information
 
 # Must have at least one child that conforms to the ChildShape
-<ChildProperty> a sh:PropertyShape ;
-    sh:path <hasChild> ;
-    sh:qualifiedValueShape <ChildShape> ;
+ff:ChildProperty a sh:PropertyShape ;
+    sh:path ff:hasChild ;
+    sh:qualifiedValueShape ff:ChildShape ;
     sh:qualifiedMinCount 1 ;
     sh:message "Sie müssen mindestens ein Kind haben, das jünger als 25 Jahre alt ist, nicht verheiratet oder verpartnert ist, in Ihrem Haushalt lebt und Kindergeld empfängt".
 
 # Child must be younger than 25, unmarried, live in the same household, and receive child benefit
-<ChildShape> a sh:NodeShape ;
-    sh:class <Child> ;
+ff:ChildShape a sh:NodeShape ;
+    sh:class ff:Child ;
     sh:property [
-            sh:path <age> ; 
+            sh:path ff:age ; 
             sh:minCount 1 ;
             sh:maxExclusive 25 ;
             sh:datatype xsd:integer ;
         ] ;
     sh:property [
-            sh:path <hasMaritalStatus> ;
+            sh:path ff:hasMaritalStatus ;
             sh:minCount 1 ;
-            sh:hasValue <Single> ;
+            sh:hasValue ff:Single ;
         ] ;
     sh:property [
-            sh:path <sameHouseholdAs> ;
+            sh:path ff:sameHouseholdAs ;
             sh:minCount 1 ;
-            sh:class <User> ; # We assume that there will always only be one user
+            sh:class ff:User ; # We assume that there will always only be one user
         ] ;
     sh:property [
-            sh:path <receivesChildBenefit> ;
+            sh:path ff:receivesChildBenefit ;
             sh:minCount 1 ;
             sh:minInclusive 1 ;
         ] .
 
 # If the user is not a single parent, their gross income must be at least 900 Euros
-<IncomeShapeA> a sh:NodeShape ;
+ff:IncomeShapeA a sh:NodeShape ;
     sh:property [
-                sh:path <singleParent> ;
+                sh:path ff:singleParent ;
                 sh:maxCount 1 ;
                 sh:hasValue false ;
     ] ;
     sh:property [
-                sh:path <grossIncome> ;
+                sh:path ff:grossIncome ;
                 sh:minCount 1 ;
                 sh:minInclusive 900 ;
     ] .
 
 # If the user is a single parent, their gross income must be at least 600 Euros
-<IncomeShapeB> a sh:NodeShape ;
+ff:IncomeShapeB a sh:NodeShape ;
     sh:property [
-                sh:path <singleParent> ;
+                sh:path ff:singleParent ;
                 sh:minCount 1 ;
                 sh:hasValue true ;
     ] ;
     sh:property[
-                sh:path <grossIncome> ;
+                sh:path ff:grossIncome ;
                 sh:minCount 1 ;
                 sh:minInclusive 600 ;
     ] .
 
 # User must check if the child is eligible for other claims with priority (e.g., alimony)
-<PriorityClaimsProperty> a sh:PropertyShape ;
-    sh:path <checkedPriorityClaims> ;
+ff:PriorityClaimsProperty a sh:PropertyShape ;
+    sh:path ff:checkedPriorityClaims ;
     sh:minCount 1 ;
     sh:hasValue true ;
     sh:severity sh:Warning ;
@@ -95,8 +95,8 @@
 
 # Shape that will always be invalid and trigger warning
 # TODO: Split up into individual properties. 
-<WarningProperty> a sh:PropertyShape ;
-    sh:path <NonExistentPath>;
+ff:WarningProperty a sh:PropertyShape ;
+    sh:path ff:NonExistentPath;
     sh:minCount 1 ;
     sh:severity sh:Warning ;
     sh:message "Zusätzlich zu beachten: Ihr anzurechnendes Einkommen darf den Kinderzuschlag nicht auf null reduzieren. Sie dürfen über kein erhebliches Vermögen verfügen. Ihr Gesamteinkommen, inklusive Kindergeld, Wohngeld und Kinderzuschlag, muss den Bedarf der Familie nach SGB II decken."@de .

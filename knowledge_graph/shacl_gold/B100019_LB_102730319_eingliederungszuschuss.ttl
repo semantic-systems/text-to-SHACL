@@ -1,13 +1,13 @@
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
-@base <https://foerderfunke.org/default#> .
+@prefix ff: <https://foerderfunke.org/default#> .
 
 #################################################################
 #    METADATA
 #################################################################
 
-<Eingliederungszuschuss> a <FundingProgram> ;
-    <idlb> "B100019.LB.102730319" ;
+ff:Eingliederungszuschuss a ff:FundingProgram ;
+    ff:idlb "B100019.LB.102730319" ;
     dc:title "Eingliederungszuschuss"@de ;
     dc:description "Wenn Sie in Ihrem Unternehmen Menschen einstellen, die zu Beginn der Beschäftigung noch nicht die volle Arbeitsleistung erbringen, können Sie Zuschüsse zu den Lohnkosten beantragen."@de . 
 
@@ -15,28 +15,28 @@
 #    CONSTRAINTS
 #################################################################
 
-<EingliederungszuschussShape> a sh:NodeShape;
-    <checksFundingProgram> <Eingliederungszuschuss> ;
-    sh:targetClass <User> ;
-    sh:class <Employer> ; # User must be an employer
-    sh:property <ProspectiveEmployeeProperty> .
+ff:EingliederungszuschussShape a sh:NodeShape;
+    ff:checksFundingProgram ff:Eingliederungszuschuss ;
+    sh:targetClass ff:User ;
+    sh:class ff:Employer ; # User must be an employer
+    sh:property ff:ProspectiveEmployeeProperty .
 
-<ProspectiveEmployeeProperty> a sh:PropertyShape ;
-    sh:path <wantsToEmploy> ;
-    sh:qualifiedValueShape <ProspectiveEmployeeShape> ;
+ff:ProspectiveEmployeeProperty a sh:PropertyShape ;
+    sh:path ff:wantsToEmploy ;
+    sh:qualifiedValueShape ff:ProspectiveEmployeeShape ;
     sh:qualifiedMinCount 1 ;
     sh:message "Sie müssen eine Person beschäftigen wollen, bei der anfänglich eine geringere Leistung als üblich zu erwarten ist."@de .
      
-<ProspectiveEmployeeShape> a sh:NodeShape ;
-    sh:targetClass <ProspectiveEmployee> ;
+ff:ProspectiveEmployeeShape a sh:NodeShape ;
+    sh:targetClass ff:ProspectiveEmployee ;
     sh:property [
-            sh:path <expectedJobPerformance> ; # The employee's initial performance is expected to be below average. 
+            sh:path ff:expectedJobPerformance ; # The employee's initial performance is expected to be below average. 
             sh:minCount 1 ;
-            sh:hasValue <belowAverage> ;
+            sh:hasValue ff:belowAverage ;
             sh:message "Die Arbeitnehmerin oder der Arbeitnehmer wird anfänglich eine geringere Leistung als üblich erbringen."@de ;
         ] ;
     sh:property [
-            sh:path <integrationRequiresSubsidy> ; # The employer requires financial support to integrate the employee long-term.
+            sh:path ff:integrationRequiresSubsidy ; # The employer requires financial support to integrate the employee long-term.
             sh:minCount 1 ;
             sh:hasValue true ;
             sh:message "Sie müssen finanzielle Unterstützung benötigen, um den/die Arbeitnehmer*in langfristig zu integrieren"@de ;
