@@ -1,5 +1,6 @@
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @base <https://foerderfunke.org/default#> .
 
 #################################################################
@@ -18,7 +19,7 @@
 <KinderzuschlagShape> a sh:NodeShape;
     <checksFundingProgram> <Kinderzuschlag> ;
     sh:targetClass <User> ;
-    sh:property <ChildProperty>;
+    sh:property <ChildProperty> ;
     sh:or (
             <IncomeShapeA>
             <IncomeShapeB>
@@ -35,6 +36,7 @@
 
 # Child must be younger than 25, unmarried, live in the same household, and receive child benefit
 <ChildShape> a sh:NodeShape ;
+    sh:class <Child> ;
     sh:property [
             sh:path <age> ; 
             sh:minCount 1 ;
@@ -68,7 +70,6 @@
                 sh:path <grossIncome> ;
                 sh:minCount 1 ;
                 sh:minInclusive 900 ;
-                sh:datatype xsd:float ;
     ] .
 
 # If the user is a single parent, their gross income must be at least 600 Euros
@@ -82,7 +83,6 @@
                 sh:path <grossIncome> ;
                 sh:minCount 1 ;
                 sh:minInclusive 600 ;
-                sh:datatype xsd:float ;
     ] .
 
 # User must check if the child is eligible for other claims with priority (e.g., alimony)
