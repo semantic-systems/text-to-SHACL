@@ -24,8 +24,8 @@ ff:KinderzuschlagShape a sh:NodeShape;
             ff:IncomeShapeA
             ff:IncomeShapeB
     ) ;
-    sh:property ff:PriorityClaimsProperty ;
-    sh:property ff:WarningProperty . # Ambiguous constraints that require more information
+    sh:property ff:PriorityClaimsProperty .
+    #sh:property ff:WarningProperty . # Ambiguous constraints that require more information
 
 # Must have at least one child that conforms to the ChildShape
 ff:ChildProperty a sh:PropertyShape ;
@@ -46,7 +46,7 @@ ff:ChildShape a sh:NodeShape ;
     sh:property [
             sh:path ff:hasMaritalStatus ;
             sh:minCount 1 ;
-            sh:hasValue ff:Single ;
+            sh:in (ff:Single) ;
         ] ;
     sh:property [
             sh:path ff:sameHouseholdAs ;
@@ -64,7 +64,7 @@ ff:IncomeShapeA a sh:NodeShape ;
     sh:property [
                 sh:path ff:singleParent ;
                 sh:maxCount 1 ;
-                sh:hasValue false ;
+                sh:in (false) ;
     ] ;
     sh:property [
                 sh:path ff:grossIncome ;
@@ -77,7 +77,7 @@ ff:IncomeShapeB a sh:NodeShape ;
     sh:property [
                 sh:path ff:singleParent ;
                 sh:minCount 1 ;
-                sh:hasValue true ;
+                sh:in (true) ;
     ] ;
     sh:property[
                 sh:path ff:grossIncome ;
@@ -89,7 +89,7 @@ ff:IncomeShapeB a sh:NodeShape ;
 ff:PriorityClaimsProperty a sh:PropertyShape ;
     sh:path ff:checkedPriorityClaims ;
     sh:minCount 1 ;
-    sh:hasValue true ;
+    sh:in (true) ;
     sh:severity sh:Warning ;
     sh:message "Der Kinderzuschlag ist nachrangig gegenüber anderen möglichen Einkünften des Kindes; gegebenenfalls besteht die Verpflichtung, sich um vorrangige Ansprüche wie Unterhalt oder Unterhaltsvorschuss zu bemühen."@de.
 

@@ -3,10 +3,13 @@
 @prefix ff: <https://foerderfunke.org/default#> .
 
 ex:John a ff:User ; 
-	ff:hasChild ex:Jane .
+	ff:hasChild ex:Jane ;
+	ff:checkedPriorityClaims true ;
+	ff:singleParent true ;
+	ff:grossIncome 700 .
 
 ex:Jane a ff:Child ;
 	ff:age 24 ;
 	ff:hasMaritalStatus ff:Single ;
 	ff:sameHouseholdAs ex:John ;
-	ff:receivesChildBenefit 0 .
+	ff:receivesChildBenefit 1 .
