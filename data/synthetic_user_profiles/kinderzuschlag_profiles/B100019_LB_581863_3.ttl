@@ -1,0 +1,23 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Test ff:hasAge >= 25
+
+ff:User ff:ineligibleFor ff:B100019_LB_581863 ;
+		ff:hasChild ex:Kim ;
+		ff:isSingleParent true ;
+		ff:hasIncome [
+			ff:personalGrossIncome 600 ;
+			ff:reducesChildSupplementTo 1 ;
+		] .
+
+ex:Kim a ff:Child ;
+	ff:hasAge 25 ;
+	ff:hasMaritalStatus ff:single ;
+	ff:sameHouseholdAs ff:User ;
+	ff:receivesChildBenefit 250 ;
+	ff:isEligibleFor ex:SomeBenefit .
+
+ex:SomeBenefit a ff:SocialBenefit ;
+	ff:hasPriorityOver ex:SomeOtherBenefit .

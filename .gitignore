@@ -1,9 +1,12 @@
 # Outdated and exploratory data and code
 archive/
+.vscode/
 inspection.ipynb
-knowledge_graph/test_graphs/
-data/raw/
-generation/
+dev/
+data/service_descriptions/service_catalogs/
+data/service_descriptions/service_descriptions_social/
+data/service_descriptions/service_descriptions_all/
+todos.md
 
 # Pycache
 __pycache__/
