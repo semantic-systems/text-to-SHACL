@@ -12,7 +12,7 @@ ff:User ff:eligibleFor ff:B100019_LB_581863 ;
 
 ex:Kim a ff:Child ;
 	ff:hasAge 24 ;
-	ff:hasMaritalStatus ff:single ;
+	ff:hasMaritalStatus ff:Single ;
 	ff:sameHouseholdAs ff:User ;
 	ff:receivesChildBenefit 250 ;
 	ff:isEligibleFor ex:SomeBenefit .
@@ -22,5 +22,5 @@ ex:SomeBenefit a ff:SocialBenefit ;
 
 ex:Sam a ff:Child ;
 	ff:hasAge 26 ;
-	ff:hasMaritalStatus ff:married ;
+	ff:hasMaritalStatus ff:Married ;
 	ff:receivesChildBenefit 0 .

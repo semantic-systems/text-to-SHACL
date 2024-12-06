@@ -1,0 +1,198 @@
+@prefix : <http://www.semanticweb.org/seike/ontologies/2024/11/social-benefit-requirements/> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://www.semanticweb.org/seike/ontologies/2024/11/social-benefit-requirements/> .
+
+<http://www.semanticweb.org/seike/ontologies/2024/11/social-benefit-requirements> rdf:type owl:Ontology ;
+                                                                                   owl:versionIRI <http://www.semanticweb.org/seike/ontologies/2024/11/social-benefit-requirements-v1> ;
+                                                                                   rdfs:comment "Accounts for terms use in the following social benefit descriptions: Kinderzuschlag" .
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  https://foerderfunke.org/default#hasChild
+ff:hasChild rdf:type owl:ObjectProperty ;
+            rdfs:domain ff:Person ;
+            rdfs:range ff:Person ;
+            rdfs:comment "Links a person to their child."@en .
+
+
+###  https://foerderfunke.org/default#hasIncome
+ff:hasIncome rdf:type owl:ObjectProperty ;
+             rdfs:domain ff:Person ;
+             rdfs:range ff:Income ;
+             rdfs:comment "Links a person to an object describing their income."@en .
+
+
+###  https://foerderfunke.org/default#hasMaritalStatus
+ff:hasMaritalStatus rdf:type owl:ObjectProperty ;
+                    rdfs:domain ff:Person ;
+                    rdfs:range ff:MaritalStatus ;
+                    rdfs:comment "Links a person to an instance describing their marital status."@en .
+
+
+###  https://foerderfunke.org/default#hasPriorityOver
+ff:hasPriorityOver rdf:type owl:ObjectProperty ,
+                            owl:AsymmetricProperty ;
+                   rdfs:domain ff:SocialBenefit ;
+                   rdfs:range ff:SocialBenefit .
+
+
+###  https://foerderfunke.org/default#isEligibleFor
+ff:isEligibleFor rdf:type owl:ObjectProperty ;
+                 rdfs:domain ff:Person ;
+                 rdfs:range ff:SocialBenefit .
+
+
+###  https://foerderfunke.org/default#sameHouseholdAs
+ff:sameHouseholdAs rdf:type owl:ObjectProperty ,
+                            owl:SymmetricProperty ;
+                   rdfs:domain ff:Person ;
+                   rdfs:range ff:Person ;
+                   rdfs:comment "Links to persons who live in the same household."@en .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  https://foerderfunke.org/default#familyGrossIncome
+ff:familyGrossIncome rdf:type owl:DatatypeProperty ;
+                     rdfs:domain ff:Income ;
+                     rdfs:range xsd:decimal ;
+                     rdfs:comment "Links a person's income to the amount of family gross income, i.e. all family earnings before deductions and taxes, expressed as a decimal."@en .
+
+
+###  https://foerderfunke.org/default#hasAge
+ff:hasAge rdf:type owl:DatatypeProperty ;
+          rdfs:domain ff:Person ;
+          rdfs:range xsd:integer ;
+          rdfs:comment "A person's age in completed years."@en .
+
+
+###  https://foerderfunke.org/default#isSingleParent
+ff:isSingleParent rdf:type owl:DatatypeProperty ;
+                  rdfs:domain ff:Person ;
+                  rdfs:range xsd:boolean ;
+                  rdfs:comment "True if the person is a single parent, false otherwise."@en .
+
+
+###  https://foerderfunke.org/default#personalGrossIncome
+ff:personalGrossIncome rdf:type owl:DatatypeProperty ;
+                       rdfs:domain ff:Income ;
+                       rdfs:range xsd:decimal ;
+                       rdfs:comment "Links a person's income to the amount of personal gross income, i.e. all personal earnings before deductions and taxes, expressed as a decimal."@en .
+
+
+###  https://foerderfunke.org/default#receivesChildBenefit
+ff:receivesChildBenefit rdf:type owl:DatatypeProperty ;
+                        rdfs:domain ff:Child ;
+                        rdfs:range xsd:decimal ;
+                        rdfs:comment "Links a child to the amount of child supplement it receives."@en .
+
+
+###  https://foerderfunke.org/default#reducesChildSupplementTo
+ff:reducesChildSupplementTo rdf:type owl:DatatypeProperty ;
+                            rdfs:domain ff:Income ;
+                            rdfs:range xsd:decimal ;
+                            rdfs:comment "A user's income is offset against child supplement to varying degrees. This property links an income to the amount of child supplement remaining after any income-related reductions are taken into account."@en .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  https://foerderfunke.org/default#Child
+ff:Child rdf:type owl:Class ;
+         rdfs:subClassOf ff:Person .
+
+
+###  https://foerderfunke.org/default#Income
+ff:Income rdf:type owl:Class ;
+          rdfs:comment "The general concept of income that may include diverse types of income like assets, gross income, net income, etc."@en .
+
+
+###  https://foerderfunke.org/default#MaritalStatus
+ff:MaritalStatus rdf:type owl:Class ;
+                 rdfs:comment "A person's marital status, which may be single, married, widowed, divorced, civil union, annulled civil union, or civil partner deceased."@en ;
+                 rdfs:seeAlso "https://www.xrepository.de/details/urn:xoev-de:bva:codeliste:azrvisa.familienstand" .
+
+
+###  https://foerderfunke.org/default#Person
+ff:Person rdf:type owl:Class ;
+          rdfs:comment "All human beings."@en .
+
+
+###  https://foerderfunke.org/default#SocialBenefit
+ff:SocialBenefit rdf:type owl:Class .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  https://foerderfunke.org/default#AnnulledCivilUnion
+ff:AnnulledCivilUnion rdf:type owl:NamedIndividual ,
+                               ff:MaritalStatus .
+
+
+###  https://foerderfunke.org/default#B100019_LB_106311931
+ff:B100019_LB_106311931 rdf:type owl:NamedIndividual ,
+                                 ff:SocialBenefit ;
+                        rdfs:label "Buergergeld"@de ,
+                                   "Citizen benefit"@en .
+
+
+###  https://foerderfunke.org/default#B100019_LB_581863
+ff:B100019_LB_581863 rdf:type owl:NamedIndividual ,
+                              ff:SocialBenefit ;
+                     rdfs:label "Child supplement"@en ,
+                                "Kinderzuschlag"@de .
+
+
+###  https://foerderfunke.org/default#CivilPartnerDeceased
+ff:CivilPartnerDeceased rdf:type owl:NamedIndividual ,
+                                 ff:MaritalStatus .
+
+
+###  https://foerderfunke.org/default#CivilUnion
+ff:CivilUnion rdf:type owl:NamedIndividual ,
+                       ff:MaritalStatus ;
+              rdfs:comment "A person lives in an active civil union."@en .
+
+
+###  https://foerderfunke.org/default#Divorced
+ff:Divorced rdf:type owl:NamedIndividual ,
+                     ff:MaritalStatus ;
+            rdfs:comment "A person is divorced."@en .
+
+
+###  https://foerderfunke.org/default#Married
+ff:Married rdf:type owl:NamedIndividual ,
+                    ff:MaritalStatus ;
+           rdfs:comment "A person is married to another person."@en .
+
+
+###  https://foerderfunke.org/default#Single
+ff:Single rdf:type owl:NamedIndividual ,
+                   ff:MaritalStatus ;
+          rdfs:comment "A person is single, i.e. they do not have any other marital status (married, civil union, etc.) recognized by the law." .
+
+
+###  https://foerderfunke.org/default#User
+ff:User rdf:type owl:NamedIndividual ,
+                 ff:Person ;
+        rdfs:comment "A person who uses the system to check their eligibility for social benefits."@en .
+
+
+###  https://foerderfunke.org/default#Widowed
+ff:Widowed rdf:type owl:NamedIndividual ,
+                    ff:MaritalStatus .
+
+
+###  Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi
