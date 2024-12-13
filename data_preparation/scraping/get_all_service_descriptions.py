@@ -17,7 +17,7 @@ from utils import download_file
 SUCHDIENST_URL_SERVICE_DESCRIPTION = "https://public.demo.pvog.cloud-bdc.dataport.de/suchdienst/api/v5/servicedescriptions/{ars}/detail"
 
 def download_and_save_service_descriptions(intermediate_files: str) -> None:
-    """Download all service descriptions and save them in the intermediate_files directory."""
+    """Downloads all service descriptions and saves them to the specific directory."""
     start_time = datetime.datetime.now()
 
     # Ensure the save directory exists

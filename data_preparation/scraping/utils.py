@@ -14,13 +14,13 @@ from urllib.parse import urlsplit
 
 
 def remove_html_tags(text) -> str:
-    """Remove HTML tags from a string."""
+    """Removes HTML tags from a string."""
     soup = BeautifulSoup(text, "html.parser")
     return soup.text.strip()
 
 
 def download_file(url: str, params: dict, save_dir: str, filename: str) -> str:
-    """Download a file from a url to the specified location.
+    """Downloads a file from a url to the specified location.
 
     :param url: URL of the file to download.
     :param params: Variable elements of the URL, if any.
@@ -51,7 +51,7 @@ def download_file(url: str, params: dict, save_dir: str, filename: str) -> str:
 
 
 def get_filename_from_url(url: str) -> str:
-    """Extract the filename from a URL."""
+    """Extracts the filename from a URL."""
     basename = os.path.basename(urlsplit(url).path)
     if not basename:
         raise ValueError("Filename could not be extracted from URL.")

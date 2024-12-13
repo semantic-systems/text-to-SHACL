@@ -25,7 +25,7 @@ SUCHDIENST_URL_SERVICE_CATALOG = "https://public.demo.pvog.cloud-bdc.dataport.de
 
 
 def generate_ars_dict(input_filepath: str) -> Dict[str, str]:
-    """Generate a dictionary mapping ARS to Municipality."""
+    """Generates a dictionary mapping ARS to Municipality."""
     try:
         df = pd.read_excel(input_filepath, engine="openpyxl")
         data = df.iloc[7:, [1, 2]].dropna()
@@ -45,7 +45,7 @@ def generate_ars_dict(input_filepath: str) -> Dict[str, str]:
 
 
 def update_idlb_dicts(filepath: str, ars: str, idlb_to_ars: dict, idlb_to_name: dict) -> Dict[str, str]:
-    """Append valid ID-LBs with corresponding ARS and name to the respective dictionary."""
+    """Appends valid ID-LBs with corresponding ARS and name to the respective dictionary."""
     df = pd.read_csv(filepath, delimiter="|", usecols=["ID-LB", "Name"])
     
     # Define valid ID-LB pattern
@@ -64,7 +64,7 @@ def update_idlb_dicts(filepath: str, ars: str, idlb_to_ars: dict, idlb_to_name: 
 
 
 def save_mappings_to_file(save_filepath: str, ars_dict: dict, idlb_to_ars: dict, idlb_to_name: dict) -> None:
-    """Save ARS and ID-LB mappings as Python Dictionaries."""
+    """Saves ARS and ID-LB mappings as Python Dictionaries."""
     try:
         with open(save_filepath, "w") as f:
             f.write("from typing import Dict\n\n")

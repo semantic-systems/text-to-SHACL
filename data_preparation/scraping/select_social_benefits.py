@@ -17,7 +17,7 @@ from typing import List
 
 
 def get_idlb_list(input_dir: str) -> List[str]:
-    """Get a list of IDLBs for selected social benefits.
+    """Gets a list of IDLBs for selected social benefits.
 
     Possible selection criteria:
         - idlb: prioritize Bund IDLB (for similar dataquality)
@@ -27,6 +27,10 @@ def get_idlb_list(input_dir: str) -> List[str]:
         - leikakeys: specifically search for certain services
         - "validTo": "2999-12-31" -> only select benefits that are still valid
         - "externalLastUpdate"
+    
+    :param input_dir: Directory with all full service descriptions in JSON format.
+    
+    :return: List of IDLBs for social benefits to be analyzed.
     """
     # B100019_LB_581863: Kinderzuschlag
     # B100019_LB_106311931: Bürgergeld
@@ -38,11 +42,13 @@ def get_idlb_list(input_dir: str) -> List[str]:
 
 
 def save_benefit_details(idlbs: List[str], input_dir: str, output_dir: str) -> None:
-    """Extract details for the specified social benefits and save to JSON.
+    """Extracts details for the specified social benefits and saves them in JSON.
 
     :param idlbs: List of IDLBs for social benefits to be analyzed.
     :param input_dir: Directory containing all full service descriptions in JSON format.
     :param output_dir: Directory to save the extracted benefit details.
+    
+    :return: None
     """
     # Ensure the output directory exists
     if not os.path.exists(output_dir):
