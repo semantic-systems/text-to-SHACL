@@ -1,0 +1,13 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# METADATA
+
+ff:B100019_LB_576842 a ff:SocialBenefit ;
+    rdfs:label "Arbeitslosengeld" .
+
+# CONSTRAINTS
+
+ff:ArbeitslosengeldShape a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_576842 .

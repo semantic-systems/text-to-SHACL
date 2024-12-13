@@ -2,16 +2,12 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix ff: <https://foerderfunke.org/default#> .
 
-#################################################################
-#    METADATA
-#################################################################
+# METADATA
 
 ff:B100019_LB_581863 a ff:SocialBenefit ;
     rdfs:label "Kinderzuschlag"@de, "Child supplement"@en. 
 
-#################################################################
-#    CONSTRAINTS
-#################################################################
+# CONSTRAINTS
 
 ff:KinderzuschlagShape a sh:NodeShape ;
     ff:checksFundingRequirement ff:B100019_LB_581863 ;
