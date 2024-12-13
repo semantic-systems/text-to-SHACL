@@ -2,7 +2,7 @@
 
 <ul> <li>Sie sind erwerbsfähig. Das heißt, dass Sie <ul> <li>mindestens 3 Stunden täglich arbeiten können und</li> <li>mindestens 15 Jahre alt sind und die Altersgrenze der gesetzlichen Rentenversicherung noch nicht erreicht haben. Wenn Sie nach 1963 geboren sind, liegt diese bei 67 Jahren. Sind Sie vor 1964 geboren, können Sie die für Sie geltende Altersgrenze in der Tabelle in § 7a Sozialgesetzbuch II (SGB II) nachschauen.</li> </ul> </li> <li>Sie sind hilfebedürftig. Das heißt, dass Sie Ihren eigenen notwendigen Lebensunterhalt und den Lebensunterhalt der mit Ihnen in einer Bedarfsgemeinschaft lebenden, nicht erwerbsfähigen Angehörigen weder aus eigenen Mitteln (Einkommen und Vermögen) und Kräften (Einsatz der Arbeitskraft) noch mithilfe anderer beziehungsweise vorrangiger Leistungen (zum Beispiel Arbeitslosengeld, Wohngeld, Kinderzuschlag) bestreiten können.</li> <li>Sie haben keine vorrangigen Ansprüche gegenüber anderen Leistungsträgern (zum Beispiel Wohngeld) oder anderen Personen, wie beispielsweise gegen geschiedene Ehepartner oder den Vater oder die Mutter Ihres Kindes.</li> <li>Sie leben in der Bundesrepublik Deutschland.</li> </ul>
 
-<b>Extracted individual requirements</b>
+<b>Requirements decomposition</b>
 <ol>
     <li>User must be employable, i.e. able to work at least 3 hours per day</li> (G)
     <li>User must be employable, i.e. be at least 15 years old</li> (G)
