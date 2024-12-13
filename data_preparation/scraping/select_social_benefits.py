@@ -12,6 +12,7 @@ benefits as JSON.
 import os
 import json
 import sys
+import html
 from typing import List
 
 
@@ -29,10 +30,11 @@ def get_idlb_list(input_dir: str) -> List[str]:
     """
     # B100019_LB_581863: Kinderzuschlag
     # B100019_LB_106311931: Bürgergeld
+    # B100019_LB_576842: Arbeitslosengeld
 
     # IDLBS WITHOUT DOT!
 
-    return ["B100019_LB_581863", "B100019_LB_106311931"]
+    return ["B100019_LB_576842"]
 
 
 def save_benefit_details(idlbs: List[str], input_dir: str, output_dir: str) -> None:
@@ -58,11 +60,12 @@ def save_benefit_details(idlbs: List[str], input_dir: str, output_dir: str) -> N
         for detail in full_description["details"]:
             if detail["title"] == "Voraussetzungen":
                 requirements = detail["text"]
+                requirements_clean = html.unescape(requirements).replace('\xa0', ' ')
         benefit_details = {
             "name": name,
             "short_name": "PLACEHOLDER",
             "idlb": idlb,
-            "requirements": requirements
+            "requirements": requirements_clean
         }
 
         # Save extracted details to JSON file
