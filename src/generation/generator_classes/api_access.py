@@ -1,10 +1,7 @@
 """ 
 api_access.py
 
-Master's Thesis
-Seike Appold
-
-Defines a class for interacting with the GWDG ChatAI API 
+Class for interacting with the GWDG ChatAI API 
 (https://docs.hpc.gwdg.de/services/chat-ai/).
 """
 
@@ -30,7 +27,7 @@ class ChatAIHandler:
         default_configs (Dict[str, Any]): Default model initialization parameters.
 
     Methods:
-        get_available_models() -> List[str]:
+        get_available_models() -> List[str]: 
             Retrieves a list of available models from the API.
             
         initialize_model(custom_configs: Optional[Dict[str, Any]] = None) -> ChatOpenAI:
@@ -41,71 +38,51 @@ class ChatAIHandler:
 
     def __init__(self):
         self.api_key = os.getenv('GWDG_API_KEY')
-        if not self.api_key:
-            raise ValueError("GWDG_API_KEY environment variable is not set.")
-
         self.base_url = os.getenv('GWDG_BASE_URL')
         if not self.api_key:
-            raise ValueError("GWDG_BASE_URL environment variable is not set.")
+            raise ValueError("Environment variables 'GWDG_API_KEY' and 'GWDG_BASE_URL' must be set.")
 
-        # Use the cached models if available, otherwise fetch them
+        # Fetch available models if cache is empty
         if ChatAIHandler._model_cache is None:
             ChatAIHandler._model_cache = self.get_available_models()
         self.available_models = ChatAIHandler._model_cache
-
+        
+        # TODO: Update depending on results
+        self.main_model = ["llama-3.1-nemotron-70b-instruct"]
+        self.base_models = ["meta-llama-3.1-8b-instruct", "llama-3.1-nemotron-70b-instruct"]
+        
         self.default_configs = {
-            "model_key": "meta-llama-3.1-8b-instruct",
             "temperature": 0,
             "top_p": None,
             "max_tokens": None,
             "logprobs": False,
-            "timeout": None,
+            "timeout": 120,
             "max_retries": 2
         }
 
     def get_available_models(self) -> List[str]:
-        """Lists keys of all models available via the GWDG ChatAI API."""
+        """Retrieve list of available models from the API."""
         url = self.base_url + "/models"
-        headers = {
-            "Authorization": f"Bearer {self.api_key}"
-        }
-
+        headers = {"Authorization": f"Bearer {self.api_key}"}
         response = requests.get(url, headers=headers)
-
-        if response.status_code == 200:
-            models = response.json()
-            self.available_models = [model_key["id"] for model_key in models["data"]]
-            return self.available_models
-        else:
+        
+        if response.status_code != 200:
             response.raise_for_status()
+        models = response.json()
+        return [model_key["id"] for model_key in models["data"]]
+    
+    def initialize_model(self, model_key: str="meta-llama-3.1-8b-instruct", custom_configs: Optional[Dict[str, Any]]=None) -> ChatOpenAI:
+        """Initializes an instance of an OpenAI model with the specified parameters."""      
+        if model_key not in self.available_models:
+            raise ValueError(f"Invalid model key. Available models: {self.available_models}")
 
-    def initialize_model(self, custom_configs: Optional[Dict[str, Any]] = None) -> ChatOpenAI:
-        """Initializes an instance of an OpenAI model with the specified parameters."""
-        # Apply custom configurations if provided
-        if not custom_configs:
-            configs = self.default_configs
-        else:
-            # Check if config keys are valid
-            if not set(custom_configs.keys()).issubset(self.default_configs.keys()):
-                raise ValueError(f"Valid config keys: {[key for key in self.default_configs.keys()]}")
-            # Merge default and custom configurations
-            configs = {**self.default_configs, **custom_configs}
-
-        # Check if specified model is available via the GWDG API
-        if configs["model_key"] not in self.available_models:
-            raise ValueError(f"Model {configs["model_key"]} is not available. \n"
-                             f"Please choose from the following models: {self.available_models}")
-
-        # Initialize an OpenAI model instance
-        return ChatOpenAI(api_key=self.api_key,
-                          base_url=self.base_url,
-                          model_name=configs["model_key"],
-                          temperature=configs["temperature"],
-                          top_p=configs["top_p"],
-                          max_tokens=configs["max_tokens"],
-                          logprobs=configs["logprobs"],
-                          timeout=configs["timeout"],
-                          max_retries=configs["max_retries"])
+        configs = {**self.default_configs, **(custom_configs or {})}
+        return ChatOpenAI(
+            api_key=self.api_key,
+            base_url=self.base_url,
+            model_name=model_key,
+            **configs,
+        )
 
 # EXAMPLE USAGE
 if __name__ == "__main__":
@@ -120,8 +97,8 @@ if __name__ == "__main__":
     }
     
     # Initialize a model instance
-    model = handler.initialize_model(custom_configs)
-    
+    model = handler.initialize_model(custom_configs=custom_configs)
+  
     # Test the model with an example prompt
     prompt = ChatPromptTemplate.from_messages([
             ("system",
