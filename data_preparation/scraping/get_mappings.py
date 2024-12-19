@@ -1,13 +1,10 @@
 """
 get_mappings.py
 
-Master's Thesis
-Seike Appold
-
 - Extract the Amtliche Regionalschlüssel (ARS) that uniquely identify all German municipalities
-with 12-digit keys from XRepository (https://www.xrepository.de/) and maps them to their municipalities
+    with 12-digit keys from XRepository (https://www.xrepository.de/) and maps them to their municipalities
 - Extract all unique ID-LBs of administrative services and maps them to a corresponding ARS using the
-Suchdienst API (https://anbindung.pvog.cloud-bdc.dataport.de/docs/sud/sud-ueberblick/)
+    Suchdienst API (https://anbindung.pvog.cloud-bdc.dataport.de/docs/sud/sud-ueberblick/)
 - Save mappings as Python dictionaries in a separate file
 """
 
@@ -18,14 +15,15 @@ import pprint
 import os.path
 import pandas as pd
 from typing import Dict
-from utils import get_filename_from_url, download_file
+from urllib.parse import urlsplit
+from data_preparation.utils import download_file
 
 XREPOSITORY_URL = "https://www.xrepository.de/api/xrepository/urn:de:bund:destatis:bevoelkerungsstatistik:schluessel:rs_2024-10-31/download/Regionalschl_ssel_2024-10-31.xlsx"
 SUCHDIENST_URL_SERVICE_CATALOG = "https://public.demo.pvog.cloud-bdc.dataport.de/suchdienst/api/v5/servicedescriptions/csv"
 
 
 def generate_ars_dict(input_filepath: str) -> Dict[str, str]:
-    """Generates a dictionary mapping ARS to Municipality."""
+    """Generate a dictionary mapping ARS to Municipality."""
     try:
         df = pd.read_excel(input_filepath, engine="openpyxl")
         data = df.iloc[7:, [1, 2]].dropna()
@@ -45,7 +43,7 @@ def generate_ars_dict(input_filepath: str) -> Dict[str, str]:
 
 
 def update_idlb_dicts(filepath: str, ars: str, idlb_to_ars: dict, idlb_to_name: dict) -> Dict[str, str]:
-    """Appends valid ID-LBs with corresponding ARS and name to the respective dictionary."""
+    """Append valid ID-LBs with corresponding ARS and name to the respective dictionary."""
     df = pd.read_csv(filepath, delimiter="|", usecols=["ID-LB", "Name"])
     
     # Define valid ID-LB pattern
@@ -64,7 +62,7 @@ def update_idlb_dicts(filepath: str, ars: str, idlb_to_ars: dict, idlb_to_name: 
 
 
 def save_mappings_to_file(save_filepath: str, ars_dict: dict, idlb_to_ars: dict, idlb_to_name: dict) -> None:
-    """Saves ARS and ID-LB mappings as Python Dictionaries."""
+    """Save ARS and ID-LB mappings as Python Dictionaries."""
     try:
         with open(save_filepath, "w") as f:
             f.write("from typing import Dict\n\n")
@@ -87,7 +85,7 @@ def main(output_filepath: str, intermediate_dir: str):
     os.makedirs(intermediate_dir, exist_ok=True)
 
     # Download the Excel file containing the ARS
-    input_filename = get_filename_from_url(XREPOSITORY_URL)
+    input_filename =os.path.basename(urlsplit(XREPOSITORY_URL).path)
     input_filepath = download_file(
         url=XREPOSITORY_URL, params=None, save_dir=intermediate_dir, filename=input_filename)
 

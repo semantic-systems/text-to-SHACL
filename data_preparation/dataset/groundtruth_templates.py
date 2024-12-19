@@ -1,8 +1,5 @@
 """
  dataset_templates.py
-
- Master's Thesis
- Seike Appold
  
  - Generate and save a SHACL template with some initial information
  including common prefixes and metadata for a given benefit.

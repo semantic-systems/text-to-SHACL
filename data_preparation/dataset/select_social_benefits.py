@@ -1,9 +1,6 @@
 """
 select_social_benefits.py
 
-Master's Thesis
-Seike Appold
-
 - From all administrative services, select social benefits to be analyzed.
 - Save relevant information (name, IDLB, requirements text) for selected
 benefits as JSON.

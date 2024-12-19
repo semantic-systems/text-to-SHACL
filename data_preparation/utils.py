@@ -26,6 +26,7 @@ def download_file(url: str, params: dict, save_dir: str, filename: str) -> str:
     :param params: Variable elements of the URL, if any.
     :param save_dir: Directory to save the file to.
     :param filename: Name of the file to save.
+    
     :return: Path to the saved file.
     """
     # Ensure the save directory exists
@@ -49,10 +50,11 @@ def download_file(url: str, params: dict, save_dir: str, filename: str) -> str:
         print(f"Failed to download {filename}: {e}")
         return None
 
-
-def get_filename_from_url(url: str) -> str:
-    """Extracts the filename from a URL."""
-    basename = os.path.basename(urlsplit(url).path)
-    if not basename:
-        raise ValueError("Filename could not be extracted from URL.")
-    return basename
+def load_file(filepath: str) -> str:
+    """Load a file from the specified path."""
+    try:
+        with open(filepath, 'r', encoding = "utf-8") as file:
+            return file.read()
+        print(f"Info: File loaded successfully from {filepath}.")
+    except Exception as e:
+        print(f"Info: Failed to load file: {e}")

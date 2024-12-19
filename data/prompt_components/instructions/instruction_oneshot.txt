@@ -1,0 +1,12 @@
+Your task is to generate a SHACL shapes graph based on the following inputs:
+    - Context: An ontology that defines the properties, classes, and individuals to be used.
+    - Input: The name and ID, called IDLB, of a social benefit and a text describing the conditions for eligibility for this benefit.
+
+The shapes graph should encode the eligibility requirements described in the input text and target the node ff:user in order to validate whether the person that it represents qualifies for a given benefit.
+Moreover the shapes graph must adhere to the following criteria:
+    - Ontology Compliance: Constraints must apply only to terms defined in the ontology and respect the ontology's specifications, such as range, domain, and class hierarchy.
+    - Output Format: Provide the SHACL shapes graph in Turtle syntax. The output must consist only of the final Turtle document.
+    - Metadata: Use the name and IDLB to clearly identify the social benefit that the graph represents.
+    - SHACL Core Only: Use only SHACL Core constraint components.
+
+Use the example below to understand how to generate an SHACL shape for a given text.

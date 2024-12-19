@@ -1,9 +1,6 @@
 """
 get_all_service_descriptions.py
 
-Master's Thesis
-Seike Appold
-
 Download and save the full descriptions of all administrative services in JSON format using
 the Suchdienst API (https://anbindung.pvog.cloud-bdc.dataport.de/docs/sud/sud-ueberblick/).
 """
@@ -12,12 +9,12 @@ import os
 import sys
 import datetime
 from mappings import idlb_to_ars
-from utils import download_file
+from data_preparation.utils import download_file
 
 SUCHDIENST_URL_SERVICE_DESCRIPTION = "https://public.demo.pvog.cloud-bdc.dataport.de/suchdienst/api/v5/servicedescriptions/{ars}/detail"
 
 def download_and_save_service_descriptions(intermediate_files: str) -> None:
-    """Downloads all service descriptions and saves them to the specific directory."""
+    """Download all service descriptions and save them to the specific directory."""
     start_time = datetime.datetime.now()
 
     # Ensure the save directory exists
