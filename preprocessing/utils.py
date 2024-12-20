@@ -50,7 +50,7 @@ def download_file(url: str, params: dict, save_dir: str, filename: str) -> str:
         print(f"Failed to download {filename}: {e}")
         return None
 
-def load_file(filepath: str) -> str:
+def read_file(filepath: str) -> str:
     """Load a file from the specified path."""
     try:
         with open(filepath, 'r', encoding = "utf-8") as file:

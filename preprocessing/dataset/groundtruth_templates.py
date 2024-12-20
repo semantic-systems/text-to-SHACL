@@ -23,8 +23,8 @@ def extract_benefit_information(input_file_path: dict) -> List[str]:
     :return: List with name, IDLB, and requirements text for the benefit.
     """
     # Load full benefit description
-    with open(input_file_path, 'r', encoding='utf-8') as f:
-        benefit_description = json.load(f)
+    with open(input_file_path, 'r', encoding='utf-8') as json_file:
+        benefit_description = json.load(json_file)
 
     # Extract name, IDLB and requirements
     name = benefit_description["short_name"]
