@@ -1,15 +1,7 @@
-# Outdated and exploratory data and code
 archive/
 dev/
 data_preparation/scraping/intermediate_files/
 .vscode/
 .env
-
 inspection.ipynb
-data/service_descriptions/service_catalogs/
-data/service_descriptions/service_descriptions_social/
-data/service_descriptions/service_descriptions_all/
-todos.md
-
-# Pycache
 __pycache__/
