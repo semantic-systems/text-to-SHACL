@@ -1,12 +1,14 @@
-Your task is to generate a SHACL shapes graph based on the following inputs:
-    - Context: An ontology that defines the properties, classes, and individuals to be used.
-    - Input: The name and ID, called IDLB, of a social benefit and a text describing the conditions for eligibility for this benefit.
+Your task is to generate SHACL shapes graphs from texts describing the eligibility requirements for social benefits. These shapes will be used to validate RDF user graphs containing personal information, ensuring that only individuals eligible for the given benefit conform to the shapes graph.
 
-The shapes graph should encode the eligibility requirements described in the input text and target the node ff:user in order to validate whether the person that it represents qualifies for a given benefit.
-Moreover the shapes graph must adhere to the following criteria:
-    - Ontology Compliance: Constraints must apply only to terms defined in the ontology and respect the ontology's specifications, such as range, domain, and class hierarchy.
-    - Output Format: Provide the SHACL shapes graph in Turtle syntax. The output must consist only of the final Turtle document.
-    - Metadata: Use the name and IDLB to clearly identify the social benefit that the graph represents.
-    - SHACL Core Only: Use only SHACL Core constraint components.
+You will receive:
+    - Context: An ontology containing the classes, properties, and individuals used in the user graphs.
+    - Examples: An example that you can use to understand how to generate a SHACL shapes graph from an input.
+    - Input: A text describing the social benefit (name, id) and eligibility criteria (requirements).
 
-Use the example below to understand how to generate an SHACL shape for a given text.
+Define constraints with the terms from the provided ontology to ensure that the generated shapes graphs are relevant to the user data. If an eligibility criterion cannot be expressed with the terms from the ontology, do not include it in the shapes graph.
+
+Strictly comply to the following output format:
+    - Serialize the SHACL shapes graph in Turtle.
+    - Enclose the Turtle content in a block starting with ```turtle and ending with ```.
+    - Generate only the Turtle content — no explanations or extra text.
+    - Strictly adhere to the SHACL syntax rules, using only SHACL Core constraint components.

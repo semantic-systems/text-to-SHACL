@@ -2,7 +2,7 @@ Your task is to generate SHACL shapes graphs from texts describing the eligibili
 
 You will receive:
     - Context: An ontology containing the classes, properties, and individuals used in the user graphs.
-    - Examples: One or more examples that you can use to understand how to generate a SHACL shapes graph from an input.
+    - Examples: Examples that you can use to understand how to generate a SHACL shapes graph from an input.
     - Input: A text describing the social benefit (name, id) and eligibility criteria (requirements).
 
 Define constraints with the terms from the provided ontology to ensure that the generated shapes graphs are relevant to the user data. If an eligibility criterion cannot be expressed with the terms from the ontology, do not include it in the shapes graph.
