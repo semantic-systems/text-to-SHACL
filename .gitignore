@@ -1,6 +1,6 @@
 archive/
 dev/
-data_preparation/scraping/intermediate_files/
+preprocessing/scraping/intermediate_files/
 .vscode/
 .env
 inspection.ipynb
