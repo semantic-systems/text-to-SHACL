@@ -5,8 +5,8 @@ Classes for loading individual prompt components and combining them
 into a template.
 """
 
-from data_preparation.dataset.groundtruth_templates import extract_benefit_information
-from data_preparation.utils import load_file
+from preprocessing.dataset.groundtruth_templates import extract_benefit_information
+from preprocessing.utils import read_file
 from typing import List
 import random
 import os
@@ -29,10 +29,10 @@ class PromptComponents:
 
     def __init__(self, ontology_path: str, instruction_path: str, test_path: str, train_dir: str, mode: str = "baseline"):
         if PromptComponents._ontology_cache is None:
-            PromptComponents._ontology_cache = load_file(ontology_path)
+            PromptComponents._ontology_cache = read_file(ontology_path)
             
         self.ontology = PromptComponents._ontology_cache
-        self.instruction = load_file(instruction_path)
+        self.instruction = read_file(instruction_path)
         self.requirements = self._get_requirements(test_path)
         self.template = self._get_template(mode)
         self.input_variables = self._get_input_variables(mode)
@@ -55,9 +55,7 @@ class PromptComponents:
                       ]
         
         # Additional components depending on prompting technique
-        if mode == "oneshot":
-            components[-1:-1] = ["--- EXAMPLE ---\n\n{example}\n\n"]
-        elif mode == "fewshot":
+        if mode in ["oneshot", "fewshot"]:
             components[-1:-1] = ["--- EXAMPLES ---\n\n{example}\n\n"]
         
         return "".join(components)
@@ -75,8 +73,7 @@ class PromptComponents:
     def _get_random_examples(self, mode: str, train_dir: str) -> str:
         """Retrieve in-context examples based on the specified mode."""
         num_examples = {"baseline": 0, "oneshot": 1, "fewshot": 2}.get(mode, 0)
-        retriever = ExampleRetriever(train_dir, num_examples)
-        return retriever.examples_string
+        return ExampleRetriever(train_dir, num_examples)
    
 class ExampleRetriever():
     """Returns an in-context example."""
