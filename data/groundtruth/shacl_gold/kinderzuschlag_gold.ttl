@@ -5,7 +5,7 @@
 # METADATA
 
 ff:B100019_LB_581863 a ff:SocialBenefit ;
-    rdfs:label "Kinderzuschlag"@de, "Child supplement"@en. 
+    rdfs:label "Kinderzuschlag"@de. 
 
 # CONSTRAINTS
 

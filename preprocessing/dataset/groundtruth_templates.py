@@ -13,6 +13,7 @@ import json
 import sys
 import textwrap
 from typing import List
+from preprocessing.utils import save_file
 
 
 def extract_benefit_information(input_file_path: dict) -> List[str]:
@@ -34,12 +35,13 @@ def extract_benefit_information(input_file_path: dict) -> List[str]:
     return name, idlb, requirements
 
 
-def generate_shacl_template(name: str, idlb: str, output_dir: str) -> None:
-    """Generates a SHACL template with some standard components.
+def generate_shacl_template(name: str, idlb: str) -> str:
+    """Generates a SHACL template with standard components.
 
     :param name: Name of the social benefit.
     :param idlb: Unique ID for the social benefit.
-    :param output_dir: Directory where the generated template will be saved.
+    
+    :return: SHACL template as a string.
     """
     template_content = textwrap.dedent(f"""\
         @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
@@ -49,19 +51,15 @@ def generate_shacl_template(name: str, idlb: str, output_dir: str) -> None:
         # METADATA
 
         ff:{idlb} a ff:SocialBenefit ;
-            rdfs:label "{name}" .
+            rdfs:label "{name}"@de .
 
         # CONSTRAINTS
 
         ff:{name}Shape a sh:NodeShape ;
-            ff:checksFundingRequirement ff:{idlb} .
+            ff:checksFundingRequirement ff:{idlb} ;
         """)
 
-    output_path = os.path.join(output_dir, f"{name.lower()}_gold.ttl")
-    with open(output_path, 'w', encoding='utf-8') as f:
-        f.write(template_content)
-
-    print(f"SHACL template saved successfully at {output_path}")
+    return template_content
 
 
 def generate_decomposition_template(name: str, requirements: str, output_dir: str) -> None:
@@ -91,5 +89,9 @@ if __name__ == "__main__":
         name, idlb, requirements = extract_benefit_information(input_filepath)
 
         # Generate SHACL template and decomposition template
-        generate_shacl_template(name, idlb, output_dir_groundtruth)
+        template_content = generate_shacl_template(name, idlb)
+        output_path = os.path.join(output_dir_groundtruth, f"{name.lower()}_gold.ttl")
+        save_file(template_content, output_path)
+        
         generate_decomposition_template(name, requirements, output_dir_decomposition)
+        
