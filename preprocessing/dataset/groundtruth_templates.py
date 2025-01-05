@@ -42,9 +42,9 @@ def generate_shacl_template(name: str, idlb: str, output_dir: str) -> None:
     :param output_dir: Directory where the generated template will be saved.
     """
     template_content = textwrap.dedent(f"""\
-        @prefix sh: <http://www.w3.org/ns/shacl#> .
         @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
         @prefix ff: <https://foerderfunke.org/default#> .
+        @prefix sh: <http://www.w3.org/ns/shacl#> .
 
         # METADATA
 
