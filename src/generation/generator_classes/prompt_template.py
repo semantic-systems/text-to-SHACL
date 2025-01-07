@@ -5,7 +5,7 @@ Classes for loading individual prompt components and combining them
 into a template.
 """
 
-from preprocessing.dataset.groundtruth_templates import extract_benefit_information
+from preprocessing.dataset.groundtruth_templates import extract_benefit_information, generate_shacl_template
 from preprocessing.utils import read_file
 from typing import List
 import random
@@ -41,7 +41,8 @@ class PromptComponents:
     def _get_requirements(self, input_path: str) -> str:
         """Loads name, idlb, requirements text and, optionally, groundtruth SHACL shape for a benefit."""
         name, idlb, requirements = extract_benefit_information(input_path)
-        return (f"Name: {name}\nIDLB: {idlb}\nRequirements text: {requirements}\nSHACL:\n")
+        primer = generate_shacl_template(name, idlb)
+        return (f"Name: {name}\nIDLB: {idlb}\nRequirements text: {requirements}\nSHACL:\n{primer}")
     
     def _get_template(self, mode: str) -> str:
         """Returns a template depning on the prompting mode."""
@@ -86,17 +87,15 @@ class ExampleRetriever():
             self._select_random_examples(num_examples)
 
     def _select_random_examples(self, num_examples):
-        # Gather all training files ending with '_text.json'
-        train_files = [os.path.join(self.train_dir, file) for file in os.listdir(self.train_dir) if file.endswith("_text.json")]
-
-        # Select the requested number of random files
+        # Pseudo-randomly select the requested number of examples from training files
+        train_files = [os.path.join(self.train_dir, file) for file in os.listdir(self.train_dir)]
         selected_files = random.sample(train_files, min(num_examples, len(train_files)))
 
         # Process each selected file
         examples = []
         for train_file in selected_files:
             name, idlb, requirements = extract_benefit_information(train_file)
-            groundtruth_path = train_file.replace("data/input/train/", "data/groundtruth/shacl_gold/").replace("_text.json", "_gold.ttl")
+            groundtruth_path = train_file.replace("data/input/train/", "data/groundtruth/shacl_gold/").replace("_text.json", ".ttl")
             
             with open(groundtruth_path, "r", encoding="utf-8") as f:
                 groundtruth = f.read()
