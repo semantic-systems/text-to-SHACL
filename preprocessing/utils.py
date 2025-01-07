@@ -10,7 +10,6 @@
 import os
 import requests
 from bs4 import BeautifulSoup
-from urllib.parse import urlsplit
 
 
 def remove_html_tags(text) -> str:
@@ -58,3 +57,33 @@ def read_file(filepath: str) -> str:
         print(f"Info: File loaded successfully from {filepath}.")
     except Exception as e:
         print(f"Info: Failed to load file: {e}")
+
+def make_dir(directory: str) -> None:
+    """
+    Create a directory if it does not already exist.
+    
+    :param directory: Path to the directory.
+    """
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+
+def save_file(content: str, filepath: str) -> None:
+    """Save content to a file at the specified path."""
+    try:
+        # Check if the directory exists
+        directory = os.path.dirname(filepath)
+        if directory and not os.path.exists(directory):
+            raise ValueError(f"Directory does not exist: {directory}")
+
+        # Write content to the file
+        with open(filepath, 'w', encoding='utf-8') as f:
+            f.write(content)
+            
+        print(f"File saved successfully at {filepath}.")
+
+    except ValueError as ve:
+        print(f"Invalid filepath: {ve}")
+        raise
+    except Exception as e:
+        print(f"An unexpected error occurred while saving the file: {e}")
+        raise
