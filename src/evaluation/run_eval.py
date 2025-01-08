@@ -4,18 +4,16 @@ run_eval.py
 - Evaluate the quality of machine-generated SHACL-shapes
 """
 
-import sys
 import os
 import random
 import argparse
-from eval_helpers import check_shacl_syntax, extract_configs_from_prompt_id, save_results_to_csv
-from preprocessing.utils import make_dir
-from typing import List
+from eval_helpers import extract_configs_from_prompt_id, save_results_to_csv
 from pyshacl import validate
 from sklearn.metrics import precision_score, recall_score, accuracy_score, f1_score
-from typing import Dict, Tuple
+from typing import Dict
+from graph_matching import extract_triples_from_turtle, get_triple_match, get_ged, get_gbert_score
 
-def check_shacl_syntax(shacl_path: str) -> bool:
+def shacl_syntax_compliant(shacl_path: str) -> bool:
     """
     Evaluates whether a SHACL shapes graph complies with SHACL syntax
     by validating a minimal RDF graph against it.
@@ -48,9 +46,22 @@ def check_shacl_syntax(shacl_path: str) -> bool:
         return False
 
 def calculate_graph_metrics(shacl_gen_path, shacl_gold_path):
-    # DUMMY
-    value = random.randint(0, 1)
-    return value
+    # Convert SHACL graphs to lists of triples
+    gen_graph = extract_triples_from_turtle(shacl_gen_path)
+    gold_graph = extract_triples_from_turtle(shacl_gold_path)
+    triple_match = get_triple_match(gen_graph, gold_graph) # returns dict {"tm_precision": 0.5, "tm_recall": 0.5, "tm_f": 0.5}
+    ged = get_ged(gen_graph, gold_graph) # returns dict {"ged": 0.5}
+    
+    # Convert triples to "sentences" (each edge is considered a sentence)
+    gold_edges = [";".join(triple).lower().strip() for triple in gold_graph]
+    gen_edges = [";".join(triple).lower().strip() for triple in gen_graph]
+    g_bert_score = get_gbert_score(gen_edges, gold_edges) # returns dict {"gbert_precision": 0.5, "gbert_recall": 0.5, "gbert_f": 0.5}
+    
+    return {
+        **triple_match,
+        **ged,
+        **g_bert_score
+    }
 
 def calclate_validation_performance(shacl_gen_path: str, shacl_gold_path: str, profiles_dir: str) -> Dict[str, float]:
     """
@@ -111,8 +122,7 @@ def main(shacl_gen_dir, shacl_gold_dir, profiles_dir, results_dir):
     :param profiles_dir: Directory with syntehtics user profiles.
     :param results_dir: Directory to save results.
     """
-    make_dir(results_dir)
-
+    os.makedirs(results_dir, exist_ok=True)
     results_per_file = []
 
     for file in os.listdir(shacl_gen_dir):
@@ -121,7 +131,7 @@ def main(shacl_gen_dir, shacl_gold_dir, profiles_dir, results_dir):
         shacl_gen_path = os.path.join(shacl_gen_dir, file)
 
         # Check if file complies with SHACL syntax
-        syntax_accuracy = 1 if check_shacl_syntax(shacl_gen_path) else 0
+        syntax_accuracy = 1 if shacl_syntax_compliant(shacl_gen_path) else 0
         
         # Compare generated and groundtruth SHACL graphs
         graph_metrics = calculate_graph_metrics(shacl_gen_path, shacl_gold_path) # DUMMY
@@ -134,7 +144,7 @@ def main(shacl_gen_dir, shacl_gold_dir, profiles_dir, results_dir):
             "model": model,
             "method": method,
             "syntax_accuracy": syntax_accuracy,
-            "graph_metrics": graph_metrics,
+            **graph_metrics,
             **validation_performance,
         })
 

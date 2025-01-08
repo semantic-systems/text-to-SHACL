@@ -32,8 +32,8 @@ def save_results_to_csv(results: List[Dict], file_path: str, mean: bool = False)
 
     :param results: List of result dictionaries.
     :param file_path: Path to the CSV file.
-    :param mean: If True, average the results before saving.
-    :side effect: Creates a CSV file with the results.
+    :param mean: If True, average the results before writing.
+    :side effect: Creates a CSV file at the specified location.
     """
     df = pd.DataFrame(results)
     if mean:
