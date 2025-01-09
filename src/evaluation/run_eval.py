@@ -1,11 +1,9 @@
 """ 
 run_eval.py
 
-- Evaluate the quality of machine-generated SHACL-shapes
+- Evaluate the quality of machine-generated SHACL-shapes.
 """
-
 import os
-import random
 import argparse
 from eval_helpers import extract_configs_from_prompt_id, save_results_to_csv
 from pyshacl import validate
@@ -13,61 +11,59 @@ from sklearn.metrics import precision_score, recall_score, accuracy_score, f1_sc
 from typing import Dict
 from graph_matching import extract_triples_from_turtle, get_triple_match, get_ged, get_gbert_score
 
+
 def shacl_syntax_compliant(shacl_path: str) -> bool:
     """
-    Evaluates whether a SHACL shapes graph complies with SHACL syntax
-    by validating a minimal RDF graph against it.
+    Validates a minimal graph against SHACL shapes graph to check for syntax errors.
     
-    :param shacl_path: Path to the generated SHACL shapes graph.
-    :return: True if shapes graph complies with SHACL syntax, False otherwise.
+    :param shacl_path: Path to SHACL shapes graph.
+    :return: True if SHACL graph complies with syntax, False otherwise.
     """
-    # If the file is empty, the model output was not parsable
-    if os.stat(shacl_path).st_size == 0:
-        return False
-    
-    # Define a minimal RDF graph
-    minimal_rdf_graph = """
+    minimal_graph = """
     @prefix ex: <http://example.org/> .
     ex:Subject ex:hasProperty "object" .
     """
-    
-    # Validate the minimal graph against the generated SHACL shapes graph
     try:
         conforms, _, _ = validate(
-            data_graph=minimal_rdf_graph,
+            data_graph=minimal_graph,
             shacl_graph=shacl_path,
             data_graph_format="turtle",
             shacl_graph_format="turtle",
-            meta_shacl=True # Check for syntax errors
+            meta_shacl=True, # Check for syntax errors
         )
         return conforms
-    except Exception as e:
-        print(f"Error during validation: {e}")
+    # TODO: How to distinguish between syntax errors and other exceptions?
+    except Exception:
         return False
 
-def calculate_graph_metrics(shacl_gen_path, shacl_gold_path):
-    # Convert SHACL graphs to lists of triples
-    gen_graph = extract_triples_from_turtle(shacl_gen_path)
-    gold_graph = extract_triples_from_turtle(shacl_gold_path)
-    triple_match = get_triple_match(gen_graph, gold_graph) # returns dict {"tm_precision": 0.5, "tm_recall": 0.5, "tm_f": 0.5}
-    ged = get_ged(gen_graph, gold_graph) # returns dict {"ged": 0.5}
+
+def calculate_graph_metrics(generated_shacl_path: str, gold_shacl_path: str) -> Dict[str, float]:
+    """
+    Calculates graph similarity metrics (triple match, GED, and G-BERT score) 
+    between a generated SHACL graph and a ground truth SHACL graph.
+    
+    :param generated_shacl_path: Path to the generated SHACL graph (Turtle format).
+    :param gold_shacl_path: Path to the gold-standard SHACL graph (Turtle format).
+    :return: A dictionary of computed metrics.
+    """
+    # Extract triples from SHACL graphs
+    gen_graph = extract_triples_from_turtle(generated_shacl_path)
+    gold_graph = extract_triples_from_turtle(gold_shacl_path) 
+    triple_match = get_triple_match(gen_graph, gold_graph)
+    ged = get_ged(gen_graph, gold_graph)
     
     # Convert triples to "sentences" (each edge is considered a sentence)
-    gold_edges = [";".join(triple).lower().strip() for triple in gold_graph]
-    gen_edges = [";".join(triple).lower().strip() for triple in gen_graph]
-    g_bert_score = get_gbert_score(gen_edges, gold_edges) # returns dict {"gbert_precision": 0.5, "gbert_recall": 0.5, "gbert_f": 0.5}
+    gold_edges = [" ".join(edge) for edge in gold_graph]
+    gen_edges = [" ".join(edge) for edge in gen_graph]
+    g_bert_score = get_gbert_score(gen_edges, gold_edges)
     
-    return {
-        **triple_match,
-        **ged,
-        **g_bert_score
-    }
+    return {**triple_match, **ged, **g_bert_score}
 
-def calclate_validation_performance(shacl_gen_path: str, shacl_gold_path: str, profiles_dir: str) -> Dict[str, float]:
+
+def calculate_validation_performance(generated_shacl_path: str, gold_shacl_path: str, profiles_dir: str) -> Dict[str, float]:
     """
-    Compute precision, recall, accuracy, and F1 score based on SHACL validation
-    results of a generated and a groundtruth shapes graph for a set of
-    synthetic user profiles.
+    Computs precision, recall, accuracy, and F1 score between validation
+    results of a generated and a gold SHACL graph on synthetics user profiles.
 
     :param generated_shacl_path: Path to the generated SHACL graph.
     :param groundtruth_shacl_path: Path to the groundtruth SHACL graph.
@@ -79,9 +75,13 @@ def calclate_validation_performance(shacl_gen_path: str, shacl_gold_path: str, p
     # For each profile, check if it conforms with the generated and groundtruth graphs
     for profile in os.listdir(profiles_dir):
         profile_path = os.path.join(profiles_dir, profile)
-        conforms_with_gen, _, _ = validate(data_graph=profile_path, shacl_graph=shacl_gen_path)
-        conforms_with_gold, _, _ = validate(data_graph=profile_path, shacl_graph=shacl_gold_path)
-
+        try:
+            conforms_with_gen, _, _ = validate(data_graph=profile_path, shacl_graph=generated_shacl_path)
+            conforms_with_gold, _, _ = validate(data_graph=profile_path, shacl_graph=gold_shacl_path)
+        except Exception as e:
+            print(f"Error during validation of {profile_path}: {e}")
+            continue
+        
         # Profile conforms with both graphs (TP)
         if conforms_with_gen and conforms_with_gold:
             y_pred.append(1)
@@ -105,45 +105,59 @@ def calclate_validation_performance(shacl_gen_path: str, shacl_gold_path: str, p
     f1 = f1_score(y_true, y_pred)
 
     return {
-        "precision": precision,
-        "recall": recall,
-        "accuracy": accuracy,
-        "f1": f1
+        "Validation Precision": precision,
+        "Validation Recall": recall,
+        "Validation Accuracy": accuracy,
+        "Validation F1": f1
     }
 
 
-def main(shacl_gen_dir, shacl_gold_dir, profiles_dir, results_dir):
+def main(generated_shacl_dir, gold_shacl_dir, profiles_dir, results_dir):
     """
-    Orchestrates the evaluation process for all generated SHACL graphs in
-    a given directory.
+     Orchestrates the evaluation process for all generated SHACL graphs
+     in a given directory.
 
-    :param shacl_gen_dir:  Directory with generated SHACL shapes.
-    :param shacl_gold_dir: Directory with groundtruth SHACL shapes.
+    :param generated_shacl_dir:  Directory with generated SHACL shapes.
+    :param gold_shacl_dir: Directory with groundtruth SHACL shapes.
     :param profiles_dir: Directory with syntehtics user profiles.
     :param results_dir: Directory to save results.
+    
+    :side effect: Creates a CSV file with per-file results and a CSV file with
+    mean results for a given model and method.
     """
     os.makedirs(results_dir, exist_ok=True)
     results_per_file = []
 
-    for file in os.listdir(shacl_gen_dir):
+    for file in os.listdir(generated_shacl_dir):
         method, model, benefit = extract_configs_from_prompt_id(file)
-        shacl_gold_path = os.path.join(shacl_gold_dir, f"{benefit}.ttl")
-        shacl_gen_path = os.path.join(shacl_gen_dir, file)
-
-        # Check if file complies with SHACL syntax
-        syntax_accuracy = 1 if shacl_syntax_compliant(shacl_gen_path) else 0
+        generated_shacl_path = os.path.join(generated_shacl_dir, file)
         
-        # Compare generated and groundtruth SHACL graphs
-        graph_metrics = calculate_graph_metrics(shacl_gen_path, shacl_gold_path) # DUMMY
+        # If file is empty, model output was not parsable and all metrics
+        # will be set to the worst value.
+        if os.stat(generated_shacl_path).st_size == 0:
+            results_per_file.append({
+                "Prompt ID": os.path.splitext(file)[0],
+                "Model": model,
+                "Method": method,
+                "Syntax Accuracy": 0,
+                "Triple Precision": 0,
+                "Triple Recall": 0,
+                "Triple F1": 0,
+                "GED": 1,
+                "G-BERT F1": 0
+            })
+            continue
         
-        # Assess validation performance over a set of synthetic user profiles
-        validation_performance = calclate_validation_performance(shacl_gen_path, shacl_gold_path, profiles_dir)
+        gold_shacl_path = os.path.join(gold_shacl_dir, f"{benefit}.ttl")
+        syntax_accuracy = 1 if shacl_syntax_compliant(generated_shacl_path) else 0
+        graph_metrics = calculate_graph_metrics(generated_shacl_path, gold_shacl_path)
+        validation_performance = calculate_validation_performance(generated_shacl_path, gold_shacl_path, profiles_dir)
     
         results_per_file.append({
-            "prompt_id": os.path.splitext(file)[0],
-            "model": model,
-            "method": method,
-            "syntax_accuracy": syntax_accuracy,
+            "Prompt ID": os.path.splitext(file)[0],
+            "Model": model,
+            "Method": method,
+            "Syntax Accuracy": syntax_accuracy,
             **graph_metrics,
             **validation_performance,
         })
@@ -153,16 +167,16 @@ def main(shacl_gen_dir, shacl_gold_dir, profiles_dir, results_dir):
     save_results_to_csv(results_per_file, per_file_csv_path)
 
     # Save mean results for a given model and method
-    summary_csv_path = os.path.join(results_dir, "summary.csv")
-    save_results_to_csv(results_per_file, summary_csv_path, mean=True)
+    avg_csv_path = os.path.join(results_dir, "avg_results.csv")
+    save_results_to_csv(results_per_file, avg_csv_path, mean=True)
     
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Process SHACL generation and comparison.")
-    parser.add_argument("shacl_gen_dir", help="Directory with generated SHACL shapes")
-    parser.add_argument("shacl_gold_dir", help="Directory with groundtruth SHACL shapes")
+    parser.add_argument("generated_shacl_dir", help="Directory with generated SHACL shapes")
+    parser.add_argument("gold_shacl_dir", help="Directory with groundtruth SHACL shapes")
     parser.add_argument("profiles_dir", help="Directory with synthetic user profiles")
     parser.add_argument("results_dir", help="Directory to store results")
     args = parser.parse_args()
     
-    main(args.shacl_gen_dir, args.shacl_gold_dir, args.profiles_dir, args.results_dir)
+    main(args.generated_shacl_dir, args.gold_shacl_dir, args.profiles_dir, args.results_dir)

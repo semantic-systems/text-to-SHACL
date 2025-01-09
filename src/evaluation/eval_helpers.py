@@ -1,20 +1,17 @@
 import os
 from typing import List, Tuple, Dict
 import pandas as pd
+from pyshacl import validate
 
 def extract_configs_from_prompt_id(prompt_id: str) -> Tuple[str, str, str]:
     """
-    Extracts the model and method used for a given prompt from pompt ID.
+    Extracts model, method, and name of social benefit from pompt ID.
 
-    Args:
-        prompt_id (str): Prompt ID in the format "<method>_<model>_<benefit>", e.g. "baseline_gpt2_kindergeld"
-
-    Returns:
-        List[str, str]: The model and method used for the prompt
+    :prompt_id: Prompt ID in the format "<method>_<model>_<benefit>", e.g. "baseline_gpt2_kindergeld"
+    :returns: Model, method, and benefit for a given prompt.
     """
     # Remove suffix, if input string is a filename
     prompt_id, _ = os.path.splitext(prompt_id)
-    
     parts = prompt_id.split('_')
     
     # Ensure valid prompt ID format
@@ -28,7 +25,7 @@ def extract_configs_from_prompt_id(prompt_id: str) -> Tuple[str, str, str]:
 
 def save_results_to_csv(results: List[Dict], file_path: str, mean: bool = False):
     """
-    Save results to a CSV file.
+    Save evaluation results to a CSV file.
 
     :param results: List of result dictionaries.
     :param file_path: Path to the CSV file.
@@ -38,7 +35,18 @@ def save_results_to_csv(results: List[Dict], file_path: str, mean: bool = False)
     df = pd.DataFrame(results)
     if mean:
         df = df.mean(numeric_only=True).to_frame().T
-        # Add "model" and "method" columns from results
-        df.insert(0, "method", results[0]["method"])
-        df.insert(1, "model", results[0]["model"])
+        df.insert(0, "Method", results[0]["Method"])
+        df.insert(1, "Model", results[0]["Model"])
     df.to_csv(file_path, index=False)
+
+def norm_string(string: str) -> str:
+    """Normalize a string by lowercasing and stripping it."""
+    return str(string).lower().strip()
+
+def shacl_validation(profiel_path: str, shacl_path: str) -> bool:
+    try:
+        conforms, _, _ = validate(data_graph=profiel_path, shacl_graph=shacl_path)
+    except Exception as e:
+        print(f"Error during SHACL validation: {e}")
+        return False
+    return conforms
