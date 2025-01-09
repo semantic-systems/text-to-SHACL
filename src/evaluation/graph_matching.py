@@ -28,13 +28,17 @@ def get_ged(gen_graph: List[List[str]], gold_graph: List[List[str]]) -> Dict[str
     :param gold_graph: List of triples representing the gold graph.
     :return: Dictionary containing the normalized GED.
     """
+    # Simplify graphs by removing label and message properties
+    simple_gen_graph = simplify_graph(gen_graph)
+    simple_gold_graph = simplify_graph(gold_graph)
+    
     # Convert list of triples to directed graphs
-    gen_graph = edge_list_to_digraph(gen_graph)
-    gold_graph = edge_list_to_digraph(gold_graph)
+    gen_digraph = edge_list_to_digraph(simple_gen_graph)
+    gold_dirgraph = edge_list_to_digraph(simple_gold_graph)
 
     # Define upper bound for normalizing GED (see docstring)
-    normalizing_constant = gold_graph.number_of_nodes() + gold_graph.number_of_edges() + gen_graph.number_of_nodes() + gen_graph.number_of_edges()
-    ged = nx.graph_edit_distance(gold_graph, gen_graph)
+    normalizing_constant = gold_dirgraph.number_of_nodes() + gold_dirgraph.number_of_edges() + gen_digraph.number_of_nodes() + gen_digraph.number_of_edges()
+    ged = nx.graph_edit_distance(gold_dirgraph, gen_digraph, timeout=60)
    
     assert normalizing_constant != 0 and ged <= normalizing_constant
     
@@ -111,7 +115,6 @@ def get_gbert_score(gen_edges: List[List[str]], gold_edges: List[List[str]]) -> 
         for (j, gen_edge) in enumerate(gen_edges):
             score_matrix[i][j] = bs_F1[ref_cand_index[(gold_edge, gen_edge)]]
             
-    print(f"Score matrix dimensions: {score_matrix.shape}") 
     # Solve the linear assignment problem to maximize the sum of BERTScores
     row_ind, col_ind = linear_sum_assignment(score_matrix, maximize=True)
     
@@ -145,8 +148,34 @@ def edge_list_to_digraph(edge_list: List[List[str]]) -> nx.DiGraph:
             edge.append('NULL')
             edge.append('NULL')
         s, p, o = edge[0], edge[1], edge[2]
-        graph.add_node(norm_string(s), label=str(s).lower().strip())
-        graph.add_node(norm_string(o), label=str(o).lower().strip())
-        graph.add_edge(norm_string(s), norm_string(o), label=p)
+        graph.add_node(norm_string(s), label=norm_string(s))
+        graph.add_node(norm_string(o), label=norm_string(o))
+        graph.add_edge(norm_string(s), norm_string(o), label=norm_string(p))
         
     return graph
+
+def is_excluded(triple: List[str]) -> bool:
+    return (triple[1] == "http://www.w3.org/1999/02/22-rdf-syntax-ns#type" and 
+            triple[2] == "https://foerderfunke.org/default#socialbenefit")
+
+def simplify_graph(graph: List[List[str]]) -> List[List[str]]:
+    """
+    Simplifies the graph by removing label and message properties,
+    and excludes any triple with predicate 'a' and object 'ff:SocialBenefit'.
+    
+    :param graph: List of triples representing the graph.
+    :return: Simplified graph.
+    """
+    # Define predicates to be removed
+    remove_predicates = {
+        "http://www.w3.org/2000/01/rdf-schema#label",
+        "http://www.w3.org/ns/shacl#message"
+    }
+    
+    # Filter out unwanted triples
+    simplified_graph = [
+        triple for triple in graph
+        if triple[1] not in remove_predicates and not is_excluded(triple)
+    ]
+    
+    return simplified_graph
