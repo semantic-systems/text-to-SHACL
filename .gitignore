@@ -1,7 +1,13 @@
 archive/
 Dev/
-data/raw/
 logs/
+
+# Ignor raw data except for exemplary files
+data/raw/service_catalogs/*
+data/raw/service_descriptions/*
+!data/raw/service_catalogs/ars_000000000000.csv
+!data/raw/service_descriptions/B100019_LB_574711.json
+
 
 .vscode/
 .env
