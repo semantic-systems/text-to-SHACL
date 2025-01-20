@@ -5,7 +5,7 @@ Download all administrative service descriptions accessible via the
 Suchdienst API (https://anbindung.pvog.cloud-bdc.dataport.de/docs/api/suchdienst-api)
 by the Portalverbund Online-Gateway (PVOG). Steps include:
     1. Retrieving all ARS and downloading corresponding service catalogs.
-    2. Extracting all unique ID-LBs from service catalogs and mapping them to ARS.
+    2. Extracting all unique IDLBs from service catalogs and mapping them to ARS.
     3. Using the mapping to download service descriptions.
 """
 
@@ -79,12 +79,12 @@ def download_service_catalog(base_url: str, ars: str, save_dir: str) -> str:
 
 def update_idlb_dicts(service_catalog: str, ars: str, idlb_to_ars: Dict[str,str]) -> Dict[str,str]:
     """
-    Update the ID-LB to ARS mapping with the service catalog.
+    Update the IDLB to ARS mapping with the service catalog.
     
     :param service_catalog: Path to the service catalog.
     :param ars: ARS for the service catalog.
-    :param idlb_to_ars: Current mapping of ID-LB to ARS.
-    :return: Updated ID-LB to ARS mapping.
+    :param idlb_to_ars: Current mapping of IDLB to ARS.
+    :return: Updated IDLB to ARS mapping.
     """
     try:
         df = pd.read_csv(service_catalog, delimiter="|", usecols=["ID-LB", "Name"])
@@ -101,10 +101,10 @@ def update_idlb_dicts(service_catalog: str, ars: str, idlb_to_ars: Dict[str,str]
 
 def download_service_descriptions(base_url: str, idlb_to_ars: Dict[str,str], save_dir: str):
     """
-    Download service descriptions for all ID-LBs.
+    Download service descriptions for all IDLBs.
     
     :param base_url: Base URL for the API.
-    :param idlb_to_ars: Mapping of ID-LB to ARS.
+    :param idlb_to_ars: Mapping of IDLB to ARS.
     :param save_dir: Directory to save the service descriptions.
     """
     os.makedirs(save_dir, exist_ok=True)
