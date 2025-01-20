@@ -5,7 +5,9 @@ Utility functions for handling files.
 """
 
 import os
+import json
 import requests
+from typing import Any, Dict
 
 def download_file(url: str, params: dict, save_dir: str, filename: str) -> str:
     """
@@ -34,3 +36,11 @@ def download_file(url: str, params: dict, save_dir: str, filename: str) -> str:
         file.write(response.content)
     
     return save_path
+
+def save_dict_to_json(data: Dict[Any,Any], save_path: str):
+    """Saves the data to a JSON file at the specified path."""
+    # Ensure that the save directory exists
+    save_dir = os.path.dirname(save_path)
+    os.makedirs(save_dir, exist_ok=True)
+    with open(save_path, 'w', encoding='utf-8') as file:
+        json.dump(data, file, ensure_ascii=False, indent=4)
