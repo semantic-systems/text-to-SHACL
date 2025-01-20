@@ -1,7 +1,12 @@
 archive/
-dev/
-preprocessing/scraping/intermediate_files/
+Dev/
+data/raw/
+logs/
+
 .vscode/
 .env
+
 inspection.ipynb
+Demo.ipynb
+
 __pycache__/
