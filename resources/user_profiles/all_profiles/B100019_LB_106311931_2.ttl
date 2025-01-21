@@ -1,0 +1,16 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix ex: <http://example.org/ns#> .
+
+# Test ff:employableHoursPerDay < 3
+
+ff:User ff:employableHoursPerDay 2.9 ;
+        ff:hasAge 15 ;
+        ff:isPensionable false ;
+        ff:hasIncome [
+            ff:coversBasicNeeds false ;
+        ] ;
+        ff:isEligibleFor ex:SomeBenefit ;
+        ff:countryOfResidence ff:Germany .
+
+ex:SomeBenefit a ff:SocialBenefit ;
+	ff:hasPriorityOver ex:SomeOtherBenefit .

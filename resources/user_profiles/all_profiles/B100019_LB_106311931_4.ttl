@@ -1,0 +1,15 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Test ff:isPenionable = true
+
+ff:User ff:hasAge 68 ;
+        ff:isPensionable true ;
+        ff:hasIncome [
+            ff:coversBasicNeeds false ;
+        ] ;
+        ff:isEligibleFor ex:SomeBenefit ;
+        ff:countryOfResidence ff:Germany .
+
+ex:SomeBenefit a ff:SocialBenefit ;
+	ff:hasPriorityOver ex:SomeOtherBenefit .

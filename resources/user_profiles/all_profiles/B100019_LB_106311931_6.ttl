@@ -1,0 +1,16 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Test (ff:hasIncome ff:coversBasicNeeds) = true
+
+ff:User ff:employableHoursPerDay 3 ;
+        ff:hasAge 15 ;
+        ff:isPensionable false ;
+        ff:hasIncome [
+            ff:coversBasicNeeds false ;
+        ] ;
+        ff:isEligibleFor ex:SomeBenefit ;
+        ff:countryOfResidence ff:Germany .
+
+ex:SomeBenefit a ff:SocialBenefit ;
+	ff:hasPriorityOver ff:B100019_LB_106311931 .

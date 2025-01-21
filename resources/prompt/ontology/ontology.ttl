@@ -170,8 +170,8 @@ ff:B100019_LB_106311931 rdf:type owl:NamedIndividual ,
 ###  https://foerderfunke.org/default#B100019_LB_581863
 ff:B100019_LB_581863 rdf:type owl:NamedIndividual ,
                               ff:SocialBenefit ;
-                     rdfs:label "Child supplement"@en ,
-                                "Kinderzuschlag"@de .
+                     rdfs:label "Kinderzuschlag"@de ,
+                                "Child supplement"@en .
 
 
 ###  https://foerderfunke.org/default#CivilPartnerDeceased
@@ -211,7 +211,7 @@ ff:Single rdf:type owl:NamedIndividual ,
 
 ###  https://foerderfunke.org/default#User
 ff:User rdf:type owl:NamedIndividual ,
-                 ff:Person ;
+                 ff:Person ; # WARNING: THIS IS NOT DEFINED IN THE USER PROFILES BUT USED BY LLM FOR SHAPES GENERATION
         rdfs:comment "A person who uses the system to check their eligibility for social benefits."@en .
 
 
