@@ -11,9 +11,9 @@ import json
 import html
 import argparse
 from typing import List, Any
+from schemas import service_desc_schema
 from Utils.Logger import setup_logger
 from Utils.FileHandling import save_dict_to_json
-from Preprocessing.schema import schema
 
 logger = setup_logger(__name__, log_file="logs/ExtractSocialBenefitRequirements.log")
 
@@ -57,7 +57,7 @@ def has_personal_matter(service_desc: json, personal_matters: List[Any]) -> bool
     
     # Convert personal matters to codes, if the titles are provided
     personal_matters_codes = [
-        schema.personal_matters[matter] if isinstance(matter, str) else matter
+        service_desc_schema.personal_matters[matter] if isinstance(matter, str) else matter
         for matter in personal_matters
     ]
     return search_codes(service_desc, personal_matters_codes)
@@ -72,7 +72,7 @@ def has_addressee(service_desc: json, addressees = List[Any]) -> bool:
     """
     # Convert addressees to codes, if the names are provided
     addressees_codes = [
-        schema.addressees[addressee] if isinstance(addressee, str) else addressee
+        service_desc_schema.addressees[addressee] if isinstance(addressee, str) else addressee
         for addressee in addressees
     ]
     
@@ -142,7 +142,7 @@ def get_social_benefit_dicts(selected_benefits_paths: List[str]) -> List[dict]:
         social_benefit_dicts.append(benefit_details)
     return social_benefit_dicts
 
-def main(all_service_desc_dir: str, save_dir: str) -> None:
+def main(all_service_desc_dir: str, save_dir: str, matters: List[str] = None, addressees: List[str] = None, legal_bases: List[str] = None):
     """
     Main function to extract and save social benefit requirements.
 
@@ -150,12 +150,8 @@ def main(all_service_desc_dir: str, save_dir: str) -> None:
     :param save_dir: Directory to save the extracted social benefit requirements.
     :side effects: Saves extracted social benefit details to save_dir.
     """
-    # Define filters for selection of social benefits
-    matters = ["Sozialleistungen"]
-    addressees = ["Bürger"]
-    
     # Get list of paths to selected social benefits
-    selected_benefits_paths = get_social_benefit_paths(all_service_desc_dir=all_service_desc_dir, matters=matters, addressees=addressees)
+    selected_benefits_paths = get_social_benefit_paths(all_service_desc_dir=all_service_desc_dir, matters=matters, addressees=addressees, legal_bases=legal_bases)
     
     # Extract the IDLB, name, and requirements text
     social_benefit_dicts = get_social_benefit_dicts(selected_benefits_paths)
@@ -170,8 +166,14 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Extract and save social benefit details.")
     parser.add_argument("all_service_desc_dir", type=str, help="Directory containing full service descriptions in JSON format.")
     parser.add_argument("save_dir", type=str, help="Directory to save the extracted social benefit details.")
+    parser.add_argument("--matters", type=str, nargs="+", help="Personal matters to include.")
+    parser.add_argument("--addressees", type=str, nargs="+", help="Addressees to include.")
+    parser.add_argument("--legal_bases", type=str, nargs="+", help="Legal bases to include.")
     
     args = parser.parse_args()
     all_service_desc_dir = args.all_service_desc_dir
-    output_dir = args.save_dir
-    main(all_service_desc_dir, output_dir)
+    save_dir = args.save_dir
+    matters = args.matters
+    addressees = args.addressees
+    legal_bases = args.legal_bases
+    main(all_service_desc_dir, save_dir, matters, addressees, legal_bases)
