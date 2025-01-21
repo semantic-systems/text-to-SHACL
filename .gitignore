@@ -1,13 +1,20 @@
 archive/
 Dev/
 logs/
+schemas/
 
 # Ignor raw data except for exemplary files
 data/raw/service_catalogs/*
-data/raw/service_descriptions/*
+data/raw/all_service_descriptions/*
+data/raw/social_benefit_requirements/*
 !data/raw/service_catalogs/ars_000000000000.csv
-!data/raw/service_descriptions/B100019_LB_574711.json
+!data/raw/all_service_descriptions/B100019_LB_574711.json
+!data/raw/social_benefit_requirements/B100019_LB_581863.json
 
+data/processed/splits/train/*
+data/processed/splits/test/*
+!data/processed/splits/test/B100019_LB_574724.json
+!data/processed/splits/train/B100019_LB_574711.json
 
 .vscode/
 .env
