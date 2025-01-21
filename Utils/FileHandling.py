@@ -69,3 +69,17 @@ def validate_input_directory(input_dir: str, logger: logging.Logger):
     if not os.listdir(input_dir):
         logger.error(f"Input directory '{input_dir}' is empty.")
         raise ValueError(f"Input directory '{input_dir}' is empty.")
+
+def save_file(content: str, filepath: str, logger: logging.Logger) -> None:
+    """Save content to a file at the specified path."""
+    try:
+        # Ensure save directory exists
+        directory = os.path.dirname(filepath)
+        os.makedirs(directory, exist_ok=True)
+
+        # Write content to the file
+        with open(filepath, 'w', encoding='utf-8') as f:
+            f.write(content)
+        logger.info(f"File saved to: {filepath}")
+    except Exception as e:
+        logger.error(f"An error occurred while saving the file: {e}")
