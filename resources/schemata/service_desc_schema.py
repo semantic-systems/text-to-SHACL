@@ -1,8 +1,10 @@
 """  
-Schema.py
+service_desc_schema.py
 
-Dictionaries mapping personal matters and addressees to their respective codes
-in the logic of the administrative service descriptions by the PVOG.
+Information about the possible values of datafields in the social service
+descriptions, including:
+- addressees: Maps plain text names of addressees to codes
+- personal_matters: Maps plain text names of personal matters to codes
 """
 from typing import Dict
 
