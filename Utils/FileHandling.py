@@ -6,10 +6,12 @@ Utility functions for handling files.
 
 import os
 import json
+import shutil
 import requests
+import logging
 from typing import Any, Dict
 
-def download_file(url: str, params: dict, save_dir: str, filename: str) -> str:
+def download_and_save_file(url: str, params: dict, save_dir: str, filename: str) -> str:
     """
     Downloads a file from a url to the specified location.
 
@@ -44,3 +46,26 @@ def save_dict_to_json(data: Dict[Any,Any], save_path: str):
     os.makedirs(save_dir, exist_ok=True)
     with open(save_path, 'w', encoding='utf-8') as file:
         json.dump(data, file, ensure_ascii=False, indent=4)
+
+def copy_files(file_list: list, src_dir: str, dest_dir: str):
+    """
+    Copies files from the source directory to the destination directory.
+    
+    :param file_list: List of files to copy.
+    :param src_dir: Source directory.
+    :param dest_dir: Destination directory
+    """
+    for file in file_list:
+        shutil.copy(os.path.join(src_dir, file), os.path.join(dest_dir, file))
+
+def validate_input_directory(input_dir: str, logger: logging.Logger):
+    """Validates that the input directory exists, is a directory, and is not empty."""
+    if not os.path.exists(input_dir):
+        logger.error(f"Input directory '{input_dir}' does not exist.")
+        raise FileNotFoundError(f"Input directory '{input_dir}' does not exist.")
+    if not os.path.isdir(input_dir):
+        logger.error(f"Input path '{input_dir}' is not a directory.")
+        raise NotADirectoryError(f"Input path '{input_dir}' is not a directory.")
+    if not os.listdir(input_dir):
+        logger.error(f"Input directory '{input_dir}' is empty.")
+        raise ValueError(f"Input directory '{input_dir}' is empty.")

@@ -19,7 +19,7 @@ import pandas as pd
 from tqdm import tqdm
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import Dict, List
-from Utils.FileHandling import download_file
+from Utils.FileHandling import download_and_save_file
 from Utils.Logger import setup_logger
 
 logger = setup_logger(__name__, log_file="logs/GetServiceDescriptions.log")
@@ -72,7 +72,7 @@ def download_service_catalog(base_url: str, ars: str, save_dir: str) -> str:
         return service_catalog_path
 
     try:
-        return download_file(url=base_url, params={"ars": ars}, save_dir=save_dir, filename=service_catalog_filename)
+        return download_and_save_file(url=base_url, params={"ars": ars}, save_dir=save_dir, filename=service_catalog_filename)
     except Exception as e:
         logger.warning(f"Error downloading service catalog with ARS {ars}: {e}")
         return None
@@ -115,7 +115,7 @@ def download_service_descriptions(base_url: str, idlb_to_ars: Dict[str,str], sav
         idlb_safe = idlb.replace('.', '_')
         filename = f"{idlb_safe}.json"
         url = base_url.replace("{ars}", ars)
-        download_file(url=url, params={"q": idlb}, save_dir=save_dir, filename=filename)
+        download_and_save_file(url=url, params={"q": idlb}, save_dir=save_dir, filename=filename)
 
     with ThreadPoolExecutor(max_workers=10) as executor:
         futures = [executor.submit(_download_description, idlb, ars) for idlb, ars in idlb_to_ars.items()]
