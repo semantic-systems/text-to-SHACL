@@ -1,0 +1,56 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+
+ff:B100019_LB_106311931 a ff:SocialBenefit ;
+    rdfs:label "Buergergeld"@de, "Citizen benefit"@en. 
+
+# CONSTRAINTS
+
+ff:BuergergeldShape a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_106311931 ;
+    sh:targetNode ff:User ;
+    # User must be employable, i.e. able to work at least 3 hours per day
+    sh:property [
+        sh:path ff:employableHoursPerDay ;
+        sh:minCount 1 ;
+        sh:minInclusive 3 ;
+        sh:message "Sie müssen mindestens drei Stunden täglich arbeiten können. Andernfalls gelten Sie nicht als erwerbsfähig."@de ;
+    ] ;
+    # User must be employable, i.e. be at least 15 years old
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:minCount 1 ;
+        sh:minInclusive 15 ;
+        sh:message "Sie müssen mindestens 15 Jahre alt sein. Andernfalls gelten Sie nicht als erwerbsfähig."@de ;
+    ] ;
+    # User must be employable, i.e. not have reached the legal retirement age
+    sh:property [
+        sh:path ff:isPensionable ;
+        sh:minCount 1 ;
+        sh:hasValue false ;
+        sh:message "Sie dürfen das gesetzliche Rentenalter (67, wenn Sie nach 1963 geboren sind; siehe § 7a Sozialgesetzbuch II, wenn Sie vor 1964 geboren sind) noch nicht erreicht haben. Andernfalls gelten Sie nicht als erwerbsfähig."@de ;
+    ] ;
+    # User income cannot cover their household's living expenses
+    sh:property [
+        sh:path (ff:hasIncome ff:coversBasicNeeds) ;
+        sh:minCount 1 ;
+        sh:hasValue false ;
+        sh:message "Ihre Einkünfte dürfen nicht ausreichen, um den notwendigen Lebensunterhalt Ihres Haushaltes zu decken. Andernfalls gelten Sie nicht als hilfebedürftig."@de ;
+    ] ;
+    # User may not be eligible for other benefits with priority over Bürgergeld 
+    sh:not [
+        a sh:PropertyShape ;
+        sh:path (ff:isEligibleFor ff:hasPriorityOver) ;
+        sh:hasValue ff:B100019_LB_106311931 ;
+        sh:message "Sie dürfen keine vorrangigen Ansprüche haben."@de ;
+    ] ;
+    # User must life in Germany
+    sh:property [
+        sh:path ff:countryOfResidence ;
+        sh:minCount 1 ;
+        sh:hasValue ff:Germany ;
+        sh:message "Sie müssen in Deutschland leben."@de ;
+    ] .
