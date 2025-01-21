@@ -156,7 +156,10 @@ def main(all_service_desc_dir: str, save_dir: str, matters: List[str] = None, ad
     # Extract the IDLB, name, and requirements text
     social_benefit_dicts = get_social_benefit_dicts(selected_benefits_paths)
     
+    logger.info(f"Extracted details for {len(social_benefit_dicts)} social benefits:")
+    
     for benefit_dict in social_benefit_dicts:
+        logger.info(f"{benefit_dict.get("name")} ({benefit_dict.get("idlb")})")
         save_path = os.path.join(save_dir, f"{benefit_dict['idlb']}.json")
         save_dict_to_json(benefit_dict, save_path)
         
