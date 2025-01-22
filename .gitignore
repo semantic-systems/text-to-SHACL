@@ -2,6 +2,7 @@ archive/
 Dev/
 logs/
 schemas/
+src/
 
 # Ignor raw data except for exemplary files
 data/raw/service_catalogs/*
