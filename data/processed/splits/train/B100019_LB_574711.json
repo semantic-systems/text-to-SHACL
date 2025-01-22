@@ -1,6 +1,5 @@
 {
     "name": "Ausbildungsgeld beantragen",
-    "short_name": "Ausbildungsgeld",
     "idlb": "B100019_LB_574711",
-    "requirements": "<ul> <li>Sie haben eine Behinderung und Ihr zuständiger Rehabilitationsträger ist die Bundesagentur für Arbeit.</li> <li>Sie werden an einer der folgenden Maßnahmen teilnehmen: <ul> <li>(erste) berufliche Ausbildung,</li> <li>berufsvorbereitende Bildungsmaßnahme einschließlich einer Grundausbildung,</li> <li>individuelle betriebliche Qualifizierung im Rahmen der Unterstützten Beschäftigung,</li> <li>Eingangsverfahren oder Berufsbildungsbereich in einer Werkstatt für behinderte Menschen oder bei einem anderen Leistungsanbieter.</li> </ul> </li> <li>Sie haben keinen Anspruch auf Übergangsgeld.</li> </ul>"
+    "requirements": "  * Sie haben eine Behinderung und Ihr zuständiger Rehabilitationsträger ist die Bundesagentur für Arbeit.\n  * Sie werden an einer der folgenden Maßnahmen teilnehmen: \n    * (erste) berufliche Ausbildung,\n    * berufsvorbereitende Bildungsmaßnahme einschließlich einer Grundausbildung,\n    * individuelle betriebliche Qualifizierung im Rahmen der Unterstützten Beschäftigung,\n    * Eingangsverfahren oder Berufsbildungsbereich in einer Werkstatt für behinderte Menschen oder bei einem anderen Leistungsanbieter.\n  * Sie haben keinen Anspruch auf Übergangsgeld.\n\n"
 }
