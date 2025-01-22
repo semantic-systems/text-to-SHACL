@@ -1,7 +1,7 @@
-Your task is to complete the SHACL shapes graph below from texts describing the eligibility requirements for social benefits. These shapes will be used to validate RDF user graphs containing personal information, ensuring that only individuals eligible for the given benefit conform to the shapes graph.
+Your task is to complete the SHACL shapes graph below from texts describing the eligibility requirements for a social benefit. The shapes graph will be used to validate RDF user graphs containing personal information, ensuring that only individuals eligible for the given benefit conform to the shapes graph.
 
 You will receive:
-    - Context: An ontology containing the classes, properties, and individuals used in the user graphs.
+    - Ontology: An ontology containing the classes, properties, and individuals used in the user graphs.
     - Examples: Examples that you can use to understand how to generate a SHACL shapes graph from an input.
     - Input: A text describing the social benefit (name, id) and eligibility criteria (requirements).
 

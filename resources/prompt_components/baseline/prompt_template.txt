@@ -1,0 +1,13 @@
+{instruction}
+
+--- BEGINNING OF ONTOLOGY ---
+
+{ontology}
+
+--- END OF ONTOLOGY ---
+
+Text:
+
+{input}
+
+SHACL:

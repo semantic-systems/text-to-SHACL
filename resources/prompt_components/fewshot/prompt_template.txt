@@ -1,0 +1,21 @@
+{instruction}
+
+--- BEGINNING OF ONTOLOGY ---
+
+{ontology}
+
+--- END OF ONTOLOGY ---
+
+--- BEGINNNING OF EXAMPLES ---
+
+{examples}
+
+--- END OF EXAMPLES ---
+
+Text:
+
+The following requirements must be met to be eligible for the benefit "{name}" with the IDLB {idlb}.
+
+{requirements}
+
+SHACL:
