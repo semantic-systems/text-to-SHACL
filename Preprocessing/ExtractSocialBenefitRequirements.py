@@ -9,9 +9,10 @@ ExtractSocialBenefitRequirements.py
 import os
 import json
 import html
+import html2text
 import argparse
 from typing import List, Any
-from schemas import service_desc_schema
+from resources.schemata import service_desc_schema
 from Utils.Logger import setup_logger
 from Utils.FileHandling import save_dict_to_json
 
@@ -131,13 +132,12 @@ def get_social_benefit_dicts(selected_benefits_paths: List[str]) -> List[dict]:
             full_desc = json.load(file)
         for detail in full_desc["details"]:
             if detail["title"] == "Voraussetzungen":
-                requirements = detail["text"]
-                requirements_clean = html.unescape(requirements).replace('\xa0', ' ')
+                requirements_html = detail["text"]
+                requirements_text = html2text.html2text(requirements_html)
         benefit_details = {
             "name": full_desc["name"],
-            "short_name": "<PLACEHOLDER>",
             "idlb": full_desc["id"].replace(".", "_"),
-            "requirements": requirements_clean
+            "requirements": requirements_text
         } 
         social_benefit_dicts.append(benefit_details)
     return social_benefit_dicts
