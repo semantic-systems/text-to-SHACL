@@ -1,19 +1,34 @@
-<b>Original requirements text</b>
+<b>Name</b>: KinderzuschlagBeantragen
 
-<p>Um einen Kinderzuschlag zu bekommen, müssen folgende Voraussetzungen erfüllt sein:</p> <ul> <li>Ihr Kind/Ihre Kinder ist/sind jünger als 25 Jahre, nicht verheiratet oder verpartnert und lebt/leben in Ihrem Haushalt.</li> <li>Sie beziehen für Ihr Kind/Ihre Kinder Kindergeld oder eine vergleichbare Leistung zum Beispiel aus dem Ausland.</li> <li>Sie verfügen <ul> <li>als Paar gemeinsam über ein Bruttoeinkommen von mindestens 900,00 EUR im Monat (ohne Wohngeld, Kindergeld und Kinderzuschlag) oder</li> <li>als alleinerziehende Person über mindestens 600,00 EUR im Monat.</li> </ul> </li> <li>Ihr Einkommen, das auf den Kinderzuschlag angerechnet wird, ist nicht so hoch, dass sich der Kinderzuschlag auf null reduziert.</li> <li>Sie verfügen über kein erhebliches Vermögen.</li> <li>Den Kinderzuschlag können Sie in der Regel erhalten, wenn Sie mit Ihrem Einkommen, dem Kindergeld, dem eventuell zustehendem Wohngeld und dem Kinderzuschlag den Bedarf der ganzen Familie im Sinne des SGB II decken können.</li> <li>Kinderzuschlag ist nachrangig gegenüber anderen möglichen Einkünften des Kindes; gegebenenfalls besteht die Verpflichtung, sich um vorrangige Ansprüche wie Unterhalt oder Unterhaltsvorschuss zu bemühen.</li> </ul>
+<b>IDLB</b>: B100019_LB_581863
+
+<b>Requirements text</b>:
+
+Um einen Kinderzuschlag zu bekommen, müssen folgende Voraussetzungen erfüllt
+sein:
+
+  * Ihr Kind/Ihre Kinder ist/sind jünger als 25 Jahre, nicht verheiratet oder verpartnert und lebt/leben in Ihrem Haushalt.
+  * Sie beziehen für Ihr Kind/Ihre Kinder Kindergeld oder eine vergleichbare Leistung zum Beispiel aus dem Ausland.
+  * Sie verfügen 
+    * als Paar gemeinsam über ein Bruttoeinkommen von mindestens 900,00 EUR im Monat (ohne Wohngeld, Kindergeld und Kinderzuschlag) oder
+    * als alleinerziehende Person über mindestens 600,00 EUR im Monat.
+  * Ihr Einkommen, das auf den Kinderzuschlag angerechnet wird, ist nicht so hoch, dass sich der Kinderzuschlag auf null reduziert.
+  * Sie verfügen über kein erhebliches Vermögen.
+  * Den Kinderzuschlag können Sie in der Regel erhalten, wenn Sie mit Ihrem Einkommen, dem Kindergeld, dem eventuell zustehendem Wohngeld und dem Kinderzuschlag den Bedarf der ganzen Familie im Sinne des SGB II decken können.
+  * Kinderzuschlag ist nachrangig gegenüber anderen möglichen Einkünften des Kindes; gegebenenfalls besteht die Verpflichtung, sich um vorrangige Ansprüche wie Unterhalt oder Unterhaltsvorschuss zu bemühen.
 
 
-<b>Requirements decomposition</b>
-<ol>
-    <li>User must have at least one child that fulfills certain criteria.</li> (G)
-    <li>Child must be younger than 25 years.</li> (G)
-    <li>Child may not be married or in a registered partnership.</li> (G)
-    <li>Child must live in the same household as the user.</li> (G)
-    <li>Child must receive child benefit.</li> (G)
-    <li>Child may not be eligible for other benefits with priority over child supplement.</li> (Y)
-    <li>As a couple, shared gross income must be at least 900€/Month.</li> (G)
-    <li>As a single parent, gross income must be at least 600€/Month.</li> (G)
-    <li>User income that will be offset against child supplement may not reduce child supplement to zero.</li> (Y)
-    <li>User may not have considerable assets.</li> (R)
-    <li>Typically, user is eligible if their income, child benefit, housing benefit, and child supplement can cover the household needs according to SGB II.</li> (R)
-</ol>
+
+<b>Requirements decomposition</b>:
+
+1. User must have at least one child that fulfills certain criteria. (G)
+2. Child must be younger than 25 years. (G)
+3. Child may not be married or in a registered partnership. (G)
+4. Child must live in the same household as the user. (G)
+5. Child must receive child benefit. (G)
+6. Child may not be eligible for other benefits with priority over child supplement. (Y)
+7. As a couple, shared gross income must be at least 900€/Month. (G)
+8. As a single parent, gross income must be at least 600€/Month. (G)
+9. User income that will be offset against child supplement may not reduce child supplement to zero. (Y)
+10. User may not have considerable assets. (R)
+11. Typically, user is eligible if their income, child benefit, housing benefit, and child supplement can cover the household needs according to SGB II. (R)
