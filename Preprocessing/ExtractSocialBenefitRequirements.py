@@ -134,6 +134,7 @@ def get_social_benefit_dicts(selected_benefits_paths: List[str]) -> List[dict]:
             if detail["title"] == "Voraussetzungen":
                 requirements_html = detail["text"]
                 requirements_text = html2text.html2text(requirements_html)
+                requirements_text = requirements_text.rstrip("\n\r")
         benefit_details = {
             "name": full_desc["name"],
             "idlb": full_desc["id"].replace(".", "_"),
