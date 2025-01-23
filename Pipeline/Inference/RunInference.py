@@ -58,13 +58,10 @@ def run_baseline_experiment(test_dir: str, prompt_components_dir: str, model_han
     models = [model_handler.initialize_model(key) for key in model_handler.base_models]
     logger.info(f"Succesfully initialized base models: {', '.join([model.model_name for model in models])}")
     
-    results = {}
     for model in models:
-        logger.info(f"Running inference with model {model.model_name}")
-        
+        results = {}
         parsed_output_dir = os.path.join(results_dir, mode, model.model_name, "output", "parsed_output")
         os.makedirs(parsed_output_dir, exist_ok=True)
-        
         for test_file in os.listdir(test_dir):
             run_key = f"{mode}_{model.model_name}_{test_file}"
             parsed_output_path = os.path.join(parsed_output_dir, f"{run_key}.ttl")
@@ -76,6 +73,7 @@ def run_baseline_experiment(test_dir: str, prompt_components_dir: str, model_han
             chain = prompt | model
             
             # Invoke model
+            logger.info(f"Invoking {model.model_name}")
             start_time = datetime.now()
             try:
                 response = chain.invoke(prompt_components)
@@ -117,7 +115,9 @@ def run_baseline_experiment(test_dir: str, prompt_components_dir: str, model_han
         raw_output_path = os.path.join(results_dir, mode, model.model_name, "output", f"{mode}_{model.model_name}_raw_output.json")
         with open(raw_output_path, 'w', encoding='utf-8') as json_file:
             json.dump(results, json_file, ensure_ascii=False, indent=4)
-        logger.info(f"{mode} experiment completed!")
+        logger.info(f"Saved raw outputs to {raw_output_path}")
+        
+    logger.info(f"{mode.capitalize()} experiment completed!")
     
 def main(test_dir: str, 
          prompt_components_dir: str,
