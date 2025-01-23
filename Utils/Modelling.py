@@ -24,11 +24,12 @@ def extract_name_idlb_requirements(full_desc_path: str) -> Tuple[str, str, str]:
         benefit_description = json.load(json_file)
 
     # Extract name, IDLB and requirements
-    name = benefit_description["short_name"]
+    full_name = benefit_description["name"].split()
+    camel_case_name = full_name[0] + ''.join(word.capitalize() for word in full_name[1:])
     idlb = benefit_description["idlb"]
     requirements = benefit_description["requirements"]
 
-    return name, idlb, requirements
+    return camel_case_name, idlb, requirements
 
 def generate_modelling_template(full_desc_path: str, template_path: str, save_dir: str = None) -> str:
     """
@@ -53,9 +54,12 @@ def generate_modelling_template(full_desc_path: str, template_path: str, save_di
     subfolder = os.path.basename(os.path.normpath(save_dir)) # e.g., shacl_gold, requirements_decomposition
     type = subfolder.split('_', 1)[-1]
     
-    # Save the populated template
+    # Save the populated template, if it does not yet exist
     if save_dir:
         save_path = os.path.join(save_dir, f"{idlb}_{type}.{suffix}")
-        save_file(rendered_content, save_path, logger)
+        if os.path.exists(save_path):
+            logger.info(f"File already exists: {save_path}. Skipping save.")
+        else:
+            save_file(rendered_content, save_path, logger)
     
     return rendered_content
