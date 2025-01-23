@@ -43,8 +43,7 @@ class ModelHandler:
         self.base_models = ['meta-llama-3.1-8b-instruct', 
                             'llama-3.1-nemotron-70b-instruct', 
                             'llama-3.1-sauerkrautlm-70b-instruct', 
-                            'mistral-large-instruct', 
-                            'qwen2.5-72b-instruct']
+                            'mistral-large-instruct']
         self.default_configs = {
             "temperature": 0.7,
             "top_p": 0.8,
