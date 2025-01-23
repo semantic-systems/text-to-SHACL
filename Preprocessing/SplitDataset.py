@@ -17,12 +17,6 @@ def setup_split_directories(save_dir: str):
     """Creates 'train' and 'test' directories in the save directory."""
     train_dir = os.path.join(save_dir, 'train')
     test_dir = os.path.join(save_dir, 'test')
-    
-    # If train and test directories already exist, exit
-    if os.path.exists(train_dir) and os.path.exists(test_dir):
-        logger.info(f"Train and test splits already exist in {save_dir}. Exiting script.")
-        sys.exit(0)
-    
     os.makedirs(train_dir, exist_ok=True)
     os.makedirs(test_dir, exist_ok=True)
     return train_dir, test_dir
@@ -44,7 +38,13 @@ def main(social_benefits_dir: str, save_dir: str, train_ratio: float = 0.7):
     """
     validate_input_directory(social_benefits_dir, logger)
     train_dir, test_dir = setup_split_directories(save_dir)
-    logger.info(f"Splitting dataset in {social_benefits_dir} with ratio {train_ratio}.")
+    
+    # If train and test splits already exist, skip splitting
+    if os.listdir(train_dir) and os.listdir(test_dir):
+        logger.info(f"Train and test splits already exist at {save_dir}")
+        return
+        
+    logger.info(f"Splitting dataset at {social_benefits_dir} with ratio {train_ratio}.")
     
     all_files = [file for file in os.listdir(social_benefits_dir) if os.path.isfile(os.path.join(social_benefits_dir, file))]
     train_files, test_files = shuffle_and_split_files(all_files, train_ratio)
@@ -53,8 +53,8 @@ def main(social_benefits_dir: str, save_dir: str, train_ratio: float = 0.7):
     copy_files(test_files, social_benefits_dir, test_dir)
 
     logger.info("Dataset split complete!\n"
-                f"Train split: {len(train_files)} files moved to {train_dir}.\n"
-                f"Test split: {len(test_files)} files moved to {test_dir}.")
+                f"Train split: {len(train_files)} files moved to {train_dir}\n"
+                f"Test split: {len(test_files)} files moved to {test_dir}")
 
 
 if __name__ == "__main__":

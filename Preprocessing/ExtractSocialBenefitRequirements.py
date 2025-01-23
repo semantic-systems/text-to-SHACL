@@ -102,7 +102,7 @@ def get_social_benefit_paths(all_service_desc_dir: str, matters: List[str] = Non
                 # Skip services without requirements text
                 if any(detail["title"] == "Voraussetzungen" and detail["text"] in ["nicht angegeben", " "] 
                     for detail in service_desc["details"]):
-                    logger.warning(f"Service description has no requirements text: {filename}")
+                    # logger.warning(f"Service description has no requirements text: {filename}")
                     continue
             except json.JSONDecodeError:
                 logger.error(f"Error decoding JSON: {filename}")
