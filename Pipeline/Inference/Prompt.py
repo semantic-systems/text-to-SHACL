@@ -6,6 +6,7 @@ Class to dynamically construct and render prompts based on a specified mode.
 
 import os
 import json
+import random
 from typing import Any, Dict, Optional
 from langchain_core.prompts import PromptTemplate
 from resources.schemata.modes_schema import supported_modes
@@ -28,11 +29,12 @@ class PromptHandler:
     """
     def __init__(self, mode: str, input_path: str, prompt_components_dir: str, num_examples: Optional[int] = None, train_dir: Optional[str] = None):
         self.mode = mode
+        self.train_dir = train_dir
+        self.num_examples = num_examples
+        self.examples = []
         self.prompt_components_dir = prompt_components_dir
         self.prompt_variables = supported_modes[mode]["prompt_variables"]
-        self.prompt_template = PromptTemplate(
-            input_variables=self.prompt_variables, template=self._load_prompt_template()
-            ) # e.g. "Tell me a fun fact about {animal}."
+        self.prompt_template = PromptTemplate(template=self._load_prompt_template()) # e.g. "Tell me a fun fact about {animal}."
         
         # Load variable prompt components and fixed input component
         self.prompt_components = {} # e.g. {"animal": "wombats"}
@@ -55,35 +57,80 @@ class PromptHandler:
         except FileNotFoundError as e:
             logger.error(f"Failed to load prompt component. File not found: {file_path}")
             raise
+        
+    def _load_shacl_gold_from_idlb(self, idlb: str) -> str:
+        """Returns the SHACL groundtruth for the benefit with the specified IDLB."""
+        groundtruth_base_dir = os.path.abspath(os.path.join(self.train_dir, os.pardir, os.pardir, "shacl_gold"))
+        groundtruth_path = os.path.join(groundtruth_base_dir, f"{idlb}_gold.ttl")
+        shacl_gold_string = self._load_file(groundtruth_path)
+        return shacl_gold_string
 
     def _load_prompt_template(self) -> str:
-        """Loads the prompt template for the specified mode."""
+        """Returns the prompt template for the specified mode."""
         template_path = os.path.join(self.prompt_components_dir, self.mode, f"prompt_template.txt")
         return self._load_file(template_path)
     
     def _load_instruction(self) -> str:
-        """Loads the instruction for the specified mode."""
+        """Returns the instruction for the specified mode."""
         instruction_path = os.path.join(self.prompt_components_dir, self.mode, f"instruction.txt")
         return self._load_file(instruction_path)
     
     def _load_ontology(self) -> str:
-        """Loads the ontology for the specified mode."""
+        """Returns the ontology for the specified mode."""
         ontology_path = os.path.join(self.prompt_components_dir, f"ontology/ontology.ttl")
         return self._load_file(ontology_path)
     
     def load_input(self, file_path: str) -> str:
-        """Loads the model input for a given test or train file."""
+        """Returns the model input for a given test or train file."""
         # Extract the benefit name, IDLB, and requirements text
         with open(file_path, 'r', encoding='utf-8') as json_file:
             description = json.load(json_file)
         name, idlb,requirements_text = description["name"], description["idlb"], description["requirements"]
         
         # Construct the input text
-        intro = "The following requirements must be met to be eligible for the benefit '{name}' with the IDLB {idlb}.\n"
+        intro = "Es folgen die Bedingungen für die Sozialleistung '{name}' mit der IDLB {idlb}.\n"
         input = intro.replace("{name}", name).replace("{idlb}", idlb) + requirements_text
         
         return input
     
-    def _load_examples(self) -> Dict[str, Any]:
-        """Loads the examples for the specified mode."""
-        pass
+    def _load_fewshot_examples(self) -> str:
+        """Returns string of randomly selected examples from the train split."""        
+        if not self.train_dir:
+            logger.error("Train directory not provided.")
+            raise ValueError("Train directory not provided.")
+        if self.num_examples > len(os.listdir(self.train_dir)):
+            logger.error(f"Number of examples requested exceeds the number of files in the train directory: {self.train_dir}")
+            raise ValueError("Number of examples requested exceeds the number of files in the train directory.")
+        
+        # Get all example files in the train directory
+        train_files = [
+            benefit for benefit in os.listdir(self.train_dir) 
+            if os.path.isfile(os.path.join(self.train_dir, benefit)) and benefit.endswith(".json")
+        ]
+        
+        # Randomly select the specified number of example files
+        selected_examples = random.sample(train_files, self.num_examples)
+        logger.info(f"Selected examples: {selected_examples}")
+        
+        examples = [] 
+        for example in selected_examples:
+            idlb = os.path.splitext(example)[0]
+            self.examples.append(idlb)
+            
+            # Load input from the train file
+            input_path = os.path.join(self.train_dir, example)
+            example_input = self.load_input(input_path)
+            
+            # Load corresponding SHACL groundtruth
+            shacl_gold = self._load_shacl_gold_from_idlb(idlb)
+            
+            # Load example template and replace placeholders
+            example_template_path = os.path.join(self.prompt_components_dir, self.mode, "example_template.txt")
+            example_template = self._load_file(example_template_path)
+            example_string = example_template.replace("{train_input}", example_input).replace("{shacl_gold}", shacl_gold)
+            examples.append(example_string)
+        
+        # Concatenate all example strings
+        examples_string = "\n\n".join(examples)
+        
+        return examples_string

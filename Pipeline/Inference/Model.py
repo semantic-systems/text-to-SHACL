@@ -39,7 +39,7 @@ class ModelHandler:
             ModelHandler._model_keys_cache = self.get_available_model_keys(self.base_url, self.api_key)
         self.available_models = ModelHandler._model_keys_cache
 
-        self.main_model = ['meta-llama-3.1-8b-instruct'] # TODO: Update depending on results
+        self.main_model = 'mistral-large-instruct' # TODO: Update depending on results
         self.base_models = ['meta-llama-3.1-8b-instruct', 
                             'llama-3.1-nemotron-70b-instruct', 
                             'llama-3.1-sauerkrautlm-70b-instruct', 
@@ -71,7 +71,7 @@ class ModelHandler:
         
         if model_key not in self.available_models:
             logger.error(f"Invalid model key. Available models: {self.available_models}")
-            raise
+            raise ValueError(f"Invalid model key: {model_key}")
         
         configs = {**self.default_configs, **(custom_configs or {})}
         

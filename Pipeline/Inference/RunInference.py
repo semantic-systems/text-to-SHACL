@@ -51,7 +51,86 @@ def retrieve_parsable_turtle(raw_output: str) -> Optional[str]:
 
     return turtle_candidate
 
+def run_fewshot_experiment(test_dir: str, prompt_components_dir: str, model_handler: ModelHandler, results_dir: str, train_dir: str, examples: int, mode: str = "fewshot"):
+    logger.info(f"Starting {mode} experiment...")
+    
+    # Initialize instance of main model
+    model = model_handler.initialize_model(model_handler.main_model)
+    
+    results = {}
+    parsed_output_dir = os.path.join(results_dir, mode, "output", "parsed_output")
+    os.makedirs(parsed_output_dir, exist_ok=True)
+    for test_file in os.listdir(test_dir):
+        run_key = f"{mode}_{model.model_name}_{test_file}"
+        parsed_output_path = os.path.join(parsed_output_dir, f"{run_key}.ttl")
+        
+        # Contruct prompt
+        prompt_handler = PromptHandler(mode=mode, input_path=os.path.join(test_dir, test_file), prompt_components_dir=prompt_components_dir, num_examples=examples, train_dir=train_dir)
+        prompt = prompt_handler.prompt_template
+        prompt_components = prompt_handler.prompt_components
+        chain = prompt | model
+        
+        # Invoke model
+        logger.info(f"Invoking {model.model_name}")
+        start_time = datetime.now()
+        try:
+            response = chain.invoke(prompt_components)
+        except Exception as e:
+            logger.error(f"Error invoking {model.model_name}: {e}")
+            continue
+        end_time = datetime.now()
+        
+        # Try to retrieve valid Turtle from raw output
+        raw_output = response.content
+        turtle_output = retrieve_parsable_turtle(raw_output)
+        
+        # Save parsed output if it includes valid Turtle
+        if turtle_output is not None:
+            try:
+                with open(parsed_output_path, "w", encoding="utf-8") as turtle_file:
+                    turtle_file.write(turtle_output)
+                logger.info(f"Saved parsed output to {parsed_output_path}")
+            except Exception as e:
+                logger.error(f"Error saving parsed output: {e}")
+            
+        # Fetch metadata, rendered prompt, and raw response
+        metadata = {
+            "mode": mode,
+            "model": model.model_name,
+            "valid_turtle": False if turtle_output is None else True,
+            "test_file": test_file,
+            "in-context examples": prompt_handler.examples,
+            "timestamp": start_time.isoformat(),
+            "runtime": (end_time - start_time).total_seconds(),
+            "parsed_output_path": None if turtle_output is None else parsed_output_path,
+            "token_usage": response.response_metadata["token_usage"],
+            "finish_reason": response.response_metadata["finish_reason"]
+        }
+        results[run_key] = {
+            "metadata": metadata,
+            "rendered_prompt": prompt_handler.rendered_prompt,
+            "raw_response": response.content,
+        }
+    
+    # Save raw outputs
+    raw_output_path = os.path.join(results_dir, mode, "output", f"{mode}_{model.model_name}_raw_output.json")
+    with open(raw_output_path, 'w', encoding='utf-8') as json_file:
+        json.dump(results, json_file, ensure_ascii=False, indent=4)
+    logger.info(f"Saved raw outputs to {raw_output_path}")
+        
+    logger.info(f"{mode.capitalize()} experiment completed!")
+
 def run_baseline_experiment(test_dir: str, prompt_components_dir: str, model_handler: ModelHandler, results_dir: str, mode: str = "baseline"):
+    """
+    Run the baseline experiment, i.e. zeroshot prompting with multiple models.
+    Invokes each base model on each test file and saves the raw and parsed outputs.
+
+    :param test_dir: Directory containing test files.
+    :param prompt_components_dir: Directory with components for constructing prompts.
+    :param model_handler: Handler for initializing and managing model instances.
+    :param results_dir: Directory to save the experiment results.
+    :param mode: Mode of the experiment (default: "baseline").
+    """
     logger.info(f"Starting {mode} experiment...")
     
     # Initialize model instances
@@ -119,14 +198,19 @@ def run_baseline_experiment(test_dir: str, prompt_components_dir: str, model_han
         
     logger.info(f"{mode.capitalize()} experiment completed!")
     
-def main(test_dir: str, 
-         prompt_components_dir: str,
-         results_dir: str,
-         mode: str,
-         api_key: str,
-         base_url: str,
-         train_dir: str = None,
-         examples: int = None):
+def main(test_dir: str, prompt_components_dir: str, results_dir: str, mode: str, api_key: str, base_url: str, train_dir: str = None, examples: int = None):
+    """
+    Checks if the mode is supported and, if so, runs thecorresponding experiment.
+
+    :param test_dir: Directory containing test files.
+    :param prompt_components_dir: Directory wiht components for constructing prompts.
+    :param results_dir: Directory to save the experiment results.
+    :param mode: Experiment mode (e.g., "baseline", "fewshot").
+    :param api_key: API key for authenticating requests to Chat-AI API.
+    :param base_url: Base URL for the Chat-AI API endpoint.
+    :param train_dir: (Optional) Directory containing in-context examples.
+    :param examples: (Optional) Number of examples for few-shot experiments.
+    """
     # Check if mode is supported
     try:
         # Normalize mode name
@@ -139,8 +223,10 @@ def main(test_dir: str,
     
     if mode == "baseline":
         run_baseline_experiment(test_dir, prompt_components_dir, model_handler, results_dir)
-    # elif mode == "fewshot":
-    #     run_fewshot_experiment(test_dir, prompt_resources_dir, results_dir, train_dir, examples)
+    elif mode == "fewshot":
+        run_fewshot_experiment(test_dir, prompt_components_dir, model_handler, results_dir, train_dir, examples)
+    else:
+        return
     
     
 if __name__ == "__main__":
@@ -151,8 +237,8 @@ if __name__ == "__main__":
     parser.add_argument("mode", type=str, choices=["baseline", "fewshot"], help="Name of experiment.")
     parser.add_argument("api_key", type=str, help="API key for authenticating requests to Chat-AI API.")
     parser.add_argument("base_url", type=str, help="Base URL for the Chat-AI API endpoint.")
-    parser.add_argument("--train_dir", type=str, default=None, help="Directory with benefits used as in-context examples.")
-    parser.add_argument("--examples", type=int, default=None, help="Number of examples for few-shot mode.")
+    parser.add_argument("--train_dir", type=str, default=None, help="Directory containing in-context examples.")
+    parser.add_argument("--examples", type=int, default=None, help="Number of examples for few-shot experiments.")
     
     args = parser.parse_args()
     main(args)
