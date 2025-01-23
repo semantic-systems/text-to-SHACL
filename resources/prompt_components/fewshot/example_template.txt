@@ -1,8 +1,6 @@
 Text:
 
-The following requirements must be met to be eligible for the benefit "{name}" with the IDLB {idlb}.
-
-{requirements}
+{train_input}
 
 SHACL:
 

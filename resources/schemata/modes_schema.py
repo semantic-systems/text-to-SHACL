@@ -15,6 +15,6 @@ supported_modes = {
         "description": "Prompt includes instruction + ontology + variable number of randomly selected examples from train split, inference is executed with main model only.",
         "synonyms": ["incontext learning", "in-context learning", "incontext", "few-shot"],
         "models": ['mistral-large-instruct'],
-        "prompt_variables": ["instruction", "ontology", "examples"]
+        "prompt_variables": ["instruction", "ontology", "fewshot_examples"]
     }
 }
