@@ -16,12 +16,12 @@ import os
 import json
 import argparse
 import rdflib
-import shutil
 from typing import Optional
 from datetime import datetime
 from .Model import ModelHandler
 from .Prompt import PromptHandler
 from Utils.Logger import setup_logger
+from Utils.FileHandling import setup_experiment_directory
 from resources.schemata.modes_schema import supported_modes
 
 logger = setup_logger(__name__, "logs/RunInference.log")
@@ -58,11 +58,7 @@ def run_fewshot_experiment(test_dir: str, prompt_components_dir: str, model_hand
     # Initialize instance of main model
     model = model_handler.initialize_model(model_handler.main_model)
     
-    # Clear experiment directory if it already exists
-    experiment_dir = os.path.join(results_dir, mode)
-    if os.path.exists(experiment_dir):
-        shutil.rmtree(experiment_dir)
-        logger.info(f"Cleared directory for {mode} experiment.")
+    experiment_dir = setup_experiment_directory(results_dir, mode)
     
     results = {}
     parsed_output_dir = os.path.join(experiment_dir, "output", "parsed_output")
@@ -145,10 +141,7 @@ def run_baseline_experiment(test_dir: str, prompt_components_dir: str, model_han
     logger.info(f"Succesfully initialized base models: {', '.join([model.model_name for model in models])}")
     
     # Clear experiment directory if it already exists
-    experiment_dir = os.path.join(results_dir, mode)
-    if os.path.exists(experiment_dir):
-        shutil.rmtree(experiment_dir)
-        logger.info(f"Cleared directory for {mode} experiment.")
+    experiment_dir = setup_experiment_directory(results_dir, mode)
     
     for model in models:
         results = {}
