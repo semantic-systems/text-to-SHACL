@@ -16,6 +16,7 @@ import os
 import json
 import argparse
 import rdflib
+import shutil
 from typing import Optional
 from datetime import datetime
 from .Model import ModelHandler
@@ -57,8 +58,14 @@ def run_fewshot_experiment(test_dir: str, prompt_components_dir: str, model_hand
     # Initialize instance of main model
     model = model_handler.initialize_model(model_handler.main_model)
     
+    # Clear experiment directory if it already exists
+    experiment_dir = os.path.join(results_dir, mode)
+    if os.path.exists(experiment_dir):
+        shutil.rmtree(experiment_dir)
+        logger.info(f"Cleared directory for {mode} experiment.")
+    
     results = {}
-    parsed_output_dir = os.path.join(results_dir, mode, "output", "parsed_output")
+    parsed_output_dir = os.path.join(experiment_dir, "output", "parsed_output")
     os.makedirs(parsed_output_dir, exist_ok=True)
     for test_file in os.listdir(test_dir):
         run_key = f"{mode}_{model.model_name}_{test_file}"
@@ -113,7 +120,7 @@ def run_fewshot_experiment(test_dir: str, prompt_components_dir: str, model_hand
         }
     
     # Save raw outputs
-    raw_output_path = os.path.join(results_dir, mode, "output", f"{mode}_{model.model_name}_raw_output.json")
+    raw_output_path = os.path.join(experiment_dir, "output", f"{mode}_{model.model_name}_raw_output.json")
     with open(raw_output_path, 'w', encoding='utf-8') as json_file:
         json.dump(results, json_file, ensure_ascii=False, indent=4)
     logger.info(f"Saved raw outputs to {raw_output_path}")
@@ -137,9 +144,15 @@ def run_baseline_experiment(test_dir: str, prompt_components_dir: str, model_han
     models = [model_handler.initialize_model(key) for key in model_handler.base_models]
     logger.info(f"Succesfully initialized base models: {', '.join([model.model_name for model in models])}")
     
+    # Clear experiment directory if it already exists
+    experiment_dir = os.path.join(results_dir, mode)
+    if os.path.exists(experiment_dir):
+        shutil.rmtree(experiment_dir)
+        logger.info(f"Cleared directory for {mode} experiment.")
+    
     for model in models:
         results = {}
-        parsed_output_dir = os.path.join(results_dir, mode, model.model_name, "output", "parsed_output")
+        parsed_output_dir = os.path.join(experiment_dir, model.model_name, "output", "parsed_output")
         os.makedirs(parsed_output_dir, exist_ok=True)
         for test_file in os.listdir(test_dir):
             run_key = f"{mode}_{model.model_name}_{test_file}"
@@ -182,8 +195,11 @@ def run_baseline_experiment(test_dir: str, prompt_components_dir: str, model_han
                 "test_file": test_file,
                 "timestamp": start_time.isoformat(),
                 "runtime": (end_time - start_time).total_seconds(),
-                "parsed_output_path": None if turtle_output is None else parsed_output_path
+                "parsed_output_path": None if turtle_output is None else parsed_output_path,
+                "token_usage": response.response_metadata["token_usage"],
+                "finish_reason": response.response_metadata["finish_reason"]
             }
+            
             results[run_key] = {
                 "metadata": metadata,
                 "rendered_prompt": prompt_handler.rendered_prompt,
@@ -191,7 +207,7 @@ def run_baseline_experiment(test_dir: str, prompt_components_dir: str, model_han
             }
         
         # Save raw outputs
-        raw_output_path = os.path.join(results_dir, mode, model.model_name, "output", f"{mode}_{model.model_name}_raw_output.json")
+        raw_output_path = os.path.join(experiment_dir, model.model_name, "output", f"{mode}_{model.model_name}_raw_output.json")
         with open(raw_output_path, 'w', encoding='utf-8') as json_file:
             json.dump(results, json_file, ensure_ascii=False, indent=4)
         logger.info(f"Saved raw outputs to {raw_output_path}")
