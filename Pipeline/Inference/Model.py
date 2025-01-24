@@ -45,12 +45,12 @@ class ModelHandler:
                             'llama-3.1-sauerkrautlm-70b-instruct', 
                             'mistral-large-instruct']
         self.default_configs = {
-            "temperature": 0.7,
-            "top_p": 0.8,
-            "max_tokens": None,
-            "logprobs": False,
-            "timeout": 60,
-            "max_retries": 2
+            # "temperature": 0.7, # Flattens/sharpens the probability distribution over tokens (high = more creative)
+            # "top_p": 0.8, # Cumulative probability of tokens to sample from (high = more deterministic)
+            # "max_tokens": None, # Max nof newly generated tokens
+            # "logprobs": False, # Token level log probabilities
+            "timeout": 60, # Seconds until API call times out
+            "max_retries": 2 # Max nof retries after a failed API call
         }
         
     def get_available_model_keys(self, base_url: str, api_key: str) -> List[str]:
