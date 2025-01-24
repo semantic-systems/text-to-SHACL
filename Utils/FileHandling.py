@@ -83,3 +83,11 @@ def save_file(content: str, filepath: str, logger: logging.Logger) -> None:
         logger.info(f"File saved to: {filepath}")
     except Exception as e:
         logger.error(f"An error occurred while saving the file: {e}")
+
+def setup_experiment_directory(results_dir, mode):
+    """Clear and create the experiment directory."""
+    experiment_dir = os.path.join(results_dir, mode)
+    if os.path.exists(experiment_dir):
+        shutil.rmtree(experiment_dir)
+    os.makedirs(experiment_dir, exist_ok=True)
+    return experiment_dir
