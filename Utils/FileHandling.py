@@ -91,3 +91,12 @@ def setup_experiment_directory(results_dir, mode):
         shutil.rmtree(experiment_dir)
     os.makedirs(experiment_dir, exist_ok=True)
     return experiment_dir
+
+def load_file(file_path: str, logger: logging.Logger, as_json: bool = False) -> Any:
+    """Utility function to load file content as text or JSON."""
+    try:
+        with open(file_path, 'r', encoding = "utf-8") as file:
+            return json.load(file) if as_json else file.read()
+    except FileNotFoundError as e:
+        logger.error(f"Failed to load prompt component. File not found: {file_path}")
+        raise ValueError
