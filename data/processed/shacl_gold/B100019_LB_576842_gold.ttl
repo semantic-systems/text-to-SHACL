@@ -1,3 +1,4 @@
+# DUMMY!
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix ff: <https://foerderfunke.org/default#> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
@@ -10,4 +11,30 @@ ff:B100019_LB_576842 a ff:SocialBenefit ;
 # CONSTRAINTS
 
 ff:ArbeitslosengeldShape a sh:NodeShape ;
-    ff:checksFundingRequirement ff:B100019_LB_576842 .
+    ff:checksFundingRequirement ff:B100019_LB_576842 ;
+    sh:targetNode ff:User ;
+    # User is not employed or works less than 15 hours per week
+    sh:or(
+        [
+			sh:path ex:isEmployed ;
+			sh:minCount 1 ;
+            sh:hasValue false ;
+		]
+		[
+			sh:path ex:worksHoursPerWeek ;
+			sh:minCount 1 ;
+            sh:maxExclusive 15 ;
+		]
+    ) ;
+    # User is registered as unemployed
+    sh:property [
+        sh:path ex:isRegisteredAsUnemployed ;
+        sh:minCount 1 ;
+        sh:hasValue true ;
+    ] ;
+    # User was liable to pay compulsory insurance for at least 12 months in the 30 months preceding the registration as unemployed
+    sh:property [
+        sh:path ex:liabilityToPayCompulsoryInsurance ;
+        sh:minCount 1 ;
+        sh:minInclusive 12 ;
+    ] .

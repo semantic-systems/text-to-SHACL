@@ -21,3 +21,7 @@ Sie haben Anspruch auf Arbeitslosengeld, wenn
 
 
 <b>Requirements decomposition</b>:
+1. User is (i) not employed or (ii) works less than 15 hours per week (G)
+2. User is able and willing to take up employment subject to compulsory insurance under normal labor market conditions (R)
+3. User is registered as unemployed with the Federal Employment Agency (G)
+4. User was liable to pay compulsory insurance for at least 12 months in the 30 months preceding the registration as unemployed (Y)

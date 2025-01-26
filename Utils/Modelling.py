@@ -58,7 +58,7 @@ def generate_modelling_template(full_desc_path: str, template_path: str, save_di
     if save_dir:
         save_path = os.path.join(save_dir, f"{idlb}_{type}.{suffix}")
         if os.path.exists(save_path):
-            logger.info(f"File already exists: {save_path}. Skipping save.")
+            logger.info(f"Skipping save. File already exists: {save_path}")
         else:
             save_file(rendered_content, save_path, logger)
     

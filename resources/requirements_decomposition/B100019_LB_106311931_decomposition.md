@@ -14,9 +14,9 @@
 
 <b>Requirements decomposition</b>:
 
-* User must be employable, i.e. able to work at least 3 hours per day (G)
-* User must be employable, i.e. be at least 15 years old (G)
-* User must be employable, i.e. not have reached the legal retirement age (Y)
-* User is in need, i.e. their income cannot cover their basic needs (Note: Income includes salary, assets, and granted benefits. It is assumed hat an individual who cannot cover their own basic needs can also not cover their household's basic needs) (Y)
-* User may not be eligible for other benefits with priority over Bürgergeld (Y)
-* User must life in Germany (G)
+1. User must be employable, i.e. able to work at least 3 hours per day (G)
+2. User must be employable, i.e. be at least 15 years old (G)
+3. User must be employable, i.e. not have reached the legal retirement age (Y)
+4. User is in need, i.e. their income cannot cover their basic needs (Note: Income includes salary, assets, and granted benefits. It is assumed hat an individual who cannot cover their own basic needs can also not cover their household's basic needs) (Y)
+5. User may not be eligible for other benefits with priority over Bürgergeld (Y)
+6. User must life in Germany (G)
