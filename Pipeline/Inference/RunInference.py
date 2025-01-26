@@ -15,42 +15,15 @@ RunInference.py
 import os
 import json
 import argparse
-import rdflib
-from typing import Optional
 from datetime import datetime
 from .Model import ModelHandler
 from .Prompt import PromptHandler
 from Utils.Logger import setup_logger
 from Utils.FileHandling import setup_experiment_directory
+from Utils.Parsing import retrieve_parsable_turtle
 from resources.schemata.modes_schema import supported_modes
 
 logger = setup_logger(__name__, "logs/RunInference.log")
-
-def retrieve_parsable_turtle(raw_output: str) -> Optional[str]:
-    """Return parsable Turtle content from model output, if any."""
-    prefixes = ["@prefix", "@base", "<http://", "PREFIX"]
-    
-    # If Turtle flags are present, extract everything in between
-    if '```turtle' in raw_output and '```' in raw_output:
-        start = raw_output.find('```turtle') + len('```turtle')
-        end = raw_output.find('```', start)
-        turtle_candidate = raw_output[start:end].strip()
-    # If a prefix is present, extract everything after the first occurrence
-    elif any(opener in raw_output for opener in prefixes):
-        start = raw_output.find(next(term for term in prefixes if term in raw_output))
-        turtle_candidate = raw_output[start:].strip()
-    else:
-        turtle_candidate = raw_output.strip()
-    
-    # Check if the data is parsable
-    graph = rdflib.Graph()
-    try:
-        graph.parse(data=turtle_candidate, format="turtle")
-    except Exception as e:
-        logger.warning(f"Turtle candidate not parsable: {e}")
-        return None
-
-    return turtle_candidate
 
 def run_fewshot_experiment(test_dir: str, prompt_components_dir: str, model_handler: ModelHandler, results_dir: str, train_dir: str, examples: int, mode: str = "fewshot"):
     logger.info(f"Starting {mode} experiment...")
@@ -60,11 +33,12 @@ def run_fewshot_experiment(test_dir: str, prompt_components_dir: str, model_hand
     
     experiment_dir = setup_experiment_directory(results_dir, mode)
     
-    results = {}
+    results = []
     parsed_output_dir = os.path.join(experiment_dir, "output", "parsed_output")
     os.makedirs(parsed_output_dir, exist_ok=True)
     for test_file in os.listdir(test_dir):
-        run_key = f"{mode}_{model.model_name}_{test_file}"
+        idlb = os.path.splitext(test_file)[0]
+        run_key = f"{mode}_{model.model_name}_{idlb}"
         parsed_output_path = os.path.join(parsed_output_dir, f"{run_key}.ttl")
         
         # Contruct prompt
@@ -85,7 +59,7 @@ def run_fewshot_experiment(test_dir: str, prompt_components_dir: str, model_hand
         
         # Try to retrieve valid Turtle from raw output
         raw_output = response.content
-        turtle_output = retrieve_parsable_turtle(raw_output)
+        turtle_output = retrieve_parsable_turtle(raw_output, logger)
         
         # Save parsed output if it includes valid Turtle
         if turtle_output is not None:
@@ -100,23 +74,24 @@ def run_fewshot_experiment(test_dir: str, prompt_components_dir: str, model_hand
         metadata = {
             "mode": mode,
             "model": model.model_name,
-            "valid_turtle": False if turtle_output is None else True,
-            "test_file": test_file,
+            "valid_turtle": 0 if turtle_output is None else 1,
+            "test_idlb": idlb,
             "in-context examples": prompt_handler.examples,
             "timestamp": start_time.isoformat(),
-            "runtime": (end_time - start_time).total_seconds(),
+            "inference_time": (end_time - start_time).total_seconds(),
             "parsed_output_path": None if turtle_output is None else parsed_output_path,
             "token_usage": response.response_metadata["token_usage"],
             "finish_reason": response.response_metadata["finish_reason"]
         }
-        results[run_key] = {
+        results.append({
+            "run_key": run_key,
             "metadata": metadata,
             "rendered_prompt": prompt_handler.rendered_prompt,
             "raw_response": response.content,
-        }
+        })
     
     # Save raw outputs
-    raw_output_path = os.path.join(experiment_dir, "output", f"{mode}_{model.model_name}_raw_output.json")
+    raw_output_path = os.path.join(experiment_dir, "output", f"raw_output.json")
     with open(raw_output_path, 'w', encoding='utf-8') as json_file:
         json.dump(results, json_file, ensure_ascii=False, indent=4)
     logger.info(f"Saved raw outputs to {raw_output_path}")
@@ -143,12 +118,13 @@ def run_baseline_experiment(test_dir: str, prompt_components_dir: str, model_han
     # Clear experiment directory if it already exists
     experiment_dir = setup_experiment_directory(results_dir, mode)
     
-    for model in models:
-        results = {}
+    for i,model in enumerate(models):
+        results = []
         parsed_output_dir = os.path.join(experiment_dir, model.model_name, "output", "parsed_output")
         os.makedirs(parsed_output_dir, exist_ok=True)
         for test_file in os.listdir(test_dir):
-            run_key = f"{mode}_{model.model_name}_{test_file}"
+            idlb = os.path.splitext(test_file)[0]
+            run_key = f"{mode}_{model.model_name}_{idlb}"
             parsed_output_path = os.path.join(parsed_output_dir, f"{run_key}.ttl")
             
             # Contruct prompt
@@ -158,7 +134,7 @@ def run_baseline_experiment(test_dir: str, prompt_components_dir: str, model_han
             chain = prompt | model
             
             # Invoke model
-            logger.info(f"Invoking {model.model_name}")
+            logger.info(f"Invoking {model.model_name} ({i+1}/{len(models)})")
             start_time = datetime.now()
             try:
                 response = chain.invoke(prompt_components)
@@ -169,7 +145,7 @@ def run_baseline_experiment(test_dir: str, prompt_components_dir: str, model_han
             
             # Try to retrieve valid Turtle from raw output
             raw_output = response.content
-            turtle_output = retrieve_parsable_turtle(raw_output)
+            turtle_output = retrieve_parsable_turtle(raw_output, logger)
             
             # Save parsed output if it includes valid Turtle
             if turtle_output is not None:
@@ -184,23 +160,24 @@ def run_baseline_experiment(test_dir: str, prompt_components_dir: str, model_han
             metadata = {
                 "mode": mode,
                 "model": model.model_name,
-                "valid_turtle": False if turtle_output is None else True,
-                "test_file": test_file,
+                "valid_turtle": 0 if turtle_output is None else 1,
+                "test_idlb": idlb,
                 "timestamp": start_time.isoformat(),
-                "runtime": (end_time - start_time).total_seconds(),
+                "inference_time": (end_time - start_time).total_seconds(),
                 "parsed_output_path": None if turtle_output is None else parsed_output_path,
                 "token_usage": response.response_metadata["token_usage"],
                 "finish_reason": response.response_metadata["finish_reason"]
             }
             
-            results[run_key] = {
+            results.append({
+                "run_key": run_key,
                 "metadata": metadata,
                 "rendered_prompt": prompt_handler.rendered_prompt,
                 "raw_response": response.content,
-            }
+            })
         
         # Save raw outputs
-        raw_output_path = os.path.join(experiment_dir, model.model_name, "output", f"{mode}_{model.model_name}_raw_output.json")
+        raw_output_path = os.path.join(experiment_dir, model.model_name, "output", f"raw_output.json")
         with open(raw_output_path, 'w', encoding='utf-8') as json_file:
             json.dump(results, json_file, ensure_ascii=False, indent=4)
         logger.info(f"Saved raw outputs to {raw_output_path}")
