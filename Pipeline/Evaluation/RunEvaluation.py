@@ -192,7 +192,7 @@ def main(experiment_dir: str, results_dir: str, shacl_gold_dir: str, user_profil
         return baseline_summary_metrics
     
     # For other experiments, compute the metrics directly
-    experiment_metrics = evaluate_experiment(experiment_dir, shacl_gold_dir, user_profiles_dir)
+    experiment_metrics = evaluate_experiment(experiment_dir, shacl_gold_dir, user_profiles_dir, overall_summary_path)
     return experiment_metrics
 
 if __name__ == "__main__":
