@@ -94,10 +94,10 @@ class GraphMatcher:
         accuracy = matches / len(self.gen_triples) if len(self.gen_triples) > 0 else 0.0
         
         return {
-                "triple_accuracy": accuracy,
-                "triple_precision": precision,
-                "triple_recall": recall,
-                "triple_f1": f1
+                "triple_accuracy": round(accuracy,4),
+                "triple_precision": round(precision,4),
+                "triple_recall": round(recall,4),
+                "triple_f1": round(f1,4)
                 }
     
     def compute_gbert(self) -> Dict[str,float]:
@@ -148,12 +148,12 @@ class GraphMatcher:
         # Compute final G-BERT Score based on the optimal assignment
         precision = score_matrix[row_ind, col_ind].sum() / len(gen_edges)
         recall = score_matrix[row_ind, col_ind].sum() / len(gold_edges)
-        gbert_f1 = 2 * precision * recall / (precision + recall) if (precision + recall) > 0 else 0.0
+        gbert_f1 = 2 * (precision * recall / (precision + recall)) if (precision + recall) > 0 else 0.0
 
         return {
-            "gbert_precision": precision,
-            "gbert_recall": recall,
-            "gbert_f1": gbert_f1
+            "gbert_precision": round(precision,4),
+            "gbert_recall": round(recall,4),
+            "gbert_f1": round(gbert_f1,4)
         }
 
     def compute_ged(self) -> float:
@@ -192,7 +192,7 @@ class GraphMatcher:
         if normalizing_constant == 0:
             return 0.0
         dis = dis / normalizing_constant
-        return dis
+        return round(dis,4)
     
     def compute_validation_performance(self, user_profiles_dir: str) -> Dict[str, float]:
         """ 
@@ -233,8 +233,8 @@ class GraphMatcher:
         f1 = f1_score(y_true, y_pred, zero_division=0)
 
         return {
-            "validation_precision": precision,
-            "validation_recall": recall,
-            "validation_accuracy": accuracy,
-            "validation_f1": f1
+            "validation_precision": round(precision,4),
+            "validation_recall": round(recall,4),
+            "validation_accuracy": round(accuracy,4),
+            "validation_f1": round(f1,4)
         }
