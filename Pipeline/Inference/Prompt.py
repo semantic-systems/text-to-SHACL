@@ -11,6 +11,7 @@ from typing import Any, Dict, Optional
 from langchain_core.prompts import PromptTemplate
 from resources.schemata.modes_schema import supported_modes
 from Utils.Logger import setup_logger
+from Utils.FileHandling import load_file
 
 logger = setup_logger(__name__, "logs/Prompt.log")
 
@@ -49,36 +50,27 @@ class PromptHandler:
         
         self.rendered_prompt = self.prompt_template.format(**self.prompt_components) # e.g. "Tell me a fun fact about wombats."
         
-    def _load_file(self, file_path: str, as_json: bool = False) -> Any:
-        """Utility function to load file content as text or JSON."""
-        try:
-            with open(file_path, 'r', encoding = "utf-8") as file:
-                return json.load(file) if as_json else file.read()
-        except FileNotFoundError as e:
-            logger.error(f"Failed to load prompt component. File not found: {file_path}")
-            raise
-        
     def _load_shacl_gold_from_idlb(self, idlb: str) -> str:
         """Returns the SHACL groundtruth for the benefit with the specified IDLB."""
         groundtruth_base_dir = os.path.abspath(os.path.join(self.train_dir, os.pardir, os.pardir, "shacl_gold"))
         groundtruth_path = os.path.join(groundtruth_base_dir, f"{idlb}_gold.ttl")
-        shacl_gold_string = self._load_file(groundtruth_path)
+        shacl_gold_string = load_file(file_path=groundtruth_path, logger=logger)
         return shacl_gold_string
 
     def _load_prompt_template(self) -> str:
         """Returns the prompt template for the specified mode."""
         template_path = os.path.join(self.prompt_components_dir, self.mode, f"prompt_template.txt")
-        return self._load_file(template_path)
+        return load_file(file_path=template_path, logger=logger)
     
     def _load_instruction(self) -> str:
         """Returns the instruction for the specified mode."""
         instruction_path = os.path.join(self.prompt_components_dir, self.mode, f"instruction.txt")
-        return self._load_file(instruction_path)
+        return load_file(file_path=instruction_path, logger=logger)
     
     def _load_ontology(self) -> str:
         """Returns the ontology for the specified mode."""
         ontology_path = os.path.join(self.prompt_components_dir, f"ontology/ontology.ttl")
-        return self._load_file(ontology_path)
+        return load_file(file_path=ontology_path, logger=logger)
     
     def load_input(self, file_path: str) -> str:
         """Returns the model input for a given test or train file."""
@@ -90,7 +82,6 @@ class PromptHandler:
         # Construct the input text
         intro = "Es folgen die Bedingungen für die Sozialleistung '{name}' mit der IDLB {idlb}.\n"
         input = intro.replace("{name}", name).replace("{idlb}", idlb) + requirements_text
-        
         return input
     
     def _load_fewshot_examples(self) -> str:
@@ -126,11 +117,10 @@ class PromptHandler:
             
             # Load example template and replace placeholders
             example_template_path = os.path.join(self.prompt_components_dir, self.mode, "example_template.txt")
-            example_template = self._load_file(example_template_path)
+            example_template = load_file(file_path=example_template_path, logger=logger)
             example_string = example_template.replace("{train_input}", example_input).replace("{shacl_gold}", shacl_gold)
             examples.append(example_string)
         
         # Concatenate all example strings
         examples_string = "\n\n".join(examples)
-        
         return examples_string
