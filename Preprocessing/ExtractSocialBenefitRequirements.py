@@ -8,7 +8,6 @@ ExtractSocialBenefitRequirements.py
 
 import os
 import json
-import html
 import html2text
 import argparse
 from typing import List, Any
@@ -41,7 +40,7 @@ def has_personal_matter(service_desc: json, personal_matters: List[Any]) -> bool
     
     :param service_desc: An administrative service description in JSON format.
     :param personal_matters: List of personal matters to check for as string or code.
-    :return: True if the service description has the personal matter(s), False otherwise.
+    :return: True if the service description has any of the personal matter(s), False otherwise.
     """
     def search_codes(data, codes):
         if isinstance(data, dict):
@@ -121,23 +120,46 @@ def get_social_benefit_paths(all_service_desc_dir: str, matters: List[str] = Non
 
 def get_social_benefit_dicts(selected_benefits_paths: List[str]) -> List[dict]:
     """  
-    Extracts the name, IDLB, and requirements text from full service descriptions.
+    Extracts the following information from full service descriptions:
+    - Name of the social benefit
+    - IDLB of the social benefit
+    - Description of the social benefit
+    - Legal basis or bases
+    - Requirements text
     
     :param selected_benefits_paths: List of paths to selected social benefit descriptions.
     :return: List of dictionaries with benefit details.
     """
     social_benefit_dicts = []
+    
     for benefit in selected_benefits_paths:
         with open(benefit, 'r', encoding='utf-8') as file:
             full_desc = json.load(file)
+        # Requirements text and legal basis
+        legal_basis_links = set()
         for detail in full_desc["details"]:
             if detail["title"] == "Voraussetzungen":
                 requirements_html = detail["text"]
                 requirements_text = html2text.html2text(requirements_html)
                 requirements_text = requirements_text.rstrip("\n\r")
+            elif detail["title"] == "Rechtsgrundlage(n)" and "links" in detail:
+                for link in detail["links"]:
+                    legal_basis_links.add(link["title"])
+        legal_basis = "; ".join(legal_basis_links) if legal_basis_links else ""
+        
+        # Addressees
+        addressee_names = set()
+        for addressee in full_desc["personalMatters"]:
+            addressee_names.add(addressee["name"])
+        addressees = "; ".join(addressee_names) if addressee_names else ""
+        
         benefit_details = {
             "name": full_desc["name"],
             "idlb": full_desc["id"].replace(".", "_"),
+            "valid_to": full_desc["validTo"],
+            "addressees": addressees,
+            "legal_basis": legal_basis,
+            "description": html2text.html2text(full_desc["description"]).rstrip("\n\r"),
             "requirements": requirements_text
         } 
         social_benefit_dicts.append(benefit_details)
