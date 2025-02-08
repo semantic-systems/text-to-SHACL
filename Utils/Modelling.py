@@ -12,15 +12,15 @@ from .Logger import setup_logger
 
 logger = setup_logger(__name__, "logs/Modelling.log")
 
-def extract_name_idlb_requirements(full_desc_path: str) -> Tuple[str, str, str]:
+def extract_details(desc_path: str) -> Tuple[str, str, str, str, str]:
     """
     Extracts short name, idlb, and requirements text from a benefit description.
 
-    :param full_desc_path: Path to the full benefit description.
+    :param desc_path: Path to the social benefit description (already filtered).
     :return: List with name, IDLB, and requirements text for the benefit.
     """
     # Load full benefit description
-    with open(full_desc_path, 'r', encoding='utf-8') as json_file:
+    with open(desc_path, 'r', encoding='utf-8') as json_file:
         benefit_description = json.load(json_file)
 
     # Extract name, IDLB and requirements
@@ -28,14 +28,17 @@ def extract_name_idlb_requirements(full_desc_path: str) -> Tuple[str, str, str]:
     camel_case_name = full_name[0] + ''.join(word.capitalize() for word in full_name[1:])
     idlb = benefit_description["idlb"]
     requirements = benefit_description["requirements"]
+    legal_basis = benefit_description["legal_basis"]
+    description = benefit_description["description"]
+    addressee = benefit_description["addressees"]
 
-    return camel_case_name, idlb, requirements
+    return camel_case_name, idlb, requirements, legal_basis, description, addressee
 
 def generate_modelling_template(full_desc_path: str, template_path: str, save_dir: str = None) -> str:
     """
-    Populate a template for a particular social benefit. Suitable for
-    SHACL gold templates and requirements decomposition templates. Optionally
-    saves the template to save_dir if it is specified.
+    Populate a template for a particular social benefit. Supports
+    SHACL gold and requirements decomposition, depending on the provided
+    template. Optionally saves the template if save_dir is specified.
 
     :param full_desc_path: Path to the full benefit description.
     :param template_path: Path to template file.
@@ -46,11 +49,16 @@ def generate_modelling_template(full_desc_path: str, template_path: str, save_di
     env = Environment(loader=FileSystemLoader('/'))
     template = env.get_template(template_path)
     
-    # Load variable values
-    name, idlb, requirements = extract_name_idlb_requirements(full_desc_path)
-    rendered_content = template.render(name=name, idlb=idlb, requirements=requirements)
+    # Load variable values depending on template type
+    if "shacl" in os.path.basename(template_path):
+        name, idlb, requirements, _, _, _ = extract_details(full_desc_path)
+        rendered_content = template.render(name=name, idlb=idlb, requirements=requirements)
+        suffix = "ttl"
+    else:
+        name, idlb, requirements, legal_basis, description, addressee = extract_details(full_desc_path)
+        rendered_content = template.render(name=name, idlb=idlb, addressee=addressee, requirements=requirements, legal_basis=legal_basis, description=description)
+        suffix = "md"
     
-    suffix = "ttl" if "shacl" in os.path.basename(template_path) else "md"
     subfolder = os.path.basename(os.path.normpath(save_dir)) # e.g., shacl_gold, requirements_decomposition
     type = subfolder.split('_', 1)[-1]
     
