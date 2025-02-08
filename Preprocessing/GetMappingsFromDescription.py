@@ -1,5 +1,5 @@
 """ 
-GetServiceNames.py
+GetMappingsFromDescription.py
 
 Create and save mappings from administrative service descriptions including:
 - IDLB to service name, e.g. {"L100001_LB_11022214": "Mobiler Bürgerservice"}
