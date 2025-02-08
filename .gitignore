@@ -1,10 +1,7 @@
-archive/
 Dev/
 logs/
-schemas/
-src/
 
-# Ignor raw data except for exemplary files
+# Ignore raw data except for exemplary files
 data/raw/service_catalogs/*
 data/raw/all_service_descriptions/*
 data/raw/social_benefit_requirements/*
@@ -20,7 +17,6 @@ data/processed/splits/test/*
 .vscode/
 .env
 
-inspection.ipynb
-Demo.ipynb
+*.ipynb
 
 __pycache__/
