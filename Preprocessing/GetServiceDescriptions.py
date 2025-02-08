@@ -1,81 +1,30 @@
 """ 
 GetServiceDescriptions.py
 
-Download all administrative service descriptions accessible via the
-Suchdienst API (https://anbindung.pvog.cloud-bdc.dataport.de/docs/api/suchdienst-api)
-by the Portalverbund Online-Gateway (PVOG). Steps include:
-    1. Retrieving all ARS and downloading corresponding service catalogs.
-    2. Extracting all unique IDLBs from service catalogs and mapping them to ARS.
-    3. Using the mapping to download service descriptions.
+- Extract unique IDLBs from service catalogs
+- For each IDLB, download the full administrative service description
+    using the Suchdienst API (https://anbindung.pvog.cloud-bdc.dataport.de/docs/api/suchdienst-api)
+    by the Portalverbund Online-Gateway (PVOG)
 """
 
 import os
 import re
-import sys
-import tempfile
-import requests
+import ast
+import json
 import argparse
 import pandas as pd
 from tqdm import tqdm
+from typing import Dict
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from typing import Dict, List
 from Utils.FileHandling import download_and_save_file
 from Utils.Logger import setup_logger
+from resources.schemata.ids_schema import ars_to_name
 
 logger = setup_logger(__name__, log_file="logs/GetServiceDescriptions.log")
 
-def get_ars_from_excel(url: str) -> List[str]:
-    """
-    Downloads Excel file and extracts all ARS.
-    
-    :param url: URL to the ARS Excel file.
-    :return: List of ARS.
-    """
-    try:
-        with tempfile.NamedTemporaryFile(delete=True) as temp_file:
-            response = requests.get(url, stream=True)
-            if response.status_code == 200:
-                for chunk in response.iter_content(chunk_size=8192):
-                    temp_file.write(chunk)
-            else:
-                logger.error(f"Failed to download ARS Excel file: {response.status_code}")
-                sys.exit(1)
-                
-            # Extract ARS data
-            df = pd.read_excel(temp_file.name, engine="openpyxl")
-            data = df.iloc[7:, [1, 2]].dropna()
-            data.columns = ["ARS", "Municipality"]
-            data["ARS"] = data["ARS"].astype(str)
+SERVICE_CATALOG_ENDPOINT = os.getenv("SUCHDIENST_SERVICE_CATALOG")
+SERVICE_DESCRIPTION_ENDPOINT = os.getenv("SUCHDIENST_SERVICE_DESCRIPTION")
 
-            # Add ARS for federal services
-            ars_bund = pd.DataFrame({"ARS": ["000000000000"], "Municipality": ["Bund"]})
-            data = pd.concat([data, ars_bund], ignore_index=True)
-            return data["ARS"].tolist()
-    except Exception as e:
-        logger.error(f"Failed to process ARS Excel file: {e}")
-        sys.exit(1)
-
-def download_service_catalog(base_url: str, ars: str, save_dir: str) -> str:
-    """
-    Downloads service catalog for a given ARS to the specified directory.
-    
-    :param base_url: Base URL for the API.
-    :param ars: ARS for the service catalog.
-    :param save_dir: Directory to save the service catalog.
-    :return: If service catalog was downloaded, path to file. Otherwise, None.
-    """
-    service_catalog_filename = f"ars_{ars}.csv"
-    service_catalog_path = os.path.join(save_dir, service_catalog_filename)
-
-    if os.path.exists(service_catalog_path):
-        logger.info(f"Service catalog for ARS {ars} already exists. Skipping download.")
-        return service_catalog_path
-
-    try:
-        return download_and_save_file(url=base_url, params={"ars": ars}, save_dir=save_dir, filename=service_catalog_filename)
-    except Exception as e:
-        logger.warning(f"Error downloading service catalog with ARS {ars}: {e}")
-        return None
 
 def update_idlb_dicts(service_catalog: str, ars: str, idlb_to_ars: Dict[str,str]) -> Dict[str,str]:
     """
@@ -91,8 +40,8 @@ def update_idlb_dicts(service_catalog: str, ars: str, idlb_to_ars: Dict[str,str]
         valid_idlb_pattern = re.compile(r'^[A-Z]\d{6}.*$')
         
         for _, row in df.iterrows():
-            idlb = row['ID-LB']
-            if valid_idlb_pattern.match(str(idlb)):
+            if valid_idlb_pattern.match(str(row['ID-LB'])):
+                idlb = str(row['ID-LB']).replace(".","_")
                 idlb_to_ars[idlb] = ars
     except Exception as e:
         logger.warning(f"Failed to process service catalog {os.path.basename(service_catalog)}: {e}")
@@ -114,8 +63,12 @@ def download_service_descriptions(base_url: str, idlb_to_ars: Dict[str,str], sav
         """Downloads a single service description and returns filepath."""
         idlb_safe = idlb.replace('.', '_')
         filename = f"{idlb_safe}.json"
-        url = base_url.replace("{ars}", ars)
-        download_and_save_file(url=url, params={"q": idlb}, save_dir=save_dir, filename=filename)
+        file_path = os.path.join(save_dir, filename)
+
+        # Downloda service description if it does not yet exist locally
+        if not os.path.isfile(file_path):
+            url = base_url.replace("{ars}", ars)
+            download_and_save_file(url=url, params={"q": idlb}, save_dir=save_dir, filename=filename)
 
     with ThreadPoolExecutor(max_workers=10) as executor:
         futures = [executor.submit(_download_description, idlb, ars) for idlb, ars in idlb_to_ars.items()]
@@ -125,54 +78,101 @@ def download_service_descriptions(base_url: str, idlb_to_ars: Dict[str,str], sav
             except Exception as e:
                 logger.warning(f"Failed to download service description: {e}")
 
-def main(raw_data_dir: str, ars_excel_url: str, service_catalog_url: str, service_desc_url: str):
-    """
-    Orchestrates the downloading of service descriptions. Skips downloads if files already exist.
+def download_service_catalog(ars: str, idlb_to_ars: Dict[str,str], service_catalogs_dir: str, service_catalog_url:str) -> str:
+    """ 
+    Downloads service catalog for a given ARS to the specified directory.
     
-    :param raw_data_dir:  Directory to store data.
-    :param ars_excel_url: URL to the ARS Excel file.
-    :param service_catalog_url: API endpoint for service catalogs.
-    :param service_desc_url: API endpoint for service descriptions.
+    :param ars: ARS for the service catalog.
+    :param idlb_to_ars: Mapping of IDLB to ARS.
+    :param service_catalogs_dir: Directory to save the service catalog.
+    :param service_catalog_url: URL to the service catalog.
+    :return: If service catalog was downloaded, path to file. Otherwise, None.
+    """
+    filename = f"ars_{ars}.csv"
+    save_path = os.path.join(service_catalogs_dir, filename)
+
+    # Only download service catalog if it does not yet exist locally
+    if not os.path.isfile(save_path):
+        try:
+            save_path = download_and_save_file(url=service_catalog_url, params={"ars":ars}, save_dir=service_catalogs_dir, filename=filename)
+        except Exception as e:
+            logger.error(f"Failed to download service catalog for ARS {ars}: {e}")
+            return None
+
+    # Update mapping with IDLBs from the service catalog
+    try:
+        idlb_to_ars.update(update_idlb_dicts(service_catalog=save_path, ars=ars, idlb_to_ars=idlb_to_ars))
+    except Exception as e:
+        logger.error(f"Error processing {filename}: {e}")
+
+    return save_path
+
+def search_dict_in_file(file_path: str, dict_name: str) -> Dict[str,str]:
+    """Returns the dictionary if a non-empty dictionary with the given name
+    exists in a Python file, otherwise returns None."""
+    with open(file_path, "r", encoding="utf-8") as f:
+        tree = ast.parse(f.read(), filename=file_path)
+
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Assign):
+            for target in node.targets:
+                if isinstance(target, ast.Name) and target.id == dict_name:
+                    if isinstance(node.value, ast.Dict) and node.value.keys:
+                        return {ast.literal_eval(key): ast.literal_eval(value) for key, value in zip(node.value.keys, node.value.values)}
+    
+    return None
+
+def main(service_catalogs_dir: str, 
+         service_descs_dir: str, 
+         mapping_output_path: str, 
+         service_catalog_url: str=SERVICE_CATALOG_ENDPOINT, 
+         service_desc_url: str=SERVICE_DESCRIPTION_ENDPOINT):
+    """
+    Retrieves all administrative service descriptions. Skips existing files.
+    
+    :param service_catalogs_dir: Directory to save the service catalogs.
+    :param service_descs_dir: Directory to save the service descriptions.
+    :param mapping_output_path: Path to save the IDLB-to-ARS mapping.
+    :param service_catalog_url: API endpoint to download a service catalog.
+    :param service_desc_url: API endpoint to download a service descriptions.
     :side effects: Downloads service catalogs (CSV, order of 11,000) and 
                     service descriptions (JSON, order of 17,000).
     """
-    service_catalog_dir = os.path.join(raw_data_dir, "service_catalogs")
-    service_desc_dir = os.path.join(raw_data_dir, "service_descriptions")
+    # Load IDLB to ARS mapping if it already exists
+    idlb_to_ars = search_dict_in_file(mapping_output_path, "idlb_to_ars")
     
-    os.makedirs(service_catalog_dir, exist_ok=True)
-    os.makedirs(service_desc_dir, exist_ok=True)
-
-    # Step 1: Get all ARS
-    all_ars = get_ars_from_excel(ars_excel_url)
-    logger.info(f"Retrieved {len(all_ars)} ARS from {ars_excel_url}.")
-
-    # Step 2: Download service catalogs and populate IDLB-to-ARS mapping
-    idlb_to_ars = {}
-    logger.info(f"Starting download of {len(all_ars)} service catalogs.")
-    
-    with ThreadPoolExecutor(max_workers=10) as executor:
-        futures = {executor.submit(download_service_catalog, base_url=service_catalog_url, ars=ars, save_dir=service_catalog_dir): ars for ars in all_ars}
+    # If mapping does not exist, create it from scratch
+    if idlb_to_ars is None:
+        logger.info(f"No IDLB to ARS mapping provided. Starting download of {len(ars_list)} service catalogs.")
         
-        for future in tqdm(as_completed(futures), total=len(futures), desc="Downloading Service Catalogs", unit="catalog"):
-            ars = futures[future]
-            service_catalog_path = future.result()
-            if service_catalog_path:
-                idlb_to_ars = update_idlb_dicts(service_catalog_path, ars, idlb_to_ars)  
-    num_catalogs = len([catalog for catalog in os.listdir(service_catalog_dir)])
-    logger.info(f"Downloaded {num_catalogs} service catalogs to {service_catalog_dir}.")
+        # Download service catalogs for all ARS
+        os.makedirs(service_catalogs_dir, exist_ok=True)
+        ars_list = ars_to_name.keys()
+        idlb_to_ars = {}
+        for ars in tqdm(ars_list, desc="Downloading Service Catalogs", unit="catalog"):
+            try:
+                download_service_catalog(ars=ars, idlb_to_ars=idlb_to_ars, service_catalogs_dir=service_catalogs_dir, service_catalog_url=service_catalog_url)
+            except Exception as e:
+                logger.error(f"Error processing ARS {ars}: {e}")
+        logger.info(f"Service catalogs saved to {service_catalogs_dir}")
+        
+        # Save IDLB to ARS mapping
+        with open(mapping_output_path, "a", encoding="utf-8") as file:
+            file.write("\n\nidlb_to_ars = ")
+            file.write(json.dumps(idlb_to_ars, indent=4, ensure_ascii=False))
     
-    # Step 3: Download detailed service descriptions
-    download_service_descriptions(base_url=service_desc_url, idlb_to_ars=idlb_to_ars, save_dir=service_desc_dir)
-    num_service_desc = len([desc for desc in os.listdir(service_desc_dir)])
-    logger.info(f"Downloaded {num_service_desc} service descriptions to {service_desc_dir}.")
-
-
+    # Download full service descriptions for all IDLBs
+    os.makedirs(service_descs_dir, exist_ok=True)
+    download_service_descriptions(base_url=service_desc_url, idlb_to_ars=idlb_to_ars, save_dir=service_descs_dir)
+    logger.info(f"Service descriptions saved to {service_descs_dir}")
+    
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Downloads all adminsitrative service descriptions.")
-    parser.add_argument("raw_data_dir", type=str, help="Directory to store data.")
-    parser.add_argument("ars_excel_url", type=str, help="URL to the ARS Excel file.")
-    parser.add_argument("service_catalog_url", type=str, help="API endpoint for service catalogs.")
-    parser.add_argument("service_desc_url", type=str, help="API endpoint for service descriptions.")
-
+    parser.add_argument("service_catalogs_dir", type=str, help="Directory to save the service catalogs.")
+    parser.add_argument("service_descs_dir", type=str, help="Directory to save the service descriptions.")
+    parser.add_argument("mapping_output_path", type=str, help="Path to save the IDLB-to-ARS mapping.")
+    parser.add_argument("--service_catalog_url", type=str, default=SERVICE_CATALOG_ENDPOINT, help="API endpoint to download a service catalog.")
+    parser.add_argument("--service_desc_url", type=str, default=SERVICE_DESCRIPTION_ENDPOINT, help="API endpoint to download a service descriptions.")
+    
     args = parser.parse_args()
-    main(args.raw_data_dir, args.ars_excel_url, args.service_catalog_url, args.service_desc_url)
+    main(args.service_catalogs_dir, args.service_descs_dir, args.mapping_output_path, args.service_catalog_url, args.service_desc_url)
