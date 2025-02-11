@@ -1,0 +1,8 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Does not meet requirement 'User has registered as unemployed'."
+
+ff:User ff:employedHoursPerWeek 14.9 ;
+        ff:isAbleToWork true ;
+        ff:hasRegisteredUnemployment false .

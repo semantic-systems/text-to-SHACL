@@ -1,0 +1,8 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Eligible for Ausbildungsgeld
+
+ff:User ff:hasDisability true ;
+        ff:hasRehabilitationProvider ff:FederalEmploymentAgency ;
+        ff:plansParticipation ff:IndividualInCompanyQualification .

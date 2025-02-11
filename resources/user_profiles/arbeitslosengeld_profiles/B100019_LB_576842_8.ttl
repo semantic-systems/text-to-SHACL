@@ -1,0 +1,7 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Missing requirement 'User is able to take up employment subject to compulsory insurance under normal labor market conditions'.
+
+ff:User ff:employedHoursPerWeek 0 ;
+        ff:hasRegisteredUnemployment true .

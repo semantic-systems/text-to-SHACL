@@ -1,6 +1,15 @@
-<b>Name</b>: ArbeitslosengeldBeantragen
+<b>Name</b>: Arbeitslosengeld
 
 <b>IDLB</b>: B100019_LB_576842
+
+<b>Addressee</b>: Lebenslagen für Bürgerinnen und Bürger
+
+<b>Legal basis</b>: § 327 Sozialgesetzbuch Drittes Buch (SGB III); § 337 Sozialgesetzbuch Drittes Buch (SGB III); § 323 Sozialgesetzbuch Drittes Buch (SGB III); §§ 136 bis 164 Sozialgesetzbuch Drittes Buch (SGB III)
+
+<b>Description</b>: 
+
+Wenn Sie Ihre Arbeit oder Ihren Ausbildungsplatz verlieren, können Sie
+Arbeitslosengeld beantragen, damit Sie finanziell abgesichert sind.
 
 <b>Requirements text</b>:
 
@@ -18,10 +27,11 @@ Sie haben Anspruch auf Arbeitslosengeld, wenn
     * Als Versicherungszeit können auch Zeiten berücksichtigt werden, in denen ein Antragspflichtversicherungsverhältnis (sogenannte freiwillige Weiterversicherung) vorlag, zum Beispiel  weil Sie eine selbständige Tätigkeit aufgenommen haben.
     * In Sonderfällen werden auch Zeiten berücksichtigt, in denen Sie Entwicklungsdienst nach dem Entwicklungshelfergesetz geleistet haben oder Sie auf der Grundlage eines Sekundierungsvertrages im Ausland tätig waren.
 
-
-
 <b>Requirements decomposition</b>:
-1. User is (i) not employed or (ii) works less than 15 hours per week (G)
-2. User is able and willing to take up employment subject to compulsory insurance under normal labor market conditions (R)
-3. User is registered as unemployed with the Federal Employment Agency (G)
-4. User was liable to pay compulsory insurance for at least 12 months in the 30 months preceding the registration as unemployed (Y)
+
+1. User is not in employment OR in employment for less than 15 hours per week (G)
+2. User is able to take up employment subject to compulsory insurance under normal labor market conditions. (G)
+3. User is willing to take up employment subject to compulsory insurance under normal labor market conditions. (R: discretionary decision)
+4. User has registered as unemployed. (G)
+5. User has been subject to compulsory insurance for at least 12 months within the last 30 months before registering as unemployed. (R: cannot be expressed with SHACL Core)
+6. The period of compulsory insurance is the sum of compulsory insurance for employment promotion due to the receipt of income replacement benefits AND so-called voluntary continued insurance AND, in special cases, development service under the Development Workers ACT AND, in special cases, work abroad on the basis of a secondment contract. (R: cannot be expressed with SHACL Core, contains qualified requirements)

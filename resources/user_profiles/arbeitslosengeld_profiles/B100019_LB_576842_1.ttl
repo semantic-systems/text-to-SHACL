@@ -1,0 +1,8 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Eligible for Arbeitslosengeld
+
+ff:User ff:employedHoursPerWeek 0 ;
+        ff:isAbleToWork true ;
+        ff:hasRegisteredUnemployment true .

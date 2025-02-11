@@ -1,0 +1,8 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Does not meet requirement 'User will participate in one of the covered training programs.'
+
+ff:User ff:hasDisability true ;
+        ff:hasRehabilitationProvider ff:FederalEmploymentAgency ;
+        ff:plansParticipation ex:SomeOtherTraining .
