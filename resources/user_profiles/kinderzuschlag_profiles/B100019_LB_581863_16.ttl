@@ -1,7 +1,7 @@
 @prefix ex: <http://example.org/ns#> .
 @prefix ff: <https://foerderfunke.org/default#> .
 
-# Eligible for child supplement (Kinderzuschlag)
+# Does not meet requirement 'User has at least one child that fulfills certain criteria. '
 
 ff:User ff:hasChild ex:Kim ;
 		# IncomeShapeA
@@ -12,11 +12,5 @@ ff:User ff:hasChild ex:Kim ;
 		] ;
 		ff:hasConsiderableAssets false .
 
-ex:Kim ff:hasAge 24 ;
-	ff:hasMaritalStatus ff:Single ;
-	ff:sameHouseholdAs ff:User ;
-	ff:receivesChildBenefit 250 ;
-	ff:isEligibleFor ex:SomeBenefit .
-
-ex:SomeBenefit a ff:SocialBenefit ;
-	ff:hasPriorityOver ex:SomeOtherBenefit .
+ex:Kim ff:hasAge 32 ;
+	ff:hasMaritalStatus ff:Married .

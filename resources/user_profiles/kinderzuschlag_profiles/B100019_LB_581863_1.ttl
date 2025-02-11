@@ -1,16 +1,18 @@
 @prefix ex: <http://example.org/ns#> .
 @prefix ff: <https://foerderfunke.org/default#> .
 
-ff:User ff:eligibleFor ff:B100019_LB_581863 ;
-		ff:hasChild ex:Kim ;
+# Eligible for child supplement (Kinderzuschlag)
+
+ff:User ff:hasChild ex:Kim ;
+		# IncomeShapeB
 		ff:isSingleParent true ;
 		ff:hasIncome [
 			ff:personalGrossIncome 600 ;
 			ff:reducesChildSupplementTo 1 ;
-		] .
+		] ;
+		ff:hasConsiderableAssets false .
 
-ex:Kim a ff:Child ;
-	ff:hasAge 24 ;
+ex:Kim ff:hasAge 24 ;
 	ff:hasMaritalStatus ff:Single ;
 	ff:sameHouseholdAs ff:User ;
 	ff:receivesChildBenefit 250 ;

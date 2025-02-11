@@ -17,7 +17,7 @@ ff:KinderzuschlagShape a sh:NodeShape ;
         sh:path ff:hasChild ;
         sh:qualifiedMinCount 1 ;
         sh:qualifiedValueShape ff:ChildShape ;
-        sh:message "Sie müssen mindestens ein Kind haben, das jünger als 25 Jahre alt ist, nicht verheiratet oder verpartnert ist, in Ihrem Haushalt lebt, Kindergeld empfängt und keine vorrangigen Ansprüche hat."@de ;
+        sh:message "Does not meet requirement 'User has at least one child that fulfills certain criteria.'"@en ;
     ] ;
     sh:or (
         ff:IncomeShapeA
@@ -28,7 +28,14 @@ ff:KinderzuschlagShape a sh:NodeShape ;
         sh:path (ff:hasIncome ff:reducesChildSupplementTo);
         sh:minCount 1 ;
         sh:minExclusive 0 ;
-        sh:message "Ihr anzurechnendes Einkommen darf den Kinderzuschlag nicht auf 0 reduzieren."@de ;
+        sh:message "Does not meet requirement 'User income that will be offset against child supplement may not reduce it to zero.'"@en ;
+    ] ;
+    # User has no considerable assets
+    sh:property[
+        sh:path ff:hasConsiderableAssets ;
+        sh:minCount 1 ;
+        sh:hasValue false ;
+        sh:message "Does not meet requirement 'User has no considerable assets.'"@en ;
     ] .
 
 ff:ChildShape a sh:NodeShape ;

@@ -1,20 +1,19 @@
 @prefix ex: <http://example.org/ns#> .
 @prefix ff: <https://foerderfunke.org/default#> .
 
-# Does not meet requirement 'Child lives in the same household as the user.'
+# Mising ff:isSingleParent for IncomeShapeA OR IncomeShapeB
 
 ff:User ff:hasChild ex:Kim ;
-		# IncomeShapeA
-		ff:isSingleParent false ;
+		# IncomeShapeB
 		ff:hasIncome [
-			ff:familyGrossIncome 900 ;
+			ff:personalGrossIncome 600 ;
 			ff:reducesChildSupplementTo 1 ;
 		] ;
 		ff:hasConsiderableAssets false .
 
 ex:Kim ff:hasAge 24 ;
 	ff:hasMaritalStatus ff:Single ;
-	ff:sameHouseholdAs ex:SomeOtherUser ;
+	ff:sameHouseholdAs ff:User ;
 	ff:receivesChildBenefit 250 ;
 	ff:isEligibleFor ex:SomeBenefit .
 

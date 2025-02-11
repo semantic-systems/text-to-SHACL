@@ -1,7 +1,7 @@
 @prefix ex: <http://example.org/ns#> .
 @prefix ff: <https://foerderfunke.org/default#> .
 
-# Does not meet requirement 'Child lives in the same household as the user.'
+# Does not meet requirement 'Child receives child benefit.'
 
 ff:User ff:hasChild ex:Kim ;
 		# IncomeShapeA
@@ -14,8 +14,8 @@ ff:User ff:hasChild ex:Kim ;
 
 ex:Kim ff:hasAge 24 ;
 	ff:hasMaritalStatus ff:Single ;
-	ff:sameHouseholdAs ex:SomeOtherUser ;
-	ff:receivesChildBenefit 250 ;
+	ff:sameHouseholdAs ff:User ;
+	ff:receivesChildBenefit 0 ;
 	ff:isEligibleFor ex:SomeBenefit .
 
 ex:SomeBenefit a ff:SocialBenefit ;
