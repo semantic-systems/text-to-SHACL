@@ -12,33 +12,33 @@ ff:B100019_LB_106311931 a ff:SocialBenefit ;
 ff:BuergergeldShape a sh:NodeShape ;
     ff:checksFundingRequirement ff:B100019_LB_106311931 ;
     sh:targetNode ff:User ;
-    # User must be employable, i.e. able to work at least 3 hours per day
+    # User is able to work at least 3 hours per day
     sh:property [
         sh:path ff:employableHoursPerDay ;
         sh:minCount 1 ;
         sh:minInclusive 3 ;
-        sh:message "Sie müssen mindestens drei Stunden täglich arbeiten können. Andernfalls gelten Sie nicht als erwerbsfähig."@de ;
+        sh:message "Does not meet requirement 'User is able to work at least 3 hours per day.'"@en ;
     ] ;
-    # User must be employable, i.e. be at least 15 years old
+    # User is at least 15 years old
     sh:property [
         sh:path ff:hasAge ;
         sh:minCount 1 ;
         sh:minInclusive 15 ;
-        sh:message "Sie müssen mindestens 15 Jahre alt sein. Andernfalls gelten Sie nicht als erwerbsfähig."@de ;
+        sh:message "Does not meet requirement 'User is at least 15 years old'"@en ;
     ] ;
-    # User must be employable, i.e. not have reached the legal retirement age
+    # User has not yet reached the legal retirement age
     sh:property [
         sh:path ff:isPensionable ;
         sh:minCount 1 ;
         sh:hasValue false ;
-        sh:message "Sie dürfen das gesetzliche Rentenalter (67, wenn Sie nach 1963 geboren sind; siehe § 7a Sozialgesetzbuch II, wenn Sie vor 1964 geboren sind) noch nicht erreicht haben. Andernfalls gelten Sie nicht als erwerbsfähig."@de ;
+        sh:message "Does not meet requirement 'User has not yet reached the legal retirement age'"@en ;
     ] ;
-    # User income cannot cover their household's living expenses
+    # User income cannot cover the basic needs of themselves and the unemployed individuals in their benefit unit
     sh:property [
         sh:path (ff:hasIncome ff:coversBasicNeeds) ;
         sh:minCount 1 ;
         sh:hasValue false ;
-        sh:message "Ihre Einkünfte dürfen nicht ausreichen, um den notwendigen Lebensunterhalt Ihres Haushaltes zu decken. Andernfalls gelten Sie nicht als hilfebedürftig."@de ;
+        sh:message "Does not meet requirement 'User income cannot cover the basic needs of themselves and the unemployed individuals in their benefit unit.'"@en ;
     ] ;
     # User may not be eligible for other benefits with priority over Bürgergeld 
     sh:not [

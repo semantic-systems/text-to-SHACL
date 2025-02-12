@@ -1,6 +1,15 @@
-<b>Name</b>: BürgergeldBeantragen
+<b>Name</b>: Bürgergeld
 
 <b>IDLB</b>: B100019_LB_106311931
+
+<b>Addressee</b>: Lebenslagen für Bürgerinnen und Bürger
+
+<b>Legal basis</b>: Zweites Buch Sozialgesetzbuch (SGB II)
+
+<b>Description</b>: 
+
+Wenn Sie nicht genügend Geld zur Verfügung haben, um Ihren notwendigen
+Lebensunterhalt selbst zu finanzieren, dann können Sie Bürgergeld beantragen.
 
 <b>Requirements text</b>:
 
@@ -11,12 +20,12 @@
   * Sie haben keine vorrangigen Ansprüche gegenüber anderen Leistungsträgern (zum Beispiel Wohngeld) oder anderen Personen, wie beispielsweise gegen geschiedene Ehepartner oder den Vater oder die Mutter Ihres Kindes.
   * Sie leben in der Bundesrepublik Deutschland.
 
-
 <b>Requirements decomposition</b>:
 
-1. User must be employable, i.e. able to work at least 3 hours per day (G)
-2. User must be employable, i.e. be at least 15 years old (G)
-3. User must be employable, i.e. not have reached the legal retirement age (Y)
-4. User is in need, i.e. their income cannot cover their basic needs (Note: Income includes salary, assets, and granted benefits. It is assumed hat an individual who cannot cover their own basic needs can also not cover their household's basic needs) (Y)
-5. User may not be eligible for other benefits with priority over Bürgergeld (Y)
-6. User must life in Germany (G)
+1. User is able to work at least 3 hours per day (G)
+2. User is at least 15 years old (G)
+3. User has not yet reached the legal retirement age (Y)
+4. User income cannot cover the basic needs of themselves and the unemployed individuals in their benefit unit. (Y)
+5. User income is the sum of salary, assets, and granted benefits. (R: cannot be expressed with SHACL Core)
+6. User is not eligible for other benefits with priority over citizen benefit (Y)
+7. User lifes in Germany (G)

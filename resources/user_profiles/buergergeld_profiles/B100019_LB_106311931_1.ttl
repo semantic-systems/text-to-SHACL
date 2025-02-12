@@ -1,8 +1,9 @@
 @prefix ex: <http://example.org/ns#> .
 @prefix ff: <https://foerderfunke.org/default#> .
 
-ff:User ff:eligibleFor ff:B100019_LB_106311931 ; 
-        ff:employableHoursPerDay 3 ;
+# Eligible for citizen benefit (Bürgergeld)
+
+ff:User ff:employableHoursPerDay 3 ;
         ff:hasAge 15 ;
         ff:isPensionable false ;
         ff:hasIncome [

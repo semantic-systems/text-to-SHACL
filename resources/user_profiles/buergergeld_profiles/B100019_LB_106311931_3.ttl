@@ -1,11 +1,10 @@
-@prefix ff: <https://foerderfunke.org/default#> .
 @prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
 
-# Test ff:hasAge 
+# Eligible for citizen benefit (Bürgergeld)
 
-ff:User ff:ineligibleFor ff:B100019_LB_106311931 ; 
-        ff:employableHoursPerDay 3 ;
-        ff:hasAge 14 ;
+ff:User ff:employableHoursPerDay 8 ;
+        ff:hasAge 57 ;
         ff:isPensionable false ;
         ff:hasIncome [
             ff:coversBasicNeeds false ;
@@ -13,5 +12,4 @@ ff:User ff:ineligibleFor ff:B100019_LB_106311931 ;
         ff:isEligibleFor ex:SomeBenefit ;
         ff:countryOfResidence ff:Germany .
 
-ex:SomeBenefit a ff:SocialBenefit ;
-	ff:hasPriorityOver ex:SomeOtherBenefit .
+ex:SomeBenefit a ff:SocialBenefit .

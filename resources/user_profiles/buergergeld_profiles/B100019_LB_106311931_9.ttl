@@ -1,16 +1,16 @@
 @prefix ex: <http://example.org/ns#> .
 @prefix ff: <https://foerderfunke.org/default#> .
 
-# Does not meet requirement 'User is able to work at least 3 hours per day'
+# Does not meet requirement 'User must life in Germany'
 
-ff:User ff:employableHoursPerDay 2.99 ;
+ff:User ff:employableHoursPerDay 3 ;
         ff:hasAge 15 ;
         ff:isPensionable false ;
         ff:hasIncome [
             ff:coversBasicNeeds false ;
         ] ;
         ff:isEligibleFor ex:SomeBenefit ;
-        ff:countryOfResidence ff:Germany .
+        ff:countryOfResidence ex:Tuvalu .
 
 ex:SomeBenefit a ff:SocialBenefit ;
 	ff:hasPriorityOver ex:SomeOtherBenefit .

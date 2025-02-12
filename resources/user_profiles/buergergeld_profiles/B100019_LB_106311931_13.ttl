@@ -1,14 +1,12 @@
 @prefix ex: <http://example.org/ns#> .
 @prefix ff: <https://foerderfunke.org/default#> .
 
-# Does not meet requirement 'User is able to work at least 3 hours per day'
+# Missing information for 'User income cannot cover the basic needs of themselves and the unemployed individuals in their benefit unit.'
 
-ff:User ff:employableHoursPerDay 2.99 ;
-        ff:hasAge 15 ;
+ff:User ff:employableHoursPerDay 6 ;
+        ff:hasAge 38 ;
         ff:isPensionable false ;
-        ff:hasIncome [
-            ff:coversBasicNeeds false ;
-        ] ;
+        ff:hasIncome _:b1 ;
         ff:isEligibleFor ex:SomeBenefit ;
         ff:countryOfResidence ff:Germany .
 

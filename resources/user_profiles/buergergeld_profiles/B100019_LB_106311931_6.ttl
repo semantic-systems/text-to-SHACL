@@ -1,12 +1,11 @@
 @prefix ex: <http://example.org/ns#> .
 @prefix ff: <https://foerderfunke.org/default#> .
 
-# Test (ff:hasIncome ff:coversBasicNeeds) = true
+# Does not meet requirement 'User has not yet reached the legal retirement age.'
 
-ff:User ff:eligibleFor ff:B100019_LB_106311931 ; 
-        ff:employableHoursPerDay 3 ;
-        ff:hasAge 15 ;
-        ff:isPensionable false ;
+ff:User ff:employableHoursPerDay 3 ;
+        ff:hasAge 69 ;
+        ff:isPensionable true ;
         ff:hasIncome [
             ff:coversBasicNeeds false ;
         ] ;
@@ -14,4 +13,4 @@ ff:User ff:eligibleFor ff:B100019_LB_106311931 ;
         ff:countryOfResidence ff:Germany .
 
 ex:SomeBenefit a ff:SocialBenefit ;
-	ff:hasPriorityOver ff:B100019_LB_106311931 .
+	ff:hasPriorityOver ex:SomeOtherBenefit .

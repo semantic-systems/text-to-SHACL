@@ -1,6 +1,8 @@
 @prefix ex: <http://example.org/ns#> .
 @prefix ff: <https://foerderfunke.org/default#> .
 
+# Eligible for citizens benefit (Buergergeld)
+
 ff:User ff:employableHoursPerDay 3 ;
         ff:hasAge 15 ;
         ff:isPensionable false ;
