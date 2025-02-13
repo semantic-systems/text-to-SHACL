@@ -45,12 +45,12 @@ ff:BuergergeldShape a sh:NodeShape ;
         a sh:PropertyShape ;
         sh:path (ff:isEligibleFor ff:hasPriorityOver) ;
         sh:hasValue ff:B100019_LB_106311931 ;
-        sh:message "Sie dürfen keine vorrangigen Ansprüche haben."@de ;
+        sh:message "Does not meet requiremnt 'User is not eligible for other benefits with priority over citizen benefit'"@en ;
     ] ;
     # User must life in Germany
     sh:property [
         sh:path ff:countryOfResidence ;
         sh:minCount 1 ;
         sh:hasValue ff:Germany ;
-        sh:message "Sie müssen in Deutschland leben."@de ;
+        sh:message "Does not meet requirement 'User lifes in Germany'"@en ;
     ] .
