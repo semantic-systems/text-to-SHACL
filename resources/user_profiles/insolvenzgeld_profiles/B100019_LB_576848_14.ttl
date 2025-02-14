@@ -1,0 +1,11 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Missing information for 'An insolvency event occurred'
+
+ff:User a ff:Employee ;
+    ff:employedBy ex:TheBusiness ;
+    ff:wageCut [
+        ff:monthsBeforeInsolvencyEvent 3 ;
+    ] ;
+    ff:countryOfEmployment ff:Germany .

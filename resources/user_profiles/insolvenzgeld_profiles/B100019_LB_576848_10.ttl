@@ -1,0 +1,15 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Does not meet requirement 'User is employed in Germany OR temporarily abroad and obligated to pay social security in Germany'
+
+ff:User a ff:Employee ;
+    ff:employedBy ex:TheBusiness ;
+    ff:wageCut [
+        ff:monthsBeforeInsolvencyEvent 1 ;
+    ] ;
+    ff:countryOfEmployment ff:Tuvalu .
+
+ex:TheBusiness ff:rejectedInsolvencyApplication [
+    ff:reason "Lack of assets"@en ;
+] .

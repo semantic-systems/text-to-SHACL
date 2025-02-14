@@ -1,0 +1,15 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Does not meet requirement 'User wage was cut within 3 months before the insolvency event'
+
+ff:User a ff:Employee ;
+        ff:employedBy ex:TheBusiness ;
+        ff:wageCut [
+            ff:monthsBeforeInsolvencyEvent 6 ;
+        ] ;
+        ff:countryOfEmployment ff:Tuvalu .
+
+ex:TheBusiness ff:rejectedInsolvencyApplication [
+    ff:reason "Lack of assets"@en ;
+] .
