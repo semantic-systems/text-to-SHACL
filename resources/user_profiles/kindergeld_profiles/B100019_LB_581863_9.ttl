@@ -1,0 +1,16 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+# Eligible for child allowance (Kindergeld)
+
+ff:User ff:incomeTaxCountry ex:Germany ;
+	ff:incomeTaxLiability ff:UnlimitedTaxLiability ;
+	# ResidencyShapeD
+	ff:isNationalOf ex:Tuvalu ;
+	ff:entitledToAsylum true ;
+	ff:hasChild ex:Urs .
+
+# ChildShapeA
+ex:Urs ff:countryOfResidence ff:Germany .
+ff:Germany a ff:EEAplusCH .

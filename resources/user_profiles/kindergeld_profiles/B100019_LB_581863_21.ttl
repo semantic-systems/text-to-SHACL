@@ -1,0 +1,17 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+# Does not meet requirement "User has at least one child that is an EEA/Swiss resident OR ordinarily resides in an EEA/Swiss member state"
+
+ff:User ff:incomeTaxCountry ex:Germany ;
+	ff:incomeTaxLiability ff:UnlimitedTaxLiability ;
+	# ResidencyShapeD
+	ff:isNationalOf ex:Tuvalu ;
+	ff:hasResidencePermit [
+		ff:entitlesToEmployment true ;
+	] ;
+	ff:hasChild ex:Urs .
+
+# ChildShapeA
+ex:Urs ff:ordinaryResidence ex:Tuvalu .

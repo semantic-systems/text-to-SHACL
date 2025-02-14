@@ -1,0 +1,16 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+# Does not meet requirement "User is subject to unlimited income tax lianility"
+
+ff:User ff:incomeTaxCountry ff:Germany;
+	ff:incomeTaxLiability ff:LimitedTaxLiability;
+	# ResidencyShapeA
+	ff:isNationalOf ff:German;
+	ff:hasChild ex:Fredda.
+
+# ChildShapeB
+ex:Fredda ff:ordinaryResidence ex:Latvia .
+
+ex:Latvia a ff:EEAplusCH .

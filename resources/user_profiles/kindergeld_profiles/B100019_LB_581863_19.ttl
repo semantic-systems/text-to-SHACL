@@ -1,0 +1,18 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+# Does not meet requirement "User is not an EEA/Swiss national AND has a residence title that entitles to pursue gainful employment (e.g., valid settlement permit) OR is a legally recognized refugee OR is entitleto asylum"
+
+ff:User ff:incomeTaxCountry ex:Germany ;
+	ff:incomeTaxLiability ff:UnlimitedTaxLiability ;
+	# ResidencyShapeD
+	ff:isNationalOf ex:Tuvalu ;
+	ff:hasResidencePermit [
+		ff:entitlesToEmployment false ;
+	] ;
+	ff:hasChild ex:Urs .
+
+# ChildShapeA
+ex:Urs ff:countryOfResidence ff:Germany .
+ff:Germany a ff:EEAplusCH .
