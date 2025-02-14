@@ -3,7 +3,7 @@
 
 # Does not meet requirement 'User is employed in Germany OR temporarily abroad and obligated to pay social security in Germany'
 
-ff:User a ff:Employee ;
+ff:User ff:hasEmploymentStatus ff:Employed ;
     ff:employedBy ex:TheBusiness ;
     ff:wageCut [
         ff:monthsBeforeInsolvencyEvent 1 ;

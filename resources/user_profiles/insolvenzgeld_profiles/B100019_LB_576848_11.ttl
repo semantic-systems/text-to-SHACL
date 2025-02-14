@@ -3,7 +3,7 @@
 
 # Does not meet requirement 'User wage was cut within 3 months before the insolvency event'
 
-ff:User a ff:Employee ;
+ff:User ff:hasEmploymentStatus ff:Employed ;
         ff:employedBy ex:TheBusiness ;
         ff:wageCut [
             ff:monthsBeforeInsolvencyEvent 6 ;

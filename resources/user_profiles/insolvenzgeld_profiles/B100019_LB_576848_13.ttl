@@ -3,7 +3,7 @@
 
 # Eligible for insolvency allowance (Insolvenzgeld)
 
-ff:User a ff:Employee ;
+ff:User ff:hasEmploymentStatus ff:Employed ;
     ff:employedBy ex:TheBusiness ;
     ff:wageCut [
         ff:monthsBeforeInsolvencyEvent 3 ;

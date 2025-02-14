@@ -3,7 +3,7 @@
 
 # Does not meet requirement "User is an employee by law"
 
-ff:User a ex:Freelancer ;
+ff:User ff:hasEmploymentStatus ff:SelfEmployed ;
     ex:employedBy ex:TheBusiness ;
     ff:wageCut [
         ff:monthsBeforeInsolvencyEvent 3 ;

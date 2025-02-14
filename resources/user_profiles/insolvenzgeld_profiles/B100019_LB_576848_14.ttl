@@ -3,7 +3,7 @@
 
 # Missing information for 'An insolvency event occurred'
 
-ff:User a ff:Employee ;
+ff:User ff:hasEmploymentStatus ff:Employed ;
     ff:employedBy ex:TheBusiness ;
     ff:wageCut [
         ff:monthsBeforeInsolvencyEvent 3 ;

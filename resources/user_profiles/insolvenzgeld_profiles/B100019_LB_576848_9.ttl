@@ -3,7 +3,7 @@
 
 # Does not meet requirement 'An insolvency event occurred' (Insolvency event C)
 
-ff:User a ff:Employee ;
+ff:User ff:hasEmploymentStatus ff:Employed ;
     ff:employedBy ex:TheBusiness ;
     ff:wageCut [
         ff:monthsBeforeInsolvencyEvent 1 ;

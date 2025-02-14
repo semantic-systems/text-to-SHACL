@@ -13,8 +13,12 @@ ff:InsolvenzgeldShape a sh:NodeShape ;
     ff:checksFundingRequirement ff:B100019_LB_576848 ;
     sh:targetNode ff:User ;
     # User is an employee by law
-    sh:class ff:Employee ;
-    sh:message "Does not meet requirement 'User is an employee by law'."@en ;
+    sh:property [
+        sh:path ff:hasEmploymentStatus ;
+        sh:minCount 1 ;
+        sh:hasValue ff:Employed ;
+        sh:message "Does not meet requirement 'User is an employee by law'."@en ;
+    ] ;
     # An insolvency event occurred
     sh:property [ 
 		sh:path ff:employedBy ;
