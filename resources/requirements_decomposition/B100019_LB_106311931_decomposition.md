@@ -28,4 +28,4 @@ Lebensunterhalt selbst zu finanzieren, dann können Sie Bürgergeld beantragen.
 4. User income cannot cover the basic needs of themselves and the unemployed individuals in their benefit unit. (Y)
 5. User income is the sum of salary, assets, and granted benefits. (R: cannot be expressed with SHACL Core)
 6. User is not eligible for other benefits with priority over citizen benefit (Y)
-7. User lifes in Germany (G)
+7. User lives in Germany (G)
