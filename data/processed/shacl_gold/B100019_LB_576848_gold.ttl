@@ -12,18 +12,12 @@ ff:B100019_LB_576848 a ff:SocialBenefit ;
 ff:InsolvenzgeldShape a sh:NodeShape ;
     ff:checksFundingRequirement ff:B100019_LB_576848 ;
     sh:targetNode ff:User ;
-    # User is an employee by law
-    sh:property [
-        sh:path ff:hasEmploymentStatus ;
-        sh:minCount 1 ;
-        sh:hasValue ff:Employed ;
-        sh:message "Does not meet requirement 'User is an employee by law'."@en ;
-    ] ;
     # An insolvency event occurred
     sh:property [ 
 		sh:path ff:employedBy ;
 		sh:minCount 1 ;
-        sh:maxCount 1 ; # NOTE: Text does not cover the case of multiple employers
+        # NOTE: Text does not cover the case of multiple employers
+        sh:maxCount 1 ; 
 		sh:or (
             ff:InsolvencyEventShapeA
             ff:InsolvencyEventShapeB
@@ -37,17 +31,25 @@ ff:InsolvenzgeldShape a sh:NodeShape ;
         sh:qualifiedValueShape [
 			sh:path ff:monthsBeforeInsolvencyEvent ;
 			sh:minExclusive 0 ;
-            sh:maxInclusive 3 ;
+			sh:maxInclusive 3 ;
 		] ;
         sh:qualifiedMinCount 1 ;
+        sh:message "Does not meet requirement 'User wage was cut within 3 months before the insolvency event.'"@en ;
     ] ;
     # User is employed in Germany OR temporarily abroad and obligated to pay social security in Germany
     sh:or (
         ff:CountryShapeA
         ff:CountryShapeB
-    ) .
+    ) ;
+    # User is an employee by law
+    sh:property [
+        sh:path ff:hasEmploymentStatus ;
+        sh:minCount 1 ;
+        sh:hasValue ff:Employed ;
+        sh:message "Does not meet requirement 'User is an employee by law'."@en ;
+    ] .
 
-# Insolvency event A: Insolveny proceedings are opened against the employre's assets
+# Insolvency event A: Insolveny proceedings are opened against the employer's assets
 ff:InsolvencyEventShapeA a sh:NodeShape ;
     sh:property [
         sh:path ff:openInsolvencyProceeding ;
@@ -65,7 +67,7 @@ ff:InsolvencyEventShapeB a sh:NodeShape ;
 # Insolvency event C: Business activity is completely discontinued
 ff:InsolvencyEventShapeC a sh:NodeShape ;
     sh:property [
-        sh:path ff:discontinuedBisunessActivity ;
+        sh:path ff:discontinuedBusinessActivity ;
         sh:minCount 1 ;
         sh:hasValue true ;
      ] .
@@ -78,7 +80,7 @@ ff:CountryShapeA a sh:NodeShape ;
         sh:hasValue ff:Germany ;
     ] .
 
-# User is employed abroad AND subuject to social security in Germany
+# User is employed abroad AND subject to social security in Germany
 ff:CountryShapeB a sh:NodeShape ;
     sh:property [
         sh:path ff:countryOfEmployment ;

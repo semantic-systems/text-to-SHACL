@@ -16,7 +16,7 @@ ff:KindergeldBeantragenShape a sh:NodeShape ;
     sh:property [
         sh:path ff:incomeTaxCountry ;
         sh:minCount 1 ;
-        sh:node ff:Germany ;
+        sh:hasValue ff:Germany ;
         sh:message "Does not meet requirement 'User is subject to income tax in Germany.'"@en ;
     ] ;
     # User is subject to unlimited income tax lianility
@@ -24,7 +24,7 @@ ff:KindergeldBeantragenShape a sh:NodeShape ;
         sh:path ff:incomeTaxLiability ;
         sh:minCount 1 ;
         sh:hasValue ff:UnlimitedTaxLiability ;
-        sh:message "Does not meet requirement 'User is subject to unlimited income tax lianility.'"@en ;
+        sh:message "Does not meet requirement 'User is subject to unlimited income tax liability.'"@en ;
     ] ;
     # User's residence situation falls into one of the covered categories
     sh:or (

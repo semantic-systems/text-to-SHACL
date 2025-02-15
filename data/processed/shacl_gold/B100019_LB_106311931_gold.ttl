@@ -42,7 +42,6 @@ ff:BuergergeldShape a sh:NodeShape ;
     ] ;
     # User may not be eligible for other benefits with priority over Bürgergeld 
     sh:not [
-        a sh:PropertyShape ;
         sh:path (ff:isEligibleFor ff:hasPriorityOver) ;
         sh:hasValue ff:B100019_LB_106311931 ;
         sh:message "Does not meet requiremnt 'User is not eligible for other benefits with priority over citizen benefit'"@en ;

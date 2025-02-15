@@ -29,7 +29,7 @@ sein:
 
 <b>Requirements decomposition</b>:
 
-1. User has at least one child that fulfills certain criteria. (G)
+1. User has at least one child that fulfills the criteria. (G)
 2. Child is younger than 25 years. (G)
 3. Child is not married or in a registered partnership. (G)
 4. Child lives in the same household as the user. (G)
@@ -38,5 +38,5 @@ sein:
 7. As a couple, shared gross income is at least 900€/Month. (G)
 8. As a single parent, gross income is at least 600€/Month. (G)
 9. User income that will be offset against child supplement does not reduce child supplement to zero. (Y)
-10. User has no considerable assets. (Y)
+10. User has no considerable assets. (Y: defintion see https://www.gesetze-im-internet.de/sgb_2/__12.html)
 11. Typically, user is eligible if their income, child benefit, housing benefit, and child supplement can cover the household needs according to SGB II. (R: qualified requirement)

@@ -17,21 +17,21 @@ ff:AusbildungsgeldShape a sh:NodeShape ;
         sh:path ff:hasDisability ;
         sh:minCount 1 ;
         sh:hasValue true ;
-        sh:message "Does not meet requirement 'User has a disability.'"@de ;
+        sh:message "Does not meet requirement 'User has a disability.'"@en ;
     ] ;
     # User's rehabilitation provider is the Federal Employment Agency
     sh:property [
         sh:path ff:hasRehabilitationProvider ;
         sh:minCount 1 ;
         sh:hasValue ff:FederalEmploymentAgency ;
-        sh:message "Does not meet requirement 'User's rehabilitation provider is the Federal Employment Agency.'"@de ;
+        sh:message "Does not meet requirement 'User's rehabilitation provider is the Federal Employment Agency.'"@en ;
     ];
     # User will participate in one of the covered training programs
     sh:property [
 		sh:path ff:plansParticipation ;
         sh:minCount 1 ;
 		sh:in ( ff:VocationalTraining ff:PreVocationalTraining ff:IndividualInCompanyQualification ff:InitialTrainingWDP ff:VocationalTrainingWDP) ;
-        sh:message "Does not meet requirement 'User will participate in one of the covered training programs.'"@de ;
+        sh:message "Does not meet requirement 'User will participate in one of the covered training programs.'"@en ;
     ] ;
     # User is not eligible for transitional allowance
     sh:property [

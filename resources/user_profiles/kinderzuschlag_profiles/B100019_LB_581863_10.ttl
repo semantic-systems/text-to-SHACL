@@ -15,8 +15,8 @@ ff:User ff:hasChild ex:Kim ;
 ex:Kim ff:hasAge 24 ;
 	ff:hasMaritalStatus ff:Single ;
 	ff:sameHouseholdAs ff:User ;
-	ff:receivesChildBenefit 0 ;
-	ff:isEligibleFor ex:SomeBenefit .
+	ff:receivesBenefit ex:SomeBenefit ;
+	ff:isEligibleFor ex:SomeOtherBenefit .
 
-ex:SomeBenefit a ff:SocialBenefit ;
-	ff:hasPriorityOver ex:SomeOtherBenefit .
+ex:SomeOtherBenefit a ff:SocialBenefit ;
+	ff:hasPriorityOver ex:YetAnotherBenefit .

@@ -15,7 +15,7 @@ ff:User ff:hasChild ex:Kim ;
 ex:Kim ff:hasAge 24 ;
 	ff:hasMaritalStatus ff:Divorced ;
 	ff:sameHouseholdAs ff:User ;
-	ff:receivesChildBenefit 175.25 ;
+	ff:receivesBenefit ff:B100019_LB_576986 ;
 	ff:isEligibleFor ex:SomeBenefit .
 
 ex:SomeBenefit a ff:SocialBenefit ;

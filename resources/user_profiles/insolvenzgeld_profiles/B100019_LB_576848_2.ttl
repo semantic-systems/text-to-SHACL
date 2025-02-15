@@ -10,4 +10,4 @@ ff:User ff:hasEmploymentStatus ff:Employed ;
     ] ;
     ff:countryOfEmployment ff:Germany .
 
-ex:TheBusiness ff:discontinuedBisunessActivity true.
+ex:TheBusiness ff:discontinuedBusinessActivity true.

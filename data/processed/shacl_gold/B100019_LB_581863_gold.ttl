@@ -12,12 +12,12 @@ ff:B100019_LB_581863 a ff:SocialBenefit ;
 ff:KinderzuschlagShape a sh:NodeShape ;
     ff:checksFundingRequirement ff:B100019_LB_581863 ;
     sh:targetNode ff:User ;
-    # User must have at least one child that fulfills certain criteria
+    # User must have at least one child that fulfills the criteria
     sh:property [
         sh:path ff:hasChild ;
         sh:qualifiedMinCount 1 ;
         sh:qualifiedValueShape ff:ChildShape ;
-        sh:message "Does not meet requirement 'User has at least one child that fulfills certain criteria.'"@en ;
+        sh:message "Does not meet requirement 'User has at least one child that fulfills the criteria.'"@en ;
     ] ;
     sh:or (
         ff:IncomeShapeA
@@ -59,13 +59,14 @@ ff:ChildShape a sh:NodeShape ;
     ] ;
     # Child must receive child benefit
     sh:property [
-        sh:path ff:receivesChildBenefit ;
-        sh:minCount 1 ;
-        sh:minInclusive 1 ;
+        sh:path ff:receivesBenefit ;
+        sh:qualifiedValueShape [
+            sh:hasValue ff:B100019_LB_576986
+            ] ;
+        sh:qualifiedMinCount 1 ;
     ] ;
     # Child may not be eligible for other benefits with priority over child supplement 
     sh:not [
-        a sh:PropertyShape ;
 		sh:path (ff:isEligibleFor ff:hasPriorityOver) ;
 		sh:hasValue ff:B100019_LB_581863 ;
     ] .

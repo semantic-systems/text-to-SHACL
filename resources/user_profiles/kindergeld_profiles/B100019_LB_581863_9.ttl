@@ -4,7 +4,7 @@
 
 # Eligible for child allowance (Kindergeld)
 
-ff:User ff:incomeTaxCountry ex:Germany ;
+ff:User ff:incomeTaxCountry ff:Germany ;
 	ff:incomeTaxLiability ff:UnlimitedTaxLiability ;
 	# ResidencyShapeD
 	ff:isNationalOf ex:Tuvalu ;
