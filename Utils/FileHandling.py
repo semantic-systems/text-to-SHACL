@@ -9,6 +9,7 @@ import json
 import shutil
 import requests
 import logging
+import subprocess
 from typing import Any, Dict
 
 def download_and_save_file(url: str, params: dict, save_dir: str, filename: str) -> str:
@@ -71,7 +72,7 @@ def validate_input_directory(input_dir: str, logger: logging.Logger):
         raise ValueError(f"Input directory '{input_dir}' is empty.")
 
 def save_file(content: str, filepath: str, logger: logging.Logger) -> None:
-    """Save content to a file at the specified path."""
+    """Saves content to a file at the specified path."""
     try:
         # Ensure save directory exists
         directory = os.path.dirname(filepath)
@@ -85,7 +86,7 @@ def save_file(content: str, filepath: str, logger: logging.Logger) -> None:
         logger.error(f"An error occurred while saving the file: {e}")
 
 def setup_experiment_directory(results_dir, mode):
-    """Clear and create the experiment directory."""
+    """Clears and creates an experiment directory."""
     experiment_dir = os.path.join(results_dir, mode)
     if os.path.exists(experiment_dir):
         shutil.rmtree(experiment_dir)
@@ -93,10 +94,20 @@ def setup_experiment_directory(results_dir, mode):
     return experiment_dir
 
 def load_file(file_path: str, logger: logging.Logger, as_json: bool = False) -> Any:
-    """Utility function to load file content as text or JSON."""
+    """Load file content as text or JSON using utf-8 encoding."""
     try:
         with open(file_path, 'r', encoding = "utf-8") as file:
             return json.load(file) if as_json else file.read()
     except FileNotFoundError as e:
         logger.error(f"Failed to load prompt component. File not found: {file_path}")
         raise ValueError
+
+def convert_md_to_pdf(md_file, output_folder):
+    """Converts a markdown file to a PDF and saves the PDF to the output folder."""
+    base_name = os.path.basename(md_file).replace(".md", "")
+    html_file = os.path.join(output_folder, base_name + ".html")
+    pdf_file = os.path.join(output_folder, base_name + ".pdf")
+
+    subprocess.run(["pandoc", md_file, "-o", html_file], check=True)
+    subprocess.run(["pandoc", html_file, "-o", pdf_file, "--pdf-engine=xelatex"], check=True)
+    os.remove(html_file)
