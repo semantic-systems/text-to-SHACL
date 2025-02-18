@@ -25,7 +25,7 @@ Lebensunterhalt selbst zu finanzieren, dann können Sie Bürgergeld beantragen.
 1. User is able to work at least 3 hours per day (G)
 2. User is at least 15 years old (G)
 3. User has not yet reached the legal retirement age (Y)
-4. User income cannot cover the basic needs of themselves and the unemployed individuals in their benefit unit. (Y)
+4. User income cannot cover the basic needs of themselves and the unemployed individuals in their benefit unit. (Y: simplified to "User income cannot cover basic needs")
 5. User income is the sum of salary, assets, and granted benefits. (R: cannot be expressed with SHACL Core)
 6. User is not eligible for other benefits with priority over citizen benefit (Y)
 7. User lives in Germany (G)

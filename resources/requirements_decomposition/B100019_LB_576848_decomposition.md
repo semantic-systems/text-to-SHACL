@@ -35,10 +35,11 @@ erfüllt sein:
 1. An insolvency event occured, i.e.
   - insolvency proceedings are opened against the employer's assets OR (G)
   - insolvency application is rejected for lack of assets OR (G)
-  - business activity is completely discontinued (G) AND there is an obvious lack of assets (R: discretionary decision)
+  - business activity is completely discontinued (G) AND there is an obvious lack of assets (R: third-party knowledge)
 2. User wage was cut within 3 months before the insolvency event (G)
 3. User is 
   - employed in Germany OR (G)
-  - employed abroad AND subject social security in Germany (G)
-  - NOTE: Temporary nature of posting implied by the fact that social security is still paid in Germany (https://www.gesetze-im-internet.de/sgb_4/__4.html)
+  - employed abroad AND subject to social security in Germany (G) AND posting abroad is temporary (R: can be presumed if user is subject to social security in Germany, see [1])
 4. User is an employee by law (G)
+
+[1] SGB 4 §4: https://www.gesetze-im-internet.de/sgb_4/__4.html

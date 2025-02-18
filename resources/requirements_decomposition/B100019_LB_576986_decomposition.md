@@ -1,4 +1,4 @@
-<b>Name</b>: KindergeldBeantragen
+<b>Name</b>: Kindergeld
 
 <b>IDLB</b>: B100019_LB_576986
 
@@ -37,18 +37,22 @@ Voraussetzungen, die für Ihr Kind gelten:
 4. User's residence situation falls into one of the covered categories:
     - they are a German national (G) OR
     - they are EEA/Swiss national AND moved to Germany before August 2019 (G) OR
-    - they are EEA/Swiss national AND moved to Germany after August 2019 (G) AND meet the requirements of the Freedom of Movement Act (see below) (FoMA) 4 months after entry (R: temporal dependency cannot be modelled with SHACL Core) OR
+    - they are EEA/Swiss national AND moved to Germany after August 2019 (G) AND meet the requirements of the Freedom of Movement Act (see below) (FoMA) from 4 months after entry onward (R: cannot be modelled with SHACL Core) OR
     - they are not an EEA/Swiss national AND have a valid settlement permit (G) OR
     - they are not an EEA/Swiss national AND another residence title that entitles to pursue gainful employment (Y) OR
     - they are not an EEA/Swiss national AND legally recognized refugee (G) OR
     - they are not an EEA/Swiss national AND entitled to asylum (Y)
-5. FoMA requires that the (non-German EEA national) user is
-    - self-employed (G) OR 
-    - employed (G) OR
-    - looking for work (G) OR
-    - unemployed (NOTE: in Germany, only involuntarily unemployed individuals are considered to be unemployed, see https://statistik.arbeitsagentur.de/DE/Navigation/Grundlagen/Definitionen/Arbeitslosigkeit-Unterbeschaeftigung/Arbeitslosigkeit-Nav.html) (Y) OR
+5. FoMA requires that the (non-German EEA national) user
+    - is self-employed (G) OR 
+    - is employed (G) OR
+    - is looking for work (G) OR
+    - is involuntarily unemployed (NOTE: in Germany, only involuntarily unemployed individuals are considered to be unemployed, see [1]) (Y) OR
     - can derive their right to freedom of movement from a family member (Y) OR
     - has sufficient means of subsistence AND adequate health insurance cover (R: discretionary) OR
-    - has acquired a permanent right of residence (Y).
-6. User has at least one child that is an EEA/Swiss resident OR ordinarily resides in an EEA/Swiss member state
-7. User is possibly entitled if the child lives in a household in an EEA/Swiss member state, but they or the other parent are subject to unlimited income tax liability in Germany OR are assessed as such. (R: qualified requirement "possibly")
+    - has acquired a permanent right of residence (Y: definition see [2]). 
+6. User has at least one child that is an EEA/Swiss resident OR ordinarily resides in an EEA/Swiss member state (G)
+7. User is possibly entitled if the child lives in a household in an EEA/Swiss member state, but they or the other parent are subject to unlimited income tax liability in Germany OR are assessed as such. (R: qualified requirement)
+
+[1] Bundesagentur für Arbeit: https://statistik.arbeitsagentur.de/DE/Navigation/Grundlagen/Definitionen/Arbeitslosigkeit-Unterbeschaeftigung/Arbeitslosigkeit-Nav.html
+
+[2] Act on the General Freedom of Movement for EU Citizens Section 4a: https://www.gesetze-im-internet.de/englisch_freiz_gg_eu/englisch_freiz_gg_eu.html

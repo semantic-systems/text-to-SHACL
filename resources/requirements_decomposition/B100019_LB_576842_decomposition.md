@@ -30,8 +30,8 @@ Sie haben Anspruch auf Arbeitslosengeld, wenn
 <b>Requirements decomposition</b>:
 
 1. User is not in employment OR in employment for less than 15 hours per week (G)
-2. User is able to take up employment subject to compulsory insurance under normal labor market conditions. (G)
-3. User is willing to take up employment subject to compulsory insurance under normal labor market conditions. (R: discretionary decision)
+2. User is able to take up employment subject to compulsory insurance under normal labor market conditions. (Y: simplified to "User is able to work")
+3. User is willing to take up employment subject to compulsory insurance under normal labor market conditions. (R: can be presumed)
 4. User has registered as unemployed. (G)
 5. User has been subject to compulsory insurance for at least 12 months within the last 30 months before registering as unemployed. (R: cannot be expressed with SHACL Core)
 6. The period of compulsory insurance is the sum of compulsory insurance for employment promotion due to the receipt of income replacement benefits AND so-called voluntary continued insurance AND, in special cases, development service under the Development Workers ACT AND, in special cases, work abroad on the basis of a secondment contract. (R: cannot be expressed with SHACL Core, contains qualified requirements)
