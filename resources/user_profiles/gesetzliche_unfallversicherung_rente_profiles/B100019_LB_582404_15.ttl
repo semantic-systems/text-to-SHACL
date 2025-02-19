@@ -1,0 +1,15 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Eligible for statutory accident insurance pension (Gesetzliche Unfallversicherung Rente)
+
+ff:User ff:hasInsurance ff:StatutoryAccidentInsurance ;
+        ff:hasInsurance ex:HoleInOneInsurance ;
+        ff:hasEvent ex:WorkAccident0 .
+
+ff:StatutoryAccidentInsurance ff:covers ex:WorkAccident0 .
+
+ex:WorkAccident0 ff:reducesEarningCapacity [ 
+    ff:reductionPercentage 20 ; 
+    ff:durationWeeks 27
+    ] .

@@ -1,0 +1,52 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+
+ff:B100019_LB_582404 a ff:SocialBenefit ;
+    rdfs:label "GesetzlicheUnfallversicherungRente"@de, "StatutoryAccidentInsurancePension"@en .
+
+# CONSTRAINTS
+
+ff:GesetzlicheUnfallversicherungRenteShape a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_582404 ;
+    sh:targetNode ff:User ;
+    # User has statutory accident insurance
+    sh:property [
+        sh:path ff:hasInsurance ;
+        sh:qualifiedValueShape [
+            sh:hasValue ff:StatutoryAccidentInsurance
+            ];
+        sh:qualifiedMinCount 1 ;
+        sh:message "Does not meet requirement 'User has statutory accident insurance'"@en
+    ] ;
+    # User experienced an insurance event
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:qualifiedValueShape ff:InsuranceEventShape ;
+        sh:qualifiedMinCount 1 ;
+        sh:message "Does not meet requirement 'User experienced an insurance event'"@en
+    ] .
+
+ff:InsuranceEventShape a sh:NodeShape ;
+    # The event is covered by statutory accident insurance
+    sh:property [
+        sh:path [ sh:inversePath ff:covers ] ;
+        sh:minCount 1 ;
+        sh:hasValue ff:StatutoryAccidentInsurance ;
+    ] ;
+    # The event reduces the user's earning capacity by at least 20%
+    sh:property [
+        sh:path ( ff:reducesEarningCapacity ff:reductionPercentage);
+        sh:minCount 1 ;
+        sh:minInclusive 20 ;
+    ] ;
+    # The event reduces the user's earning capacity for more than 26 weeks
+    sh:property [
+        sh:path ( ff:reducesEarningCapacity ff:durationWeeks) ;
+        sh:minCount 1 ;
+        sh:minInclusive 27 ;
+    ] .
+
+

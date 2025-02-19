@@ -1,0 +1,15 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Does not meet requirement "The event is covered by statutory accident insurance"
+
+ff:User ff:hasInsurance ff:StatutoryAccidentInsurance ;
+        ff:hasEvent ex:Stroke ;
+        ff:hasEvent ex:WorkAccident .
+
+ff:StatutoryAccidentInsurance ff:covers ex:WorkAccident .
+
+ex:Stroke ff:reducesEarningCapacity [ 
+    ff:reductionPercentage 50 ; 
+    ff:durationWeeks 30
+    ] .

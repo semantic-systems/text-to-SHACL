@@ -1,0 +1,13 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Missing information for "The event reduces the user's earning capacity by at least 20%"
+
+ff:User ff:hasInsurance ff:StatutoryAccidentInsurance ;
+        ff:hasEvent ex:WorkAccident0 .
+
+ff:StatutoryAccidentInsurance ff:covers ex:WorkAccident0 .
+
+ex:WorkAccident0 ff:reducesEarningCapacity [
+    ff:durationWeeks 27
+    ] .

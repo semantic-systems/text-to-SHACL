@@ -1,0 +1,8 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Does not meet Requirement "User experienced an insurance event"
+
+ff:User ff:hasInsurance ff:StatutoryAccidentInsurance ;
+        ff:hasEvent ex:EmploymentAgencyAppointment .
+
