@@ -1,4 +1,4 @@
-<b>Name</b>: Rente gesetzliche Unfallversicherung
+<b>Name</b>: Gesetzliche Unfallversicherung Rente
 
 <b>IDLB</b>: B100019_LB_582404
 
