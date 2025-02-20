@@ -1,15 +1,14 @@
 @prefix ex: <http://example.org/ns#> .
 @prefix ff: <https://foerderfunke.org/default#> .
 
-# Does not meet requirement "User is an employee by law"
+# Does not meet requirement "User is employee by law"
 
 ff:User ff:hasEmploymentStatus ff:SelfEmployed ;
-    ex:employedBy ex:TheBusiness ;
-    ff:wageCut [
-        ff:monthsBeforeInsolvencyEvent 3 ;
-    ] ;
-    ff:countryOfEmployment ff:Germany .
+    ff:countryOfEmployment ff:Germany ;
+    ex:hiredBy ex:TheBusiness .
 
-ex:TheBusiness ff:rejectedInsolvencyApplication [
-    ff:reason "Mangels Masse"@en ;
-] .
+ex:TheBusiness ff:hasEvent ex:Event123 .
+    
+ex:Event123 a ff:InsolvencyProceeding;
+    ff:wageCutOffsetMonths -3;
+    ff:isOpen true.

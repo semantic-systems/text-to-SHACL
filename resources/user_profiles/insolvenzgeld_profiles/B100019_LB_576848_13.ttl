@@ -1,16 +1,8 @@
 @prefix ex: <http://example.org/ns#> .
 @prefix ff: <https://foerderfunke.org/default#> .
 
-# Eligible for insolvency allowance (Insolvenzgeld)
+# Missing information for "An insolvency event occurred at the user's employer"
 
 ff:User ff:hasEmploymentStatus ff:Employed ;
-    ff:employedBy ex:TheBusiness ;
-    ff:wageCut [
-        ff:monthsBeforeInsolvencyEvent 3 ;
-    ] ;
-    ff:wageCut [
-        ff:monthsBeforeInsolvencyEvent 0 ;
-    ] ;
-    ff:countryOfEmployment ff:Germany .
-
-ex:TheBusiness ff:openInsolvencyProceeding _:b0 .
+    ff:countryOfEmployment ff:Germany ;
+    ff:employedBy ex:TheBusiness .

@@ -1,15 +1,15 @@
 @prefix ex: <http://example.org/ns#> .
 @prefix ff: <https://foerderfunke.org/default#> .
 
-# Does not meet requirement 'An insolvency event occurred' (Insolvency event B)
+# Does not meet requirement "User is employed in Germany OR employed abroad and subject to social security in Germany"
 
 ff:User ff:hasEmploymentStatus ff:Employed ;
-    ff:employedBy ex:TheBusiness ;
-    ff:wageCut [
-        ff:monthsBeforeInsolvencyEvent 1 ;
-    ] ;
-    ff:countryOfEmployment ff:Germany .
+    ff:countryOfEmployment ex:Tuvalu ;
+    ff:socialSecurityCountry ex:Tuvalu ;
+    ff:employedBy ex:TheBusiness .
 
-ex:TheBusiness ff:rejectedInsolvencyApplication [
-    ff:reason "Formal deficiencies"@en ;
-] .
+ex:TheBusiness ff:hasEvent ex:Event123 .
+
+ex:Event123 a ff:InsolvencyProceeding;
+    ff:wageCutOffsetMonths -3;
+    ff:isOpen true.

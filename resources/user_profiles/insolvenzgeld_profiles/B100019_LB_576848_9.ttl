@@ -1,13 +1,14 @@
 @prefix ex: <http://example.org/ns#> .
 @prefix ff: <https://foerderfunke.org/default#> .
 
-# Does not meet requirement 'An insolvency event occurred' (Insolvency event C)
+# Does not meet requirement "An insolvency event occurred at the user's employer" (InsolvencyProceedingShape)
 
 ff:User ff:hasEmploymentStatus ff:Employed ;
-    ff:employedBy ex:TheBusiness ;
-    ff:wageCut [
-        ff:monthsBeforeInsolvencyEvent 1 ;
-    ] ;
-    ff:countryOfEmployment ff:Germany .
+    ff:countryOfEmployment ff:Germany ;
+    ff:employedBy ex:TheBusiness .
 
-ex:TheBusiness ff:discontinuedBusinessActivitiy false.
+ex:TheBusiness ff:hasEvent ex:Event123 .
+
+ex:Event123 a ff:InsolvencyProceeding;
+    ff:wageCutOffsetMonths -1;
+    ff:isOpen false.

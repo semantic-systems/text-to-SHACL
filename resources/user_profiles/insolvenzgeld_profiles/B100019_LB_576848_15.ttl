@@ -1,12 +1,13 @@
 @prefix ex: <http://example.org/ns#> .
 @prefix ff: <https://foerderfunke.org/default#> .
 
-# Missing information for 'User is employed in Germany OR temporarily abroad and obligated to pay social security in Germany'
+# Missing information for "An insolvency event occurred at the user's employer" (InsolvencyProceedingShape)
 
 ff:User ff:hasEmploymentStatus ff:Employed ;
-    ff:employedBy ex:TheBusiness ;
-    ff:wageCut [
-        ff:monthsBeforeInsolvencyEvent 3 ;
-    ] .
+    ff:countryOfEmployment ff:Germany ;
+    ff:employedBy ex:TheBusiness .
 
-ex:TheBusiness ff:openInsolvencyProceeding _:b0 .
+ex:TheBusiness ff:hasEvent ex:Event123 .
+
+ex:Event123 a ff:InsolvencyProceeding;
+    ff:isOpen true.

@@ -3,13 +3,13 @@
 
 # Eligible for insolvency allowance (Insolvenzgeld)
 
-ff:User ff:hasEmploymentStatus ff:Employed ;
-    ff:employedBy ex:TheBusiness ;
-    ff:wageCut [
-        ff:monthsBeforeInsolvencyEvent 1 ;
-    ] ;
-    ff:countryOfEmployment ff:Germany .
+ff:User ff:hasEmploymentStatus ff:Employed ;  
+    ff:countryOfEmployment ff:Germany ;
+    ff:employedBy ex:TheBusiness .
 
-ex:TheBusiness ff:rejectedInsolvencyApplication [
-    ff:reason "Lack of assets"@en ;
-] .
+ex:TheBusiness ff:hasEvent ex:Event123 ;
+    ff:hasEvent ex:TeamEvent123 .
+
+ex:Event123 a ff:InsolvencyProceeding;
+    ff:wageCutOffsetMonths -3;
+    ff:isOpen true.

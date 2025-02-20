@@ -1,12 +1,13 @@
 @prefix ex: <http://example.org/ns#> .
 @prefix ff: <https://foerderfunke.org/default#> .
 
-# Missing information for "User is an employee by law"
+# Missing information "User is employee by law"
 
-ff:User ff:employedBy ex:TheBusiness ;
-        ff:wageCut [
-            ff:monthsBeforeInsolvencyEvent 3 ;
-        ] ;
-        ff:countryOfEmployment ff:Germany .
+ff:User ff:countryOfEmployment ff:Germany ;
+    ff:employedBy ex:TheBusiness .
 
-ex:TheBusiness ff:discontinuedBisunessActivity true.
+ex:TheBusiness ff:hasEvent ex:Event123 .
+
+ex:Event123 a ff:InsolvencyProceeding;
+    ff:wageCutOffsetMonths -2;
+    ff:isOpen true.

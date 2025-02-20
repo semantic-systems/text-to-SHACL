@@ -4,10 +4,11 @@
 # Eligible for insolvency allowance (Insolvenzgeld)
 
 ff:User ff:hasEmploymentStatus ff:Employed ;
-    ff:employedBy ex:TheBusiness ;
-    ff:wageCut [
-        ff:monthsBeforeInsolvencyEvent 3 ;
-    ] ;
-    ff:countryOfEmployment ff:Germany .
+    ff:countryOfEmployment ff:Germany ;
+    ff:employedBy ex:TheBusiness .
 
-ex:TheBusiness ff:openInsolvencyProceeding _:b0 .
+ex:TheBusiness ff:hasEvent ex:Event123 .
+
+ex:Event123 a ff:InsolvencyProceeding;
+    ff:wageCutOffsetMonths -2;
+    ff:isOpen true.

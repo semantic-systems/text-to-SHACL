@@ -1,4 +1,5 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix ff: <https://foerderfunke.org/default#> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 
@@ -12,65 +13,78 @@ ff:B100019_LB_576848 a ff:SocialBenefit ;
 ff:InsolvenzgeldShape a sh:NodeShape ;
     ff:checksFundingRequirement ff:B100019_LB_576848 ;
     sh:targetNode ff:User ;
-    # An insolvency event occurred
-    sh:property [ 
-		sh:path ff:employedBy ;
-		sh:minCount 1 ;
-        # NOTE: Text does not cover the case of multiple employers
-        sh:maxCount 1 ; 
-		sh:or (
-            ff:InsolvencyEventShapeA
-            ff:InsolvencyEventShapeB
-            ff:InsolvencyEventShapeC
-        ) ;
-        sh:message "Does not meet requirement 'An insolvency event occurred.'"@en ;
-	] ;
-    # User wage was cut within 3 months before the insolvency event
-    sh:property [
-        sh:path ff:wageCut;
-        sh:qualifiedValueShape [
-			sh:path ff:monthsBeforeInsolvencyEvent ;
-			sh:minExclusive 0 ;
-			sh:maxInclusive 3 ;
-		] ;
-        sh:qualifiedMinCount 1 ;
-        sh:message "Does not meet requirement 'User wage was cut within 3 months before the insolvency event.'"@en ;
-    ] ;
-    # User is employed in Germany OR temporarily abroad and obligated to pay social security in Germany
-    sh:or (
-        ff:CountryShapeA
-        ff:CountryShapeB
-    ) ;
     # User is an employee by law
     sh:property [
         sh:path ff:hasEmploymentStatus ;
         sh:minCount 1 ;
         sh:hasValue ff:Employed ;
         sh:message "Does not meet requirement 'User is an employee by law'."@en ;
-    ] .
-
-# Insolvency event A: Insolveny proceedings are opened against the employer's assets
-ff:InsolvencyEventShapeA a sh:NodeShape ;
+    ] ;
+    # An insolvency event occurred at the user's employer    
     sh:property [
-        sh:path ff:openInsolvencyProceeding ;
+        sh:path ( ff:employedBy ff:hasEvent ) ;
+        sh:qualifiedValueShape ff:InsolvencyEventShape ;
+        sh:qualifiedMinCount 1 ;
+        sh:message "Does not meet requirement 'An insolvency event occurred at the user's employer'."@en ;
+	] ;
+    # User is employed in Germany OR temporarily abroad and obligated to pay social security in Germany
+    sh:or (
+        ff:CountryShapeA
+        ff:CountryShapeB
+    ) .
+
+ff:InsolvencyEventShape a sh:NodeShape ;
+    # User wage was cut within 3 months before the insolvency event
+    sh:property [
+        sh:path ff:wageCutOffsetMonths; # refers to the wage cut that is temporally closest to the insolvency event
         sh:minCount 1 ;
+        sh:minInclusive -3 ; # negative offset = occurred before event, positive offset = occurred after event
+		sh:maxInclusive -1 ;
+    ] ;
+    sh:or (
+        ff:InsolvencyProceedingShape
+        ff:InsolvencyApplicationShape
+        ff:BusinessActivityShape
+    ) .
+
+# Insolvency proceedings are opened against the employer's assets
+ff:InsolvencyProceedingShape a sh:NodeShape ;
+    sh:property [
+        sh:path rdf:type ;
+        sh:minCount 1 ;
+        sh:hasValue ff:InsolvencyProceeding ;
+    ] ;
+    sh:property [
+        sh:path ff:isOpen ;
+        sh:minCount 1 ;
+        sh:hasValue true ;
     ] .
 
-# Insolvency event B: Insolvency application is rejected for lack of assets
-ff:InsolvencyEventShapeB a sh:NodeShape ;
+# Insolvency application is rejected for lack of assets 
+ff:InsolvencyApplicationShape a sh:NodeShape ;
     sh:property [
-        sh:path (ff:rejectedInsolvencyApplication ff:reason) ;
+        sh:path rdf:type ;
+        sh:minCount 1 ;
+        sh:hasValue ff:InsolvencyApplication ;
+    ] ;
+    sh:property [
+        sh:path ff:rejectedFor ;
         sh:minCount 1 ;
         sh:in ( "Lack of assets"@en "Mangels Masse"@de ) ;
     ] .
 
-# Insolvency event C: Business activity is completely discontinued
-ff:InsolvencyEventShapeC a sh:NodeShape ;
+# Business activity is completely discontinued AND there is an obvious lack of assets
+ff:BusinessActivityShape a sh:NodeShape ;
     sh:property [
-        sh:path ff:discontinuedBusinessActivity ;
+        sh:path rdf:type ;
+        sh:minCount 1 ;
+        sh:hasValue ff:DiscontinuationOfBusinessActivity ;
+    ] ;
+    sh:property [
+        sh:path ff:obviousLackOfAssets ;
         sh:minCount 1 ;
         sh:hasValue true ;
-     ] .
+    ] .
 
 # User is employed in Germany
 ff:CountryShapeA a sh:NodeShape ;
