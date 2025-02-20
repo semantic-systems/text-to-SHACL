@@ -39,19 +39,19 @@ Voraussetzungen, die für Ihr Kind gelten:
     - they are EEA/Swiss national AND moved to Germany before August 2019 (G) OR
     - they are EEA/Swiss national AND moved to Germany after August 2019 (G) AND meet the requirements of the Freedom of Movement Act (see below) (FoMA) from 4 months after entry onward (R: cannot be modelled with SHACL Core) OR
     - they are not an EEA/Swiss national AND have a valid settlement permit (G) OR
-    - they are not an EEA/Swiss national AND another residence title that entitles to pursue gainful employment (Y) OR
+    - they are not an EEA/Swiss national AND another residence title that entitles to pursue gainful employment (Y: which residence titles grant that entitlement must be resolved elsewhere) OR
     - they are not an EEA/Swiss national AND legally recognized refugee (G) OR
-    - they are not an EEA/Swiss national AND entitled to asylum (Y)
+    - they are not an EEA/Swiss national AND entitled to asylum (Y: whether someone is entitled to asylum must be resolved elsewhere)
 5. FoMA requires that the (non-German EEA national) user
     - is self-employed (G) OR 
     - is employed (G) OR
     - is looking for work (G) OR
-    - is involuntarily unemployed (NOTE: in Germany, only involuntarily unemployed individuals are considered to be unemployed, see [1]) (Y) OR
-    - can derive their right to freedom of movement from a family member (Y) OR
-    - has sufficient means of subsistence AND adequate health insurance cover (R: discretionary) OR
-    - has acquired a permanent right of residence (Y: definition see [2]). 
+    - is involuntarily unemployed (Y: meaning of "involuntary" must possibly be resolved elsewhere. Here, simplified to "unemployed" because only involuntarily unemployed individuals are considered to be unemployed by the Federal Employment Agency [1]) OR
+    - can derive their right to freedom of movement from a family member (Y: under what conditions the derivative right exists must be resolved elsewhere) OR
+    - has sufficient means of subsistence AND adequate health insurance cover (R: ambiguous qualifiers "sufficient" and "adequate", possibly discretionary decision) OR
+    - has acquired a permanent right of residence (Y: conditions describe at [2], must be resolved elsewhere). 
 6. User has at least one child that is an EEA/Swiss resident OR ordinarily resides in an EEA/Swiss member state (G)
-7. User is possibly entitled if the child lives in a household in an EEA/Swiss member state, but they or the other parent are subject to unlimited income tax liability in Germany OR are assessed as such. (R: qualified requirement)
+7. User is possibly entitled if the child lives in a household in an EEA/Swiss member state, but they or the other parent are subject to unlimited income tax liability in Germany OR are assessed as such. (R: ambiguous qualifier "possibly")
 
 [1] Bundesagentur für Arbeit: https://statistik.arbeitsagentur.de/DE/Navigation/Grundlagen/Definitionen/Arbeitslosigkeit-Unterbeschaeftigung/Arbeitslosigkeit-Nav.html
 

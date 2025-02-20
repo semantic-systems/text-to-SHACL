@@ -1,6 +1,7 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix ff: <https://foerderfunke.org/default#> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 # METADATA
 
@@ -62,9 +63,9 @@ ff:ResidencyShapeB a sh:NodeShape ;
         sh:class ff:EEAplusCH ;
     ] ;
     sh:property [
-		sh:path ff:timeOfEntry;
+		sh:path ff:moveToGermanyDate;
 		sh:minCount 1 ;
-        sh:hasValue "before August 2019"@en ;
+        sh:maxExclusive "2019-08-01"^^xsd:date ;
 	] .
 
 # User is an EEA/Swiss national AND moved to Germany after August 2019 AND meets the requirements of the Freedom of Movement Act
@@ -75,9 +76,9 @@ ff:ResidencyShapeC a sh:NodeShape ;
         sh:class ff:EEAplusCH ;
     ] ;
     sh:property [
-		sh:path ff:timeOfEntry;
+		sh:path ff:moveToGermanyDate;
 		sh:minCount 1 ;
-        sh:hasValue "after August 2019"@en ;
+        sh:minInclusive "2019-08-01"^^xsd:date ;
 	] ;
     # Freedom of Movement Act
     sh:or (

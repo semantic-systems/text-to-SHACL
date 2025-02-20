@@ -1,6 +1,7 @@
 @prefix ex: <http://example.org/ns#> .
 @prefix ff: <https://foerderfunke.org/default#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 # Eligible for child allowance (Kindergeld)
 
@@ -8,7 +9,7 @@ ff:User ff:incomeTaxCountry ff:Germany ;
 	ff:incomeTaxLiability ff:UnlimitedTaxLiability ;
 	# ResidencyShapeC
 	ff:isNationalOf ex:Latvia ;
-	ff:timeOfEntry "after August 2019"@en ;
+	ff:moveToGermanyDate "2020-08-01"^^xsd:date ;
 	ff:derivesFreedomOfMovementFrom ex:AbdulFamilyMember;
 	ff:hasChild ex:Urs .
 

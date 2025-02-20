@@ -1,6 +1,8 @@
 @prefix ex: <http://example.org/ns#> .
 @prefix ff: <https://foerderfunke.org/default#> .
 
+# Eligible for child supplement (Kinderzuschlag)
+
 ff:User ff:hasChild ex:Kim ;
 		ff:isSingleParent true ;
 		ff:hasIncome [
