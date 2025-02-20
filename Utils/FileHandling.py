@@ -102,11 +102,11 @@ def load_file(file_path: str, logger: logging.Logger, as_json: bool = False) -> 
         logger.error(f"Failed to load prompt component. File not found: {file_path}")
         raise ValueError
 
-def convert_md_to_pdf(md_file, output_folder):
+def convert_md_to_pdf(md_file, output_folder, new_file_name):
     """Converts a markdown file to a PDF and saves the PDF to the output folder."""
     base_name = os.path.basename(md_file).replace(".md", "")
-    html_file = os.path.join(output_folder, base_name + ".html")
-    pdf_file = os.path.join(output_folder, base_name + ".pdf")
+    html_file = os.path.join(output_folder, new_file_name + ".html")
+    pdf_file = os.path.join(output_folder, new_file_name + ".pdf")
 
     subprocess.run(["pandoc", md_file, "-o", html_file], check=True)
     subprocess.run(["pandoc", html_file, "-o", pdf_file, "--pdf-engine=xelatex"], check=True)
