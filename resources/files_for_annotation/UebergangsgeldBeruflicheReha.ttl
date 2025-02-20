@@ -1,0 +1,36 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+
+ff:B100019_LB_582422 a ff:SocialBenefit ;
+    rdfs:label "Gesetzliche Unfallversicherung Übergangsgeld Berufliche Reha"@de, "Statutory accident insurance transitional allowance during rehabilitation"@en .
+
+# CONSTRAINTS
+
+ff:UebergangsgeldBeruflicheReha a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_582422 ;
+    sh:targetNode ff:User ;
+    # User has had an accident at work OR on the way to work OR has a recognized occupational disease
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedValueShape [
+            sh:or (
+                [ sh:class ff:AccidentAtWork ] # Arbeitsunfall
+                [ sh:class ff:AccidentOnWayToWork ] # Wegeunfall
+                [ sh:class ff:OccupationalDisease ] # Berufskrankheit
+            ) 
+        ] ;
+        sh:message "Does not meet requirement 'User has had an accident at work or on the way to work or has a recognized occupational disease.'"@en ;
+    ] ;
+    # User takes part in occupational rehabilitation
+    sh:property [
+        sh:path ff:participatesIn ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedValueShape [
+            sh:class ff:OccupationalRehabilitation ;
+        ] ;
+        sh:message "Does not meet requirement 'User takes part in occupational rehabilitation.'"@en ;
+    ] .
