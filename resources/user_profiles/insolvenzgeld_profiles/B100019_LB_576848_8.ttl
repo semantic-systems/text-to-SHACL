@@ -9,6 +9,6 @@ ff:User ff:hasEmploymentStatus ff:Employed ;
 
 ex:TheBusiness ff:hasEvent ex:Event123 .
 
-ex:Event123 a ff:InsolvencyProceeding;
+ex:Event123 a ff:OpeningInsolvencyProceeding;
     ff:monthsWithWageCutBeforeEvent 1; # Offset "+1", i.e. wage cut occured 1 month AFTER event
-    ff:isOpen true.
+    ff:isOngoing true.

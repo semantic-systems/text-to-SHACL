@@ -8,6 +8,6 @@ ff:User ff:countryOfEmployment ff:Germany ;
 
 ex:TheBusiness ff:hasEvent ex:Event123 .
 
-ex:Event123 a ff:InsolvencyProceeding;
+ex:Event123 a ff:OpeningInsolvencyProceeding;
     ff:wageCutOffsetMonths -2;
-    ff:isOpen true.
+    ff:isOngoing true.

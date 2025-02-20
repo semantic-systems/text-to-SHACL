@@ -52,10 +52,10 @@ ff:InsolvencyProceedingShape a sh:NodeShape ;
     sh:property [
         sh:path rdf:type ;
         sh:minCount 1 ;
-        sh:hasValue ff:InsolvencyProceeding ;
+        sh:hasValue ff:OpeningInsolvencyProceeding ;
     ] ;
     sh:property [
-        sh:path ff:isOpen ;
+        sh:path ff:isOngoing ;
         sh:minCount 1 ;
         sh:hasValue true ;
     ] .
@@ -65,10 +65,10 @@ ff:InsolvencyApplicationShape a sh:NodeShape ;
     sh:property [
         sh:path rdf:type ;
         sh:minCount 1 ;
-        sh:hasValue ff:InsolvencyApplication ;
+        sh:hasValue ff:RejectionInsolvencyApplication ;
     ] ;
     sh:property [
-        sh:path ff:rejectedFor ;
+        sh:path ff:reason ;
         sh:minCount 1 ;
         sh:in ( "Lack of assets"@en "Mangels Masse"@de ) ;
     ] .

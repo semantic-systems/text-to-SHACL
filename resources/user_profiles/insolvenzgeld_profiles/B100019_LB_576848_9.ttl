@@ -9,6 +9,6 @@ ff:User ff:hasEmploymentStatus ff:Employed ;
 
 ex:TheBusiness ff:hasEvent ex:Event123 .
 
-ex:Event123 a ff:InsolvencyProceeding;
+ex:Event123 a ff:OpeningInsolvencyProceeding;
     ff:wageCutOffsetMonths -1;
-    ff:isOpen false.
+    ff:isOngoing false.

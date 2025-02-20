@@ -9,6 +9,6 @@ ff:User ff:hasEmploymentStatus ff:Employed ;
 
 ex:TheBusiness ff:hasEvent ex:Event123 .
 
-ex:Event123 a ff:InsolvencyApplication;
-    ff:rejectedFor "Lack of assets"@en ;
+ex:Event123 a ff:RejectionInsolvencyApplication;
+    ff:reason "Lack of assets"@en ;
     ff:wageCutOffsetMonths -1.
