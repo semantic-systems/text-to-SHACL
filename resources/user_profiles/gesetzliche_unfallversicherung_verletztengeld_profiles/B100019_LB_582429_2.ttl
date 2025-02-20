@@ -1,0 +1,9 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Eligible for statutory accident insurance injury benefit (Gesetzliche Unfallversicherung Verletztengeld)
+
+ff:User ff:hasEvent ex:TripAndFall .
+
+ex:TripAndFall a ff:AccidentOnWayToWork ;
+    ff:causedInabilityToWork true .

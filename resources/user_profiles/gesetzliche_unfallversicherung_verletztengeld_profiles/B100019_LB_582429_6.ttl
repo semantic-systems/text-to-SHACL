@@ -1,0 +1,9 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Does not meet requirement "User has an occupational disease that caused inability to work"
+
+ff:User ff:hasEvent ex:BakersAsthma .
+
+ex:BakersAsthma a ff:OccupationalDisease ;
+    ff:causedInabilityToWork false .

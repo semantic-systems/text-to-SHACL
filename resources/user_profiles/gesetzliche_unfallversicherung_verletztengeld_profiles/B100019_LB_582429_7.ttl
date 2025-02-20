@@ -1,0 +1,8 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Missing information "User had an accident at work that caused inability to work"
+
+ff:User ff:hasEvent ex:FellOverboard .
+
+ex:FellOverboard a ff:AccidentAtWork .

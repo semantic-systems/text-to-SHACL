@@ -1,0 +1,69 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+
+ff:B100019_LB_582429 a ff:SocialBenefit ;
+    rdfs:label "Gesetzliche Unfallversicherung Verletztengeld"@de, "Statutory accident insurance injury benefit"@en .
+
+# CONSTRAINTS
+
+ff:GesetzlicheUnfallversicherungVerletztengeldShape a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_582429 ;
+    sh:targetNode ff:User ;
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedValueShape [
+            sh:or (
+                ff:AccidentAtWorkShape
+                ff:AccidentOnWayToWorkShape
+                ff:OccupationalDiseaseShape
+            ) 
+        ]
+    ] .
+
+ff:AccidentAtWorkShape a sh:NodeShape ;
+    # User had an accident at work
+    sh:property [
+        sh:path rdf:type ;
+        sh:minCount 1 ;
+        sh:hasValue ff:AccidentAtWork ;
+    ] ;
+    # Accident caused inability to work
+    sh:property [
+        sh:path ff:causedInabilityToWork ;
+        sh:minCount 1 ;
+        sh:hasValue true ;
+    ] .
+
+ff:AccidentOnWayToWorkShape a sh:NodeShape ;
+    # User had an accident on the way to work
+    sh:property [
+        sh:path rdf:type ;
+        sh:minCount 1 ;
+        sh:hasValue ff:AccidentOnWayToWork ;
+    ] ;
+    # Accident caused inability to work
+    sh:property [
+        sh:path ff:causedInabilityToWork ;
+        sh:minCount 1 ;
+        sh:hasValue true ;
+    ] .
+
+ff:OccupationalDiseaseShape a sh:NodeShape ;
+    # User has a recognized occupational disease
+    sh:property [
+        sh:path rdf:type ;
+        sh:minCount 1 ;
+        sh:hasValue ff:OccupationalDisease ;
+    ] ;
+    # Disease caused inability to work
+    sh:property [
+        sh:path ff:causedInabilityToWork ;
+        sh:minCount 1 ;
+        sh:hasValue true ;
+    ] .
+    
