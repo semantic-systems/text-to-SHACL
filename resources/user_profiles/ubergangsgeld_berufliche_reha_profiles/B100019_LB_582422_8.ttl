@@ -1,0 +1,8 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Missing information for "User takes part in occupational rehabilitation"
+
+ff:User ff:hasEvent ex:BakersAsthma .
+
+ex:BakersAsthma a ff:OccupationalDisease .

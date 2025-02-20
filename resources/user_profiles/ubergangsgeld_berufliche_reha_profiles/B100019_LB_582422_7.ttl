@@ -1,0 +1,8 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Missing information for "User has had an accident at work OR on the way to work OR has a recognized occupational disease"
+
+ff:User ff:participatesIn ex:WorkAssistanceProgram .
+
+ex:WorkAssistanceProgram a ff:OccupationalRehabilitation .

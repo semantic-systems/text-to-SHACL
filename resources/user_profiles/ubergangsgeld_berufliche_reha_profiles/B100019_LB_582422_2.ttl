@@ -1,0 +1,11 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Eligible for statutory accident insurance transitional allowance during rehabilitation
+# (Gesetzliche Unfallversicherung Übergangsgeld Berufliche Reha)
+
+ff:User ff:hasEvent ex:BakersAsthma ;
+		ff:participatesIn ex:WorkAssistanceProgram .
+
+ex:BakersAsthma a ff:OccupationalDisease .
+ex:WorkAssistanceProgram a ff:OccupationalRehabilitation .

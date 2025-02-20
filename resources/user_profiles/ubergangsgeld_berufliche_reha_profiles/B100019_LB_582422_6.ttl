@@ -1,0 +1,10 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Does not meet requirement "User takes part in occupational rehabilitation"
+
+ff:User ff:hasEvent ex:TripAndFall ;
+		ff:participatesIn ex:GoTurnament .
+
+ex:TripAndFall a ff:AccidentOnWayToWork .
+ex:GoTurnament a ex:SportsEvent .
