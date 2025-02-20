@@ -1,0 +1,38 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+
+ff:B100019_LB_576842 a ff:SocialBenefit ;
+    rdfs:label "Arbeitslosengeld"@de, "Unemployment benefit"@en .
+
+# CONSTRAINTS
+
+ff:ArbeitslosengeldShape a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_576842 ;
+    sh:targetNode ff:User ;
+    # User is not in employment OR in employment for less than 15 hours per week
+    sh:property [
+        sh:path ff:employedHoursPerWeek ;
+        sh:minCount 1 ;
+        sh:minInclusive 0 ;
+        sh:maxExclusive 15 ;
+        sh:message "Does not meet requirement 'User is not in employment OR in employment for less than 15 hours per week.'"@en ;
+    ] ;
+    # User is able to take up employment subject to compulsory insurance under normal labor market conditions
+    sh:property [
+        sh:path ff:isAbleToWork ;
+        sh:minCount 1 ;
+        sh:hasValue true ;
+        sh:message "Does not meet requirement 'User is able to take up employment subject to compulsory insurance under normal labor market conditions.'"@en ;
+    ] ;
+    # User has registered as unemployed
+    sh:property [
+        sh:path ff:hasRegisteredUnemployment ;
+        sh:minCount 1 ;
+        sh:hasValue true ;
+        sh:message "Does not meet requirement 'User has registered as unemployed.'"@en ;
+    ] .
+
+    

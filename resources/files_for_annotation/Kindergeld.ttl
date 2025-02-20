@@ -1,0 +1,144 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+
+ff:B100019_LB_576986 a ff:SocialBenefit ;
+    rdfs:label "Kindergeld"@de, "Child allowance"@en .
+
+# CONSTRAINTS
+
+ff:KindergeldBeantragenShape a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_576986 ;
+    sh:targetNode ff:User ;
+    # User is subject to income tax in Germany
+    sh:property [
+        sh:path ff:incomeTaxCountry ;
+        sh:minCount 1 ;
+        sh:hasValue ff:Germany ;
+        sh:message "Does not meet requirement 'User is subject to income tax in Germany.'"@en ;
+    ] ;
+    # User is subject to unlimited income tax lianility
+    sh:property [
+        sh:path ff:incomeTaxLiability ;
+        sh:minCount 1 ;
+        sh:hasValue ff:UnlimitedTaxLiability ;
+        sh:message "Does not meet requirement 'User is subject to unlimited income tax liability.'"@en ;
+    ] ;
+    # User's residence situation falls into one of the covered categories
+    sh:or (
+        ff:ResidencyShapeA
+        ff:ResidencyShapeB
+        ff:ResidencyShapeC
+        ff:ResidencyShapeD
+    ) ;
+    # User has at least one child that is an EEA/Swiss resident OR ordinarily resides in an EEA/Swiss member state
+    sh:property [
+        sh:path ff:hasChild ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedValueShape [
+            sh:or ( 
+                [ sh:node ff:ChildShapeA ]
+                [ sh:node ff:ChildShapeB ]
+            ) ;
+        ] ;
+        sh:message "Does not meet requirement 'User has at least one child that is an EEA/Swiss resident OR ordinarily resides in an EEA/Swiss member state.'"@en ;
+    ] .
+
+# User is a German national
+ff:ResidencyShapeA a sh:NodeShape ;
+    sh:property [
+        sh:path ff:isNationalOf ;
+        sh:minCount 1 ;
+        sh:hasValue ff:Germany ;
+    ] .
+
+# User is an EEA/Swiss national AND moved to Germany before August 2019
+ff:ResidencyShapeB a sh:NodeShape ;
+    sh:property [
+        sh:path ff:isNationalOf ;
+        sh:minCount 1 ;
+        sh:class ff:EEAplusCH ;
+    ] ;
+    sh:property [
+		sh:path ff:timeOfEntry;
+		sh:minCount 1 ;
+        sh:hasValue "before August 2019"@en ;
+	] .
+
+# User is an EEA/Swiss national AND moved to Germany after August 2019 AND meets the requirements of the Freedom of Movement Act
+ff:ResidencyShapeC a sh:NodeShape ;
+    sh:property [
+        sh:path ff:isNationalOf ;
+        sh:minCount 1 ;
+        sh:class ff:EEAplusCH ;
+    ] ;
+    sh:property [
+		sh:path ff:timeOfEntry;
+		sh:minCount 1 ;
+        sh:hasValue "after August 2019"@en ;
+	] ;
+    # Freedom of Movement Act
+    sh:or (
+        # User is employed OR self-employed OR looking for work OR involuntarily unemployed
+        [
+            sh:path ff:hasEmploymentStatus ;
+            sh:minCount 1 ;
+            sh:in (ff:Employed ff:SelfEmployed ff:JobSeeker ff:Unemployed) ;
+        ]
+        # User can derive their right to freedom of movement from a family member
+        [
+            sh:path ff:derivesFreedomOfMovementFrom ;
+            sh:minCount 1 ;
+        ]
+        # User has acquired a permanent right of residence
+        [
+            sh:path ff:permanentRightOfResidence ;
+            sh:minCount 1 ;
+            sh:hasValue true ;
+        ]
+    ) .
+
+# User is not an EEA/Swiss national AND has a residence title that entitles to pursue gainful employment (e.g., valid settlement permit) OR is a legally recognized refugee OR is entitleto asylum
+ff:ResidencyShapeD a sh:NodeShape ;
+    # User is not an EEA/Swiss national (including Germany)
+    sh:property [
+        sh:path ff:isNationalOf ;
+        sh:minCount 1 ;
+        sh:not [
+            sh:class ff:EEAplusCH ;
+        ] ;
+    ] ;
+    sh:or (
+        [
+            sh:path (ff:hasResidencePermit ff:entitlesToEmployment) ;
+            sh:minCount 1 ;
+            sh:hasValue true ;
+        ]
+        [
+            sh:path ff:recognizedRefugee ;
+            sh:minCount 1 ;
+            sh:hasValue true ;
+        ]
+        [
+            sh:path ff:entitledToAsylum ;
+            sh:minCount 1 ;
+            sh:hasValue true ;
+        ]
+
+    ) .
+
+ff:ChildShapeA a sh:NodeShape ;
+    sh:property [
+        sh:path ff:countryOfResidence ;
+        sh:minCount 1 ;
+        sh:class ff:EEAplusCH ;
+    ] .
+
+ff:ChildShapeB a sh:NodeShape ;
+    sh:property [
+        sh:path ff:ordinaryResidence ;
+        sh:minCount 1 ;
+        sh:class ff:EEAplusCH ;
+    ] .
