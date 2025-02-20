@@ -36,7 +36,7 @@ ff:InsolvenzgeldShape a sh:NodeShape ;
 ff:InsolvencyEventShape a sh:NodeShape ;
     # User wage was cut within 3 months before the insolvency event
     sh:property [
-        sh:path ff:wageCutOffsetMonths; # refers to the wage cut that is temporally closest to the insolvency event
+        sh:path ff:wageCutOffsetMonths;
         sh:minCount 1 ;
         sh:minInclusive -3 ; # negative offset = occurred before event, positive offset = occurred after event
 		sh:maxInclusive -1 ;
