@@ -5,7 +5,7 @@
 # METADATA
 
 ff:B100019_LB_582404 a ff:SocialBenefit ;
-    rdfs:label "GesetzlicheUnfallversicherungRente"@de, "StatutoryAccidentInsurancePension"@en .
+    rdfs:label "Gesetzliche Unfallversicherung Rente"@de, "Statutory accident insurance pension"@en .
 
 # CONSTRAINTS
 
