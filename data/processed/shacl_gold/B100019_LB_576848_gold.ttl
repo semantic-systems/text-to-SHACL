@@ -53,11 +53,6 @@ ff:InsolvencyProceedingShape a sh:NodeShape ;
         sh:path rdf:type ;
         sh:minCount 1 ;
         sh:hasValue ff:OpeningInsolvencyProceeding ;
-    ] ;
-    sh:property [
-        sh:path ff:isOngoing ;
-        sh:minCount 1 ;
-        sh:hasValue true ;
     ] .
 
 # Insolvency application is rejected for lack of assets 
