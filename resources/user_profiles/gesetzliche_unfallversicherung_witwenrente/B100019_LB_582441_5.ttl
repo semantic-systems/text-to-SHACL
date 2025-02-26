@@ -1,0 +1,11 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Eligible for statutory accident statutory accident insurance widow pension (Gesetzliche Unfallversicherung Witwen- und Witwerrente)
+
+ff:User ff:deceasedCivilPartner ex:Fredda ;
+        ff:deceasedCivilPartner ex:Qwert . # Another deceased partner who does not fulfill the requirements should not change the result
+
+ex:Fredda ff:causeOfDeath ex:Event123 .
+
+ex:Event123 a ff:OccupationalDisease .

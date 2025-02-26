@@ -1,0 +1,39 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+
+ff:B100019_LB_582441 a ff:SocialBenefit ;
+    rdfs:label "Witwen- und Witwerrente"@de, "Widow pension"@en .
+# CONSTRAINTS
+
+ff:GesetzlicheUnfallversicherungWitwenrenteShape a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_582441 ;
+    sh:targetNode ff:User ;
+    # User's spouse OR civil partner died 
+    sh:or (
+        [ 
+            sh:path ff:deceasedCivilPartner ;
+            sh:qualifiedValueShape ff:DeceasedPartnerShape ;
+            sh:qualifiedMinCount 1
+        ]
+        [ 
+            sh:path ff:deceasedSpouse ;
+            sh:qualifiedValueShape ff:DeceasedPartnerShape ;
+            sh:qualifiedMinCount 1
+        ]
+    ) .
+
+# The reason for the death was an insured event (accident at work, accident on the way to work, occupational disease)
+ff:DeceasedPartnerShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:causeOfDeath ;
+        sh:minCount 1 ;
+        sh:or (
+                [sh:class ff:AccidentAtWork]
+                [sh:class ff:AccidentOnWayToWork]
+                [sh:class ff:OccupationalDisease]
+            )
+    ] .
