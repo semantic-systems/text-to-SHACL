@@ -45718,8 +45718,8 @@ idlb_to_labels: Dict[str, Dict[str, str]] = {
         "short label": "GUV Rente"
     },
     "B100019_LB_582422": {
-        "german label": "Gesetzliche Unfallversicherung Übergangsgeld Berufliche Reha",
-        "english label": "Statutory accident insurance occupational rehabilitation allowance",
+        "german label": "Gesetzliche Unfallversicherung Übergangsgeld",
+        "english label": "Statutory accident insurance transitional allowance",
         "short label": "GUV Uebergangsgeld"
     },
     "B100019_LB_582429": {

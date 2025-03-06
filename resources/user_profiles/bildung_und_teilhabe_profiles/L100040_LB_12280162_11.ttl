@@ -1,0 +1,7 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Missing information for "User receives housing benefit AND child supplement"
+
+ff:User ff:receivesBenefit ff:L100040_LB_8665924 ;
+        ff:hasAge 24 .

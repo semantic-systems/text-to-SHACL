@@ -1,0 +1,6 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Missing information for "User is less than 25 years old"
+
+ff:User ff:receivesBenefit ff:B100019_LB_106311931 .

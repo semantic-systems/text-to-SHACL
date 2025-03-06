@@ -66,12 +66,9 @@ Familien, eine der folgenden Leistungen beziehen:
   * Asylbewerberleistungen (§§ 2 oder 3 AsylbLG)
   * Familien mit geringem Einkommen
 
-Wer keine der genannten Leistungen erhält, die Kosten für Bildung und Teilhabe
-aber nicht selbst decken kann, hat die Möglichkeit, seinen individuellen
-Anspruch auf Bildungs- und Teilhabeleistungen prüfen zu lassen. Der
-Leistungsanspruch gilt für Kinder und junge Menschen bis zur Vollendung des
-25. Lebensjahres. Leistungen zur Teilhabe am sozialen und kulturellen Leben in
-der Gemeinschaft werden bis zur Vollendung des 18. Lebensjahres bezuschusst.
+Wer keine der genannten Leistungen erhält, die Kosten für Bildung und Teilhabe aber nicht selbst decken kann, hat die Möglichkeit, seinen individuellen Anspruch auf Bildungs- und Teilhabeleistungen prüfen zu lassen. 
+Der Leistungsanspruch gilt für Kinder und junge Menschen bis zur Vollendung des 25. Lebensjahres. 
+Leistungen zur Teilhabe am sozialen und kulturellen Leben in der Gemeinschaft werden bis zur Vollendung des 18. Lebensjahres bezuschusst.
 
 <b>Requirements decomposition</b>:
 
@@ -79,7 +76,7 @@ der Gemeinschaft werden bis zur Vollendung des 18. Lebensjahres bezuschusst.
   - citizen benefit (GREEN) OR 
   - housing benefit AND child supplement (GREEN) OR 
   - social assistance (GREEN) OR 
-  - asylum seekers benefits (GREEN) OR 
+  - asylum seeker benefits (GREEN) OR 
   - families with low income (RED: ambiguous because this is not a specific benefit)
-2. User is less than 26 years old (GREEN) OR less than 18 years for benefits for participation in social and cultural life (RED: each document is treated as one benefit)
+2. User is less than 25 years old (GREEN) OR less than 18 years for benefits for participation in social and cultural life (RED: each document is treated as one benefit)
 3. If user does not meet the above requirements, their case can be checked individually (RED: discretionary third-party decision)

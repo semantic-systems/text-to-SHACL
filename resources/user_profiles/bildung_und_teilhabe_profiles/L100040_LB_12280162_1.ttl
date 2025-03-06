@@ -1,0 +1,7 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Eligible for Education and participation (Bildung und Teilhabe)
+
+ff:User ff:receivesBenefit ff:B100019_LB_106311931 ;
+        ff:hasAge 24 .
