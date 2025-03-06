@@ -24,7 +24,13 @@ Voraussetzungen Anspruch auf Rente:
 
 <b>Requirements decomposition</b>:
 
-1. User has statutory accident insurance. (G)
-2. User experienced one or more events covered by the statutory accident insurance. (Y: which events are covered must be resolved elsewhere, simplified to "User experienced an insurance event" because we cannot sum over multiple events with SHACL Core.)
-3. The insurance event reduced earning capacity for more than 26 weeks after the event. (Y: how to establish if earning capacity is reduced must be resolved elsewhere)
-4. The reducation in earning capacity was at least 20%. (Y: how to establish the percentage of reduction must be resolved elsewhere)
+1. User has statutory accident insurance. (GREEN)
+2. User had one OR more* insurance events** (YELLOW: definition of the terms in a legal sense must be inferred or explained):
+    - accident at work OR 
+    - a commuting accident OR
+    - a recognized occupational disease.
+3. The insurance event reduces earning capacity for more than 26 weeks after the event. (GREEN)
+4. The reduction in earning capacity is at least 20%. (YELLOW: reduction of earning capacity in percentage must be inferred or explained)
+
+*RED: multiple insurance events are too complex for SHACL Core, hence simplified to one event
+**The types of statutory accident insurance events are known from other requirements texts and, in principle, accessible to the LLM via the ontology

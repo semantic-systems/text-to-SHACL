@@ -29,16 +29,16 @@ sein:
 
 <b>Requirements decomposition</b>:
 
-1. User has at least one child that fulfills the criteria. (G)
-2. Child is younger than 25 years. (G)
-3. Child is not married or in a registered partnership. (G)
-4. Child lives in the same household as the user. (G)
-5. Child receives child benefit. (G)
-6. Child is not eligible for other benefits with priority over child supplement. (Y)
-7. As a couple, shared gross income is at least 900€/Month. (G)
-8. As a single parent, gross income is at least 600€/Month. (G)
-9. User income that will be offset against child supplement does not reduce child supplement to zero. (Y)
-10. User has no considerable assets. (Y: defintion see [1])
-11. Typically, user is eligible if their income, child benefit, housing benefit, and child supplement can cover the household needs according to SGB II. (R: qualified requirement)
+1. User has at least one child that fulfills the criteria. (GREEN)
+2. Child is younger than 25 years. (GREEN)
+3. Child is not married or in a registered partnership. (GREEN)
+4. Child lives in the same household as the user. (GREEN)
+5. Child receives child allowance. (GREEN)
+6. Child is not eligible for other benefits with priority over child supplement. (YELLOW: which benefits have priority over child supplement and whether the child is eligibly must be inferred or explained)
+7. As a couple, shared gross income is at least 900€/Month. (GREEN)
+8. As a single parent, gross income is at least 600€/Month. (GREEN)
+9. User income that will be offset against child supplement does not reduce child supplement to zero. (YELLOW: how user income is offset against child supplement must be inferred or explained)
+10. User has no considerable assets. (YELLOW: meaning of considerable assets must be inferred or explained, definition see [1])
+11. Typically, user is eligible if their income, child allowance, housing benefit, and child supplement can cover the household needs according to SGB II. (RED: ambiguous qualifier "typically")
 
 [1] SGB 2 § 12: https://www.gesetze-im-internet.de/sgb_2/__12.html

@@ -18,5 +18,9 @@ sind, erhalten Sie Verletztengeld.
 
 <b>Requirements decomposition</b>:
 
-1. User is unable to work (G).
-2. Reason for inability to work is an accident at work (G) OR on the way to work (G) OR a recognized occupational disease (Y: what constitutes a recognized occupational disease must be resolved elsewhere).
+1. User has statutory accident insurance (GREEN)
+2. User had an insurance event (YELLOW: definition of the terms in a legal sense must be inferred or explained):
+    - accident at work OR 
+    - a commuting accident OR
+    - a recognized occupational disease.
+3. As a result of the insurance event, user is unfit for work. (YELLOW: "unfit for work" in a legal sense must be inferred or explained)

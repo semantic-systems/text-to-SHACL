@@ -32,14 +32,15 @@ erfüllt sein:
 
 <b>Requirements decomposition</b>:
 
-1. An insolvency event occured, i.e.
-  - insolvency proceedings are opened against the employer's assets OR (G)
-  - insolvency application is rejected for lack of assets OR (G)
-  - business activity is completely discontinued AND there is an obvious lack of assets (G)
-2. User wage was cut within 3 months before the insolvency event (G)
+1. An insolvency event occurred:
+	- Insolvency proceedings are opened against the employer's assets (GREEN) OR
+	- An insolvency application is rejected for lack of assets (GREEN) OR
+	- Business activity is completely discontinued AND there is an obvious lack of assets (GREEN)
+2. User wage was cut within 3 months before the insolvency event (GREEN)
 3. User is 
-  - employed in Germany OR (G)
-  - employed abroad AND subject to social security in Germany (G) AND posting abroad is temporary (R: can be presumed if user is subject to social security in Germany, see [1])
-4. User is an employee by law (G for most users, Y if notice from clearing office is needed)
+  - employed in Germany (GREEN) OR 
+  - employed abroad AND subject to social security in Germany (GREEN) (Note: the temporary nature of the posting can be presumed if employment abroad plus social security in Germany, see [1])
+4. User is an employee (GREEN)
+5. If the user is, for example, a managing partner, shareholder of a limited liability company or a relative of the employer, they must prove that they are an employee with a notice from the clearing office (RED: "for example" - rule under defined)
 
 [1] SGB 4 §4: https://www.gesetze-im-internet.de/sgb_4/__4.html

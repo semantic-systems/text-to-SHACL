@@ -29,7 +29,13 @@ Sie haben in der Regel keinen Anspruch, wenn
 
 <b>Requirements decomposition</b>:
 
-1. User's spouse OR civil partner died (G).
-2. The reason of the spouse's or civil partner's death was an insurance event, i.e. an accident at work (G) OR on the way to work (G) OR a recognized occupational disease (Y: what constitutes a recognized occupational disease must be resolved elsewhere).
-3. User was married OR lived in a registered partnership with the deceased person prior to the insured event (R: temporal dependency cannot be modelled with SHACL Core).
-4. Typically, the death may not have occured within the first year of marriage or the registered partnership (R: ambiguous qualifier "Typically").
+1. User's spouse OR civil partner died (GREEN).
+2. User's spouse OR civil partner had statutory accident insurance* (GREEN).
+3. The spouse's or civil partner's death was caused by an insurance event (YELLOW: definition of the terms in a legal sense must be inferred or explained):
+    - accident at work OR 
+    - a commuting accident OR
+    - a recognized occupational disease. 
+4. User was married OR lived in a civil union with the deceased person prior to the insured event (RED: too complex for SHACL Core).
+5. Typically, the death may not have occurred within the first year of marriage or the registered partnership (RED: ambiguous qualifier "Typically").
+
+*Not explicitly mentioned in the requirements text, but can be inferred from the benefit's name

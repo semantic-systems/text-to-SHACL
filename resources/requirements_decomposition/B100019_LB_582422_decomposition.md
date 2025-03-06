@@ -20,5 +20,11 @@ erhalten Sie Übergangsgeld.
 
 <b>Requirements decomposition</b>:
 
-1. User has had an accident at work (G) OR on the way to work (G) OR has a recognized occupational disease (Y: what constitutes a recognized occupational disease must be resolved elsewhere). 
-2. User takes part in occupational rehabilitation. (Y: which measures are qualified must be resolved elsewhere)
+1. User has statutory accident insurance* (GREEN)
+2. User had an insurance event (YELLOW: definition of the terms in a legal sense must be inferred or explained):
+    - accident at work OR 
+    - a commuting accident OR
+    - a recognized occupational disease.
+3. As a result of the insurance event, the user takes part in occupational rehabilitation. (YELLOW: which measures are qualified must be inferred or explained)
+
+*Not explicitly mentioned in the requirements text, but can be inferred from the benefit's name
