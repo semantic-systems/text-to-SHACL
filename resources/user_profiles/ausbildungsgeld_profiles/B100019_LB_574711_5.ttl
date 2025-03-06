@@ -3,6 +3,6 @@
 
 # Does not meet requirement 'User has a disability.'
 
-ff:User ff:hasDisability false ;
-        ff:hasRehabilitationProvider ff:FederalEmploymentAgency ;
-        ff:plansParticipation ff:VocationalTraining .
+ff:User ff:hasRehabilitationProvider ff:FederalEmploymentAgency ;
+        ff:willParticipate ff:VocationalTraining ;
+        ff:isIneligibleFor ff:B100019_LB_102716305 .

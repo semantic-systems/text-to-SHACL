@@ -1,9 +1,12 @@
 @prefix ex: <http://example.org/ns#> .
 @prefix ff: <https://foerderfunke.org/default#> .
 
-# Does not meet requirement "User has an occupational disease that caused inability to work"
+# Does not meet requirement "User has statutory accident insurance"
 
-ff:User ff:hasEvent ex:BakersAsthma .
+ff:User ff:hasInsurance ex:SomeOtherInsurance ;
+    ff:hasEvent ex:SomeEvent .
 
-ex:BakersAsthma a ff:OccupationalDisease ;
-    ff:causedInabilityToWork false .
+ex:SomeEvent a ff:WorkAccident ;
+    ff:reducesEarningCapacity [
+        ff:unfitForWork true
+    ] .

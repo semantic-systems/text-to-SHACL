@@ -1,7 +1,7 @@
 @prefix ex: <http://example.org/ns#> .
 @prefix ff: <https://foerderfunke.org/default#> .
 
-# Missing requirement 'User is not in employment OR in employment for less than 15 hours per week'.
+# Missing information for "User is not in employment OR in employment for less than 15 hours per week"
 
-ff:User ff:hasRegisteredUnemployment true ;
-        ff:isAbleToWork true .
+ff:User ff:availableForPlacement true ;
+        ff:hasEmploymentStatus ff:RegisteredUnemployed .

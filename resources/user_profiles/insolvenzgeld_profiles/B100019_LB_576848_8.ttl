@@ -3,12 +3,16 @@
 
 # Does not meet requirement "User wage was cut within 3 months before the insolvency event"
 
-ff:User ff:hasEmploymentStatus ff:Employed ;
-    ff:countryOfEmployment ff:Germany ;
-    ff:employedBy ex:TheBusiness .
+ff:User ff:hasEmployment ex:SomeEmployment ;
+    ff:hasEmploymentStatus ff:Employee .
 
-ex:TheBusiness ff:hasEvent ex:Event123 .
+# CountryShapeA
+ex:SomeEmployment ff:employer ex:SomeEmployer ;
+    ff:countryOfEmployment ff:Germany .
 
-ex:Event123 a ff:OpeningInsolvencyProceeding;
-    ff:monthsWithWageCutBeforeEvent 1; # Offset "+1", i.e. wage cut occured 1 month AFTER event
-    ff:isOngoing true.
+ex:SomeEmployer ff:hasEvent ex:SomeEvent .
+
+# InsolvencyEventShapeA
+ex:SomeEvent a ff:InsolvencyProceeding ;
+    ff:isOpen true ;
+    ff:wageCutOffsetMonths 3 .

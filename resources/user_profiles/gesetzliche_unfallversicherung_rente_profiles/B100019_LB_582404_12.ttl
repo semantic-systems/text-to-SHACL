@@ -1,13 +1,12 @@
 @prefix ex: <http://example.org/ns#> .
 @prefix ff: <https://foerderfunke.org/default#> .
 
-# Missing information for "The event is covered by statutory accident insurance"
+# Missing information for "The event is an accident at work, commuting accident or occupational disease"
 
 ff:User ff:hasInsurance ff:StatutoryAccidentInsurance ;
-        ff:hasEvent ex:Stroke ;
-        ff:hasEvent ex:WorkAccident .
+        ff:hasEvent ex:SomeEvent .
 
-ex:Stroke ff:reducesEarningCapacity [ 
-    ff:reductionPercentage 50 ; 
-    ff:durationWeeks 30
-    ] .
+ex:SomeEvent ff:reducesEarningCapacity [
+        ff:reductionInPercent 20 ;
+        ff:reductionDurationInWeeks 27
+] .

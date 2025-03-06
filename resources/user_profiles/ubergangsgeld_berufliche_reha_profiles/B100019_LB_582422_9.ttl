@@ -1,0 +1,11 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Missing information for "User experienced an insurance event"
+
+ff:User ff:hasInsurance ff:StatutoryAccidentInsurance .
+
+ex:SomeEvent a ff:WorkAccident ;
+	ff:resultsInTreatment ex:SomeTreatment .
+
+ex:SomeTreatment a ff:OccupationalRehabilitation .

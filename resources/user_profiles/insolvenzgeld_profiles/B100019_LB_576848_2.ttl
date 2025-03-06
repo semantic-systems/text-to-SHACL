@@ -3,13 +3,16 @@
 
 # Eligible for insolvency allowance (Insolvenzgeld)
 
-ff:User ff:hasEmploymentStatus ff:Employed ;
-    ff:countryOfEmployment ex:Tuvalu ;
-    ff:socialSecurityCountry ff:Germany ;
-    ff:employedBy ex:TheBusiness .
+ff:User ff:hasEmployment ex:SomeEmployment ;
+    ff:hasEmploymentStatus ff:Employee .
 
-ex:TheBusiness ff:hasEvent ex:Event123 .
-   
-ex:Event123 a ff:OpeningInsolvencyProceeding;
-    ff:wageCutOffsetMonths -3;
-    ff:isOngoing true.
+# CountryShapeA
+ex:SomeEmployment ff:employer ex:SomeEmployer ;
+    ff:countryOfEmployment ff:Germany .
+
+ex:SomeEmployer ff:hasEvent ex:SomeEvent .
+
+# InsolvencyEventShapeA
+ex:SomeEvent a ff:InsolvencyProceeding ;
+    ff:isOpen true ;
+    ff:wageCutOffsetMonths -3 .

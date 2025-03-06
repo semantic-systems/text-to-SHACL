@@ -1,9 +1,12 @@
 @prefix ex: <http://example.org/ns#> .
 @prefix ff: <https://foerderfunke.org/default#> .
 
-# Does not meet requirement "User had an accident on the way to work that caused inability to work"
+# Eligible for statutory accident insurance injury allowance (Gesetzliche Unfallversicherung Verletztengeld)
 
-ff:User ff:hasEvent ex:TripAndFall .
+ff:User ff:hasInsurance ff:StatutoryAccidentInsurance, ex:SomeOtherInsurance ;
+    ff:hasEvent ex:SomeEvent .
 
-ex:TripAndFall a ff:AccidentOnWayToWork ;
-    ff:causedInabilityToWork false .
+ex:SomeEvent a ff:WorkAccident ;
+    ff:reducesEarningCapacity [
+        ff:unfitForWork true
+    ] .

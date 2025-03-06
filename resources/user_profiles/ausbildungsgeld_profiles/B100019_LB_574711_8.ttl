@@ -1,8 +1,8 @@
 @prefix ex: <http://example.org/ns#> .
 @prefix ff: <https://foerderfunke.org/default#> .
 
-# Missing information for 'User has a disability.'
+# Missing information for 'User's rehabilitation provider is the Federal Employment Agency.'
 
-ff:User ff:hasRehabilitationProvider ff:FederalEmploymentAgency ;
-        ff:plansParticipation ff:VocationalTraining ;
-        ff:isEligibleFor ex:SomeOtherBenefit .
+ff:User ff:hasDisability ex:SomeDisability ;
+        ff:willParticipate ff:VocationalTraining ;
+        ff:isIneligibleFor ff:B100019_LB_102716305 .

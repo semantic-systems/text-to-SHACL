@@ -3,6 +3,8 @@
 
 # Eligible for unemployment benefit (Arbeitslosengeld)
 
-ff:User ff:employedHoursPerWeek 14.9 ;
-        ff:isAbleToWork true ;
-        ff:hasRegisteredUnemployment true .
+ff:User ff:hasEmployment ex:SomeEmployment ;
+        ff:availableForPlacement true ;
+        ff:hasEmploymentStatus ff:RegisteredUnemployed .
+
+ex:SomeEmployment ff:workHoursPerWeek 3 .

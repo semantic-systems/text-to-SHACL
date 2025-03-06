@@ -3,7 +3,7 @@
 
 # Does not meet requirement 'User is not eligible for transitional allowance.'
 
-ff:User ff:hasDisability true ;
+ff:User ff:hasDisability ex:SomeDisability ;
         ff:hasRehabilitationProvider ff:FederalEmploymentAgency ;
-        ff:plansParticipation ff:VocationalTraining ;
-        ff:isEligibleFor ff:TransitionalAllowance .
+        ff:willParticipate ff:VocationalTraining ;
+        ff:isEligibleFor ff:B100019_LB_102716305 .

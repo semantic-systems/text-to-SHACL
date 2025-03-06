@@ -1,0 +1,11 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Missing information for "The user is younger than 18 years" or "The user is younger than 27 years and participates in vocational training" or "The user is younger than 27 years and cannot support themselves because of a disability" or "The user is younger than 27 years and is a natural child of the deceased person"
+
+ff:User ff:naturalChildTo ex:SomePerson .
+
+ex:SomePerson ff:hasInsurance ff:StatutoryAccidentInsurance ;
+        ff:causeOfDeath ex:SomeEvent .
+
+ex:SomeEvent a ff:WorkAccident .

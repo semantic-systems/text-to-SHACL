@@ -1,0 +1,8 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# The death was caued by a work accident, commuting accident, or occupational disease
+
+ff:User ff:deceasedSpouse ex:SomePerson .
+
+ex:SomePerson ff:causeOfDeath ex:SomeEvent .

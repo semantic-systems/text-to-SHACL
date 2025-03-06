@@ -1,8 +1,12 @@
 @prefix ex: <http://example.org/ns#> .
 @prefix ff: <https://foerderfunke.org/default#> .
 
-# Missing information for "User had an accident on the way to work that caused inability to work"
+# Does not meet requirement "As a result of the insurance event, user is unfit for work"
 
-ff:User ff:hasEvent ex:TripAndFall .
+ff:User ff:hasInsurance ff:StatutoryAccidentInsurance ;
+    ff:hasEvent ex:SomeEvent .
 
-ex:TripAndFall ff:causedInabilityToWork true .
+ex:SomeEvent a ff:WorkAccident ;
+    ff:reducesEarningCapacity [
+        ff:unfitForWork false
+    ] .

@@ -1,8 +1,10 @@
 @prefix ex: <http://example.org/ns#> .
 @prefix ff: <https://foerderfunke.org/default#> .
 
-# Does not meet requirement 'User is able to take up employment subject to compulsory insurance under normal labor market conditions'.
+# Does not meet requirement 'User is available for the employment agency's placement efforts'
 
-ff:User ff:employedHoursPerWeek 0 ;
-        ff:isAbleToWork false ;
-        ff:hasRegisteredUnemployment true .
+ff:User ff:hasEmployment ex:SomeEmployment ;
+        ff:availableForPlacement false ;
+        ff:hasEmploymentStatus ff:RegisteredUnemployed .
+
+ex:SomeEmployment ff:workHoursPerWeek 3 .

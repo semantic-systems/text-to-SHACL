@@ -1,10 +1,16 @@
 @prefix ex: <http://example.org/ns#> .
 @prefix ff: <https://foerderfunke.org/default#> .
 
-# Missing information for "An insolvency event occurred at the user's employer" (InsolvencyProceedingShape)
+# Does not meet requirement "An insolvency event occurred"
 
-ff:User ff:hasEmploymentStatus ff:Employed ;
-    ff:countryOfEmployment ff:Germany ;
-    ff:employedBy ex:TheBusiness .
+ff:User ff:hasEmployment ex:SomeEmployment ;
+    ff:hasEmploymentStatus ff:Employee .
 
-ex:TheBusiness ff:hasEvent ex:Event123 .
+# CountryShapeA
+ex:SomeEmployment ff:employer ex:SomeEmployer ;
+    ff:countryOfEmployment ff:Germany .
+
+ex:SomeEmployer ff:hasEvent ex:SomeEvent .
+
+# InsolvencyEventShapeA
+ex:SomeEvent a ex:SomeProceeding .

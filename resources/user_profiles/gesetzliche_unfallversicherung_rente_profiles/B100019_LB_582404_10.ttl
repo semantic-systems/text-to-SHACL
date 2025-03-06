@@ -3,9 +3,11 @@
 
 # Missing information for "User has statutory accident insurance"
 
-ff:User ff:hasEvent ex:WorkAccident0 .
+ff:User ff:hasEvent ex:SomeEvent ;
+        ff:hasInsurance ex:SomeInsurance .
 
-ex:WorkAccident0 ff:reducesEarningCapacity [ 
-    ff:reductionPercentage 20 ; 
-    ff:durationWeeks 30
-    ] .
+ex:SomeEvent a ff:OccupationalDisease ;
+        ff:reducesEarningCapacity [ 
+                ff:reductionPercentage 20 ; 
+                ff:durationWeeks 27
+        ] .

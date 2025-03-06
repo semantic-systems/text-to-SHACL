@@ -3,6 +3,7 @@
 
 # Does not meet requirement 'User's rehabilitation provider is the Federal Employment Agency.'
 
-ff:User ff:hasDisability true ;
-        ff:hasRehabilitationProvider ex:SomeOtherAgency ;
-        ff:plansParticipation ff:VocationalTraining .
+ff:User ff:hasDisability ex:SomeDisability ;
+        ff:hasRehabilitationProvider ex:SomeProvider ;
+        ff:willParticipate ff:PreVocationalTraining ;
+        ff:isIneligibleFor ff:B100019_LB_102716305 .

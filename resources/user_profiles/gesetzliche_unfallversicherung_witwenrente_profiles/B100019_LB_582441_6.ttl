@@ -3,4 +3,4 @@
 
 # Does not meet requirement "User's spouse OR civil partner died"
 
-ff:User ff:civilPartner ex:Fredda .
+ff:User ex:civilPartner ex:SomePerson .

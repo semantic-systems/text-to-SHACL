@@ -11,6 +11,6 @@ ff:User ff:incomeTaxCountry ff:Germany;
 	ff:hasChild ex:Fredda.
 
 # ChildShapeB
-ex:Fredda ff:ordinaryResidence ex:Latvia .
+ex:Fredda ff:countryOfOrdinaryResidence ex:Latvia .
 
 ex:Latvia a ff:EEAplusCH .

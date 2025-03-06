@@ -1,0 +1,16 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Does not meet requirement "The deceased person had statutory accident insurance"
+
+ff:User ff:fosterChildTo ex:SomePerson ;
+    ff:hasAge 19 ;
+    ff:participatesIn ex:SomeTraining .
+
+ex:SomePerson ff:hasInsurance ex:SomeInsurance ;
+        ff:sameHouseholdAs ff:User ;
+        ff:causeOfDeath ex:SomeEvent .
+
+ex:SomeEvent a ff:CommutingAccident .
+
+ex:SomeInsurance a ff:VocationalTraining .

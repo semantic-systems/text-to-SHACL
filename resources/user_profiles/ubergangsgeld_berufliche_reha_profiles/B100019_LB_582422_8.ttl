@@ -1,8 +1,12 @@
 @prefix ex: <http://example.org/ns#> .
 @prefix ff: <https://foerderfunke.org/default#> .
 
-# Missing information for "User takes part in occupational rehabilitation"
+# Does not meet requirement "The event is an accident at work, commuting accident or occupational disease"
 
-ff:User ff:hasEvent ex:BakersAsthma .
+ff:User ff:hasInsurance ff:StatutoryAccidentInsurance ; 
+	ff:hasEvent ex:SomeEvent .
 
-ex:BakersAsthma a ff:OccupationalDisease .
+ex:SomeEvent a ex:SomeTypeOfEvent ;
+	ff:resultsInTreatment ex:SomeTreatment .
+
+ex:SomeTreatment a ff:OccupationalRehabilitation .

@@ -3,6 +3,7 @@
 
 # Eligible for training allowance (Ausbildungsgeld)
 
-ff:User ff:hasDisability true ;
+ff:User ff:hasDisability ex:SomeDisability ;
         ff:hasRehabilitationProvider ff:FederalEmploymentAgency ;
-        ff:plansParticipation ff:IndividualInCompanyQualification .
+        ff:willParticipate ff:PreVocationalTraining ;
+        ff:isIneligibleFor ff:B100019_LB_102716305 .

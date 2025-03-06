@@ -1,8 +1,11 @@
 @prefix ex: <http://example.org/ns#> .
 @prefix ff: <https://foerderfunke.org/default#> .
 
-# Missing information for "User has an occupational disease that caused inability to work"
+# Missing information for "User experienced an insurance event"
 
-ff:User ff:hasEvent ex:BakersAsthma .
+ff:User ff:hasInsurance ff:StatutoryAccidentInsurance .
 
-ex:BakersAsthma a ff:OccupationalDisease .
+ex:SomeEvent a ff:WorkAccident ;
+    ff:reducesEarningCapacity [
+        ff:unfitForWork true
+    ] .

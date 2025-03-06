@@ -1,14 +1,13 @@
 @prefix ex: <http://example.org/ns#> .
 @prefix ff: <https://foerderfunke.org/default#> .
 
-# Does not meet Requirement "User has statutory accident insurance"
+# Eligible for statutory accident insurance pension (Gesetzliche Unfallversicherung Rente)
 
-ff:User ff:hasInsurance ex:PrivateInsurance ;
-        ff:hasEvent ex:WorkAccident0 .
+ff:User ff:hasInsurance ff:StatutoryAccidentInsurance ;
+        ff:hasEvent ex:SomeEvent .
 
-ex:PrivateInsurance ff:covers ex:WorkAccident0 .
-
-ex:WorkAccident0 ff:reducesEarningCapacity [ 
-    ff:reductionPercentage 20 ; 
-    ff:durationWeeks 30
-    ] .
+ex:SomeEvent a ff:CommutingAccident ;
+        ff:reducesEarningCapacity [ 
+                ff:reductionInPercent 20 ; 
+                ff:reductionDurationInWeeks 27
+                ] .

@@ -1,0 +1,11 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Does not meet requirement "User's spouse OR civil partner had statutory accident insurance"
+
+ff:User ff:deceasedCivilPartner ex:SomePerson .
+
+ex:SomePerson ff:causeOfDeath ex:SomeEvent ;
+    ff:hasInsurance ex:SomeInsurance .
+
+ex:SomeEvent a ff:WorkAccident .

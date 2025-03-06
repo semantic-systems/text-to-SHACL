@@ -5,5 +5,8 @@
 
 ff:User ff:hasInsurance ff:StatutoryAccidentInsurance .
 
-ff:StatutoryAccidentInsurance ff:covers ex:WorkAccident .
-
+ex:SomeEvent a ff:WorkAccident ;
+        ff:reducesEarningCapacity [ 
+                ff:reductionPercentage 20 ; 
+                ff:durationWeeks 27
+        ] .

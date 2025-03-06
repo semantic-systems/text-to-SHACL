@@ -1,0 +1,15 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Does not meet requirement "The person is younger than 27"
+
+ff:User ff:hasPrimaryCaretaker ex:SomePerson ;
+    ff:hasAge 27 ;
+    ff:participatesIn ex:SomeTraining .
+
+ex:SomePerson ff:hasInsurance ff:StatutoryAccidentInsurance ;
+        ff:causeOfDeath ex:SomeEvent .
+
+ex:SomeEvent a ff:CommutingAccident .
+
+ex:SomeTraining a ff:VocationalTraining .

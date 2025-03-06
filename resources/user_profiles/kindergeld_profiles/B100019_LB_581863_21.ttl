@@ -14,4 +14,4 @@ ff:User ff:incomeTaxCountry ex:Germany ;
 	ff:hasChild ex:Urs .
 
 # ChildShapeA
-ex:Urs ff:ordinaryResidence ex:Tuvalu .
+ex:Urs ff:countryOfOrdinaryResidence ex:Tuvalu .

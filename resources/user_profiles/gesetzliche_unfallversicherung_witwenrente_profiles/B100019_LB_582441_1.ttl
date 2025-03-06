@@ -3,8 +3,9 @@
 
 # Eligible for statutory accident statutory accident insurance widow pension (Gesetzliche Unfallversicherung Witwen- und Witwerrente)
 
-ff:User ff:deceasedSpouse ex:Fredda .
+ff:User ff:deceasedSpouse ex:SomePerson .
 
-ex:Fredda ff:causeOfDeath ex:Event123 .
+ex:SomePerson ff:causeOfDeath ex:SomeEvent ;
+    ff:hasInsurance ff:StatutoryAccidentInsurance .
 
-ex:Event123 a ff:AccidentAtWork .
+ex:SomeEvent a ff:WorkAccident .

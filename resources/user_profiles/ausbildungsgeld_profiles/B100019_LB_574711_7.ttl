@@ -3,6 +3,7 @@
 
 # Does not meet requirement 'User will participate in one of the covered training programs.'
 
-ff:User ff:hasDisability true ;
+ff:User ff:hasDisability ex:SomeDisability ;
         ff:hasRehabilitationProvider ff:FederalEmploymentAgency ;
-        ff:plansParticipation ex:SomeOtherTraining .
+        ff:willParticipate ex:SomeProgram ;
+        ff:isIneligibleFor ff:B100019_LB_102716305 .

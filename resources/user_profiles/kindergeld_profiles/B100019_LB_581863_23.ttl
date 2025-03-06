@@ -1,0 +1,19 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Does not meet requirement "User has sufficient means fo subsistence and adequate health insurance cover"
+
+ff:User ff:incomeTaxCountry ff:Germany ;
+	ff:incomeTaxLiability ff:UnlimitedTaxLiability ;
+	# ResidencyShapeC
+	ff:isNationalOf ex:Latvia ;
+	ff:moveToGermanyDate "2019-08-01"^^xsd:date ;
+	ff:sufficientMeansOfSubsistence true ;
+	ff:adequateHealthInsurance false ;
+	ff:hasChild ex:Urs .
+
+# ChildShapeA
+ex:Urs ff:countryOfResidence ex:Latvia .
+ex:Latvia a ff:EEAplusCH .

@@ -4,12 +4,10 @@
 # Eligible for statutory accident insurance pension (Gesetzliche Unfallversicherung Rente)
 
 ff:User ff:hasInsurance ff:StatutoryAccidentInsurance ;
-        ff:hasEvent ex:WorkAccident0 ;
-        ff:hasEvent ex:BirthdayParty .
+        ff:hasEvent ex:SomeOtherEvent, ex:SomeEvent .
 
-ff:StatutoryAccidentInsurance ff:covers ex:WorkAccident0 .
-
-ex:WorkAccident0 ff:reducesEarningCapacity [ 
-    ff:reductionPercentage 20 ; 
-    ff:durationWeeks 27
-    ] .
+ex:SomeEvent a ff:WorkAccident ;
+        ff:reducesEarningCapacity [ 
+                ff:reductionInPercent 20 ; 
+                ff:reductionDurationInWeeks 27
+                ] .

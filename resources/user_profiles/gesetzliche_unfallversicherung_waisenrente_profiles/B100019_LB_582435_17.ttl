@@ -1,0 +1,14 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Missing information for "The cause of death was an insurance event"
+
+ff:User ff:naturalChildTo ex:SomePerson, ex:SomeOtherPerson ;
+    ff:hasAge 19 ;
+    ff:participatesIn ex:SomeTraining, ex:SomeOtherTraining .
+
+ex:SomePerson ff:hasInsurance ff:StatutoryAccidentInsurance .
+
+ex:SomeEvent a ff:CommutingAccident .
+
+ex:SomeTraining a ff:School .

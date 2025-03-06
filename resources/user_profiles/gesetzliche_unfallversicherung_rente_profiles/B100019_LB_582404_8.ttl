@@ -4,11 +4,9 @@
 # Does not meet requirement "The event reduces the user's earning capacity by at least 20%"
 
 ff:User ff:hasInsurance ff:StatutoryAccidentInsurance ;
-        ff:hasEvent ex:WorkAccident0 .
+        ff:hasEvent ex:SomeEvent .
 
-ff:StatutoryAccidentInsurance ff:covers ex:WorkAccident0 .
-
-ex:WorkAccident0 ff:reducesEarningCapacity [ 
-    ff:reductionPercentage 19 ; 
-    ff:durationWeeks 27
-    ] .
+ex:SomeEvent ff:reducesEarningCapacity [
+        ff:reductionInPercent 19.99 ;
+        ff:reductionDurationInWeeks 27
+] .
