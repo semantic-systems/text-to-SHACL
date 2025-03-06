@@ -6,7 +6,7 @@
 # METADATA
 
 ff:B100019_LB_582441 a ff:SocialBenefit ;
-    rdfs:label "Witwenrente"@de, "Widow's pension"@en .
+    rdfs:label "Gesetzliche Unfallversicherung Witwen- und Witwerrente"@de, "Statutory accident insurance widow's pension"@en .
 # CONSTRAINTS
 
 ff:WitwenrenteShape a sh:NodeShape ;

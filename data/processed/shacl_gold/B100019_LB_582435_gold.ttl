@@ -6,7 +6,7 @@
 # METADATA
 
 ff:B100019_LB_582435 a ff:SocialBenefit ;
-    rdfs:label "Waisenrente"@de, "Orphan's pension" .
+    rdfs:label "Gesetzliche Unfallversicherung Waisenrente"@de, "Statutory accident insurance orphan's pension" .
 
 # CONSTRAINTS
 
