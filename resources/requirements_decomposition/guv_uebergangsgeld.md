@@ -1,4 +1,4 @@
-<b>Name</b>: Gesetzliche Unfallversicherung Übergangsgeld bei beruflicher Reha
+<b>Name</b>: Gesetzliche Unfallversicherung Übergangsgeld berufliche Reha
 
 <b>IDLB</b>: B100019_LB_582422
 

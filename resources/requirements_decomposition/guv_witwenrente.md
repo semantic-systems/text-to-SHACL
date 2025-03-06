@@ -1,4 +1,4 @@
-<b>Name</b>: Witwen- und Witwerrente
+<b>Name</b>: Gesetzliche Unfallversicherung Witwen- und Witwerrente
 
 <b>IDLB</b>: B100019_LB_582441
 
