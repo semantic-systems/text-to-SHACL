@@ -5,7 +5,7 @@
 
 ff:User ff:hasPrimaryCaretaker ex:SomePerson ;
     ff:hasAge 27 ;
-    ff:participatesIn ex:SomeTraining .
+    ff:participates ex:SomeTraining .
 
 ex:SomePerson ff:hasInsurance ff:StatutoryAccidentInsurance ;
         ff:causeOfDeath ex:SomeEvent .

@@ -89,7 +89,7 @@ ff:AgeShapeB a sh:NodeShape ;
     sh:or (
         # The user participates in vocational training or school
         [
-            sh:path ( ff:participatesIn rdf:type );
+            sh:path ( ff:participates rdf:type );
             sh:qualifiedMinCount 1 ;
             sh:qualifiedValueShape [
                 sh:in ( ff:VocationalTraining ff:School )

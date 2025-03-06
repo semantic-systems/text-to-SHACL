@@ -5,7 +5,7 @@
 
 ff:User ff:naturalChildTo ex:SomePerson, ex:SomeOtherPerson ;
     ff:hasAge 19 ;
-    ff:participatesIn ex:SomeTraining, ex:SomeOtherTraining .
+    ff:participates ex:SomeTraining, ex:SomeOtherTraining .
 
 ex:SomePerson ff:hasInsurance ff:StatutoryAccidentInsurance .
 

@@ -5,7 +5,7 @@
 
 ff:User ff:fosterChildTo ex:SomePerson ;
     ff:hasAge 19 ;
-    ff:participatesIn ex:SomeTraining .
+    ff:participates ex:SomeTraining .
 
 ex:SomePerson ff:hasInsurance ex:SomeInsurance ;
         ff:sameHouseholdAs ff:User ;
