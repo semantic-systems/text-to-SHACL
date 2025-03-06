@@ -1,17 +1,17 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix ff: <https://foerderfunke.org/default#> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 
 # METADATA
 
-ff:B100019_LB_582404 a ff:SocialBenefit ;
-    rdfs:label "Gesetzliche Unfallversicherung Rente"@de, "Statutory accident insurance pension"@en .
+ff:B100019_LB_582429 a ff:SocialBenefit ;
+    rdfs:label "Gesetzliche Unfallversicherung Verletztengeld"@de, "Statutory accident insurance injury allowance"@en .
 
 # CONSTRAINTS
 
-ff:GesetzlicheUnfallversicherungRenteShape a sh:NodeShape ;
-    ff:checksFundingRequirement ff:B100019_LB_582404 ;
+ff:VerletztengeldShape a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_582429 ;
     sh:targetNode ff:User ;
     # User has statutory accident insurance
     sh:property [
@@ -22,12 +22,12 @@ ff:GesetzlicheUnfallversicherungRenteShape a sh:NodeShape ;
         sh:qualifiedMinCount 1 ;
         sh:message "Does not meet requirement 'User has statutory accident insurance'"@en
     ] ;
-    # User experienced an insurance event
+     # User experienced an insurance event
     sh:property [
         sh:path ff:hasEvent ;
         sh:qualifiedValueShape ff:InsuranceEventShape ;
         sh:qualifiedMinCount 1 ;
-        sh:message "Does not meet requirement 'User had an insurance event'"@en
+        sh:message "Does not meet requirement 'User had an insurance event' and 'As a result of the insurance event, the user takes part in occupational rehabilitation.'"@en
     ] .
 
 ff:InsuranceEventShape a sh:NodeShape ;
@@ -37,15 +37,8 @@ ff:InsuranceEventShape a sh:NodeShape ;
         [ sh:class ff:CommutingAccident ] # Wegeunfall
         [ sh:class ff:OccupationalDisease ] # Berufskrankheit
     ) ;
-    # The event reduces the user's earning capacity by at least 20%
+    # As a result of the insurance event, user is unfit for work
     sh:property [
-        sh:path ( ff:reducesEarningCapacity ff:reductionInPercent );
-        sh:minCount 1 ;
-        sh:minInclusive 20 ;
-    ] ;
-    # The event reduces the user's earning capacity for more than 26 weeks
-    sh:property [
-        sh:path ( ff:reducesEarningCapacity ff:reductionDurationInWeeks ) ;
-        sh:minCount 1 ;
-        sh:minInclusive 27 ;
+        sh:path ( ff:reducesEarningCapacity ff:unfitForWork ) ;
+        sh:hasValue true ;
     ] .

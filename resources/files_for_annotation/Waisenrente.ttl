@@ -1,0 +1,104 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+
+ff:B100019_LB_582435 a ff:SocialBenefit ;
+    rdfs:label "Gesetzliche Unfallversicherung Waisenrente"@de, "Statutory accident insurance orphan's pension" .
+
+# CONSTRAINTS
+
+ff:WaisenrenteShape a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_582435 ;
+    sh:targetNode ff:User ;
+    sh:or (
+        ff:ParentShapeA
+        ff:ParentShapeB
+    ) ;
+    sh:or (
+        ff:AgeShapeA
+        ff:AgeShapeB
+    ).
+
+ff:ParentShapeA a sh:NodeShape ;
+    sh:property [
+        sh:path [ sh:alternativePath ( ff:naturalChildTo ff:hasPrimaryCareTaker ) ] ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedValueShape ff:InsuranceEventShapeA ;
+    ] .
+
+ff:ParentShapeB a sh:NodeShape ;
+    sh:property [
+        sh:path [ sh:alternativePath ( ff:stepchildTo ff:fosterChildTo ff:grandChildTo ) ] ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedValueShape ff:InsuranceEventShapeB ;
+    ] .
+
+ff:InsuranceEventShapeA a sh:NodeShape ;
+    sh:property [
+        sh:path ff:hasInsurance ;
+        sh:qualifiedValueShape [
+            sh:hasValue ff:StatutoryAccidentInsurance
+            ];
+        sh:qualifiedMinCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ( ff:causeOfDeath rdf:type ) ;
+        sh:minCount 1 ;
+        sh:in ( ff:WorkAccident ff:CommutingAccident ff:OccupationalDisease ) ;
+    ] .
+
+ff:InsuranceEventShapeB a sh:NodeShape ;
+    sh:property [
+        sh:path ff:sameHouseholdAs ;
+        sh:qualifiedValueShape [
+            sh:hasValue ff:User
+            ];
+        sh:qualifiedMinCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ff:hasInsurance ;
+        sh:qualifiedValueShape [
+            sh:hasValue ff:StatutoryAccidentInsurance
+            ];
+        sh:qualifiedMinCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ( ff:causeOfDeath rdf:type ) ;
+        sh:minCount 1 ;
+        sh:in ( ff:WorkAccident ff:CommutingAccident ff:OccupationalDisease ) ;
+    ] .
+
+ff:AgeShapeA a sh:NodeShape ;
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:minCount 1 ;
+        sh:maxExclusive 18 ;
+    ] .
+
+ff:AgeShapeB a sh:NodeShape ;
+    # The user is younger than 27 years
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:minCount 1 ;
+        sh:minInclusive 18 ;
+        sh:maxExclusive 27 ;
+    ] ;
+    sh:or (
+        # The user participates in vocational training or school
+        [
+            sh:path ( ff:participatesIn rdf:type );
+            sh:qualifiedMinCount 1 ;
+            sh:qualifiedValueShape [
+                sh:in ( ff:VocationalTraining ff:School )
+            ] ;
+        ]
+        # The user cannot support themselves because of a disability
+        [
+            sh:path ff:cannotSupportThemselvesBecause ;
+            sh:minCount 1 ;
+            sh:class ff:Disability ;
+        ]
+    ) .
