@@ -9,7 +9,7 @@ ff:B100019_LB_582441 a ff:SocialBenefit ;
     rdfs:label "Gesetzliche Unfallversicherung Witwen- und Witwerrente"@de, "Statutory accident insurance widow's pension"@en .
 # CONSTRAINTS
 
-ff:WitwenrenteShape a sh:NodeShape ;
+ff:GUVWitwenrenteShape a sh:NodeShape ;
     ff:checksFundingRequirement ff:B100019_LB_582441 ;
     sh:targetNode ff:User ;
     # User's spouse OR civil partner died 
