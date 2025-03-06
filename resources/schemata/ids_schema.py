@@ -4,8 +4,9 @@ ids_schema.py
 Mappings regarding identifiers used in PVOG including
 - ars_to_name: Maps ARS to the name of the corresponding municipality or state.
 - idlb_to_ars: Maps IDLB to a corresponding ARS.
-- idlb_to_name: Maps IDLB to the name of the corresponding administrative service.
+- idlb_to_name: Maps IDLB to the PVOG name of the corresponding administrative service.
 - prefix_to_state: Maps the prefix of an IDLB to the corresponding federal state.
+- idlb_to_labels: Maps IDLB to a German label, English label and short label.
 """
 
 from typing import Dict
@@ -45688,4 +45689,67 @@ prefix_to_state: Dict[str,str] = {
     "L100042": "Bayern",
     "L100041": "Brandenburg",
     "L100010": "Saarland"
+}
+
+idlb_to_labels: Dict[str, Dict[str, str]] = {
+    "B100019_LB_574711": {
+        "german label": "Ausbildungsgeld",
+        "english label": "Training allowance",
+        "short label": "Ausbildungsgeld"
+    },
+    "B100019_LB_576842": {
+        "german label": "Arbeitslosengeld",
+        "english label": "Unemployment benefit",
+        "short label": "Arbeitslosengeld"
+    },
+    "B100019_LB_576848": {
+        "german label": "Insolvenzgeld",
+        "english label": "Insolvency allowance",
+        "short label": "Insolvenzgeld"
+    },
+    "B100019_LB_581863": {
+        "german label": "Kinderzuschlag",
+        "english label": "Child supplement",
+        "short label": "Kinderzuschlag"
+    },
+    "B100019_LB_582404": {
+        "german label": "Gesetzliche Unfallversicherung Rente",
+        "english label": "Statutory accident insurance pension",
+        "short label": "GUVRente"
+    },
+    "B100019_LB_582422": {
+        "german label": "Gesetzliche Unfallversicherung Übergangsgeld Berufliche Reha",
+        "english label": "Statutory accident insurance occupational rehabilitation allowance",
+        "short label": "GUVUebergangsgeld"
+    },
+    "B100019_LB_582429": {
+        "german label": "Gesetzlichen Unfallversicherung Verletztengeld",
+        "english label": "Statutory accident insurance injury allowance",
+        "short label": "GUVVerletztengeld"
+    },
+    "B100019_LB_582435": {
+        "german label": "Gesetzliche Unfallversicherung Waisenrente",
+        "english label": "Statutory accident insurance orphan's pension",
+        "short label": "GUVWaisenrente"
+    },
+    "B100019_LB_582441": {
+        "german label": "Gesetzliche Unfallversicherung Witwen- und Witwerrente",
+        "english label": "Statutory accident insurance widow's pension",
+        "short label": "GUVWitwenrente"
+    },
+    "B100019_LB_106311931": {
+        "german label": "Bürgergeld",
+        "english label": "Citizen benefit",
+        "short label": "Buergergeld"
+    },
+    "B100019_LB_576986": {
+        "german label": "Kindergeld",
+        "english label": "Child benefit",
+        "short label": "Kindergeld"
+    },
+    "L100040_LB_12280162": {
+        "german label": "Bildung und Teilhabe",
+        "english label": "Education and participation",
+        "short label": "BildungUndTeilhabe"
+    }
 }
