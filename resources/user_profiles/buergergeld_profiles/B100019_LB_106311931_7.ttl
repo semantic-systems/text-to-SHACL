@@ -1,14 +1,11 @@
 @prefix ex: <http://example.org/ns#> .
 @prefix ff: <https://foerderfunke.org/default#> .
 
-# Does not meet requirement 'User income cannot cover the basic needs of themselves and the unemployed individuals in their benefit unit.'
+# Does not meet requirement 'User has not yet reached the legal retirement age'
 
 ff:User ff:employableHoursPerDay 6 ;
-        ff:hasAge 38 ;
-        ff:isPensionable false ;
-        ff:hasIncome [
-            ff:coversBasicNeeds true ;
-        ] ;
+        ff:hasAge 69 ;
+        ff:isPensionable true ;
         ff:isEligibleFor ex:SomeBenefit ;
         ff:countryOfResidence ff:Germany .
 

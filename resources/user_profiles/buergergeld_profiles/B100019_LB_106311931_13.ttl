@@ -1,14 +1,12 @@
 @prefix ex: <http://example.org/ns#> .
 @prefix ff: <https://foerderfunke.org/default#> .
 
-# Missing information for 'User income cannot cover the basic needs of themselves and the unemployed individuals in their benefit unit.'
+# Missing information for 'User must life in Germany'
 
-ff:User ff:employableHoursPerDay 6 ;
-        ff:hasAge 38 ;
+ff:User ff:employableHoursPerDay 3 ;
+        ff:hasAge 15 ;
         ff:isPensionable false ;
-        ff:hasIncome _:b1 ;
-        ff:isEligibleFor ex:SomeBenefit ;
-        ff:countryOfResidence ff:Germany .
+        ff:isEligibleFor ex:SomeBenefit .
 
 ex:SomeBenefit a ff:SocialBenefit ;
 	ff:hasPriorityOver ex:SomeOtherBenefit .

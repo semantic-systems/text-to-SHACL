@@ -1,14 +1,11 @@
 @prefix ex: <http://example.org/ns#> .
 @prefix ff: <https://foerderfunke.org/default#> .
 
-# Does not meet requirement 'User has not yet reached the legal retirement age.'
+# Does not meet requirement 'User is able to work at least 3 hours per day'
 
-ff:User ff:employableHoursPerDay 3 ;
+ff:User ff:employableHoursPerDay 2.99 ;
         ff:hasAge 69 ;
         ff:isPensionable true ;
-        ff:hasIncome [
-            ff:coversBasicNeeds false ;
-        ] ;
         ff:isEligibleFor ex:SomeBenefit ;
         ff:countryOfResidence ff:Germany .
 

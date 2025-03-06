@@ -6,9 +6,6 @@
 ff:User ff:employableHoursPerDay 8 ;
         ff:hasAge 57 ;
         ff:isPensionable false ;
-        ff:hasIncome [
-            ff:coversBasicNeeds false ;
-        ] ;
         ff:isEligibleFor ex:SomeBenefit ;
         ff:countryOfResidence ff:Germany .
 

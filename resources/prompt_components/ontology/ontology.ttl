@@ -12,6 +12,13 @@
 #    Object Properties
 #################################################################
 
+###  https://foerderfunke.org/default#cannotSupportThemselvesBecause
+<https://foerderfunke.org/default#cannotSupportThemselvesBecause> rdf:type owl:ObjectProperty ;
+                                                                  rdfs:domain <https://foerderfunke.org/default#Person> ;
+                                                                  rdfs:range <https://foerderfunke.org/default#Disability> ;
+                                                                  rdfs:comment "Points to the reason why a person cannot support themselves."@en .
+
+
 ###  https://foerderfunke.org/default#causeOfDeath
 <https://foerderfunke.org/default#causeOfDeath> rdf:type owl:ObjectProperty ;
                                                 rdfs:domain <https://foerderfunke.org/default#Person> ;
@@ -59,6 +66,13 @@
                                             rdfs:domain <https://foerderfunke.org/default#Employment> ;
                                             rdfs:range <https://foerderfunke.org/default#Employer> ;
                                             rdfs:comment "Links a person to a person or organization that employs them."@en .
+
+
+###  https://foerderfunke.org/default#fosterChildTo
+<https://foerderfunke.org/default#fosterChildTo> rdf:type owl:ObjectProperty ;
+                                                 rdfs:domain <https://foerderfunke.org/default#Person> ;
+                                                 rdfs:range <https://foerderfunke.org/default#Person> ;
+                                                 rdfs:comment "Links a person to their foster parent."@en .
 
 
 ###  https://foerderfunke.org/default#hasChild
@@ -118,6 +132,13 @@
                                                     rdfs:comment "Links a person to their legal marital status."@en .
 
 
+###  https://foerderfunke.org/default#hasPrimaryCareTaker
+<https://foerderfunke.org/default#hasPrimaryCareTaker> rdf:type owl:ObjectProperty ;
+                                                       rdfs:domain <https://foerderfunke.org/default#Person> ;
+                                                       rdfs:range <https://foerderfunke.org/default#Person> ;
+                                                       rdfs:comment "Links a person to a person who has the main responsibility for their living expenses."@en .
+
+
 ###  https://foerderfunke.org/default#hasPriorityOver
 <https://foerderfunke.org/default#hasPriorityOver> rdf:type owl:ObjectProperty ;
                                                    rdfs:domain <https://foerderfunke.org/default#SocialBenefit> ;
@@ -174,6 +195,20 @@
                                                 rdfs:comment "Links a person to a country where they are a national."@en .
 
 
+###  https://foerderfunke.org/default#naturalChildTo
+<https://foerderfunke.org/default#naturalChildTo> rdf:type owl:ObjectProperty ;
+                                                  rdfs:domain <https://foerderfunke.org/default#Person> ;
+                                                  rdfs:range <https://foerderfunke.org/default#Person> ;
+                                                  rdfs:comment "Links a person to their natural parent."@en .
+
+
+###  https://foerderfunke.org/default#participates
+<https://foerderfunke.org/default#participates> rdf:type owl:ObjectProperty ;
+                                                rdfs:domain <https://foerderfunke.org/default#Person> ;
+                                                rdfs:range <https://foerderfunke.org/default#Training> ;
+                                                rdfs:comment "Links a person to a program, e.g. a formal training, in which they are currently participating."@en .
+
+
 ###  https://foerderfunke.org/default#receivesBenefit
 <https://foerderfunke.org/default#receivesBenefit> rdf:type owl:ObjectProperty ;
                                                    rdfs:domain <https://foerderfunke.org/default#Person> ;
@@ -209,11 +244,18 @@
                                                          rdfs:comment "Links a person to the country where they are subject to social security."@en .
 
 
+###  https://foerderfunke.org/default#stepChildTo
+<https://foerderfunke.org/default#stepChildTo> rdf:type owl:ObjectProperty ;
+                                               rdfs:domain <https://foerderfunke.org/default#Person> ;
+                                               rdfs:range <https://foerderfunke.org/default#Person> ;
+                                               rdfs:comment "Links a person to their step parent."@en .
+
+
 ###  https://foerderfunke.org/default#willParticipate
 <https://foerderfunke.org/default#willParticipate> rdf:type owl:ObjectProperty ;
                                                    rdfs:domain <https://foerderfunke.org/default#Person> ;
                                                    rdfs:range <https://foerderfunke.org/default#Training> ;
-                                                   rdfs:comment "Links a person to a program in which they will participate, e.g. training."@en .
+                                                   rdfs:comment "Links a person to a program, e.g. a formal training, in which they will participate"@en .
 
 
 #################################################################
@@ -232,6 +274,13 @@
                                                          rdfs:domain <https://foerderfunke.org/default#Person> ;
                                                          rdfs:range xsd:boolean ;
                                                          rdfs:comment "True if a person is able and willing to work subject to compulsory insurance under normal labor market conditions, false otherwise."@en .
+
+
+###  https://foerderfunke.org/default#employableHoursPerDay
+<https://foerderfunke.org/default#employableHoursPerDay> rdf:type owl:DatatypeProperty ;
+                                                         rdfs:domain <https://foerderfunke.org/default#Person> ;
+                                                         rdfs:range xsd:int ;
+                                                         rdfs:comment "Links a person o the fractional hours they are able to work per day."@en .
 
 
 ###  https://foerderfunke.org/default#entitledToAsylum
@@ -281,6 +330,11 @@
                                           rdfs:domain <https://foerderfunke.org/default#InsolvencyProceeding> ;
                                           rdfs:range xsd:boolean ;
                                           rdfs:comment "True if a proceeding is open, false otherwise."@en .
+
+
+###  https://foerderfunke.org/default#isPensionable
+<https://foerderfunke.org/default#isPensionable> rdf:type owl:DatatypeProperty ;
+                                                 rdfs:comment "True, if a person has reached the legal retirement age, false otherwise."@en .
 
 
 ###  https://foerderfunke.org/default#isSingleParent
@@ -506,6 +560,11 @@
                                                    rdfs:comment "Types of residence permits"@en .
 
 
+###  https://foerderfunke.org/default#School
+<https://foerderfunke.org/default#School> rdf:type owl:Class ;
+                                          rdfs:subClassOf <https://foerderfunke.org/default#Training> .
+
+
 ###  https://foerderfunke.org/default#SocialBenefit
 <https://foerderfunke.org/default#SocialBenefit> rdf:type owl:Class ;
                                                  rdfs:comment "A government program to provide financial support to people under certain conditions."@en .
@@ -518,7 +577,7 @@
 
 ###  https://foerderfunke.org/default#Training
 <https://foerderfunke.org/default#Training> rdf:type owl:Class ;
-                                            rdfs:comment "Types of training or education programs."@en .
+                                            rdfs:comment "Types of formal training or education programs."@en .
 
 
 ###  https://foerderfunke.org/default#VocationalTraining
