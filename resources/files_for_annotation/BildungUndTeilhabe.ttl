@@ -1,0 +1,51 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+
+ff:L100040_LB_12280162 a ff:SocialBenefit ;
+    rdfs:label "Bildung und Teilhabe"@de, "Education and participation" .
+
+# CONSTRAINTS
+
+ff:BildungUndTeilhabeShape a sh:NodeShape ;
+    ff:checksFundingRequirement ff:L100040_LB_12280162 ;
+    sh:targetNode ff:User ;
+    sh:or (
+        ff:OtherBenefitsShapeA
+        ff:OtherBenefitsShapeB
+    ) ;
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:minCount 1 ;
+        sh:maxExclusive 25 ;
+        sh:message "Does not meet requirement 'User is less than 25 years old'." ;
+    ] .
+
+# User receives citizen benefit OR social assistance OR asylum seeker benefits
+ff:OtherBenefitsShapeA a sh:NodeShape ;
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:qualifiedValueShape [
+            sh:in (
+                ff:B100019_LB_106311931 # citizen benefit
+                ff:SocialAssistance
+                ff:AsylumSeekerBenefits
+            )
+        ] ;
+        sh:qualifiedMinCount 1 ;
+    ] .
+
+# User receives housing benefit AND child supplement
+ff:OtherBenefitsShapeB a sh:NodeShape ;
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:qualifiedValueShape [ sh:hasValue ff:L100040_LB_8665924 ] ; # housing benefit
+        sh:qualifiedMinCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:qualifiedValueShape [ sh:hasValue ff:B100019_LB_581863 ] ; # child supplement
+        sh:qualifiedMinCount 1 ;
+    ] .
