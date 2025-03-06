@@ -13,26 +13,28 @@ ff:ArbeitslosengeldShape a sh:NodeShape ;
     ff:checksFundingRequirement ff:B100019_LB_576842 ;
     sh:targetNode ff:User ;
     # User is not in employment OR in employment for less than 15 hours per week
+    sh:or (
+        [
+            sh:path ff:inEmployment ;
+            sh:hasValue false ;
+        ]
+        [ 
+            sh:path ( ff:hasEmployment ff:workHoursPerWeek ) ;
+            sh:minCount 1 ;
+            sh:maxExclusive 15 ;
+        ]
+    ) ;
+    # User is available for the employment agency's placement efforts
     sh:property [
-        sh:path ff:employedHoursPerWeek ;
-        sh:minCount 1 ;
-        sh:minInclusive 0 ;
-        sh:maxExclusive 15 ;
-        sh:message "Does not meet requirement 'User is not in employment OR in employment for less than 15 hours per week.'"@en ;
-    ] ;
-    # User is able to take up employment subject to compulsory insurance under normal labor market conditions
-    sh:property [
-        sh:path ff:isAbleToWork ;
+        sh:path ff:availableForPlacement ;
         sh:minCount 1 ;
         sh:hasValue true ;
-        sh:message "Does not meet requirement 'User is able to take up employment subject to compulsory insurance under normal labor market conditions.'"@en ;
+        sh:message "Does not meet requirement 'User is available for the employment agency's placement efforts'"@en ;
     ] ;
     # User has registered as unemployed
     sh:property [
-        sh:path ff:hasRegisteredUnemployment ;
+        sh:path ff:hasEmploymentStatus ;
         sh:minCount 1 ;
-        sh:hasValue true ;
+        sh:hasValue ff:RegisteredUnemployed ;
         sh:message "Does not meet requirement 'User has registered as unemployed.'"@en ;
     ] .
-
-    

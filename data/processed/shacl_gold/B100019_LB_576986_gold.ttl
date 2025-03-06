@@ -16,14 +16,12 @@ ff:KindergeldBeantragenShape a sh:NodeShape ;
     # User is subject to income tax in Germany
     sh:property [
         sh:path ff:incomeTaxCountry ;
-        sh:minCount 1 ;
         sh:hasValue ff:Germany ;
         sh:message "Does not meet requirement 'User is subject to income tax in Germany.'"@en ;
     ] ;
     # User is subject to unlimited income tax lianility
     sh:property [
         sh:path ff:incomeTaxLiability ;
-        sh:minCount 1 ;
         sh:hasValue ff:UnlimitedTaxLiability ;
         sh:message "Does not meet requirement 'User is subject to unlimited income tax liability.'"@en ;
     ] ;
@@ -51,7 +49,6 @@ ff:KindergeldBeantragenShape a sh:NodeShape ;
 ff:ResidencyShapeA a sh:NodeShape ;
     sh:property [
         sh:path ff:isNationalOf ;
-        sh:minCount 1 ;
         sh:hasValue ff:Germany ;
     ] .
 
@@ -93,10 +90,22 @@ ff:ResidencyShapeC a sh:NodeShape ;
             sh:path ff:derivesFreedomOfMovementFrom ;
             sh:minCount 1 ;
         ]
+        # User has sufficient means fo subsistence and adequate health insurance cover
+        [
+            sh:and (
+                [
+                    sh:path ff:sufficientMeansOfSubsistence ;
+                    sh:hasValue true ;
+                ]
+                [
+                    sh:path ff:adequateHealthInsurance ;
+                    sh:hasValue true ;
+                ]
+            )
+        ]
         # User has acquired a permanent right of residence
         [
             sh:path ff:permanentRightOfResidence ;
-            sh:minCount 1 ;
             sh:hasValue true ;
         ]
     ) .
@@ -114,17 +123,14 @@ ff:ResidencyShapeD a sh:NodeShape ;
     sh:or (
         [
             sh:path (ff:hasResidencePermit ff:entitlesToEmployment) ;
-            sh:minCount 1 ;
             sh:hasValue true ;
         ]
         [
             sh:path ff:recognizedRefugee ;
-            sh:minCount 1 ;
             sh:hasValue true ;
         ]
         [
             sh:path ff:entitledToAsylum ;
-            sh:minCount 1 ;
             sh:hasValue true ;
         ]
 
@@ -139,7 +145,7 @@ ff:ChildShapeA a sh:NodeShape ;
 
 ff:ChildShapeB a sh:NodeShape ;
     sh:property [
-        sh:path ff:ordinaryResidence ;
+        sh:path ff:countryOfOrdinaryResidence ;
         sh:minCount 1 ;
         sh:class ff:EEAplusCH ;
     ] .

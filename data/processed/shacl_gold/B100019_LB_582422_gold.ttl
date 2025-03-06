@@ -1,36 +1,47 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix ff: <https://foerderfunke.org/default#> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 
 # METADATA
 
 ff:B100019_LB_582422 a ff:SocialBenefit ;
-    rdfs:label "Gesetzliche Unfallversicherung Übergangsgeld Berufliche Reha"@de, "Statutory accident insurance transitional allowance during rehabilitation"@en .
+    rdfs:label "Übergangsgeld Berufliche Reha"@de, "Occupational rehabilitation allowance"@en .
 
 # CONSTRAINTS
 
 ff:UebergangsgeldBeruflicheReha a sh:NodeShape ;
     ff:checksFundingRequirement ff:B100019_LB_582422 ;
     sh:targetNode ff:User ;
-    # User has had an accident at work OR on the way to work OR has a recognized occupational disease
+    # User has statutory accident insurance
+    sh:property [
+        sh:path ff:hasInsurance ;
+        sh:qualifiedValueShape [
+            sh:hasValue ff:StatutoryAccidentInsurance
+            ];
+        sh:qualifiedMinCount 1 ;
+        sh:message "Does not meet requirement 'User has statutory accident insurance'"@en
+    ] ;
+     # User experienced an insurance event
     sh:property [
         sh:path ff:hasEvent ;
+        sh:qualifiedValueShape ff:InsuranceEventShape ;
         sh:qualifiedMinCount 1 ;
-        sh:qualifiedValueShape [
-            sh:or (
-                [ sh:class ff:AccidentAtWork ] # Arbeitsunfall
-                [ sh:class ff:AccidentOnWayToWork ] # Wegeunfall
-                [ sh:class ff:OccupationalDisease ] # Berufskrankheit
-            ) 
-        ] ;
-        sh:message "Does not meet requirement 'User has had an accident at work or on the way to work or has a recognized occupational disease.'"@en ;
-    ] ;
-    # User takes part in occupational rehabilitation
+        sh:message "Does not meet requirement 'User had an insurance event' and 'As a result of the insurance event, the user takes part in occupational rehabilitation.'"@en
+    ] .
+
+ff:InsuranceEventShape a sh:NodeShape ;
+    # The event is an accident at work, commuting accident or occupational disease
+    sh:or (
+        [ sh:class ff:WorkAccident ] # Arbeitsunfall
+        [ sh:class ff:CommutingAccident ] # Wegeunfall
+        [ sh:class ff:OccupationalDisease ] # Berufskrankheit
+    ) ;
+    # As a result of the insurance event, the user takes part in occupational rehabilitation
     sh:property [
-        sh:path ff:participatesIn ;
+        sh:path ff:resultsInTreatment ;
         sh:qualifiedMinCount 1 ;
         sh:qualifiedValueShape [
-            sh:class ff:OccupationalRehabilitation ;
-        ] ;
-        sh:message "Does not meet requirement 'User takes part in occupational rehabilitation.'"@en ;
+            sh:class ff:OccupationalRehabilitation
+        ]
     ] .

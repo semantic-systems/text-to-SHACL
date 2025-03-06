@@ -6,10 +6,10 @@
 # METADATA
 
 ff:B100019_LB_582441 a ff:SocialBenefit ;
-    rdfs:label "Witwen- und Witwerrente"@de, "Widow pension"@en .
+    rdfs:label "Witwenrente"@de, "Widow's pension"@en .
 # CONSTRAINTS
 
-ff:GesetzlicheUnfallversicherungWitwenrenteShape a sh:NodeShape ;
+ff:WitwenrenteShape a sh:NodeShape ;
     ff:checksFundingRequirement ff:B100019_LB_582441 ;
     sh:targetNode ff:User ;
     # User's spouse OR civil partner died 
@@ -26,14 +26,23 @@ ff:GesetzlicheUnfallversicherungWitwenrenteShape a sh:NodeShape ;
         ]
     ) .
 
-# The reason for the death was an insured event (accident at work, accident on the way to work, occupational disease)
 ff:DeceasedPartnerShape a sh:NodeShape ;
+     # The deceased partner had statutory accident insurance
+    sh:property [
+        sh:path ff:hasInsurance ;
+        sh:qualifiedValueShape [
+            sh:hasValue ff:StatutoryAccidentInsurance
+            ];
+        sh:qualifiedMinCount 1 ;
+        sh:message "Does not meet requirement 'User has statutory accident insurance'"@en
+    ] ;
+    # The death was caued by a work accident, commuting accident, or occupational disease
     sh:property [
         sh:path ff:causeOfDeath ;
         sh:minCount 1 ;
         sh:or (
-                [sh:class ff:AccidentAtWork]
-                [sh:class ff:AccidentOnWayToWork]
+                [sh:class ff:WorkAccident]
+                [sh:class ff:CommutingAccident]
                 [sh:class ff:OccupationalDisease]
             )
     ] .

@@ -33,7 +33,6 @@ ff:KinderzuschlagShape a sh:NodeShape ;
     # User has no considerable assets
     sh:property[
         sh:path ff:hasConsiderableAssets ;
-        sh:minCount 1 ;
         sh:hasValue false ;
         sh:message "Does not meet requirement 'User has no considerable assets.'"@en ;
     ] .
@@ -54,28 +53,26 @@ ff:ChildShape a sh:NodeShape ;
     # Child must live in the same household as the user
     sh:property [
         sh:path ff:sameHouseholdAs ;
-        sh:minCount 1 ;
         sh:hasValue ff:User ;
     ] ;
-    # Child must receive child benefit
+    # Child must receive child allowance
     sh:property [
         sh:path ff:receivesBenefit ;
         sh:qualifiedValueShape [
-            sh:hasValue ff:B100019_LB_576986
+            sh:hasValue ff:B100019_LB_576986 # Child allowance
             ] ;
         sh:qualifiedMinCount 1 ;
     ] ;
     # Child may not be eligible for other benefits with priority over child supplement 
     sh:not [
 		sh:path (ff:isEligibleFor ff:hasPriorityOver) ;
-		sh:hasValue ff:B100019_LB_581863 ;
+		sh:hasValue ff:B100019_LB_581863 ; # Child supplement
     ] .
 
 # As a couple, shared gross income must be at least 900€/Month
 ff:IncomeShapeA a sh:NodeShape ;
     sh:property [
         sh:path ff:isSingleParent ;
-        sh:minCount 1 ;
         sh:hasValue false ;
     ] ;
     sh:property [
@@ -88,7 +85,6 @@ ff:IncomeShapeA a sh:NodeShape ;
 ff:IncomeShapeB a sh:NodeShape ;
     sh:property [
         sh:path ff:isSingleParent ;
-        sh:minCount 1 ;
         sh:hasValue true ;
     ] ;
     sh:property [
