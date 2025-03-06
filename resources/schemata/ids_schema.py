@@ -45715,27 +45715,27 @@ idlb_to_labels: Dict[str, Dict[str, str]] = {
     "B100019_LB_582404": {
         "german label": "Gesetzliche Unfallversicherung Rente",
         "english label": "Statutory accident insurance pension",
-        "short label": "GUVRente"
+        "short label": "GUV Rente"
     },
     "B100019_LB_582422": {
         "german label": "Gesetzliche Unfallversicherung Übergangsgeld Berufliche Reha",
         "english label": "Statutory accident insurance occupational rehabilitation allowance",
-        "short label": "GUVUebergangsgeld"
+        "short label": "GUV Uebergangsgeld"
     },
     "B100019_LB_582429": {
         "german label": "Gesetzlichen Unfallversicherung Verletztengeld",
         "english label": "Statutory accident insurance injury allowance",
-        "short label": "GUVVerletztengeld"
+        "short label": "GUV Verletztengeld"
     },
     "B100019_LB_582435": {
         "german label": "Gesetzliche Unfallversicherung Waisenrente",
         "english label": "Statutory accident insurance orphan's pension",
-        "short label": "GUVWaisenrente"
+        "short label": "GUV Waisenrente"
     },
     "B100019_LB_582441": {
         "german label": "Gesetzliche Unfallversicherung Witwen- und Witwerrente",
         "english label": "Statutory accident insurance widow's pension",
-        "short label": "GUVWitwenrente"
+        "short label": "GUV Witwenrente"
     },
     "B100019_LB_106311931": {
         "german label": "Bürgergeld",
@@ -45750,6 +45750,6 @@ idlb_to_labels: Dict[str, Dict[str, str]] = {
     "L100040_LB_12280162": {
         "german label": "Bildung und Teilhabe",
         "english label": "Education and participation",
-        "short label": "BildungUndTeilhabe"
+        "short label": "Bildung und Teilhabe"
     }
 }
