@@ -6,7 +6,7 @@
 # METADATA
 
 ff:B100019_LB_576986 a ff:SocialBenefit ;
-    rdfs:label "Kindergeld"@de, "Child allowance"@en .
+    rdfs:label "Kindergeld"@de, "Child benefit"@en .
 
 # CONSTRAINTS
 

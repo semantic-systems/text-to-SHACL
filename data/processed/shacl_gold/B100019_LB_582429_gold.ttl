@@ -10,7 +10,7 @@ ff:B100019_LB_582429 a ff:SocialBenefit ;
 
 # CONSTRAINTS
 
-ff:VerletztengeldShape a sh:NodeShape ;
+ff:GUVVerletztengeldShape a sh:NodeShape ;
     ff:checksFundingRequirement ff:B100019_LB_582429 ;
     sh:targetNode ff:User ;
     # User has statutory accident insurance

@@ -10,7 +10,7 @@ ff:B100019_LB_582435 a ff:SocialBenefit ;
 
 # CONSTRAINTS
 
-ff:WaisenrenteShape a sh:NodeShape ;
+ff:GUVWaisenrenteShape a sh:NodeShape ;
     ff:checksFundingRequirement ff:B100019_LB_582435 ;
     sh:targetNode ff:User ;
     sh:or (

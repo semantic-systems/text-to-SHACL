@@ -6,11 +6,11 @@
 # METADATA
 
 ff:B100019_LB_582422 a ff:SocialBenefit ;
-    rdfs:label "Übergangsgeld Berufliche Reha"@de, "Occupational rehabilitation allowance"@en .
+    rdfs:label "Gesetzliche Unfallversicherung Übergangsgeld Berufliche Reha"@de, "Statutory accident insurance occupational rehabilitation allowance"@en .
 
 # CONSTRAINTS
 
-ff:UebergangsgeldBeruflicheReha a sh:NodeShape ;
+ff:GUVUebergangsgeldShape a sh:NodeShape ;
     ff:checksFundingRequirement ff:B100019_LB_582422 ;
     sh:targetNode ff:User ;
     # User has statutory accident insurance

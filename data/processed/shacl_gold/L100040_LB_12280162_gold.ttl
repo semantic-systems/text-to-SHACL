@@ -5,7 +5,7 @@
 # METADATA
 
 ff:L100040_LB_12280162 a ff:SocialBenefit ;
-    rdfs:label "Bildung und Teilhabe"@de, "Education and Participation" .
+    rdfs:label "Bildung und Teilhabe"@de, "Education and participation" .
 
 # CONSTRAINTS
 
