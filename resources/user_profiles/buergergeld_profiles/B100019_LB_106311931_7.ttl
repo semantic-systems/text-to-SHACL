@@ -6,8 +6,6 @@
 ff:User ff:employableHoursPerDay 6 ;
         ff:hasAge 69 ;
         ff:isPensionable true ;
-        ff:isEligibleFor ex:SomeBenefit ;
+        ff:hasNoPriorityClaimsOver ff:B100019_LB_106311931 ;
+        ff:isInNeed true ;
         ff:countryOfResidence ff:Germany .
-
-ex:SomeBenefit a ff:SocialBenefit ;
-	ff:hasPriorityOver ex:SomeOtherBenefit .

@@ -5,4 +5,6 @@
 
 ff:User ff:employableHoursPerDay 3 ;
         ff:isPensionable false ;
-        ff:countryOfResidence ff:Germany .
+        ff:countryOfResidence ff:Germany ;
+        ff:isInNeed true ;
+        ff:hasNoPriorityClaimsOver ff:B100019_LB_106311931 .

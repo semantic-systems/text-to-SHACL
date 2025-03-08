@@ -1,11 +1,10 @@
 @prefix ex: <http://example.org/ns#> .
 @prefix ff: <https://foerderfunke.org/default#> .
 
-# Eligible for citizen benefit (Bürgergeld)
+# Missing information for "User may not be eligible for other benefits with priority over Bürgergeld"
 
-ff:User ff:employableHoursPerDay 3 ;
-        ff:hasAge 15 ;
+ff:User ff:employableHoursPerDay 8 ;
+        ff:hasAge 57 ;
         ff:isPensionable false ;
-        ff:hasNoPriorityClaimsOver ff:B100019_LB_106311931 ;
         ff:isInNeed true ;
         ff:countryOfResidence ff:Germany .

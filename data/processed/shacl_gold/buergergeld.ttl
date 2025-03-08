@@ -33,8 +33,8 @@ ff:BuergergeldShape a sh:NodeShape ;
         sh:message "Does not meet requirement 'User has not yet reached the legal retirement age'"@en ;
     ] ;
     # User may not be eligible for other benefits with priority over Bürgergeld 
-    sh:not [
-        sh:path (ff:isEligibleFor ff:hasPriorityOver) ;
+    sh:property [
+        sh:path ff:hasNoPriorityClaimsOver ;
         sh:hasValue ff:B100019_LB_106311931 ;
         sh:message "Does not meet requiremnt 'User is not eligible for other benefits with priority over citizen benefit'"@en ;
     ] ;
@@ -43,4 +43,10 @@ ff:BuergergeldShape a sh:NodeShape ;
         sh:path ff:countryOfResidence ;
         sh:hasValue ff:Germany ;
         sh:message "Does not meet requirement 'User lifes in Germany'"@en ;
+    ] ;
+    # User is in need
+    sh:property [
+        sh:path ff:isInNeed ;
+        sh:hasValue true ;
+        sh:message "Does not meet requirement 'User is in need'"@en ;
     ] .
