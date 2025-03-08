@@ -1,9 +1,8 @@
 @prefix ex: <http://example.org/ns#> .
 @prefix ff: <https://foerderfunke.org/default#> .
 
-# Does not meet requirement 'User is not eligible for transitional allowance.'
+# Does not meet requirement "User's rehabilitation provider is the Federal Employment Agency"
 
 ff:User ff:hasDisability ex:SomeDisability ;
-        ff:hasRehabilitationProvider ff:FederalEmploymentAgency ;
-        ff:willParticipate ff:VocationalTraining ;
-        ff:isEligibleFor ff:B100019_LB_102716305 .
+        ff:hasRehabilitationProvider ff:FederalEmploymentAgency, ex:SomeOtherProvider;
+        ff:isIneligibleFor ff:B100019_LB_102716305 .

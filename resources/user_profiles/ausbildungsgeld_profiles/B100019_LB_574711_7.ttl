@@ -1,9 +1,8 @@
 @prefix ex: <http://example.org/ns#> .
 @prefix ff: <https://foerderfunke.org/default#> .
 
-# Does not meet requirement 'User will participate in one of the covered training programs.'
+# Does not meet requirement 'User is not eligible for transitional allowance'
 
 ff:User ff:hasDisability ex:SomeDisability ;
         ff:hasRehabilitationProvider ff:FederalEmploymentAgency ;
-        ff:willParticipate ex:SomeProgram ;
-        ff:isIneligibleFor ff:B100019_LB_102716305 .
+        ff:isEligibleFor ff:B100019_LB_102716305 .

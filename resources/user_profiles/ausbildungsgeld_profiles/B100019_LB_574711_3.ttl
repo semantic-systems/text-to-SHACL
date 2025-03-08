@@ -5,5 +5,4 @@
 
 ff:User ff:hasDisability ex:SomeDisability ;
         ff:hasRehabilitationProvider ff:FederalEmploymentAgency ;
-        ff:willParticipate ff:PreVocationalTraining ;
         ff:isIneligibleFor ff:B100019_LB_102716305, ex:SomeService .
