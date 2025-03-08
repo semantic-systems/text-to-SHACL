@@ -12,9 +12,9 @@ ff:B100019_LB_581863 a ff:SocialBenefit ;
 ff:KinderzuschlagShape a sh:NodeShape ;
     ff:checksFundingRequirement ff:B100019_LB_581863 ;
     sh:targetNode ff:User ;
-    # User must have at least one child that fulfills the criteria
+    # User must have at least one child for whom they receive child benefit
     sh:property [
-        sh:path ff:hasChild ;
+        sh:path ff:receivesChildBenefitFor ;
         sh:qualifiedMinCount 1 ;
         sh:qualifiedValueShape ff:ChildShape ;
         sh:message "Does not meet requirement 'User has at least one child that fulfills the criteria.'"@en ;
@@ -45,8 +45,11 @@ ff:ChildShape a sh:NodeShape ;
         sh:maxExclusive 25 ;
     ] ;
     # Child may not be married or in a registered partnership
+    sh:property [
+        sh:path ff:hasMaritalStatus ;
+        sh:minCount 1 ;
+    ] ;
     sh:not [
-		a sh:PropertyShape ;
 		sh:path ff:hasMaritalStatus ;
         sh:in (ff:Married ff:CivilUnion) ;
 	] ;
@@ -55,17 +58,9 @@ ff:ChildShape a sh:NodeShape ;
         sh:path ff:sameHouseholdAs ;
         sh:hasValue ff:User ;
     ] ;
-    # Child must receive child allowance
-    sh:property [
-        sh:path ff:receivesBenefit ;
-        sh:qualifiedValueShape [
-            sh:hasValue ff:B100019_LB_576986 # Child allowance
-            ] ;
-        sh:qualifiedMinCount 1 ;
-    ] ;
     # Child may not be eligible for other benefits with priority over child supplement 
-    sh:not [
-		sh:path (ff:isEligibleFor ff:hasPriorityOver) ;
+    sh:property [
+        sh:path ff:hasNoPriorityClaimsOver ;
 		sh:hasValue ff:B100019_LB_581863 ; # Child supplement
     ] .
 

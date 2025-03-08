@@ -1,7 +1,7 @@
 @prefix ex: <http://example.org/ns#> .
 @prefix ff: <https://foerderfunke.org/default#> .
 
-# Missing information 'User has at least one child that fulfills certain criteria.'
+# Missing information 'User must have at least one child for whom they receive child benefit.'
 
 ff:User ff:isSingleParent false ;
 		ff:hasIncome [

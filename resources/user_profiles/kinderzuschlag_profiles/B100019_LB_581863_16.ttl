@@ -3,7 +3,7 @@
 
 # Does not meet requirement 'User has at least one child that fulfills certain criteria. '
 
-ff:User ff:hasChild ex:Kim ;
+ff:User ff:receivesChildBenefitFor ex:Kim ;
 		# IncomeShapeA
 		ff:isSingleParent false ;
 		ff:hasIncome [

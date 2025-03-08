@@ -3,7 +3,7 @@
 
 # Eligible for child supplement (Kinderzuschlag)
 
-ff:User ff:hasChild ex:Kim, ex:Sam ;
+ff:User ff:receivesChildBenefitFor ex:Kim, ex:Sam ;
 		# IncomeShapeB
 		ff:isSingleParent true ;
 		ff:hasIncome [
@@ -15,9 +15,7 @@ ff:User ff:hasChild ex:Kim, ex:Sam ;
 ex:Kim ff:hasAge 24 ;
 	ff:hasMaritalStatus ff:Single ;
 	ff:sameHouseholdAs ff:User ;
-	ff:receivesBenefit ff:B100019_LB_576986 .
+	ff:hasNoPriorityClaimsOver ff:B100019_LB_581863 .
 
 ex:Sam ff:hasAge 32 ;
-	ff:hasMaritalStatus ff:Married ;
-	ff:receivesBenefit ff:B100019_LB_576986 ;
-	ff:isEligibleFor ex:SomeBenefit .
+	ff:hasMaritalStatus ff:Married .

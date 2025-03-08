@@ -3,7 +3,7 @@
 
 # Does not meet requirement 'As a couple, shared gross income is at least 900€/Month.' 
 
-ff:User ff:hasChild ex:Kim ;
+ff:User ff:receivesChildBenefitFor ex:Kim ;
 		# IncomeShapeA
 		ff:isSingleParent false ;
 		ff:hasIncome [
@@ -15,8 +15,4 @@ ff:User ff:hasChild ex:Kim ;
 ex:Kim ff:hasAge 24 ;
 	ff:hasMaritalStatus ff:Single ;
 	ff:sameHouseholdAs ff:User ;
-	ff:receivesBenefit ff:B100019_LB_576986 ;
-	ff:isEligibleFor ex:SomeBenefit .
-
-ex:SomeBenefit a ff:SocialBenefit ;
-	ff:hasPriorityOver ex:SomeOtherBenefit .
+	ff:hasNoPriorityClaimsOver ff:B100019_LB_581863 .

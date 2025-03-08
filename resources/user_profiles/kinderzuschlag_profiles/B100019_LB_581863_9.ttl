@@ -3,7 +3,7 @@
 
 # Does not meet requirement 'Child lives in the same household as the user.'
 
-ff:User ff:hasChild ex:Kim ;
+ff:User ff:receivesChildBenefitFor ex:Kim ;
 		# IncomeShapeA
 		ff:isSingleParent false ;
 		ff:hasIncome [
@@ -15,8 +15,7 @@ ff:User ff:hasChild ex:Kim ;
 ex:Kim ff:hasAge 24 ;
 	ff:hasMaritalStatus ff:Single ;
 	ff:sameHouseholdAs ex:SomeOtherUser ;
-	ff:receivesBenefit ff:B100019_LB_576986 ;
-	ff:isEligibleFor ex:SomeBenefit .
+	ff:hasNoPriorityClaimsOver ff:B100019_LB_581863 .
 
 ex:SomeBenefit a ff:SocialBenefit ;
 	ff:hasPriorityOver ex:SomeOtherBenefit .

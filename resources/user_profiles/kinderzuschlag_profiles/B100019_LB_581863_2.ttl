@@ -3,7 +3,7 @@
 
 # Eligible for child supplement (Kinderzuschlag)
 
-ff:User ff:hasChild ex:Kim ;
+ff:User ff:receivesChildBenefitFor ex:Child0 ;
 		# IncomeShapeA
 		ff:isSingleParent false ;
 		ff:hasIncome [
@@ -12,11 +12,7 @@ ff:User ff:hasChild ex:Kim ;
 		] ;
 		ff:hasConsiderableAssets false .
 
-ex:Kim ff:hasAge 24 ;
+ex:Child0 ff:hasAge 24 ;
 	ff:hasMaritalStatus ff:Single ;
 	ff:sameHouseholdAs ff:User ;
-	ff:receivesBenefit ff:B100019_LB_576986 ;
-	ff:isEligibleFor ex:SomeBenefit .
-
-ex:SomeBenefit a ff:SocialBenefit ;
-	ff:hasPriorityOver ex:SomeOtherBenefit .
+	ff:hasNoPriorityClaimsOver ff:B100019_LB_581863 .

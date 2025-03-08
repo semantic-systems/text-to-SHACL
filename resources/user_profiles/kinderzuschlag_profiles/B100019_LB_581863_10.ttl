@@ -1,9 +1,9 @@
 @prefix ex: <http://example.org/ns#> .
 @prefix ff: <https://foerderfunke.org/default#> .
 
-# Does not meet requirement 'Child receives child benefit.'
+# Does not meet requirement 'User must have at least one child for whom they receive child benefit.'
 
-ff:User ff:hasChild ex:Kim ;
+ff:User ex:hasChild ex:Kim ;
 		# IncomeShapeA
 		ff:isSingleParent false ;
 		ff:hasIncome [
@@ -15,8 +15,4 @@ ff:User ff:hasChild ex:Kim ;
 ex:Kim ff:hasAge 24 ;
 	ff:hasMaritalStatus ff:Single ;
 	ff:sameHouseholdAs ff:User ;
-	ff:receivesBenefit ex:SomeBenefit ;
-	ff:isEligibleFor ex:SomeOtherBenefit .
-
-ex:SomeOtherBenefit a ff:SocialBenefit ;
-	ff:hasPriorityOver ex:YetAnotherBenefit .
+	ff:hasNoPriorityClaimsOver ff:B100019_LB_581863 .

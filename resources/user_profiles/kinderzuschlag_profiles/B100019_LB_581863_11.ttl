@@ -3,7 +3,7 @@
 
 # Does not meet requirement 'Child is not eligible for other benefits with priority over child supplement.'
 
-ff:User ff:hasChild ex:Kim ;
+ff:User ff:receivesChildBenefitFor ex:Kim ;
 		# IncomeShapeB
 		ff:isSingleParent true ;
 		ff:hasIncome [
@@ -15,8 +15,4 @@ ff:User ff:hasChild ex:Kim ;
 ex:Kim ff:hasAge 24 ;
 	ff:hasMaritalStatus ff:Single ;
 	ff:sameHouseholdAs ff:User ;
-	ff:receivesBenefit ff:B100019_LB_576986 ;
-	ff:isEligibleFor ex:SomeBenefit .
-
-ex:SomeBenefit a ff:SocialBenefit ;
-	ff:hasPriorityOver ff:B100019_LB_581863 .
+	ff:hasNoPriorityClaimsOver ex:SomeBenefit.

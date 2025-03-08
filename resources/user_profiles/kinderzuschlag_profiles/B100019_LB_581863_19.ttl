@@ -3,7 +3,7 @@
 
 # Mising ff:isSingleParent for IncomeShapeA OR IncomeShapeB
 
-ff:User ff:hasChild ex:Kim ;
+ff:User ff:receivesChildBenefitFor ex:Kim ;
 		# IncomeShapeB
 		ff:hasIncome [
 			ff:personalGrossIncome 600 ;
@@ -14,8 +14,4 @@ ff:User ff:hasChild ex:Kim ;
 ex:Kim ff:hasAge 24 ;
 	ff:hasMaritalStatus ff:Single ;
 	ff:sameHouseholdAs ff:User ;
-	ff:receivesBenefit ff:B100019_LB_576986 ;
-	ff:isEligibleFor ex:SomeBenefit .
-
-ex:SomeBenefit a ff:SocialBenefit ;
-	ff:hasPriorityOver ex:SomeOtherBenefit .
+	ff:hasNoPriorityClaimsOver ff:B100019_LB_581863 .
