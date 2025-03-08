@@ -5,6 +5,7 @@
 
 ff:User ff:hasEmployment ex:SomeEmployment ;
         ff:availableForPlacement true ;
+        ff:compulsoryInsuranceFor12In30Months true ;
         ff:hasEmploymentStatus ff:RegisteredUnemployed .
 
 ex:SomeEmployment ff:workHoursPerWeek 3 .

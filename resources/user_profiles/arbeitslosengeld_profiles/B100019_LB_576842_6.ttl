@@ -4,4 +4,5 @@
 # Missing information for "User is not in employment OR in employment for less than 15 hours per week"
 
 ff:User ff:availableForPlacement true ;
+        ff:compulsoryInsuranceFor12In30Months true ;
         ff:hasEmploymentStatus ff:RegisteredUnemployed .

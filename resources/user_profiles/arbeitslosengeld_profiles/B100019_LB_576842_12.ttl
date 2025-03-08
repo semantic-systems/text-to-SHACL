@@ -4,4 +4,5 @@
 # Missing information for 'User has registered as unemployed'
 
 ff:User ff:inEmployment false ;
+        ff:compulsoryInsuranceFor12In30Months true ;
         ff:availableForPlacement true .
