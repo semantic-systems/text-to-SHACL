@@ -24,11 +24,6 @@ Ausbildungsgeld erhalten, wenn Sie an bestimmten Bildungsmaßnahmen teilnehmen.
 <b>Requirements decomposition</b>:
 
 1. User has a disability. (GREEN)
-2. User's rehabilitation provider is the Federal Employment Agency. (YELLOW - responsible rehabilitation provider must be inferred or explained)
-3. User will participate in one of the covered training programs, i.e.
-- vocational training (GREEN) OR
-- pre-vocational training (GREEN) OR
-- individual in-company qualification in the framework of Supported Employment (GREEN) OR
-- initial training in a workshop for disabled people / other provider (GREEN) OR
-- vocational training in a workshop for disabled people / other provider (GREEN)
+2. User's rehabilitation provider is the Federal Employment Agency. (YELLOW: responsible rehabilitation provider must be inferred or explained)
+3. User will participate in one of the covered training programs (RED: internal state of mind)
 4. User is not eligible for transitional allowance. (YELLOW: eligibility for transitional allowance must be inferred or explained)
