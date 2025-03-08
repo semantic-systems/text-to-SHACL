@@ -48,11 +48,10 @@ ff:ChildShape a sh:NodeShape ;
     sh:property [
         sh:path ff:hasMaritalStatus ;
         sh:minCount 1 ;
+        sh:not [
+            sh:in (ff:Married ff:CivilUnion) ;
+        ]
     ] ;
-    sh:not [
-		sh:path ff:hasMaritalStatus ;
-        sh:in (ff:Married ff:CivilUnion) ;
-	] ;
     # Child must live in the same household as the user
     sh:property [
         sh:path ff:sameHouseholdAs ;
