@@ -16,11 +16,7 @@ ff:AusbildungsgeldShape a sh:NodeShape ;
     sh:property [
         sh:path ff:hasDisability ;
         sh:minCount 1 ;
-        sh:message "Missing information for 'User has a disability'."@en ;
-    ] ;
-    sh:not [
-        sh:path ff:hasDisability ;
-        sh:in (ff:NoDisability) ;
+        sh:in (true) ;
         sh:message "Does not meet requirement 'User has a disability'."@en ;
     ] ;
     # User's rehabilitation provider is the Federal Employment Agency
@@ -35,7 +31,7 @@ ff:AusbildungsgeldShape a sh:NodeShape ;
         sh:path ff:isIneligibleFor ;
         sh:qualifiedMinCount 1 ;
         sh:qualifiedValueShape [
-            sh:in (ff:B100019_LB_102716305) ;
+            sh:in (ff:B100019_LB_102716305) ; # transitional allowance
         ] ;
         sh:message "Does not meet requirement 'User is not eligible for transitional allowance.'"@en ;
     ] .
