@@ -3,10 +3,10 @@
 
 # Does not meet requirement "User has statutory accident insurance"
 
-ff:User ff:hasInsurance ex:SomeOtherInsurance ;
-    ff:hasEvent ex:SomeEvent .
+ff:User ff:hasInsurance ex:SomeInsurance ;
+    ff:hasEarningCapacity ff:UnfitForWork .
 
-ex:SomeEvent a ff:WorkAccident ;
-    ff:reducesEarningCapacity [
-        ff:unfitForWork true
-    ] .
+ff:UnfitForWork a ff:EarningCapacity ;
+    ff:triggeringEvent ex:SomeEvent .
+
+ex:SomeEvent a ff:WorkAccident .

@@ -3,10 +3,10 @@
 
 # Eligible for statutory accident insurance injury allowance (Gesetzliche Unfallversicherung Verletztengeld)
 
-ff:User ff:hasInsurance ff:StatutoryAccidentInsurance ;
-    ff:hasEvent ex:SomeEvent .
+ff:User ff:hasInsurance ff:StatutoryAccidentInsurance, ex:SomeInsurance ;
+    ff:hasEarningCapacity ff:UnfitForWork .
 
-ex:SomeEvent a ff:OccupationalDisease ;
-    ff:reducesEarningCapacity [
-        ff:unfitForWork true
-    ] .
+ff:UnfitForWork a ff:EarningCapacity ;
+    ff:triggeringEvent ex:SomeEvent .
+
+ex:SomeEvent a ff:WorkAccident .

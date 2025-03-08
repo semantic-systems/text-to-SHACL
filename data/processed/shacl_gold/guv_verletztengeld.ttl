@@ -16,29 +16,26 @@ ff:GUVVerletztengeldShape a sh:NodeShape ;
     # User has statutory accident insurance
     sh:property [
         sh:path ff:hasInsurance ;
-        sh:qualifiedValueShape [
-            sh:hasValue ff:StatutoryAccidentInsurance
-            ];
-        sh:qualifiedMinCount 1 ;
+        sh:hasValue ff:StatutoryAccidentInsurance ;
         sh:message "Does not meet requirement 'User has statutory accident insurance'"@en
     ] ;
-     # User experienced an insurance event
+     # User is unfit for work
     sh:property [
-        sh:path ff:hasEvent ;
-        sh:qualifiedValueShape ff:InsuranceEventShape ;
-        sh:qualifiedMinCount 1 ;
-        sh:message "Does not meet requirement 'User had an insurance event' and 'As a result of the insurance event, the user takes part in occupational rehabilitation.'"@en
+        sh:path ff:hasEarningCapacity ;
+        sh:minCount 1 ;
+        sh:in ( ff:UnfitForWork ) ;
+        sh:node ff:CapacityReductionShape ;
+        sh:message "Does not meet requirement 'User has reduced earning capacity'"@en
     ] .
 
-ff:InsuranceEventShape a sh:NodeShape ;
-    # The event is an accident at work, commuting accident or occupational disease
-    sh:or (
-        [ sh:class ff:WorkAccident ] # Arbeitsunfall
-        [ sh:class ff:CommutingAccident ] # Wegeunfall
-        [ sh:class ff:OccupationalDisease ] # Berufskrankheit
-    ) ;
-    # As a result of the insurance event, user is unfit for work
+ff:CapacityReductionShape a sh:NodeShape ;
+    # User is unfit for work because of an insurance event
     sh:property [
-        sh:path ( ff:reducesEarningCapacity ff:unfitForWork ) ;
-        sh:hasValue true ;
+        sh:path ff:triggeringEvent ;
+        sh:minCount 1 ;
+        sh:or (
+            [ sh:class ff:WorkAccident ] # Arbeitsunfall
+            [ sh:class ff:CommutingAccident ] # Wegeunfall
+            [ sh:class ff:OccupationalDisease ] # Berufskrankheit
+        )
     ] .

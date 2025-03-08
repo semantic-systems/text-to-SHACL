@@ -3,9 +3,8 @@
 
 # Missing information for "User experienced an insurance event"
 
-ff:User ff:hasInsurance ff:StatutoryAccidentInsurance .
+ff:User ff:hasInsurance ff:StatutoryAccidentInsurance ;
+    ff:hasEarningCapacity ff:UnfitForWork .
 
-ex:SomeEvent a ff:WorkAccident ;
-    ff:reducesEarningCapacity [
-        ff:unfitForWork true
-    ] .
+ff:UnfitForWork a ff:EarningCapacity ;
+    ff:triggeringEvent ex:SomeEvent .
