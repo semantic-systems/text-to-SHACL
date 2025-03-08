@@ -1,13 +1,13 @@
 @prefix ex: <http://example.org/ns#> .
 @prefix ff: <https://foerderfunke.org/default#> .
 
-# Missing information for "User has statutory accident insurance"
+# Missing information for " The earning capacity is reduced by more than 20%."
 
-ff:User ff:hasEarningCapacity ff:ReducedEarningCapacity .
+ff:User ff:hasInsurance ff:StatutoryAccidentInsurance ;
+        ff:hasEarningCapacity ff:ReducedEarningCapacity .
 
 ff:ReducedEarningCapacity a ff:EarningCapacity ;
-        ff:reductionInPercent 20 ;
         ff:reductionDurationInWeeks 27 ;
         ff:reductionResultsFrom ex:SomeEvent .
 
-ex:SomeEvent a ff:WorkAccident .
+ex:SomeEvent a ff:CommutingAccident .

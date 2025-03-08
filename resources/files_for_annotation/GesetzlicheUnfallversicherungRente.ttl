@@ -10,42 +10,44 @@ ff:B100019_LB_582404 a ff:SocialBenefit ;
 
 # CONSTRAINTS
 
-ff:GesetzlicheUnfallversicherungRenteShape a sh:NodeShape ;
+ff:GUVRenteShape a sh:NodeShape ;
     ff:checksFundingRequirement ff:B100019_LB_582404 ;
     sh:targetNode ff:User ;
     # User has statutory accident insurance
     sh:property [
         sh:path ff:hasInsurance ;
-        sh:qualifiedValueShape [
-            sh:hasValue ff:StatutoryAccidentInsurance
-            ];
-        sh:qualifiedMinCount 1 ;
+        sh:hasValue ff:StatutoryAccidentInsurance ;
         sh:message "Does not meet requirement 'User has statutory accident insurance'"@en
     ] ;
-    # User experienced an insurance event
+    # User has reduced earning capacity
     sh:property [
-        sh:path ff:hasEvent ;
-        sh:qualifiedValueShape ff:InsuranceEventShape ;
-        sh:qualifiedMinCount 1 ;
-        sh:message "Does not meet requirement 'User had an insurance event'"@en
+        sh:path ff:hasEarningCapacity ;
+        sh:minCount 1 ;
+        sh:in ( ff:ReducedEarningCapacity ) ;
+        sh:node ff:CapacityReductionShape ;
+        sh:message "Does not meet requirement 'User has reduced earning capacity'"@en
     ] .
 
-ff:InsuranceEventShape a sh:NodeShape ;
-    # The event is an accident at work, commuting accident or occupational disease
-    sh:or (
-        [ sh:class ff:WorkAccident ] # Arbeitsunfall
-        [ sh:class ff:CommutingAccident ] # Wegeunfall
-        [ sh:class ff:OccupationalDisease ] # Berufskrankheit
-    ) ;
-    # The event reduces the user's earning capacity by at least 20%
+ff:CapacityReductionShape a sh:NodeShape ;
+    # The earning capacity is reduced by more than 20%
     sh:property [
-        sh:path ( ff:reducesEarningCapacity ff:reductionInPercent );
+        sh:path ff:reductionInPercent ;
         sh:minCount 1 ;
         sh:minInclusive 20 ;
     ] ;
-    # The event reduces the user's earning capacity for more than 26 weeks
+    # The earning capacity is reduced for more than 26 weeks
     sh:property [
-        sh:path ( ff:reducesEarningCapacity ff:reductionDurationInWeeks ) ;
+        sh:path ff:reductionDurationInWeeks ;
         sh:minCount 1 ;
         sh:minInclusive 27 ;
+    ] ;
+    # The reduction results from one or more insurance events.
+    sh:property [
+        sh:path ff:reductionResultsFrom ;
+        sh:minCount 1 ;
+        sh:or (
+            [ sh:class ff:WorkAccident ] # Arbeitsunfall
+            [ sh:class ff:CommutingAccident ] # Wegeunfall
+            [ sh:class ff:OccupationalDisease ] # Berufskrankheit
+        )
     ] .
