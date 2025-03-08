@@ -43,7 +43,7 @@ ff:CapacityReductionShape a sh:NodeShape ;
     ] ;
     # The reduction results from one or more insurance events.
     sh:property [
-        sh:path ff:reductionResultsFrom ;
+        sh:path ff:triggeringEvent ;
         sh:minCount 1 ;
         sh:or (
             [ sh:class ff:WorkAccident ] # Arbeitsunfall

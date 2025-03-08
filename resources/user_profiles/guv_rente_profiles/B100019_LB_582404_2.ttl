@@ -9,6 +9,6 @@ ff:User ff:hasInsurance ff:StatutoryAccidentInsurance ;
 ff:ReducedEarningCapacity a ff:EarningCapacity ;
         ff:reductionInPercent 80 ;
         ff:reductionDurationInWeeks 27 ;
-        ff:reductionResultsFrom ex:SomeEvent .
+        ff:triggeringEvent ex:SomeEvent .
 
 ex:SomeEvent a ff:CommutingAccident .
