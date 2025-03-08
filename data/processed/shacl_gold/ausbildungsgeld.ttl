@@ -29,9 +29,6 @@ ff:AusbildungsgeldShape a sh:NodeShape ;
     # User is not eligible for transitional allowance
     sh:property [
         sh:path ff:isIneligibleFor ;
-        sh:qualifiedMinCount 1 ;
-        sh:qualifiedValueShape [
-            sh:in (ff:B100019_LB_102716305) ; # transitional allowance
-        ] ;
+        sh:hasValue ff:B100019_LB_102716305 ; # transitional allowance
         sh:message "Does not meet requirement 'User is not eligible for transitional allowance.'"@en ;
     ] .
