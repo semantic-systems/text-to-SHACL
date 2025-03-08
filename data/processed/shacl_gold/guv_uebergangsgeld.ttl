@@ -16,10 +16,7 @@ ff:GUVUebergangsgeldShape a sh:NodeShape ;
     # User has statutory accident insurance
     sh:property [
         sh:path ff:hasInsurance ;
-        sh:qualifiedValueShape [
-            sh:hasValue ff:StatutoryAccidentInsurance
-            ];
-        sh:qualifiedMinCount 1 ;
+        sh:hasValue ff:StatutoryAccidentInsurance ;
         sh:message "Does not meet requirement 'User has statutory accident insurance'"@en
     ] ;
      # User experienced an insurance event
