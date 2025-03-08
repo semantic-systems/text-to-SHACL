@@ -10,7 +10,7 @@ ff:B100019_LB_582435 a ff:SocialBenefit ;
 
 # CONSTRAINTS
 
-ff:WaisenrenteShape a sh:NodeShape ;
+ff:GUVWaisenrenteShape a sh:NodeShape ;
     ff:checksFundingRequirement ff:B100019_LB_582435 ;
     sh:targetNode ff:User ;
     sh:or (
@@ -39,10 +39,7 @@ ff:ParentShapeB a sh:NodeShape ;
 ff:InsuranceEventShapeA a sh:NodeShape ;
     sh:property [
         sh:path ff:hasInsurance ;
-        sh:qualifiedValueShape [
-            sh:hasValue ff:StatutoryAccidentInsurance
-            ];
-        sh:qualifiedMinCount 1 ;
+        sh:hasValue ff:StatutoryAccidentInsurance ;
     ] ;
     sh:property [
         sh:path ( ff:causeOfDeath rdf:type ) ;
@@ -53,17 +50,11 @@ ff:InsuranceEventShapeA a sh:NodeShape ;
 ff:InsuranceEventShapeB a sh:NodeShape ;
     sh:property [
         sh:path ff:sameHouseholdAs ;
-        sh:qualifiedValueShape [
-            sh:hasValue ff:User
-            ];
-        sh:qualifiedMinCount 1 ;
+        sh:hasValue ff:User ;
     ] ;
     sh:property [
         sh:path ff:hasInsurance ;
-        sh:qualifiedValueShape [
-            sh:hasValue ff:StatutoryAccidentInsurance
-            ];
-        sh:qualifiedMinCount 1 ;
+        sh:hasValue ff:StatutoryAccidentInsurance ;
     ] ;
     sh:property [
         sh:path ( ff:causeOfDeath rdf:type ) ;
@@ -89,7 +80,7 @@ ff:AgeShapeB a sh:NodeShape ;
     sh:or (
         # The user participates in vocational training or school
         [
-            sh:path ( ff:participatesIn rdf:type );
+            sh:path ( ff:participates rdf:type );
             sh:qualifiedMinCount 1 ;
             sh:qualifiedValueShape [
                 sh:in ( ff:VocationalTraining ff:School )

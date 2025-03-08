@@ -39,10 +39,7 @@ ff:ParentShapeB a sh:NodeShape ;
 ff:InsuranceEventShapeA a sh:NodeShape ;
     sh:property [
         sh:path ff:hasInsurance ;
-        sh:qualifiedValueShape [
-            sh:hasValue ff:StatutoryAccidentInsurance
-            ];
-        sh:qualifiedMinCount 1 ;
+        sh:hasValue ff:StatutoryAccidentInsurance ;
     ] ;
     sh:property [
         sh:path ( ff:causeOfDeath rdf:type ) ;
@@ -53,17 +50,11 @@ ff:InsuranceEventShapeA a sh:NodeShape ;
 ff:InsuranceEventShapeB a sh:NodeShape ;
     sh:property [
         sh:path ff:sameHouseholdAs ;
-        sh:qualifiedValueShape [
-            sh:hasValue ff:User
-            ];
-        sh:qualifiedMinCount 1 ;
+        sh:hasValue ff:User ;
     ] ;
     sh:property [
         sh:path ff:hasInsurance ;
-        sh:qualifiedValueShape [
-            sh:hasValue ff:StatutoryAccidentInsurance
-            ];
-        sh:qualifiedMinCount 1 ;
+        sh:hasValue ff:StatutoryAccidentInsurance ;
     ] ;
     sh:property [
         sh:path ( ff:causeOfDeath rdf:type ) ;
