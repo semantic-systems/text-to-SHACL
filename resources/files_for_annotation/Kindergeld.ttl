@@ -167,5 +167,4 @@ ff:ResidencyShapeD a sh:NodeShape ;
             sh:minCount 1 ;
             sh:in (true) ;
         ]
-
     ) .
