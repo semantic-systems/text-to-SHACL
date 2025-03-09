@@ -92,4 +92,10 @@ ff:AgeShapeB a sh:NodeShape ;
             sh:minCount 1 ;
             sh:class ff:Disability ;
         ]
+        # The user is in a transitional period of up to 4 calendar months
+        [
+            sh:path ff:isInTransitionalPeriod ;
+            sh:minCount 1 ;
+            sh:in (true) ;
+        ]
     ) .

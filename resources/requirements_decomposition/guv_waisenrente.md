@@ -55,9 +55,9 @@ Unter diesen Voraussetzungen erhalten Sie die Waisenrente auch dann, wenn Sie
     - in school (GREEN) OR
     - in vocational training (GREEN) OR
     - cannot support themselves because of a disability (YELLOW: how this is defined legally must be inferred or explained) OR
-    - in a transitional period of 4 calendar months or less between one formal education AND
-      - another formal education OR
-      - the completion of compulsory military service OR 
-      - the completion of community service OR
-      - the completion of a voluntary service
-      (RED: too complex for SHACL Core because it requires arithmetics)
+    - in a transitional period of 4 calendar months or less between
+      - between one formal education and another OR
+      - after the completion of compulsory military service OR 
+      - after the completion of community service OR
+      - after the completion of a voluntary service
+      (GREEN)

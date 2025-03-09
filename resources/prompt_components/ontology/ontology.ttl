@@ -361,6 +361,13 @@
                                             rdfs:comment "True if a person cannot cover the basic needs of themselves and the unemployed individuals in their benefit unit, false otherwise."@en .
 
 
+###  https://foerderfunke.org/default#isInTransitionalPeriod
+<https://foerderfunke.org/default#isInTransitionalPeriod> rdf:type owl:DatatypeProperty ;
+                                                          rdfs:domain <https://foerderfunke.org/default#Person> ;
+                                                          rdfs:range xsd:boolean ;
+                                                          rdfs:comment "True if a person is in a transitional period of 4 calendar months or less between between two formal educations or after the completion of compulsory military service / community service / voluntary service. False otherwise."@en .
+
+
 ###  https://foerderfunke.org/default#isOpen
 <https://foerderfunke.org/default#isOpen> rdf:type owl:DatatypeProperty ;
                                           rdfs:domain <https://foerderfunke.org/default#InsolvencyProceeding> ;
