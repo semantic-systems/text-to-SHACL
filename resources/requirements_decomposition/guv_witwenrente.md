@@ -30,12 +30,12 @@ Sie haben in der Regel keinen Anspruch, wenn
 <b>Requirements decomposition</b>:
 
 1. User's spouse OR civil partner died (GREEN).
-2. User's spouse OR civil partner had statutory accident insurance* (GREEN).
-3. The spouse's or civil partner's death was caused by an insurance event (YELLOW: definition of the terms in a legal sense must be inferred or explained):
+2. The deceased person had statutory accident insurance* (GREEN).
+3. The person's death was caused by an insurance event (YELLOW: definition of the terms in a legal sense must be inferred or explained):
     - accident at work OR 
     - a commuting accident OR
     - a recognized occupational disease. 
-4. User was married OR lived in a civil union with the deceased person prior to the insured event (RED: too complex for SHACL Core).
+4. User was married OR lived in a civil union with the deceased person prior to the insured event (GREEN).
 5. Typically, the death may not have occurred within the first year of marriage or the registered partnership (RED: ambiguous qualifier "Typically").
 
 *Not explicitly mentioned in the requirements text, but can be inferred from the benefit's name

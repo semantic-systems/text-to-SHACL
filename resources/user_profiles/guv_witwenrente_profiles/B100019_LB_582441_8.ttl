@@ -8,4 +8,5 @@ ff:User ff:deceasedCivilPartner ex:SomePerson .
 ex:SomePerson ff:causeOfDeath ex:SomeEvent ;
     ff:hasInsurance ex:SomeInsurance .
 
-ex:SomeEvent a ff:WorkAccident .
+ex:SomeEvent a ff:WorkAccident ;
+    ff:legalUnionBeforeEvent ff:User .

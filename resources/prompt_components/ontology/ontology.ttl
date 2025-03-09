@@ -195,6 +195,13 @@
                                                 rdfs:comment "Links a person to a country where they are a national."@en .
 
 
+###  https://foerderfunke.org/default#legalUnionBeforeEvent
+<https://foerderfunke.org/default#legalUnionBeforeEvent> rdf:type owl:ObjectProperty ;
+                                                         rdfs:domain <https://foerderfunke.org/default#Event> ;
+                                                         rdfs:range <https://foerderfunke.org/default#Person> ;
+                                                         rdfs:comment "Links an event (e.g., insurance event), experienced by person A, to another person B with whom they were married or in a civil union before and during the event."@en .
+
+
 ###  https://foerderfunke.org/default#naturalChildTo
 <https://foerderfunke.org/default#naturalChildTo> rdf:type owl:ObjectProperty ;
                                                   rdfs:domain <https://foerderfunke.org/default#Person> ;
