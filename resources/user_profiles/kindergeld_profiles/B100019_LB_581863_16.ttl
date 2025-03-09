@@ -3,14 +3,17 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-# Does not meet requirement "User's residence situation falls into one of the covered categories"
+# Does not met requirement "User's residence situation falls into one of the covered categories"
 
 ff:User ff:incomeTaxCountry ff:Germany ;
 	ff:incomeTaxLiability ff:UnlimitedTaxLiability ;
 	# ResidencyShapeB/C
 	ff:isNationalOf ex:Ireland;
-	ff:moveToGermanyDate "2019-08-05"^^xsd:date ;
-	ff:permanentRightOfResidence false;
+	ff:hasEvent [
+		a ff:MoveToGermany ;
+		ff:hasDate "2019-08-02"^^xsd:date ;
+		ff:lessThanFourMonthsAgo false ;
+	] ;
 	ff:hasChild ex:Fredda, ex:Mac.
 
 # ChildShapeA

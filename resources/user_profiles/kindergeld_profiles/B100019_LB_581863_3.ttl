@@ -9,7 +9,10 @@ ff:User ff:incomeTaxCountry ff:Germany ;
 	ff:incomeTaxLiability ff:UnlimitedTaxLiability ;
 	# ResidencyShapeB
 	ff:isNationalOf ex:Ireland ;
-	ff:moveToGermanyDate "2019-07-31"^^xsd:date ;
+	ff:hasEvent [
+		a ff:MoveToGermany ;
+		ff:hasDate "2019-07-31"^^xsd:date ;
+	] ;
 	ff:hasChild ex:Fredda, ex:Mac.
 
 # ChildShapeA

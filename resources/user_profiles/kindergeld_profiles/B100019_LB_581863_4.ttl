@@ -7,12 +7,16 @@
 
 ff:User ff:incomeTaxCountry ff:Germany ;
 	ff:incomeTaxLiability ff:UnlimitedTaxLiability ;
-	# ResidencyShapeC
-	ff:isNationalOf ex:Latvia ;
-	ff:moveToGermanyDate "2019-08-01"^^xsd:date ;
-	ff:hasEmploymentStatus ff:Employed ;
-	ff:hasChild ex:Urs .
+	# ResidencyShapeB
+	ff:isNationalOf ex:Ireland ;
+	ff:hasEvent [
+		a ff:MoveToGermany ;
+		ff:lessThanFourMonthsAgo true ;
+	] ;
+	ff:hasChild ex:Fredda, ex:Mac.
 
 # ChildShapeA
-ex:Urs ff:countryOfResidence ex:Latvia .
-ex:Latvia a ff:EEAplusCH .
+ex:Fredda ff:countryOfResidence ex:Ireland .
+ex:Ireland a ff:EEAplusCH .
+
+ex:Mac ff:countryOfResidence ex:Tuvalu .

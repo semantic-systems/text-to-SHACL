@@ -9,7 +9,11 @@ ff:User ff:incomeTaxCountry ff:Germany ;
 	ff:incomeTaxLiability ff:UnlimitedTaxLiability ;
 	# ResidencyShapeC
 	ff:isNationalOf ex:Latvia ;
-	ff:moveToGermanyDate "2019-08-01"^^xsd:date ;
+	ff:hasEvent [
+		a ff:MoveToGermany ;
+		ff:hasDate "2019-08-01"^^xsd:date ;
+		ff:lessThanFourMonthsAgo false ;
+	] ;
 	ff:hasEmploymentStatus ff:Employed ;
 	ff:sufficientMeansOfSubsistence false;
 	ff:hasChild ex:Urs .

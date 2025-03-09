@@ -38,8 +38,8 @@ Voraussetzungen, die für Ihr Kind gelten:
     - they are a German national (GREEN) OR
     - they are EEA/Swiss national AND 
       - moved to Germany before August 2019 (GREEN) OR
-      - less than 4 months ago (RED: too complex for SHACL Core)
-    - they are EEA/Swiss national AND moved to Germany after August 2019 (GREEN) AND more than 4 months ago (RED: too complex for SHACL Core) AND meet the requirements of the Freedom of Movement Act (FoMA) (BELOW) OR
+      - less than 4 months ago (GREEN)
+    - they are EEA/Swiss national AND moved to Germany after August 2019 (GREEN) AND more than 4 months ago (GREEN) AND meet the requirements of the Freedom of Movement Act (FoMA) (BELOW) OR
     - they are not an EEA/Swiss national AND have a valid settlement permit (GREEN) OR
     - they are not an EEA/Swiss national AND another residence title that entitles to pursue gainful employment (YELLOW: which residence titles grant that entitlement must be inferred or explained) OR
     - they are not an EEA/Swiss national AND legally recognized refugee (GREEN) OR
@@ -50,7 +50,7 @@ Voraussetzungen, die für Ihr Kind gelten:
     - is looking for work (YELLOW: legal definition must be resolved elsewhere)  OR
     - is involuntarily unemployed (YELLOW: legal definition must be resolved elsewher. Here, simplified to "unemployed" because only involuntarily unemployed individuals are considered "unemployed" by the Federal Employment Agency [1]) OR
     - can derive their right to freedom of movement from a family member (YELLOW: under what conditions the derivative right exists must be inferred or explained) OR
-    - has sufficient means of subsistence AND adequate health insurance cover (RED: ambiguous qualifiers "sufficient" and "adequate", possibly discretionary decision) OR
+    - has sufficient means of subsistence AND adequate health insurance cover (YELLOW: definition of sufficient and adequate in a legal sense must be inferred or explained) OR
     - has acquired a permanent right of residence (YELLOW: prerequisites for permanent right of residence must be inferred or explained, see definition at [2]). 
 6. User has at least one child that is an EEA/Swiss resident OR ordinarily resides in an EEA/Swiss member state (YELLOW: "residence" and "ordinary residence" must be inferred or explained)
 7. User is possibly entitled if the child lives in a household in an EEA/Swiss member state, but they or the other parent are subject to unlimited income tax liability in Germany OR are assessed as such. (RED: ambiguous qualifier "possibly")

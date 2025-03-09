@@ -10,7 +10,7 @@ ff:B100019_LB_576986 a ff:SocialBenefit ;
 
 # CONSTRAINTS
 
-ff:KindergeldBeantragenShape a sh:NodeShape ;
+ff:KindergeldShape a sh:NodeShape ;
     ff:checksFundingRequirement ff:B100019_LB_576986 ;
     sh:targetNode ff:User ;
     # User is subject to income tax in Germany
@@ -22,7 +22,8 @@ ff:KindergeldBeantragenShape a sh:NodeShape ;
     # User is subject to unlimited income tax lianility
     sh:property [
         sh:path ff:incomeTaxLiability ;
-        sh:hasValue ff:UnlimitedTaxLiability ;
+        sh:minCount 1 ;
+        sh:in (ff:UnlimitedTaxLiability) ;
         sh:message "Does not meet requirement 'User is subject to unlimited income tax liability.'"@en ;
     ] ;
     # User's residence situation falls into one of the covered categories
@@ -37,10 +38,9 @@ ff:KindergeldBeantragenShape a sh:NodeShape ;
         sh:path ff:hasChild ;
         sh:qualifiedMinCount 1 ;
         sh:qualifiedValueShape [
-            sh:or ( 
-                [ sh:node ff:ChildShapeA ]
-                [ sh:node ff:ChildShapeB ]
-            ) ;
+            sh:path [sh:alternativePath (ff:countryOfResidence ff:countryOfOrdinaryResidence)] ;
+            sh:minCount 1 ;
+            sh:class ff:EEAplusCH ;
         ] ;
         sh:message "Does not meet requirement 'User has at least one child that is an EEA/Swiss resident OR ordinarily resides in an EEA/Swiss member state.'"@en ;
     ] .
@@ -52,31 +52,59 @@ ff:ResidencyShapeA a sh:NodeShape ;
         sh:hasValue ff:Germany ;
     ] .
 
-# User is an EEA/Swiss national AND moved to Germany before August 2019
 ff:ResidencyShapeB a sh:NodeShape ;
+    # User is an EEA/Swiss national
     sh:property [
         sh:path ff:isNationalOf ;
         sh:minCount 1 ;
         sh:class ff:EEAplusCH ;
     ] ;
     sh:property [
-		sh:path ff:moveToGermanyDate;
-		sh:minCount 1 ;
-        sh:maxExclusive "2019-08-01"^^xsd:date ;
-	] .
+        sh:path ff:hasEvent ;
+        sh:minCount 1 ;
+        sh:class ff:MoveToGermany ;
+        sh:or (
+            # User moved to Germany before August 2019
+            [
+                sh:path ff:hasDate ;
+                sh:minCount 1 ;
+                sh:maxExclusive "2019-08-01"^^xsd:date ;
+            ]
+            # User moved to Germany less than 4 months ago
+            [
+                sh:path ff:lessThanFourMonthsAgo ;
+                sh:minCount 1 ;
+                sh:in (true) ;
+            ]
+        ) ;
+    ] .
 
-# User is an EEA/Swiss national AND moved to Germany after August 2019 AND meets the requirements of the Freedom of Movement Act
 ff:ResidencyShapeC a sh:NodeShape ;
+    # User is an EEA/Swiss national
     sh:property [
         sh:path ff:isNationalOf ;
         sh:minCount 1 ;
         sh:class ff:EEAplusCH ;
     ] ;
     sh:property [
-		sh:path ff:moveToGermanyDate;
-		sh:minCount 1 ;
-        sh:minInclusive "2019-08-01"^^xsd:date ;
-	] ;
+        sh:path ff:hasEvent ;
+        sh:qualifiedMinCount 1;
+        sh:qualifiedValueShape [
+            sh:class ff:MoveToGermany ;
+            sh:and (
+                [
+                    sh:path ff:hasDate ;
+                    sh:minCount 1 ;
+                    sh:minInclusive "2019-08-01"^^xsd:date ;
+                ]
+                [
+                    sh:path ff:lessThanFourMonthsAgo ;
+                    sh:minCount 1 ;
+                    sh:in (false) ;
+                ]
+            )
+        ] ;
+    ] ;
     # Freedom of Movement Act
     sh:or (
         # User is employed OR self-employed OR looking for work OR involuntarily unemployed
@@ -95,18 +123,21 @@ ff:ResidencyShapeC a sh:NodeShape ;
             sh:and (
                 [
                     sh:path ff:sufficientMeansOfSubsistence ;
-                    sh:hasValue true ;
+                    sh:minCount 1 ;
+                    sh:in (true) ;
                 ]
                 [
                     sh:path ff:adequateHealthInsurance ;
-                    sh:hasValue true ;
+                    sh:minCount 1 ;
+                    sh:in (true) ;
                 ]
             )
         ]
         # User has acquired a permanent right of residence
         [
             sh:path ff:permanentRightOfResidence ;
-            sh:hasValue true ;
+            sh:minCount 1 ;
+            sh:in (true) ;
         ]
     ) .
 
@@ -123,29 +154,18 @@ ff:ResidencyShapeD a sh:NodeShape ;
     sh:or (
         [
             sh:path (ff:hasResidencePermit ff:entitlesToEmployment) ;
-            sh:hasValue true ;
+            sh:minCount 1 ;
+            sh:in (true) ;
         ]
         [
             sh:path ff:recognizedRefugee ;
-            sh:hasValue true ;
+            sh:minCount 1 ;
+            sh:in (true) ;
         ]
         [
             sh:path ff:entitledToAsylum ;
-            sh:hasValue true ;
+            sh:minCount 1 ;
+            sh:in (true) ;
         ]
 
     ) .
-
-ff:ChildShapeA a sh:NodeShape ;
-    sh:property [
-        sh:path ff:countryOfResidence ;
-        sh:minCount 1 ;
-        sh:class ff:EEAplusCH ;
-    ] .
-
-ff:ChildShapeB a sh:NodeShape ;
-    sh:property [
-        sh:path ff:countryOfOrdinaryResidence ;
-        sh:minCount 1 ;
-        sh:class ff:EEAplusCH ;
-    ] .
