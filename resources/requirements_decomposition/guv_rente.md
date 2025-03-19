@@ -33,6 +33,5 @@ Voraussetzungen Anspruch auf Rente:
     - a commuting accident OR
     - a recognized occupational disease.
 3. The insurance event reduces earning capacity for more than 26 weeks after the event. (GREEN)
-t
 
 *The types of statutory accident insurance events are known from other requirements texts and, in principle, accessible to the LLM via the ontology
