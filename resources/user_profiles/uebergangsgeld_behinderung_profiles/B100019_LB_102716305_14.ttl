@@ -1,0 +1,14 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Does not meet requirement for "User was eligible for unemployment benefits under the Soldier's Pensions Act (SVG) within the last 3 years"
+
+ff:User ff:hasDisability true ;
+	ff:workforceIntegrationProblemBecause ex:SomeDisability ;
+	ff:hasRehabilitationProvider ff:FederalEmploymentAgency ;
+	# PreEmploymentPeriodB
+	ff:isVocationalReturnee false ;
+	ff:wasEligibileFor ff:UnemploymentBenefitSVG .
+
+ff:UnemploymentBenefitSVG a ff:SocialBenefit ;
+	ff:eligibleWithinLast3Years false.

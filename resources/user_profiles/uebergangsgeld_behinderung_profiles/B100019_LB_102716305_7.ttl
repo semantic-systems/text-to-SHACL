@@ -1,0 +1,12 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Does not meet requirement "User has a disability"
+
+ff:User ff:hasDisability false ;
+	ff:hasRehabilitationProvider ff:FederalEmploymentAgency ;
+	# PreEmploymentPeriodA
+	ff:isVocationalReturnee true ;
+	ff:subjectToSocialSecurity _:b0 .
+
+_:b0 ff:monthsTotal 12 .

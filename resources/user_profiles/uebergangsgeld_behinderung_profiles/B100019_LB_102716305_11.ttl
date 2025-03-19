@@ -1,0 +1,10 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Does not meet requirement "User was eligible for unemployment benefits"
+ff:User ff:hasDisability true ;
+	ff:workforceIntegrationProblemBecause ex:SomeDisability ;
+	ff:hasRehabilitationProvider ff:FederalEmploymentAgency ;
+	# PreEmploymentPeriodA
+	ff:isVocationalReturnee true ;
+	ff:wasEligibileFor ex:SomeBenefit .
