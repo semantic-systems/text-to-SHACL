@@ -12,17 +12,39 @@
 #    Object Properties
 #################################################################
 
-###  http://www.semanticweb.org/seike/ontologies/2025/1/untitled-ontology-36#workforceIntegrationProblemBecause
+###  http://www.semanticweb.org/seike/ontologies/2025/1/untitled-ontology-36/receivedBenefit
+:receivedBenefit rdf:type owl:ObjectProperty ;
+                 rdfs:domain <https://foerderfunke.org/default#Person> ;
+                 rdfs:range <https://foerderfunke.org/default#SocialBenefit> ;
+                 rdfs:comment "Links a person to a benefit that they have received in the past."@en .
+
+
+###  http://www.semanticweb.org/seike/ontologies/2025/1/untitled-ontology-36/socialSecurityDuration
+:socialSecurityDuration rdf:type owl:ObjectProperty ;
+                        rdfs:domain <https://foerderfunke.org/default#Person> ;
+                        rdfs:range :Duration ;
+                        rdfs:comment "Links a person to a node describing the duration of their social security obligations."@en .
+
+
+###  http://www.semanticweb.org/seike/ontologies/2025/1/untitled-ontology-36/wasEligibleFor
+:wasEligibleFor rdf:type owl:ObjectProperty ;
+                rdfs:domain <https://foerderfunke.org/default#Person> ;
+                rdfs:range <https://foerderfunke.org/default#SocialBenefit> ;
+                rdfs:comment "Links a person to a benefit for which they have been eligible in the past."@en .
+
+
+###  http://www.semanticweb.org/seike/ontologies/2025/1/untitled-ontology-36/workforceIntegrationProblemBecause
 :workforceIntegrationProblemBecause rdf:type owl:ObjectProperty ;
                                     rdfs:domain <https://foerderfunke.org/default#Person> ;
-                                    rdfs:range <https://foerderfunke.org/default#Disability> .
+                                    rdfs:range <https://foerderfunke.org/default#Disability> ;
+                                    rdfs:comment "Points to a reason (e.g., Disabiltiy) why a person needs support with their integration into the workforce."@en .
 
 
 ###  https://foerderfunke.org/default#cannotSupportThemselvesBecause
 <https://foerderfunke.org/default#cannotSupportThemselvesBecause> rdf:type owl:ObjectProperty ;
                                                                   rdfs:domain <https://foerderfunke.org/default#Person> ;
                                                                   rdfs:range <https://foerderfunke.org/default#Disability> ;
-                                                                  rdfs:comment "Points to the reason why a person cannot support themselves."@en .
+                                                                  rdfs:comment "Points to a reason (e.g., Disability) why a person cannot support themselves."@en .
 
 
 ###  https://foerderfunke.org/default#causeOfDeath
@@ -276,6 +298,41 @@
 #    Data properties
 #################################################################
 
+###  http://www.semanticweb.org/seike/ontologies/2025/1/untitled-ontology-36/eligibleWithinLast3Years
+:eligibleWithinLast3Years rdf:type owl:DatatypeProperty ;
+                          rdfs:domain <https://foerderfunke.org/default#SocialBenefit> ;
+                          rdfs:range xsd:boolean ;
+                          rdfs:comment "True if a person was eligible for a social benefit within the last 3 years."@en .
+
+
+###  http://www.semanticweb.org/seike/ontologies/2025/1/untitled-ontology-36/isVocationalReturnee
+:isVocationalReturnee rdf:type owl:DatatypeProperty ;
+                      rdfs:domain <https://foerderfunke.org/default#Person> ;
+                      rdfs:range xsd:boolean ;
+                      rdfs:comment "True if a person is a vocational returnee, false otherwise."@en .
+
+
+###  http://www.semanticweb.org/seike/ontologies/2025/1/untitled-ontology-36/monthsTotal
+:monthsTotal rdf:type owl:DatatypeProperty ;
+             rdfs:domain :Duration ;
+             rdfs:range xsd:int ;
+             rdfs:comment "The total duration of something in completed months."@en .
+
+
+###  http://www.semanticweb.org/seike/ontologies/2025/1/untitled-ontology-36/monthsWithinLast3Years
+:monthsWithinLast3Years rdf:type owl:DatatypeProperty ;
+                        rdfs:domain :Duration ;
+                        rdfs:range xsd:int ;
+                        rdfs:comment "The duration of something within the last three years in compelted months."@en .
+
+
+###  http://www.semanticweb.org/seike/ontologies/2025/1/untitled-ontology-36/receivedWithinLast3Years
+:receivedWithinLast3Years rdf:type owl:DatatypeProperty ;
+                          rdfs:domain <https://foerderfunke.org/default#SocialBenefit> ;
+                          rdfs:range xsd:boolean ;
+                          rdfs:comment "True if a person received a benefit within the last 3 years."@en .
+
+
 ###  https://foerderfunke.org/default#adequateHealthInsurance
 <https://foerderfunke.org/default#adequateHealthInsurance> rdf:type owl:DatatypeProperty ;
                                                            rdfs:domain <https://foerderfunke.org/default#Person> ;
@@ -491,6 +548,10 @@
 #    Classes
 #################################################################
 
+###  http://www.semanticweb.org/seike/ontologies/2025/1/untitled-ontology-36#Duration
+:Duration rdf:type owl:Class .
+
+
 ###  https://foerderfunke.org/default#CommutingAccident
 <https://foerderfunke.org/default#CommutingAccident> rdf:type owl:Class ;
                                                      rdfs:subClassOf <https://foerderfunke.org/default#Event> ;
@@ -635,6 +696,19 @@
 #################################################################
 #    Individuals
 #################################################################
+
+###  http://www.semanticweb.org/seike/ontologies/2025/1/untitled-ontology-36#B100019_LB_576842
+:B100019_LB_576842 rdf:type owl:NamedIndividual ,
+                            <https://foerderfunke.org/default#SocialBenefit> ;
+                   rdfs:label "Arbeitslosengeld"@de ,
+                              "Unemployment benefit"@en .
+
+
+###  http://www.semanticweb.org/seike/ontologies/2025/1/untitled-ontology-36#UnemploymentBenefitsSVG
+:UnemploymentBenefitsSVG rdf:type owl:NamedIndividual ,
+                                  <https://foerderfunke.org/default#SocialBenefit> ;
+                         rdfs:label "Arbeitslosenbeihilfe nach dem Soldatenversorgungsgesetz"@de .
+
 
 ###  https://foerderfunke.org/default#AsylumSeekerBenefits
 <https://foerderfunke.org/default#AsylumSeekerBenefits> rdf:type owl:NamedIndividual ,
