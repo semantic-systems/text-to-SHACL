@@ -1,10 +1,207 @@
 """ 
-expected_resits.py
+expected_validation_results.py
 
 Dictionaries mapping file names of synthetic user profiles to the result
 expected when they are validated against a syntactically and semantically
 correct SHACL shapes graph.
 """
+
+arbeitslosengeld_expected = {
+    "B100019_LB_576842_1.ttl": "eligible",
+    "B100019_LB_576842_2.ttl": "eligible",
+    "B100019_LB_576842_3.ttl": "eligible",
+    "B100019_LB_576842_4.ttl": "ineligible", 
+    "B100019_LB_576842_5.ttl": "ineligible", # missing info
+    "B100019_LB_576842_6.ttl": "ineligible", # missing info
+    "B100019_LB_576842_7.ttl": "ineligible", 
+    "B100019_LB_576842_8.ttl": "ineligible", # missing info
+    "B100019_LB_576842_9.ttl": "ineligible",
+    "B100019_LB_576842_10.ttl": "ineligible", # missing info
+    "B100019_LB_576842_11.ttl": "ineligible",
+    "B100019_LB_576842_12.ttl": "ineligible", # missing info
+}
+
+kinderzuschlag_expected = {
+    "B100019_LB_581863_1.ttl": "eligible",
+    "B100019_LB_581863_2.ttl": "eligible",
+    "B100019_LB_581863_3.ttl": "eligible",
+    "B100019_LB_581863_4.ttl": "eligible",
+    "B100019_LB_581863_5.ttl": "eligible",
+    "B100019_LB_581863_6.ttl": "ineligible", # missing info
+    "B100019_LB_581863_7.ttl": "ineligible",
+    "B100019_LB_581863_8.ttl": "ineligible",
+    "B100019_LB_581863_9.ttl": "ineligible",
+    "B100019_LB_581863_10.ttl": "ineligible",
+    "B100019_LB_581863_11.ttl": "ineligible",
+    "B100019_LB_581863_12.ttl": "ineligible",
+    "B100019_LB_581863_13.ttl": "ineligible",
+    "B100019_LB_581863_14.ttl": "ineligible",
+    "B100019_LB_581863_15.ttl": "ineligible",
+    "B100019_LB_581863_16.ttl": "ineligible",
+    "B100019_LB_581863_17.ttl": "ineligible", # missing info
+    "B100019_LB_581863_18.ttl": "ineligible", # missing info
+    "B100019_LB_581863_19.ttl": "ineligible", # missing info
+    "B100019_LB_581863_20.ttl": "ineligible", # missing info
+}
+
+buergergeld_expected = {
+    "B100019_LB_106311931_1.ttl": "eligible",
+    "B100019_LB_106311931_2.ttl": "eligible",
+    "B100019_LB_106311931_3.ttl": "eligible",
+    "B100019_LB_106311931_4.ttl": "eligible",
+    "B100019_LB_106311931_5.ttl": "ineligible",
+    "B100019_LB_106311931_6.ttl": "ineligible",
+    "B100019_LB_106311931_7.ttl": "ineligible",
+    "B100019_LB_106311931_8.ttl": "ineligible",
+    "B100019_LB_106311931_9.ttl": "ineligible",
+    "B100019_LB_106311931_10.ttl": "ineligible", # missing info
+    "B100019_LB_106311931_11.ttl": "ineligible", # missing info
+    "B100019_LB_106311931_12.ttl": "ineligible", # missing info
+    "B100019_LB_106311931_13.ttl": "ineligible", # missing info
+    "B100019_LB_106311931_14.ttl": "ineligible", # missing info
+    "B100019_LB_106311931_15.ttl": "ineligible",
+    "B100019_LB_106311931_16.ttl": "ineligible", # missing info
+}
+
+insolvenzgeld_expected = {
+    "B100019_LB_576848_1.ttl": "eligible",
+    "B100019_LB_576848_2.ttl": "eligible",
+    "B100019_LB_576848_3.ttl": "eligible",
+    "B100019_LB_576848_4.ttl": "eligible",
+    "B100019_LB_576848_5.ttl": "eligible",
+    "B100019_LB_576848_6.ttl": "ineligible",
+    "B100019_LB_576848_7.ttl": "ineligible",
+    "B100019_LB_576848_8.ttl": "ineligible",
+    "B100019_LB_576848_9.ttl": "ineligible",
+    "B100019_LB_576848_10.ttl": "ineligible",
+    "B100019_LB_576848_11.ttl": "ineligible", # missing info
+    "B100019_LB_576848_12.ttl": "ineligible", # missing info
+    "B100019_LB_576848_13.ttl": "ineligible", # missing info
+    "B100019_LB_576848_14.ttl": "ineligible",
+    "B100019_LB_576848_15.ttl": "ineligible", # missing info
+}
+
+kinderzuschlag_expected = {
+    "B100019_LB_576986_1.ttl": "eligible",
+    "B100019_LB_576986_2.ttl": "eligible",
+    "B100019_LB_576986_3.ttl": "eligible",
+    "B100019_LB_576986_4.ttl": "eligible",
+    "B100019_LB_576986_5.ttl": "eligible",
+    "B100019_LB_576986_6.ttl": "eligible",
+    "B100019_LB_576986_7.ttl": "eligible",
+    "B100019_LB_576986_8.ttl": "eligible",
+    "B100019_LB_576986_9.ttl": "eligible",
+    "B100019_LB_576986_10.ttl": "ineligible",
+    "B100019_LB_576986_11.ttl": "ineligible",
+    "B100019_LB_576986_12.ttl": "ineligible",
+    "B100019_LB_576986_13.ttl": "ineligible",
+    "B100019_LB_576986_14.ttl": "ineligible",
+    "B100019_LB_576986_15.ttl": "ineligible", # missing info
+    "B100019_LB_576986_16.ttl": "ineligible",
+    "B100019_LB_576986_17.ttl": "ineligible",
+    "B100019_LB_576986_18.ttl": "ineligible",
+    "B100019_LB_576986_19.ttl": "ineligible",
+    "B100019_LB_576986_20.ttl": "ineligible",
+    "B100019_LB_576986_21.ttl": "ineligible",
+    "B100019_LB_576986_22.ttl": "eligible",
+    "B100019_LB_576986_23.ttl": "ineligible",
+    "B100019_LB_576986_24.ttl": "eligible",
+}
+
+guv_rente_expected = {
+    "B100019_LB_582404_1.ttl": "eligible",
+    "B100019_LB_582404_2.ttl": "eligible",
+    "B100019_LB_582404_3.ttl": "eligible",
+    "B100019_LB_582404_4.ttl": "eligible",
+    "B100019_LB_582404_5.ttl": "eligible",
+    "B100019_LB_582404_6.ttl": "eligible",
+    "B100019_LB_582404_7.ttl": "ineligible",
+    "B100019_LB_582404_8.ttl": "ineligible",
+    "B100019_LB_582404_9.ttl": "ineligible",
+    "B100019_LB_582404_10.ttl": "ineligible",
+    "B100019_LB_582404_11.ttl": "ineligible",
+    "B100019_LB_582404_12.ttl": "ineligible", # missing info
+    "B100019_LB_582404_13.ttl": "ineligible", # missing info
+    "B100019_LB_582404_14.ttl": "ineligible", # missing info
+}
+
+uebergangsgeld_berufliche_reha_expected = {
+    "B100019_LB_582422_1.ttl": "eligible",
+    "B100019_LB_582422_2.ttl": "eligible",
+    "B100019_LB_582422_3.ttl": "eligible",
+    "B100019_LB_582422_4.ttl": "eligible",
+    "B100019_LB_582422_5.ttl": "eligible",
+    "B100019_LB_582422_6.ttl": "ineligible",
+    "B100019_LB_582422_7.ttl": "ineligible",
+    "B100019_LB_582422_8.ttl": "ineligible",
+    "B100019_LB_582422_9.ttl": "ineligible", # missing info
+    "B100019_LB_582422_10.ttl": "ineligible", # missing info
+    "B100019_LB_582422_11.ttl": "ineligible", # missing info
+}
+
+guv_verletztengeld_expected = {
+    "B100019_LB_582429_1.ttl": "eligible",
+    "B100019_LB_582429_2.ttl": "eligible",
+    "B100019_LB_582429_3.ttl": "eligible",
+    "B100019_LB_582429_4.ttl": "eligible",
+    "B100019_LB_582429_5.ttl": "eligible",
+    "B100019_LB_582429_6.ttl": "ineligible",
+    "B100019_LB_582429_7.ttl": "ineligible",
+    "B100019_LB_582429_8.ttl": "ineligible",
+    "B100019_LB_582429_9.ttl": "ineligible", # missing info
+    "B100019_LB_582429_10.ttl": "ineligible", # missing info
+}
+
+guv_witwenrente = {
+    "B100019_LB_582441_1.ttl": "eligible",
+    "B100019_LB_582441_2.ttl": "eligible",
+    "B100019_LB_582441_3.ttl": "eligible",
+    "B100019_LB_582441_4.ttl": "eligible",
+    "B100019_LB_582441_5.ttl": "eligible",
+    "B100019_LB_582441_6.ttl": "ineligible",
+    "B100019_LB_582441_7.ttl": "ineligible",
+    "B100019_LB_582441_8.ttl": "ineligible",
+    "B100019_LB_582441_9.ttl": "ineligible", # missing info
+    "B100019_LB_582441_10.ttl": "ineligible", # missing info
+    "B100019_LB_582441_11.ttl": "ineligible", # missing info
+}
+
+guv_waisenrente = {
+    "B100019_LB_582435_1.ttl": "eligible",
+    "B100019_LB_582435_2.ttl": "eligible",
+    "B100019_LB_582435_3.ttl": "eligible",
+    "B100019_LB_582435_4.ttl": "eligible",
+    "B100019_LB_582435_5.ttl": "eligible",
+    "B100019_LB_582435_6.ttl": "eligible",
+    "B100019_LB_582435_7.ttl": "eligible",
+    "B100019_LB_582435_8.ttl": "ineligible",
+    "B100019_LB_582435_9.ttl": "ineligible",
+    "B100019_LB_582435_10.ttl": "ineligible",
+    "B100019_LB_582435_11.ttl": "ineligible",
+    "B100019_LB_582435_12.ttl": "ineligible",
+    "B100019_LB_582435_13.ttl": "ineligible",
+    "B100019_LB_582435_14.ttl": "ineligible", # missing info
+    "B100019_LB_582435_15.ttl": "ineligible", # missing info
+    "B100019_LB_582435_16.ttl": "ineligible", # missing info
+    "B100019_LB_582435_17.ttl": "ineligible", # missing info
+    "B100019_LB_582435_18.ttl": "ineligible", # missing info
+    "B100019_LB_582435_19.ttl": "eligible",
+    "B100019_LB_582435_20.ttl": "ineligible",
+}
+
+bildung_und_teilhabe = {
+    "L100040_LB_12280162_1.ttl": "eligible",
+    "L100040_LB_12280162_2.ttl": "eligible",
+    "L100040_LB_12280162_3.ttl": "eligible",
+    "L100040_LB_12280162_4.ttl": "eligible",
+    "L100040_LB_12280162_5.ttl": "eligible",
+    "L100040_LB_12280162_6.ttl": "ineligible",
+    "L100040_LB_12280162_7.ttl": "ineligible",
+    "L100040_LB_12280162_8.ttl": "ineligible",
+    "L100040_LB_12280162_9.ttl": "ineligible", # missing info
+    "L100040_LB_12280162_10.ttl": "ineligible", # missing info
+    "L100040_LB_12280162_11.ttl": "ineligible", # missing info
+}
 
 ausbildungsgeld_expected = {
     "B100019_LB_574711_1.ttl": "eligible",
