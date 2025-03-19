@@ -12,6 +12,12 @@
 #    Object Properties
 #################################################################
 
+###  http://www.semanticweb.org/seike/ontologies/2025/1/untitled-ontology-36#workforceIntegrationProblemBecause
+:workforceIntegrationProblemBecause rdf:type owl:ObjectProperty ;
+                                    rdfs:domain <https://foerderfunke.org/default#Person> ;
+                                    rdfs:range <https://foerderfunke.org/default#Disability> .
+
+
 ###  https://foerderfunke.org/default#cannotSupportThemselvesBecause
 <https://foerderfunke.org/default#cannotSupportThemselvesBecause> rdf:type owl:ObjectProperty ;
                                                                   rdfs:domain <https://foerderfunke.org/default#Person> ;

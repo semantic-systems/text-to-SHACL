@@ -7,6 +7,6 @@ ff:User ff:hasDisability false ;
 	ff:hasRehabilitationProvider ff:FederalEmploymentAgency ;
 	# PreEmploymentPeriodA
 	ff:isVocationalReturnee true ;
-	ff:subjectToSocialSecurity _:b0 .
+	ff:socialSecurityDuration _:b0 .
 
 _:b0 ff:monthsTotal 12 .

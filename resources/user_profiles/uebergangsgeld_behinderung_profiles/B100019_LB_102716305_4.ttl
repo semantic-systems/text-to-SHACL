@@ -8,7 +8,7 @@ ff:User ff:hasDisability true ;
 	ff:hasRehabilitationProvider ff:FederalEmploymentAgency ;
 	# PreEmploymentPeriodB
 	ff:isVocationalReturnee false ;
-	ff:subjectToSocialSecurity _:b0 .
+	ff:socialSecurityDuration _:b0 .
 
 ex:SomeDisability a ff:Disability .
 
