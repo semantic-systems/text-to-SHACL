@@ -12,6 +12,20 @@
 #    Object Properties
 #################################################################
 
+###  http://www.semanticweb.org/seike/ontologies/2025/1/untitled-ontology-36#atRiskOfDisabilityType
+:atRiskOfDisabilityType rdf:type owl:ObjectProperty ;
+                        rdfs:domain <https://foerderfunke.org/default#Person> ;
+                        rdfs:range <https://foerderfunke.org/default#Disability> ;
+                        rdfs:comment "Links a person to a particular type of disability that they risk developing."@en .
+
+
+###  http://www.semanticweb.org/seike/ontologies/2025/1/untitled-ontology-36#hasDisabilityType
+:hasDisabilityType rdf:type owl:ObjectProperty ;
+                   rdfs:domain <https://foerderfunke.org/default#Person> ;
+                   rdfs:range <https://foerderfunke.org/default#Disability> ;
+                   rdfs:comment "Links a person to a particular type of disability that they have."@en .
+
+
 ###  http://www.semanticweb.org/seike/ontologies/2025/1/untitled-ontology-36/receivedBenefit
 :receivedBenefit rdf:type owl:ObjectProperty ;
                  rdfs:domain <https://foerderfunke.org/default#Person> ;
@@ -298,6 +312,20 @@
 #    Data properties
 #################################################################
 
+###  http://www.semanticweb.org/seike/ontologies/2025/1/untitled-ontology-36#reducesWorkProspectsPermanently
+:reducesWorkProspectsPermanently rdf:type owl:DatatypeProperty ;
+                                 rdfs:domain <https://foerderfunke.org/default#Disability> ;
+                                 rdfs:range xsd:boolean ;
+                                 rdfs:comment "True if a disability reduces a person's prospect of participating in working life permanently."@en .
+
+
+###  http://www.semanticweb.org/seike/ontologies/2025/1/untitled-ontology-36#severeDisability
+:severeDisability rdf:type owl:DatatypeProperty ;
+                  rdfs:domain <https://foerderfunke.org/default#Disability> ;
+                  rdfs:range xsd:boolean ;
+                  rdfs:comment "True if a disability is severe, false otherwise."@en .
+
+
 ###  http://www.semanticweb.org/seike/ontologies/2025/1/untitled-ontology-36/eligibleWithinLast3Years
 :eligibleWithinLast3Years rdf:type owl:DatatypeProperty ;
                           rdfs:domain <https://foerderfunke.org/default#SocialBenefit> ;
@@ -548,7 +576,17 @@
 #    Classes
 #################################################################
 
-###  http://www.semanticweb.org/seike/ontologies/2025/1/untitled-ontology-36#Duration
+###  http://www.semanticweb.org/seike/ontologies/2025/1/untitled-ontology-36#HearingImpairment
+:HearingImpairment rdf:type owl:Class ;
+                   rdfs:subClassOf <https://foerderfunke.org/default#Disability> .
+
+
+###  http://www.semanticweb.org/seike/ontologies/2025/1/untitled-ontology-36#VisualImpairment
+:VisualImpairment rdf:type owl:Class ;
+                  rdfs:subClassOf <https://foerderfunke.org/default#Disability> .
+
+
+###  http://www.semanticweb.org/seike/ontologies/2025/1/untitled-ontology-36/Duration
 :Duration rdf:type owl:Class .
 
 
@@ -697,14 +735,14 @@
 #    Individuals
 #################################################################
 
-###  http://www.semanticweb.org/seike/ontologies/2025/1/untitled-ontology-36#B100019_LB_576842
+###  http://www.semanticweb.org/seike/ontologies/2025/1/untitled-ontology-36/B100019_LB_576842
 :B100019_LB_576842 rdf:type owl:NamedIndividual ,
                             <https://foerderfunke.org/default#SocialBenefit> ;
                    rdfs:label "Arbeitslosengeld"@de ,
                               "Unemployment benefit"@en .
 
 
-###  http://www.semanticweb.org/seike/ontologies/2025/1/untitled-ontology-36#UnemploymentBenefitsSVG
+###  http://www.semanticweb.org/seike/ontologies/2025/1/untitled-ontology-36/UnemploymentBenefitsSVG
 :UnemploymentBenefitsSVG rdf:type owl:NamedIndividual ,
                                   <https://foerderfunke.org/default#SocialBenefit> ;
                          rdfs:label "Arbeitslosenbeihilfe nach dem Soldatenversorgungsgesetz"@de .
