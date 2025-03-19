@@ -52,3 +52,22 @@ uebergangsgeld_behinderung_expected = {
     "B100019_LB_102716305_22.ttl": "ineligible",
     "B100019_LB_102716305_23.ttl": "ineligible", # missing info
 }
+
+grundausbildung_expected = {
+    "B100019_LB_102717659_1.ttl": "eligible",
+    "B100019_LB_102717659_2.ttl": "eligible",
+    "B100019_LB_102717659_3.ttl": "eligible",
+    "B100019_LB_102717659_4.ttl": "eligible",
+    "B100019_LB_102717659_5.ttl": "eligible",
+    "B100019_LB_102717659_6.ttl": "ineligible",
+    "B100019_LB_102717659_7.ttl": "ineligible",
+    "B100019_LB_102717659_8.ttl": "ineligible",
+    "B100019_LB_102717659_9.ttl": "ineligible",
+    "B100019_LB_102717659_10.ttl": "ineligible",
+    "B100019_LB_102717659_11.ttl": "ineligible",
+    "B100019_LB_102717659_12.ttl": "ineligible", # missing info
+    "B100019_LB_102717659_13.ttl": "ineligible", # missing info
+    "B100019_LB_102717659_14.ttl": "ineligible", # missing info
+    "B100019_LB_102717659_15.ttl": "ineligible", # missing info
+    "B100019_LB_102717659_16.ttl": "ineligible", # missing info
+}
