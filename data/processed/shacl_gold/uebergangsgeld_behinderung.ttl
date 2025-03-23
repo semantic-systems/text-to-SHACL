@@ -6,7 +6,7 @@
 
 ff:B100019_LB_102716305 a ff:SocialBenefit ;
     rdfs:label "Übergangsgeld für Menschen mit Behinderung"@de, "Transitional allowance for people with disabilities"@en .
-
+    
 # CONSTRAINTS
 
 ff:UebergangsgeldBehinderungShape a sh:NodeShape ;
