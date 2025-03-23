@@ -4,10 +4,10 @@ logs/
 # Ignore raw data except for exemplary files
 data/raw/service_catalogs/*
 data/raw/all_service_descriptions/*
-data/raw/social_benefit_requirements/*
+data/raw/social_benefit_descriptions/*
 !data/raw/service_catalogs/ars_000000000000.csv
 !data/raw/all_service_descriptions/B100019_LB_574711.json
-!data/raw/social_benefit_requirements/B100019_LB_581863.json
+!data/raw/social_benefit_descriptions/B100019_LB_581863.json
 
 data/processed/splits/train/*
 data/processed/splits/test/*

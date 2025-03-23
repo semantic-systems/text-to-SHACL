@@ -51,7 +51,7 @@ def pad_state_codes(state_df: pd.DataFrame) -> pd.DataFrame:
 
 def main(
     save_dir_codelists: str,
-    mapping_output_path: str,
+    ids_schema_path: str,
     municipality_codelist_url: str=CODELIST_MUNICIPALITIES,
     state_codelist_url: str=CODELIST_STATES,
 ):
@@ -59,7 +59,7 @@ def main(
     Downloads ARS codelists and saves a combined ARS-to-name mapping.
 
     :param save_dir_codelists: Directory to save the downloaded codelists.
-    :param mapping_output_path: Path to save the ARS-to-name mapping.
+    :param ids_schema_path: Path to save the ARS-to-name mapping.
     :param municipality_codelist_url: URL of the municipality ARS codelist.
     :param state_codelist_url: URL of the federal states ARS codelist.
     """
@@ -74,18 +74,18 @@ def main(
     combined_mapping = pd.concat([municipality_mapping, state_mapping, federal_mapping], ignore_index=True)
     ars_to_name = dict(zip(combined_mapping["ARS"], combined_mapping["Name"]))
 
-    with open(mapping_output_path, "a", encoding="utf-8") as file:
+    with open(ids_schema_path, "a", encoding="utf-8") as file:
         file.write("\n\nars_to_name = ")
         file.write(json.dumps(ars_to_name, indent=4, ensure_ascii=False))
 
-    logger.info(f"ARS mapping successfully saved to {mapping_output_path}")
+    logger.info(f"ARS mapping successfully saved to {ids_schema_path}")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Retrieve ARS-to-name mapping.")
     parser.add_argument("save_dir_codelists", type=str, help="Directory to save the downloaded codelists.")
-    parser.add_argument("mapping_output_path", type=str, help="Path to save the ARS-to-name mapping.")
+    parser.add_argument("ids_schema_path", type=str, help="Path to save the ARS-to-name mapping.")
     parser.add_argument("--municipality_codelist_url", type=str, default=CODELIST_MUNICIPALITIES, help="URL of the municipality ARS codelist.")
     parser.add_argument("--state_codelist_url", type=str, default=CODELIST_STATES, help="URL of the federal states ARS codelist.")
     
     args = parser.parse_args()
-    main(args.save_dir_codelists, args.mapping_output_path, args.municipality_codelist_url, args.state_codelist_url)
+    main(args.save_dir_codelists, args.ids_schema_path, args.municipality_codelist_url, args.state_codelist_url)

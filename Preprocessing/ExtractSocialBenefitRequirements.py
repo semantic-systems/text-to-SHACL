@@ -95,7 +95,7 @@ def has_addressee(service_desc: json, addressees = List[Any]) -> bool:
             return True
     return False
 
-def get_social_benefit_paths(all_service_desc_dir: str, 
+def get_social_benefit_paths(all_service_descriptions_dir: str, 
                              editorial_system: str, 
                              matters: List[str], 
                              addressees: List[str], 
@@ -104,7 +104,7 @@ def get_social_benefit_paths(all_service_desc_dir: str,
     """
     Retrieves filepaths to full description of selected social benefits.
     
-    :param all_service_desc_dir: Directory with all full service descriptions.
+    :param all_service_descriptions_dir: Directory with all full service descriptions.
     :param matters: List of personal matters to include (e.g. birth, social services...).
     :param addressees: List of addressees to include (e.g. citizens).
     :param legal_bases: List of legal bases to include (e.g. SGB).
@@ -112,8 +112,8 @@ def get_social_benefit_paths(all_service_desc_dir: str,
     """
     # For each service description, check if it matches the filters
     selected_filepaths = []
-    for filename in os.listdir(all_service_desc_dir):
-        filepath = os.path.join(all_service_desc_dir, filename)
+    for filename in os.listdir(all_service_descriptions_dir):
+        filepath = os.path.join(all_service_descriptions_dir, filename)
         with open(filepath, 'r', encoding='utf-8') as file:
             try:
                 service_desc = json.load(file)
@@ -135,7 +135,7 @@ def get_social_benefit_paths(all_service_desc_dir: str,
     logger.info(f"Applied filter for editorial system ({editorial_system}). {len(selected_filepaths)} files selected.")
     
     # Append manual selection, that include services from different editorial systems
-    selected_filepaths.extend([os.path.join(all_service_desc_dir, f"{idlb}.json") for idlb in manual_selection])    
+    selected_filepaths.extend([os.path.join(all_service_descriptions_dir, f"{idlb}.json") for idlb in manual_selection])    
     logger.info(f"Added maunal selection. {len(selected_filepaths)} files selected.")
     
     return selected_filepaths
@@ -183,8 +183,8 @@ def get_social_benefit_dicts(selected_benefits_paths: List[str]) -> List[Dict[st
         social_benefit_dicts.append(benefit_details)
     return social_benefit_dicts
 
-def main(all_service_desc_dir: str, 
-         save_dir: str, 
+def main(all_service_descriptions_dir: str, 
+         social_benefits_dir: str, 
          editorial_system: str = "B100019", 
          matters: List[str] = ["Sozialleistungen"], 
          addressees: List[str] = ["Bürger"], 
@@ -194,16 +194,15 @@ def main(all_service_desc_dir: str,
     Select social benefits from all service descriptions using the specified
     filters and save relevant details from the descriptions to disk.
 
-    :param all_service_desc_dir: Directory with all service descriptions.
-    :param save_dir: Directory to save the extracted social benefit requirements.
+    :param all_service_descriptions_dir: Directory with all service descriptions.
+    :param social_benefits_dir: Directory to save the extracted social benefit requirements.
     :param matters: List of personal matters to include.
     :param addressees: List of addressees to include.
     :param legal_bases: List of legal bases to include.
     :param manual_selection: List of manually selected IDLBs to include.
-    :side effects: Saves extracted social benefit details to disk.
     """
     # Get list of paths to selected social benefits
-    selected_benefits_paths = get_social_benefit_paths(all_service_desc_dir=all_service_desc_dir,
+    selected_benefits_paths = get_social_benefit_paths(all_service_descriptions_dir=all_service_descriptions_dir,
                                                        editorial_system=editorial_system, 
                                                        matters=matters, 
                                                        addressees=addressees, 
@@ -215,19 +214,19 @@ def main(all_service_desc_dir: str,
     logger.info(f"Extracted details for {len(social_benefit_dicts)} social benefits:")
     
     for benefit_dict in social_benefit_dicts:
-        logger.info(f"{benefit_dict.get("name")} ({benefit_dict.get("idlb")})")
-        save_path = os.path.join(save_dir, f"{benefit_dict['idlb']}.json")
+        logger.info(f"{benefit_dict.get('name')} ({benefit_dict.get('idlb')})")
+        save_path = os.path.join(social_benefits_dir, f"{benefit_dict['idlb']}.json")
         save_dict_to_json(benefit_dict, save_path)
-    logger.info(f"Social benefit details saved to {save_dir}")
+    logger.info(f"Social benefit details saved to {social_benefits_dir}")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Extract and save social benefit details.")
-    parser.add_argument("all_service_desc_dir", type=str, help="Directory containing full service descriptions in JSON format.")
-    parser.add_argument("save_dir", type=str, help="Directory to save the extracted social benefit details.")
+    parser.add_argument("all_service_descriptions_dir", type=str, help="Directory containing full service descriptions in JSON format.")
+    parser.add_argument("social_benefits_dir", type=str, help="Directory to save the extracted social benefit details.")
     parser.add_argument("--matters", type=str, nargs="+", help="Personal matters to include.")
     parser.add_argument("--addressees", type=str, nargs="+", help="Addressees to include.")
     parser.add_argument("--legal_bases", type=str, nargs="+", help="Legal bases to include.")
     parser.add_argument("--manual_selection", type=str, nargs="+", help="Manually selected IDLBs to include.")
     
     args = parser.parse_args()
-    main(args.all_service_desc_dir, args.save_dir, args.matters, args.addressees, args.legal_bases, args.manual_selection)
+    main(args.all_service_descriptions_dir, args.social_benefits_dir, args.matters, args.addressees, args.legal_bases, args.manual_selection)

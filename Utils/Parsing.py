@@ -3,8 +3,8 @@ Parsing.py
 
 Utility functions for analyzing text and extracting information.
 """
-from typing import Tuple, Optional, List, Any
-import networkx as nx
+from typing import Tuple, Optional, Any, Dict
+import ast
 import os
 import rdflib
 import logging
@@ -67,3 +67,18 @@ def get_run_key_components(run_key: str) -> Tuple[str, str, str]:
 def norm_string(input: Any) -> str:
     """Converts input into a lowercased string without leading or trailing white spaces."""
     return str(input).lower().strip()
+
+def search_dict_in_file(file_path: str, dict_name: str) -> Dict[str,str]:
+    """Returns the dictionary if a non-empty dictionary with the given name
+    exists in a Python file, otherwise returns None."""
+    with open(file_path, "r", encoding="utf-8") as f:
+        tree = ast.parse(f.read(), filename=file_path)
+
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Assign):
+            for target in node.targets:
+                if isinstance(target, ast.Name) and target.id == dict_name:
+                    if isinstance(node.value, ast.Dict) and node.value.keys:
+                        return {ast.literal_eval(key): ast.literal_eval(value) for key, value in zip(node.value.keys, node.value.values)}
+    
+    return None

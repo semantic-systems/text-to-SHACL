@@ -9,7 +9,6 @@ GetServiceDescriptions.py
 
 import os
 import re
-import ast
 import json
 import argparse
 import pandas as pd
@@ -18,6 +17,7 @@ from typing import Dict
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from Utils.FileHandling import download_and_save_file
 from Utils.Logger import setup_logger
+from Utils.Parsing import search_dict_in_file
 from resources.schemata.ids_schema import ars_to_name
 
 logger = setup_logger(__name__, log_file="logs/GetServiceDescriptions.log")
@@ -61,14 +61,14 @@ def download_service_descriptions(base_url: str, idlb_to_ars: Dict[str,str], sav
 
     def _download_description(idlb: str, ars: str) -> str:
         """Downloads a single service description and returns filepath."""
-        idlb_safe = idlb.replace('.', '_')
-        filename = f"{idlb_safe}.json"
+        filename = f"{idlb}.json"
         file_path = os.path.join(save_dir, filename)
 
-        # Downloda service description if it does not yet exist locally
+        # Download service description if it does not yet exist locally
+        idlb_dot = idlb.replace('_', '.')
         if not os.path.isfile(file_path):
             url = base_url.replace("{ars}", ars)
-            download_and_save_file(url=url, params={"q": idlb}, save_dir=save_dir, filename=filename)
+            download_and_save_file(url=url, params={"q": idlb_dot}, save_dir=save_dir, filename=filename)
 
     with ThreadPoolExecutor(max_workers=10) as executor:
         futures = [executor.submit(_download_description, idlb, ars) for idlb, ars in idlb_to_ars.items()]
@@ -80,13 +80,13 @@ def download_service_descriptions(base_url: str, idlb_to_ars: Dict[str,str], sav
 
 def download_service_catalog(ars: str, idlb_to_ars: Dict[str,str], service_catalogs_dir: str, service_catalog_url:str) -> str:
     """ 
-    Downloads service catalog for a given ARS to the specified directory.
+    Downloads service catalog for a given ARS to the specified directory
+    and adds the services it contains to the IDLB to ARS mapping.
     
     :param ars: ARS for the service catalog.
     :param idlb_to_ars: Mapping of IDLB to ARS.
     :param service_catalogs_dir: Directory to save the service catalog.
     :param service_catalog_url: URL to the service catalog.
-    :return: If service catalog was downloaded, path to file. Otherwise, None.
     """
     filename = f"ars_{ars}.csv"
     save_path = os.path.join(service_catalogs_dir, filename)
@@ -94,7 +94,7 @@ def download_service_catalog(ars: str, idlb_to_ars: Dict[str,str], service_catal
     # Only download service catalog if it does not yet exist locally
     if not os.path.isfile(save_path):
         try:
-            save_path = download_and_save_file(url=service_catalog_url, params={"ars":ars}, save_dir=service_catalogs_dir, filename=filename)
+            download_and_save_file(url=service_catalog_url, params={"ars":ars}, save_dir=service_catalogs_dir, filename=filename)
         except Exception as e:
             logger.error(f"Failed to download service catalog for ARS {ars}: {e}")
             return None
@@ -105,49 +105,36 @@ def download_service_catalog(ars: str, idlb_to_ars: Dict[str,str], service_catal
     except Exception as e:
         logger.error(f"Error processing {filename}: {e}")
 
-    return save_path
-
-def search_dict_in_file(file_path: str, dict_name: str) -> Dict[str,str]:
-    """Returns the dictionary if a non-empty dictionary with the given name
-    exists in a Python file, otherwise returns None."""
-    with open(file_path, "r", encoding="utf-8") as f:
-        tree = ast.parse(f.read(), filename=file_path)
-
-    for node in ast.walk(tree):
-        if isinstance(node, ast.Assign):
-            for target in node.targets:
-                if isinstance(target, ast.Name) and target.id == dict_name:
-                    if isinstance(node.value, ast.Dict) and node.value.keys:
-                        return {ast.literal_eval(key): ast.literal_eval(value) for key, value in zip(node.value.keys, node.value.values)}
-    
-    return None
-
 def main(service_catalogs_dir: str, 
-         service_descs_dir: str, 
-         mapping_output_path: str, 
+         all_service_descriptions_dir: str, 
+         ids_schema_path: str, 
          service_catalog_url: str=SERVICE_CATALOG_ENDPOINT, 
          service_desc_url: str=SERVICE_DESCRIPTION_ENDPOINT):
     """
-    Retrieves all administrative service descriptions. Skips existing files.
+    Retrieves detailed descriptions for all administrative services.
+
+    Downloads the descriptions for all services accessible via the PVOG
+    Suchdienst API (JSONs, order of 17,000). This requires a mapping of
+    service ID (IDLB) to ARS; if it does not exist yet, it is created by
+    downloading and processing the service catalogs for all ARS (CSVs, 
+    order of 11,000). If the description for a given service already
+    exists, it is skipped.
     
     :param service_catalogs_dir: Directory to save the service catalogs.
-    :param service_descs_dir: Directory to save the service descriptions.
-    :param mapping_output_path: Path to save the IDLB-to-ARS mapping.
+    :param all_service_descriptions_dir: Directory to save the service descriptions.
+    :param ids_schema_path: Path to save the IDLB-to-ARS mapping.
     :param service_catalog_url: API endpoint to download a service catalog.
-    :param service_desc_url: API endpoint to download a service descriptions.
-    :side effects: Downloads service catalogs (CSV, order of 11,000) and 
-                    service descriptions (JSON, order of 17,000).
+    :param service_desc_url: API endpoint to download a service description.
     """
-    # Load IDLB to ARS mapping if it already exists
-    idlb_to_ars = search_dict_in_file(mapping_output_path, "idlb_to_ars")
+    idlb_to_ars = search_dict_in_file(ids_schema_path, "idlb_to_ars")
     
-    # If mapping does not exist, create it from scratch
+    # If IDLB to ARS mapping does not yet exist, create it from scratch
     if idlb_to_ars is None:
-        logger.info(f"No IDLB to ARS mapping provided. Starting download of {len(ars_list)} service catalogs.")
-        
-        # Download service catalogs for all ARS
-        os.makedirs(service_catalogs_dir, exist_ok=True)
         ars_list = ars_to_name.keys()
+        logger.info(f"No IDLB to ARS mapping provided. Starting download of {len(ars_list)} service catalogs.")
+        os.makedirs(service_catalogs_dir, exist_ok=True)
+        
+        # For each ARS, download the service catalog and add services to the mapping
         idlb_to_ars = {}
         for ars in tqdm(ars_list, desc="Downloading Service Catalogs", unit="catalog"):
             try:
@@ -156,23 +143,23 @@ def main(service_catalogs_dir: str,
                 logger.error(f"Error processing ARS {ars}: {e}")
         logger.info(f"Service catalogs saved to {service_catalogs_dir}")
         
-        # Save IDLB to ARS mapping
-        with open(mapping_output_path, "a", encoding="utf-8") as file:
+        # Save the updated IDLB to ARS mapping
+        with open(ids_schema_path, "a", encoding="utf-8") as file:
             file.write("\n\nidlb_to_ars = ")
             file.write(json.dumps(idlb_to_ars, indent=4, ensure_ascii=False))
     
     # Download full service descriptions for all IDLBs
-    os.makedirs(service_descs_dir, exist_ok=True)
-    download_service_descriptions(base_url=service_desc_url, idlb_to_ars=idlb_to_ars, save_dir=service_descs_dir)
-    logger.info(f"Service descriptions saved to {service_descs_dir}")
+    os.makedirs(all_service_descriptions_dir, exist_ok=True)
+    download_service_descriptions(base_url=service_desc_url, idlb_to_ars=idlb_to_ars, save_dir=all_service_descriptions_dir)
+    logger.info(f"Service descriptions saved to {all_service_descriptions_dir}")
     
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Downloads all adminsitrative service descriptions.")
     parser.add_argument("service_catalogs_dir", type=str, help="Directory to save the service catalogs.")
-    parser.add_argument("service_descs_dir", type=str, help="Directory to save the service descriptions.")
-    parser.add_argument("mapping_output_path", type=str, help="Path to save the IDLB-to-ARS mapping.")
+    parser.add_argument("all_service_descriptions_dir", type=str, help="Directory to save the service descriptions.")
+    parser.add_argument("ids_schema_path", type=str, help="Path to save the IDLB-to-ARS mapping.")
     parser.add_argument("--service_catalog_url", type=str, default=SERVICE_CATALOG_ENDPOINT, help="API endpoint to download a service catalog.")
     parser.add_argument("--service_desc_url", type=str, default=SERVICE_DESCRIPTION_ENDPOINT, help="API endpoint to download a service descriptions.")
     
     args = parser.parse_args()
-    main(args.service_catalogs_dir, args.service_descs_dir, args.mapping_output_path, args.service_catalog_url, args.service_desc_url)
+    main(args.service_catalogs_dir, args.all_service_descriptions_dir, args.ids_schema_path, args.service_catalog_url, args.service_desc_url)

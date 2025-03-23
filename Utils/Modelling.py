@@ -14,12 +14,19 @@ logger = setup_logger(__name__, "logs/Modelling.log")
 
 def extract_details(desc_path: str) -> Tuple[str, str, str, str, str]:
     """
-    Extracts short name, idlb, and requirements text from a benefit description.
+    Extract the following details from a social benefit description that
+    is a flat dictionary:
+    - Name in camel case
+    - IDLB
+    - Requirements text
+    - Legal basis
+    - Short description
+    - Addressee
 
-    :param desc_path: Path to the social benefit description (already filtered).
-    :return: List with name, IDLB, and requirements text for the benefit.
+    :param desc_path: Path to the social benefit description.
+    :return: Tuple of details listed above.
     """
-    # Load full benefit description
+    # Load social benefit description
     with open(desc_path, 'r', encoding='utf-8') as json_file:
         benefit_description = json.load(json_file)
 
@@ -43,19 +50,20 @@ def generate_modelling_template(full_desc_path: str, template_path: str, save_di
     :param full_desc_path: Path to the full benefit description.
     :param template_path: Path to template file.
     :param save_dir: Directory to save the populated template.
-    
+
     :return: Populated template as a string.
     """
     env = Environment(loader=FileSystemLoader('/'))
     template = env.get_template(template_path)
     
-    # Load variable values depending on template type
+    # Extract details from the social benefit description
+    name, idlb, requirements, legal_basis, description, addressee = extract_details(full_desc_path)
+
+    # Load content depending on template type
     if "shacl" in os.path.basename(template_path):
-        name, idlb, requirements, _, _, _ = extract_details(full_desc_path)
         rendered_content = template.render(name=name, idlb=idlb, requirements=requirements)
         suffix = "ttl"
     else:
-        name, idlb, requirements, legal_basis, description, addressee = extract_details(full_desc_path)
         rendered_content = template.render(name=name, idlb=idlb, addressee=addressee, requirements=requirements, legal_basis=legal_basis, description=description)
         suffix = "md"
     

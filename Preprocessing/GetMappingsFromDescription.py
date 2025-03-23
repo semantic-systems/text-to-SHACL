@@ -23,7 +23,7 @@ def save_mappings(mapping_output_dir: str,
                   personal_matters: Dict[str,str],
                   prefix_to_state: Dict[str,str]):
     os.makedirs(mapping_output_dir, exist_ok=True)
-    identifier_schema_path = os.path.join(mapping_output_dir, "identifier.py")
+    identifier_schema_path = os.path.join(mapping_output_dir, "ids_schema.py")
     with open(identifier_schema_path, "a", encoding="utf-8") as pf:
         pf.write("\n\nidlb_to_name = ")
         pf.write(json.dumps(idlb_to_name, indent=4, ensure_ascii=False))
@@ -111,7 +111,7 @@ def main(service_desc_dir: str, schemata_dir: str):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Extract service name mappings from administrative descriptions.")
     parser.add_argument("service_desc_dir", help="Directory containing service description JSON files")
-    parser.add_argument("schemata", help="Directory to save the extracted mappings")
+    parser.add_argument("schemata_dir", help="Directory to save the extracted mappings")
     
     args = parser.parse_args()
-    main(args.service_desc_dir, args.schemata)
+    main(args.service_desc_dir, args.schemata_dir)
