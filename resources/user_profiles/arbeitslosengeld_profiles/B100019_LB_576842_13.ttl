@@ -1,9 +1,0 @@
-@prefix ex: <http://example.org/ns#> .
-@prefix ff: <https://foerderfunke.org/default#> .
-
-# Does not meet requirement "User has been subject to compulsory insurance for at least 12 months within the last 30 months before registering as unemployed"
-
-ff:User ff:inEmployment false ;
-        ff:availableForPlacement true ;
-        ff:compulsoryInsuranceFor12In30Months false ;
-        ff:hasEmploymentStatus ff:RegisteredUnemployed .
