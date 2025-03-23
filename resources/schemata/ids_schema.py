@@ -45756,5 +45756,20 @@ idlb_to_labels: Dict[str, Dict[str, str]] = {
         "german label": "Berufsausbildungsbeihilde",
         "english label": "Vocational training allowance",
         "short label": "Berufsausbildungsbeihilfe"
-    }
+    },
+    "B100019_LB_102713860": {
+        "german label": "Einstiegsgeld",
+        "english label": "Introductory allowance",
+        "short label": "Einstiegsgeld"
+    },
+    "B100019_LB_102717659": {
+        "german label": "Grundausbildung für Menschen mit Seh- oder Hörbehinderung",
+        "english label": "Basic training for people with visual or hearing impairments",
+        "short label": "Grundausbildung"
+    },
+    "B100019_LB_102716305": {
+        "german label": "Übergangsgeld für Menschen mit Behinderung",
+        "english label": "Transitional allowance for people with disabilities",
+        "short label": "Uebergangsgeld Behinderung"
+    },
 }
