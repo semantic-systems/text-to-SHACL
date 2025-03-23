@@ -6,7 +6,7 @@
 # METADATA
 
 ff:B100019_LB_102717659 a ff:SocialBenefit ;
-    rdfs:label "Grundausbildung für Menschen mit Seh- oder Hörbehinderung"@de, "Basic training for for people with visual or hearing impairments" .
+    rdfs:label "Grundausbildung für Menschen mit Seh- oder Hörbehinderung"@de, "Basic training for people with visual or hearing impairments"@en .
 
 # CONSTRAINTS
 
