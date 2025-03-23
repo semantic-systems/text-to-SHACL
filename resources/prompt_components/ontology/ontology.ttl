@@ -12,14 +12,14 @@
 #    Object Properties
 #################################################################
 
-###  http://www.semanticweb.org/seike/ontologies/2025/1/untitled-ontology-36#atRiskOfDisabilityType
+###  http://www.semanticweb.org/seike/ontologies/2025/1/untitled-ontology-36/atRiskOfDisabilityType
 :atRiskOfDisabilityType rdf:type owl:ObjectProperty ;
                         rdfs:domain <https://foerderfunke.org/default#Person> ;
                         rdfs:range <https://foerderfunke.org/default#Disability> ;
                         rdfs:comment "Links a person to a particular type of disability that they risk developing."@en .
 
 
-###  http://www.semanticweb.org/seike/ontologies/2025/1/untitled-ontology-36#hasDisabilityType
+###  http://www.semanticweb.org/seike/ontologies/2025/1/untitled-ontology-36/hasDisabilityType
 :hasDisabilityType rdf:type owl:ObjectProperty ;
                    rdfs:domain <https://foerderfunke.org/default#Person> ;
                    rdfs:range <https://foerderfunke.org/default#Disability> ;
@@ -59,6 +59,13 @@
                                                                   rdfs:domain <https://foerderfunke.org/default#Person> ;
                                                                   rdfs:range <https://foerderfunke.org/default#Disability> ;
                                                                   rdfs:comment "Points to a reason (e.g., Disability) why a person cannot support themselves."@en .
+
+
+###  https://foerderfunke.org/default#caregiverInHousehold
+<https://foerderfunke.org/default#caregiverInHousehold> rdf:type owl:ObjectProperty ;
+                                                        rdfs:domain <https://foerderfunke.org/default#CareNeed> ;
+                                                        rdfs:range <https://foerderfunke.org/default#Person> ;
+                                                        rdfs:comment "Links a care need to a person who can provide the care and lives in the same household as the person who needs care."@en .
 
 
 ###  https://foerderfunke.org/default#causeOfDeath
@@ -251,6 +258,13 @@
                                                   rdfs:comment "Links a person to their natural parent."@en .
 
 
+###  https://foerderfunke.org/default#needsCare
+<https://foerderfunke.org/default#needsCare> rdf:type owl:ObjectProperty ;
+                                             rdfs:domain <https://foerderfunke.org/default#Person> ;
+                                             rdfs:range <https://foerderfunke.org/default#CareNeed> ;
+                                             rdfs:comment "Links a person who needs care to a node describing their care needs."@en .
+
+
 ###  https://foerderfunke.org/default#participates
 <https://foerderfunke.org/default#participates> rdf:type owl:ObjectProperty ;
                                                 rdfs:domain <https://foerderfunke.org/default#Person> ;
@@ -308,23 +322,16 @@
                                                    rdfs:comment "Links something (e.g., earning capacity) to an event that caused it."@en .
 
 
+###  https://foerderfunke.org/default#wasEntitledToCashBenefitBefore
+<https://foerderfunke.org/default#wasEntitledToCashBenefitBefore> rdf:type owl:ObjectProperty ;
+                                                                  rdfs:domain <https://foerderfunke.org/default#Person> ;
+                                                                  rdfs:range <https://foerderfunke.org/default#Event> ;
+                                                                  rdfs:comment "Links a person to an event before which they were entitled to a cash benefit like salary or unemployment benefit."@en .
+
+
 #################################################################
 #    Data properties
 #################################################################
-
-###  http://www.semanticweb.org/seike/ontologies/2025/1/untitled-ontology-36#reducesWorkProspectsPermanently
-:reducesWorkProspectsPermanently rdf:type owl:DatatypeProperty ;
-                                 rdfs:domain <https://foerderfunke.org/default#Disability> ;
-                                 rdfs:range xsd:boolean ;
-                                 rdfs:comment "True if a disability reduces a person's prospect of participating in working life permanently."@en .
-
-
-###  http://www.semanticweb.org/seike/ontologies/2025/1/untitled-ontology-36#severeDisability
-:severeDisability rdf:type owl:DatatypeProperty ;
-                  rdfs:domain <https://foerderfunke.org/default#Disability> ;
-                  rdfs:range xsd:boolean ;
-                  rdfs:comment "True if a disability is severe, false otherwise."@en .
-
 
 ###  http://www.semanticweb.org/seike/ontologies/2025/1/untitled-ontology-36/eligibleWithinLast3Years
 :eligibleWithinLast3Years rdf:type owl:DatatypeProperty ;
@@ -359,6 +366,20 @@
                           rdfs:domain <https://foerderfunke.org/default#SocialBenefit> ;
                           rdfs:range xsd:boolean ;
                           rdfs:comment "True if a person received a benefit within the last 3 years."@en .
+
+
+###  http://www.semanticweb.org/seike/ontologies/2025/1/untitled-ontology-36/reducesWorkProspectsPermanently
+:reducesWorkProspectsPermanently rdf:type owl:DatatypeProperty ;
+                                 rdfs:domain <https://foerderfunke.org/default#Disability> ;
+                                 rdfs:range xsd:boolean ;
+                                 rdfs:comment "True if a disability reduces a person's prospect of participating in working life permanently."@en .
+
+
+###  http://www.semanticweb.org/seike/ontologies/2025/1/untitled-ontology-36/severeDisability
+:severeDisability rdf:type owl:DatatypeProperty ;
+                  rdfs:domain <https://foerderfunke.org/default#Disability> ;
+                  rdfs:range xsd:boolean ;
+                  rdfs:comment "True if a disability is severe, false otherwise."@en .
 
 
 ###  https://foerderfunke.org/default#adequateHealthInsurance
@@ -576,18 +597,23 @@
 #    Classes
 #################################################################
 
-###  http://www.semanticweb.org/seike/ontologies/2025/1/untitled-ontology-36#HearingImpairment
+###  http://www.semanticweb.org/seike/ontologies/2025/1/untitled-ontology-36/Duration
+:Duration rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/seike/ontologies/2025/1/untitled-ontology-36/HearingImpairment
 :HearingImpairment rdf:type owl:Class ;
                    rdfs:subClassOf <https://foerderfunke.org/default#Disability> .
 
 
-###  http://www.semanticweb.org/seike/ontologies/2025/1/untitled-ontology-36#VisualImpairment
+###  http://www.semanticweb.org/seike/ontologies/2025/1/untitled-ontology-36/VisualImpairment
 :VisualImpairment rdf:type owl:Class ;
                   rdfs:subClassOf <https://foerderfunke.org/default#Disability> .
 
 
-###  http://www.semanticweb.org/seike/ontologies/2025/1/untitled-ontology-36/Duration
-:Duration rdf:type owl:Class .
+###  https://foerderfunke.org/default#CareNeed
+<https://foerderfunke.org/default#CareNeed> rdf:type owl:Class ;
+                                            rdfs:subClassOf <https://foerderfunke.org/default#Event> .
 
 
 ###  https://foerderfunke.org/default#CommutingAccident
@@ -660,6 +686,13 @@
                                              rdfs:label "Gesetzliche Unfallversicherung"@de .
 
 
+###  https://foerderfunke.org/default#KindergartenAccident
+<https://foerderfunke.org/default#KindergartenAccident> rdf:type owl:Class ;
+                                                        rdfs:subClassOf <https://foerderfunke.org/default#Event> ;
+                                                        rdfs:comment "An accident at kindergarten covered by statutory accident insurance."@en ,
+                                                                     "Kindergartenunfall"@de .
+
+
 ###  https://foerderfunke.org/default#MaritalStatus
 <https://foerderfunke.org/default#MaritalStatus> rdf:type owl:Class ;
                                                  rdfs:comment "Instances define a person's marital status."@en .
@@ -701,6 +734,13 @@
 ###  https://foerderfunke.org/default#School
 <https://foerderfunke.org/default#School> rdf:type owl:Class ;
                                           rdfs:subClassOf <https://foerderfunke.org/default#Training> .
+
+
+###  https://foerderfunke.org/default#SchoolAccident
+<https://foerderfunke.org/default#SchoolAccident> rdf:type owl:Class ;
+                                                  rdfs:subClassOf <https://foerderfunke.org/default#Event> ;
+                                                  rdfs:comment "An accident at school covered by statutory accident insurance."@en ,
+                                                               "Schulunfall"@de .
 
 
 ###  https://foerderfunke.org/default#SocialBenefit
