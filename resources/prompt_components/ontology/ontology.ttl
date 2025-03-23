@@ -382,6 +382,13 @@
                   rdfs:comment "True if a disability is severe, false otherwise."@en .
 
 
+###  https://foerderfunke.org/default#aboveSGBXII41AgeLimit
+<https://foerderfunke.org/default#aboveSGBXII41AgeLimit> rdf:type owl:DatatypeProperty ;
+                                                         rdfs:domain <https://foerderfunke.org/default#Person> ;
+                                                         rdfs:range xsd:boolean ;
+                                                         rdfs:comment "True if a person has reached the age limit under § 41 SGB XII, false otherwise."@en .
+
+
 ###  https://foerderfunke.org/default#adequateHealthInsurance
 <https://foerderfunke.org/default#adequateHealthInsurance> rdf:type owl:DatatypeProperty ;
                                                            rdfs:domain <https://foerderfunke.org/default#Person> ;
@@ -405,6 +412,8 @@
 
 ###  https://foerderfunke.org/default#canCoverPersonalBasicNeeds
 <https://foerderfunke.org/default#canCoverPersonalBasicNeeds> rdf:type owl:DatatypeProperty ;
+                                                              rdfs:domain <https://foerderfunke.org/default#Person> ;
+                                                              rdfs:range xsd:boolean ;
                                                               rdfs:comment "True if a person can cover their personal basic needs with their income, assets, and priority benefits, false otherwise."@en .
 
 
@@ -497,6 +506,13 @@
                                                  rdfs:domain <https://foerderfunke.org/default#Person> ;
                                                  rdfs:range xsd:boolean ;
                                                  rdfs:comment "True, if a person has reached the legal retirement age, false otherwise."@en .
+
+
+###  https://foerderfunke.org/default#isPermanent
+<https://foerderfunke.org/default#isPermanent> rdf:type owl:DatatypeProperty ;
+                                               rdfs:domain <https://foerderfunke.org/default#EarningCapacity> ;
+                                               rdfs:range xsd:boolean ;
+                                               rdfs:comment "True if a given condition (e.g., earning capacity) is permanent, false otherwise."@en .
 
 
 ###  https://foerderfunke.org/default#isSingleParent
@@ -665,6 +681,13 @@
 ###  https://foerderfunke.org/default#EmploymentStatus
 <https://foerderfunke.org/default#EmploymentStatus> rdf:type owl:Class ;
                                                     rdfs:comment "Instances define a person's legal employment status."@en .
+
+
+###  https://foerderfunke.org/default#EntryProcedureAndVocationalTrainingArea
+<https://foerderfunke.org/default#EntryProcedureAndVocationalTrainingArea> rdf:type owl:Class ;
+                                                                           rdfs:subClassOf <https://foerderfunke.org/default#Training> ;
+                                                                           rdfs:comment "Entry procedure and vocational training in a workshop for people with disabilities or other recognized service providers."@en ;
+                                                                           rdfs:label "Eingangsverfahren und Berufsbildungsbereich"@de .
 
 
 ###  https://foerderfunke.org/default#Event
@@ -906,6 +929,11 @@
 ###  https://foerderfunke.org/default#StatutoryAccidentInsurance
 <https://foerderfunke.org/default#StatutoryAccidentInsurance> rdf:type owl:NamedIndividual ,
                                                                        <https://foerderfunke.org/default#Insurance> .
+
+
+###  https://foerderfunke.org/default#TrainingBudget
+<https://foerderfunke.org/default#TrainingBudget> rdf:type owl:NamedIndividual ,
+                                                           <https://foerderfunke.org/default#SocialBenefit> .
 
 
 ###  https://foerderfunke.org/default#Unemployed

@@ -1,0 +1,11 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Does not meet requirement "The user is participates in the entry procedure and vocational training area"
+
+ff:User ff:canCoverPersonalBasicNeeds false ;
+    # EarningSituationB
+    ff:hasAge 18 ;
+    ff:participates ex:SomeTraining .
+
+ex:SomeTraining a ex:SomeTypeOfTraining .

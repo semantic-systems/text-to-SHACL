@@ -1,0 +1,12 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Does not meet requirement "The user is permanently unfit for work "
+
+ff:User ff:canCoverPersonalBasicNeeds false ;
+    # EarningSituationA
+    ff:hasAge 18 ;
+    ff:hasEarningCapaity ex:SomeCapacity .
+
+ex:SomeCapacity a ff:ReducedEarningCapacity ;
+    ff:isPermanent false .

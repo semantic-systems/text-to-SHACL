@@ -284,3 +284,28 @@ guv_kinderverletztengeld_expected = {
     "B100019_LB_102799515_12.ttl": "ineligible", # missing info
     "B100019_LB_102799515_13.ttl": "ineligible", # missing info
 }
+
+grundsicherung_expected = {
+    "L100040_LB_8664880_1.ttl": "eligible",
+    "L100040_LB_8664880_2.ttl": "eligible",
+    "L100040_LB_8664880_3.ttl": "eligible",
+    "L100040_LB_8664880_4.ttl": "eligible",
+    "L100040_LB_8664880_5.ttl": "eligible",
+    "L100040_LB_8664880_6.ttl": "ineligible",
+    "L100040_LB_8664880_7.ttl": "ineligible",
+    "L100040_LB_8664880_8.ttl": "ineligible",
+    "L100040_LB_8664880_9.ttl": "ineligible",
+    "L100040_LB_8664880_10.ttl": "ineligible",
+    "L100040_LB_8664880_11.ttl": "ineligible",
+    "L100040_LB_8664880_12.ttl": "ineligible",
+    "L100040_LB_8664880_13.ttl": "ineligible",
+    "L100040_LB_8664880_14.ttl": "eligible",
+    "L100040_LB_8664880_15.ttl": "eligible",
+    "L100040_LB_8664880_16.ttl": "ineligible", # missing info
+    "L100040_LB_8664880_17.ttl": "ineligible", # missing info
+    "L100040_LB_8664880_18.ttl": "ineligible", # missing info
+    "L100040_LB_8664880_19.ttl": "ineligible", # missing info
+    "L100040_LB_8664880_20.ttl": "ineligible", # missing info
+    "L100040_LB_8664880_21.ttl": "ineligible", # missing info
+    "L100040_LB_8664880_22.ttl": "ineligible", # missing info
+}

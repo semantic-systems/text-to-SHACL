@@ -1,0 +1,12 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Eligible for Grundsicherung im Alter und bei Erwerbsminderung (Basic provision in old age and in case of reduced earning capacity)
+
+ff:User ff:canCoverPersonalBasicNeeds false ;
+    # EarningSituationC
+    ff:hasAge 18 ;
+    ff:participates ex:SomeTraining, ex:SomeOtherTraining ;
+    ff:receivesBenefit ff:TrainingBudget, ex:SomeOtherBenefit.
+
+ex:SomeTraining a ff:VocationalTraining .
