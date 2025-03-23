@@ -268,3 +268,19 @@ grundausbildung_expected = {
     "B100019_LB_102717659_15.ttl": "ineligible", # missing info
     "B100019_LB_102717659_16.ttl": "ineligible", # missing info
 }
+
+guv_kinderverletztengeld_expected = {
+    "B100019_LB_102799515_1.ttl": "eligible",
+    "B100019_LB_102799515_2.ttl": "eligible",
+    "B100019_LB_102799515_3.ttl": "eligible",
+    "B100019_LB_102799515_4.ttl": "eligible",
+    "B100019_LB_102799515_5.ttl": "ineligible",
+    "B100019_LB_102799515_6.ttl": "ineligible",
+    "B100019_LB_102799515_7.ttl": "ineligible", # missing info
+    "B100019_LB_102799515_8.ttl": "ineligible",
+    "B100019_LB_102799515_9.ttl": "ineligible",
+    "B100019_LB_102799515_10.ttl": "ineligible",
+    "B100019_LB_102799515_11.ttl": "ineligible",
+    "B100019_LB_102799515_12.ttl": "ineligible", # missing info
+    "B100019_LB_102799515_13.ttl": "ineligible", # missing info
+}

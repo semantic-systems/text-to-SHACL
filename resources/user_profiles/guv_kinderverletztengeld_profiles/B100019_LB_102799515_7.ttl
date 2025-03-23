@@ -1,0 +1,14 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Missing information for "The child is younger than 12 years"
+
+ff:User ff:sameHouseholdAs ex:Child ;
+        ff:wasEntitledToCashBenefitBefore ex:CareNeeds .
+
+ex:Child ff:needsCare ex:CareNeeds .
+
+ex:CareNeeds ff:triggeringEvent ex:SomeEvent ;
+        ff:caregiverInHousehold ff:User .
+
+ex:SomeEvent a ff:KindergartenAccident .
