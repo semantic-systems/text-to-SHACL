@@ -1,11 +1,11 @@
 @prefix ex: <http://example.org/ns#> .
 @prefix ff: <https://foerderfunke.org/default#> .
 
-# Does not meet requirement "User is in need"
+# Does not meet requirement "The user cannot cover the basic needs of themselves and the unemployed individuals in their benefit unit with their salary, assets, and priority benefits"
 
 ff:User ff:employableHoursPerDay 3 ;
         ff:hasAge 15 ;
         ff:isPensionable false ;
         ff:hasNoPriorityClaimsOver ff:B100019_LB_106311931 ;
-        ff:isInNeed false ;
+        ff:canCoverBasicNeedsOfBenefitUnit true ;
         ff:countryOfResidence ff:Germany .

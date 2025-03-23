@@ -1,7 +1,7 @@
 @prefix ex: <http://example.org/ns#> .
 @prefix ff: <https://foerderfunke.org/default#> .
 
-# Missing information for "User is in need"
+# Missing information for "The user cannot cover the basic needs of themselves and the unemployed individuals in their benefit unit with their salary, assets, and priority benefits"
 
 ff:User ff:employableHoursPerDay 3 ;
         ff:hasAge 15 ;

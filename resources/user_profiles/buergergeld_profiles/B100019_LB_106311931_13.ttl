@@ -6,5 +6,5 @@
 ff:User ff:employableHoursPerDay 3 ;
         ff:hasAge 15 ;
         ff:isPensionable false ;
-        ff:isInNeed true ;
+        ff:canCoverBasicNeedsOfBenefitUnit false ;
         ff:hasNoPriorityClaimsOver ff:B100019_LB_106311931 .

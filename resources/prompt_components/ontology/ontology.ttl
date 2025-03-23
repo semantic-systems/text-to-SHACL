@@ -396,6 +396,18 @@
                                                          rdfs:comment "True if a person is able and willing to work subject to compulsory insurance under normal labor market conditions, false otherwise."@en .
 
 
+###  https://foerderfunke.org/default#canCoverBasicNeedsOfBenefitUnit
+<https://foerderfunke.org/default#canCoverBasicNeedsOfBenefitUnit> rdf:type owl:DatatypeProperty ;
+                                                                   rdfs:domain <https://foerderfunke.org/default#Person> ;
+                                                                   rdfs:range xsd:boolean ;
+                                                                   rdfs:comment "True if a person can cover the basic needs of themselves and the unemployed individuals in their benefit unit with their income, assets, and priority benefits, false otherwise."@en .
+
+
+###  https://foerderfunke.org/default#canCoverPersonalBasicNeeds
+<https://foerderfunke.org/default#canCoverPersonalBasicNeeds> rdf:type owl:DatatypeProperty ;
+                                                              rdfs:comment "True if a person can cover their personal basic needs with their income, assets, and priority benefits, false otherwise."@en .
+
+
 ###  https://foerderfunke.org/default#compulsoryInsuranceFor12In30
 <https://foerderfunke.org/default#compulsoryInsuranceFor12In30> rdf:type owl:DatatypeProperty ;
                                                                 rdfs:domain <https://foerderfunke.org/default#Person> ;
@@ -464,13 +476,6 @@
                                                 rdfs:domain <https://foerderfunke.org/default#Person> ;
                                                 rdfs:range xsd:boolean ;
                                                 rdfs:comment "True if a person is currently in an employment relationship, false otherwise."@en .
-
-
-###  https://foerderfunke.org/default#isInNeed
-<https://foerderfunke.org/default#isInNeed> rdf:type owl:DatatypeProperty ;
-                                            rdfs:domain <https://foerderfunke.org/default#Person> ;
-                                            rdfs:range xsd:boolean ;
-                                            rdfs:comment "True if a person cannot cover the basic needs of themselves and the unemployed individuals in their benefit unit, false otherwise."@en .
 
 
 ###  https://foerderfunke.org/default#isInTransitionalPeriod

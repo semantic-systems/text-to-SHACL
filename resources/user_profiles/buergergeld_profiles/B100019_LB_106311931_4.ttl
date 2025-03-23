@@ -7,5 +7,5 @@ ff:User ff:employableHoursPerDay 3.01 ;
         ff:hasAge 57 ;
         ff:isPensionable false ;
         ff:hasNoPriorityClaimsOver ff:B100019_LB_106311931 ;
-        ff:isInNeed true ;
+        ff:canCoverBasicNeedsOfBenefitUnit false ;
         ff:countryOfResidence ff:Germany .
