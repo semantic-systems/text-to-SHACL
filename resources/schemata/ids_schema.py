@@ -45772,4 +45772,9 @@ idlb_to_labels: Dict[str, Dict[str, str]] = {
         "english label": "Transitional allowance for people with disabilities",
         "short label": "Uebergangsgeld Behinderung"
     },
+    "B100019_LB_102799515": {
+        "german label": "Gesetzliche Unfallversicherung Kinderverletztengeld",
+        "english label": "Statutory accident insurance child injury benefit",
+        "short label": "GUV Kinderverletztengeld"
+    }
 }
