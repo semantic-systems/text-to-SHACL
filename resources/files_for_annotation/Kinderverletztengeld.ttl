@@ -1,0 +1,58 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+
+ff:B100019_LB_102799515 a ff:SocialBenefit ;
+    rdfs:label "Gesetzliche Unfallversicherung Kinderverletztengeld"@de, "Statutory accident insurance child injury benefit"@en .
+
+# CONSTRAINTS
+
+ff:GUVKinderverletztengeldShape a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_102799515 ;
+    sh:targetNode ff:User ;
+    # User lives in the same household with at least one child that meets the requirements
+    sh:property [
+        sh:path ff:sameHouseholdAs ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedValueShape ff:ChildShape ;
+        sh:message "Does not meet requirement 'User lives in the same household with at least one child that meets the requirements.'"@en
+    ] .
+
+ff:ChildShape a sh:NodeShape ;
+    # The child needs care
+    sh:property [
+        sh:path ff:needsCare;
+        sh:minCount 1 ;
+        sh:node ff:CareNeedsShape ;
+    ] ;
+    # The child is younger than 12 years
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:minCount 1 ;
+        sh:maxExclusive 12 ;
+    ] .
+
+ff:CareNeedsShape a sh:NodeShape ;
+    # The child's care needs were caused by a school accident OR a kindergarten accident
+    sh:property [
+        sh:path ff:triggeringEvent ;
+        sh:minCount 1;
+        sh:or (
+            [ sh:class ff:SchoolAccident ]
+            [ sh:class ff:KindergartenAccident ]
+        )
+    ] ;
+    # The user was entitled to a cash benefit before the child's care needs started
+    sh:property [
+        sh:path [ sh:inversePath ff:wasEntitledToCashBenefitBefore ] ;
+        sh:hasValue ff:User
+    ] ;
+    # No other member of the household can provide the needed care
+    sh:property [
+        sh:path ff:caregiverInHousehold ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:in (ff:User)
+    ] .

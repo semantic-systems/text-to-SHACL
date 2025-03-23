@@ -23,8 +23,8 @@ Sie haben Anspruch auf Kinderverletztengeld, wenn:
 <b>Requirements decomposition</b>:
 
 1. User lives in the same household with at least one child (GREEN) that meets the following requirements:
-  - the child needs care [1] (YELLOW: Definition of need for care in a legal sense must be explained or inferred) AND
-  - the child is younger than 12 years (GREEN) AND
+    - the child needs care [1] (YELLOW: Definition of need for care in a legal sense must be explained or inferred) AND
+    - the child is younger than 12 years (GREEN) AND
 
 2. The child's care needs were caused by a school accident OR a kindergarten accident (YELLOW: Definition of "school accident" and "kindergarten accident" in a legal sense must be inferred or explained)
 
