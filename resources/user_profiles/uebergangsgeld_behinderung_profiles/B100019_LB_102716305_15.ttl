@@ -1,0 +1,10 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Missing information for "User has a disability"
+
+ff:User	ff:isVocationalReturnee true ;
+	ff:socialSecurityDuration _:b0 ;
+	ff:hasRehabilitationProvider ff:FederalEmploymentAgency .
+
+_:b0 ff:monthsTotal 12 .

@@ -1,0 +1,12 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Does not meet requirement "Because of their disability, the user needs support with their integration into the workforce"
+
+ff:User ff:hasDisabilityType ex:SomeDisability ;
+    ff:hasRehabilitationProvider ff:FederalEmploymentAgency ;
+    ff:workforceIntegrationProblemBecause ex:SomeReason .
+
+ex:SomeDisability a ff:VisualImpairment ;
+    ff:severeDisability true ;
+    ff:reducesWorkProspectsPermanently true .
