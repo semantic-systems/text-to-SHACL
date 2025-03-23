@@ -45751,5 +45751,10 @@ idlb_to_labels: Dict[str, Dict[str, str]] = {
         "german label": "Bildung und Teilhabe",
         "english label": "Education and participation",
         "short label": "Bildung und Teilhabe"
+    },
+    "B100019_LB_574724": {
+        "german label": "Berufsausbildungsbeihilde",
+        "english label": "Vocational training allowance",
+        "short label": "Berufsausbildungsbeihilfe"
     }
 }

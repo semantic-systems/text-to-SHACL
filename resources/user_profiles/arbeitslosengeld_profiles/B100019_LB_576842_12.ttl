@@ -1,8 +1,8 @@
 @prefix ex: <http://example.org/ns#> .
 @prefix ff: <https://foerderfunke.org/default#> .
 
-# Missing information for 'User has registered as unemployed'
+# Missing information for "User has been subject to compulsory insurance for at least 12 months within the last 30 months before registering as unemployed"
 
 ff:User ff:inEmployment false ;
-        ff:compulsoryInsuranceFor12In30Months true ;
-        ff:availableForPlacement true .
+        ff:availableForPlacement true ;
+        ff:hasEmploymentStatus ff:RegisteredUnemployed .

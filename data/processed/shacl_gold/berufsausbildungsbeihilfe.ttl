@@ -1,0 +1,13 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+
+ff:B100019_LB_574724 a ff:SocialBenefit ;
+    rdfs:label "Berufsausbildungsbeihilfe"@de .
+
+# CONSTRAINTS
+
+ff:BerufsausbildungsbeihilfeBeantragenShape a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_574724 .
