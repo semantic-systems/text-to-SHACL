@@ -44,9 +44,10 @@ ff:BuergergeldShape a sh:NodeShape ;
         sh:hasValue ff:Germany ;
         sh:message "Does not meet requirement 'User lifes in Germany'"@en ;
     ] ;
-    # User is in need
+    # User cannot cover the basic needs of themselves and the unemployed individuals in their benefit unit
     sh:property [
-        sh:path ff:isInNeed ;
-        sh:hasValue true ;
-        sh:message "Does not meet requirement 'User is in need'"@en ;
-    ] .
+        sh:path ff:canCoverBasicNeedsOfBenefitUnit ;
+        sh:minCount 1 ;
+        sh:in (false) ;
+        sh:message "Does not meet requirement 'User cannot cover the basic needs of themselves and the unemployed individuals in their benefit unit'"@en ;
+    ].

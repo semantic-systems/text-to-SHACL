@@ -26,5 +26,5 @@ Lebensunterhalt selbst zu finanzieren, dann können Sie Bürgergeld beantragen.
 2. User is at least 15 years old (GREEN)
 3. User has not yet reached the legal retirement age (YELLOW: legal retirement age must be inferred or explained)
 4. The user cannot cover the basic needs of themselves and the unemployed individuals in their benefit unit with their salary, assets, and priority benefits (YELLOW: Definition of "basic needs" in a legal sense must be inferred or explained in more detail).
-5. User is not eligible for other benefits with priority over citizen benefit (YELLOW: eligibility and priority must be inferred or explained)
+5. User is not eligible for other benefits with priority over citizen benefit (YELLOW: Eligibility and priority must be inferred or explained)
 6. User lives in Germany (GREEN)
