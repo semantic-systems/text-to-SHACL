@@ -1,0 +1,9 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Does not meet requirement "User is eligible for widow's pension under statutory accident insurance"
+
+ff:User ff:isEligibleFor ex:SomeBenefit ;
+        ff:hasMaritalStatus ff:CivilUnion .
+
+ff:CivilUnion ff:newUnionAfterWidowhood true .

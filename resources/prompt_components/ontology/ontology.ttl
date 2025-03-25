@@ -529,6 +529,13 @@
                                                          rdfs:comment "True if an event happened less than four months ago, false otherwise."@en .
 
 
+###  https://foerderfunke.org/default#newUnionAfterWidowhood
+<https://foerderfunke.org/default#newUnionAfterWidowhood> rdf:type owl:DatatypeProperty ;
+                                                          rdfs:domain <https://foerderfunke.org/default#MaritalStatus> ;
+                                                          rdfs:range xsd:boolean ;
+                                                          rdfs:comment "True if a widowed person remarried or entered a new civil union."@en .
+
+
 ###  https://foerderfunke.org/default#obviousLackOfAssets
 <https://foerderfunke.org/default#obviousLackOfAssets> rdf:type owl:DatatypeProperty ;
                                                        rdfs:domain <https://foerderfunke.org/default#Employer> ;

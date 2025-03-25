@@ -45786,5 +45786,10 @@ idlb_to_labels: Dict[str, Dict[str, str]] = {
         "german label": "Förderung für Maßnahmen zur Aktivierung und beruflichen Eingliederung",
         "english label": "Funding for activation and professional integration measures",
         "short label": "Aktivierung und Eingliederung"              
+    },
+    "B100019_LB_102799525_1.ttl": {
+        "german label": "Gesetzliche Unfallversicherung Rentenabfindung",
+        "english label": "Statutory accident insurance pension compensation",
+        "short label": "GUV Rentenabfindung"
     }
 }

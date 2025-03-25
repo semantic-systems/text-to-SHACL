@@ -1,0 +1,9 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Eligible for statutory accident insurance pension compensation (Gesetzliche Unfallversicherung Rentenabfindung)
+
+ff:User ff:isEligibleFor ff:B100019_LB_582441 ;
+        ff:hasMaritalStatus ff:Married .
+
+ff:Married ff:newUnionAfterWidowhood true .

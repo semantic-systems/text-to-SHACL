@@ -316,3 +316,15 @@ aktivierung_und_eingliederung_expected = {
     "B100019_LB_102730340_3.ttl": "ineligible",
     "B100019_LB_102730340_4.ttl": "ineligible", # missing info
 }
+
+guv_rentenabfindung_expected = {
+    "B100019_LB_102799525_1.ttl": "eligible",
+    "B100019_LB_102799525_2.ttl": "eligible",
+    "B100019_LB_102799525_3.ttl": "eligible",
+    "B100019_LB_102799525_4.ttl": "ineligible",
+    "B100019_LB_102799525_5.ttl": "ineligible",
+    "B100019_LB_102799525_6.ttl": "ineligible",
+    "B100019_LB_102799525_7.ttl": "ineligible", # missing info
+    "B100019_LB_102799525_8.ttl": "ineligible", # missing info
+    "B100019_LB_102799525_9.ttl": "ineligible", # missing info
+}
