@@ -309,3 +309,10 @@ grundsicherung_expected = {
     "L100040_LB_8664880_21.ttl": "ineligible", # missing info
     "L100040_LB_8664880_22.ttl": "ineligible", # missing info
 }
+
+aktivierung_und_eingliederung_expected = {
+    "B100019_LB_102730340_1.ttl": "eligible",
+    "B100019_LB_102730340_2.ttl": "eligible",
+    "B100019_LB_102730340_3.ttl": "ineligible",
+    "B100019_LB_102730340_4.ttl": "ineligible", # missing info
+}

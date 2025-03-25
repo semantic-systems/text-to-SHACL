@@ -45776,5 +45776,15 @@ idlb_to_labels: Dict[str, Dict[str, str]] = {
         "german label": "Gesetzliche Unfallversicherung Kinderverletztengeld",
         "english label": "Statutory accident insurance child injury benefit",
         "short label": "GUV Kinderverletztengeld"
+    },
+    "L100040_LB_8664880": {
+        "german label": "Grundsicherung im Alter und bei Erwerbsminderung",
+        "english label": "Basic income support in old age and in case of reduced earning capacity",
+        "short label": "Grundsicherung"        
+    },
+    "B100019_LB_102730340": {
+        "german label": "Förderung für Maßnahmen zur Aktivierung und beruflichen Eingliederung",
+        "english label": "Funding for activation and professional integration measures",
+        "short label": "Aktivierung und Eingliederung"              
     }
 }
