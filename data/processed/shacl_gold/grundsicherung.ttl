@@ -5,7 +5,7 @@
 # METADATA
 
 ff:L100040_LB_8664880 a ff:SocialBenefit ;
-    rdfs:label "Grundsicherung im Alter und bei Erwerbsminderung"@de, "Basic provision in old age and in case of reduced earning capacity"@en .
+    rdfs:label "Grundsicherung im Alter und bei Erwerbsminderung"@de, "Basic income support in old age and in case of reduced earning capacity"@en .
 
 # CONSTRAINTS
 
