@@ -209,6 +209,13 @@
                                                       rdfs:comment "Links a person to a residence permit that they hold."@en .
 
 
+###  https://foerderfunke.org/default#hasResidenceStatus
+<https://foerderfunke.org/default#hasResidenceStatus> rdf:type owl:ObjectProperty ;
+                                                      rdfs:domain <https://foerderfunke.org/default#Person> ;
+                                                      rdfs:range <https://foerderfunke.org/default#ResidenceStatus> ;
+                                                      rdfs:comment "Links a person to their residence status in Germany."@en .
+
+
 ###  https://foerderfunke.org/default#incomeTaxCountry
 <https://foerderfunke.org/default#incomeTaxCountry> rdf:type owl:ObjectProperty ;
                                                     rdfs:domain <https://foerderfunke.org/default#Person> ;
@@ -221,6 +228,13 @@
                                                       rdfs:domain <https://foerderfunke.org/default#Person> ;
                                                       rdfs:range <https://foerderfunke.org/default#TaxLiabilityScope> ;
                                                       rdfs:comment "Links a person to the scope of their income tax liability."@en .
+
+
+###  https://foerderfunke.org/default#intendedFundingPeriod
+<https://foerderfunke.org/default#intendedFundingPeriod> rdf:type owl:ObjectProperty ;
+                                                         rdfs:domain <https://foerderfunke.org/default#Training> ;
+                                                         rdfs:range :Duration ;
+                                                         rdfs:comment "Links something (e.g., a training) to the intended funding period."@en .
 
 
 ###  https://foerderfunke.org/default#isEligibleFor
@@ -265,6 +279,13 @@
                                              rdfs:comment "Links a person who needs care to a node describing their care needs."@en .
 
 
+###  https://foerderfunke.org/default#parentalAdress
+<https://foerderfunke.org/default#parentalAdress> rdf:type owl:ObjectProperty ;
+                                                  rdfs:domain <https://foerderfunke.org/default#Person> ;
+                                                  rdfs:range <https://foerderfunke.org/default#Adress> ;
+                                                  rdfs:comment "Links a person to the adress of one or more parents."@en .
+
+
 ###  https://foerderfunke.org/default#participates
 <https://foerderfunke.org/default#participates> rdf:type owl:ObjectProperty ;
                                                 rdfs:domain <https://foerderfunke.org/default#Person> ;
@@ -286,11 +307,25 @@
                                                            rdfs:comment "Links a person to a child for which they receive child benefit."@en .
 
 
+###  https://foerderfunke.org/default#recognizedByLaw
+<https://foerderfunke.org/default#recognizedByLaw> rdf:type owl:ObjectProperty ;
+                                                   rdfs:domain <https://foerderfunke.org/default#Training> ;
+                                                   rdfs:range <https://foerderfunke.org/default#LegalCode> ;
+                                                   rdfs:comment "Links something to a law under which it is officially recoginzed."@en .
+
+
 ###  https://foerderfunke.org/default#resultsInTreatment
 <https://foerderfunke.org/default#resultsInTreatment> rdf:type owl:ObjectProperty ;
                                                       rdfs:domain <https://foerderfunke.org/default#Event> ;
                                                       rdfs:range <https://foerderfunke.org/default#OccupationalRehabilitation> ;
                                                       rdfs:comment "Describes an event that results in medical treatment."@en .
+
+
+###  https://foerderfunke.org/default#ruleExemptionBecause
+<https://foerderfunke.org/default#ruleExemptionBecause> rdf:type owl:ObjectProperty ;
+                                                        rdfs:domain <https://foerderfunke.org/default#Training> ;
+                                                        rdfs:range <https://foerderfunke.org/default#Disability> ;
+                                                        rdfs:comment "Links something to a reason why it is exempted from a certain rule."@en .
 
 
 ###  https://foerderfunke.org/default#sameHouseholdAs
@@ -312,6 +347,13 @@
                                                rdfs:domain <https://foerderfunke.org/default#Person> ;
                                                rdfs:range <https://foerderfunke.org/default#Person> ;
                                                rdfs:comment "Links a person to their step parent."@en .
+
+
+###  https://foerderfunke.org/default#subjectToContract
+<https://foerderfunke.org/default#subjectToContract> rdf:type owl:ObjectProperty ;
+                                                     rdfs:domain <https://foerderfunke.org/default#Training> ;
+                                                     rdfs:range <https://foerderfunke.org/default#VocationalTrainingContract> ;
+                                                     rdfs:comment "Links something to a type of contract to which it is subject."@en .
 
 
 ###  https://foerderfunke.org/default#triggeringEvent
@@ -417,6 +459,13 @@
                                                               rdfs:comment "True if a person can cover their personal basic needs with their income, assets, and priority benefits, false otherwise."@en .
 
 
+###  https://foerderfunke.org/default#commissionedByEmploymentAgency
+<https://foerderfunke.org/default#commissionedByEmploymentAgency> rdf:type owl:DatatypeProperty ;
+                                                                  rdfs:domain <https://foerderfunke.org/default#Training> ;
+                                                                  rdfs:range xsd:boolean ;
+                                                                  rdfs:comment "True if a given training was commissioned by the employment agency, false otherwise."@en .
+
+
 ###  https://foerderfunke.org/default#compulsoryInsuranceFor12In30
 <https://foerderfunke.org/default#compulsoryInsuranceFor12In30> rdf:type owl:DatatypeProperty ;
                                                                 rdfs:domain <https://foerderfunke.org/default#Person> ;
@@ -459,6 +508,13 @@
                                           rdfs:comment "Links a person to their age in completed years."@en .
 
 
+###  https://foerderfunke.org/default#hasAsylumActPermit
+<https://foerderfunke.org/default#hasAsylumActPermit> rdf:type owl:DatatypeProperty ;
+                                                      rdfs:domain <https://foerderfunke.org/default#Person> ;
+                                                      rdfs:range xsd:boolean ;
+                                                      rdfs:comment "True if a person has a residence permit under the Asylum Act, false otherwise."@en .
+
+
 ###  https://foerderfunke.org/default#hasConsiderableAssets
 <https://foerderfunke.org/default#hasConsiderableAssets> rdf:type owl:DatatypeProperty ;
                                                          rdfs:domain <https://foerderfunke.org/default#Person> ;
@@ -485,6 +541,13 @@
                                                 rdfs:domain <https://foerderfunke.org/default#Person> ;
                                                 rdfs:range xsd:boolean ;
                                                 rdfs:comment "True if a person is currently in an employment relationship, false otherwise."@en .
+
+
+###  https://foerderfunke.org/default#isFirstVocationalTraining
+<https://foerderfunke.org/default#isFirstVocationalTraining> rdf:type owl:DatatypeProperty ;
+                                                             rdfs:domain <https://foerderfunke.org/default#Training> ;
+                                                             rdfs:range xsd:boolean ;
+                                                             rdfs:comment "True if a training instance is a person's first vocational training, false otherwise."@en .
 
 
 ###  https://foerderfunke.org/default#isInTransitionalPeriod
@@ -529,6 +592,13 @@
                                                          rdfs:comment "True if an event happened less than four months ago, false otherwise."@en .
 
 
+###  https://foerderfunke.org/default#monthsAbroad
+<https://foerderfunke.org/default#monthsAbroad> rdf:type owl:DatatypeProperty ;
+                                                rdfs:domain <https://foerderfunke.org/default#Training> ;
+                                                rdfs:range xsd:int ;
+                                                rdfs:comment "Links something with a duration (e.g., a training) to the time that it takes place abroad in complete months."@en .
+
+
 ###  https://foerderfunke.org/default#newUnionAfterWidowhood
 <https://foerderfunke.org/default#newUnionAfterWidowhood> rdf:type owl:DatatypeProperty ;
                                                           rdfs:domain <https://foerderfunke.org/default#MaritalStatus> ;
@@ -541,6 +611,14 @@
                                                        rdfs:domain <https://foerderfunke.org/default#Employer> ;
                                                        rdfs:range xsd:boolean ;
                                                        rdfs:comment "True if an event coincides with an obvious lack of assets of the thing experiencing the event."@en .
+
+
+###  https://foerderfunke.org/default#percentAbroad
+<https://foerderfunke.org/default#percentAbroad> rdf:type owl:DatatypeProperty ;
+                                                 rdfs:domain :Duration ,
+                                                             <https://foerderfunke.org/default#Training> ;
+                                                 rdfs:range xsd:decimal ;
+                                                 rdfs:comment "Links something with a duration (e.g., a training) to the time that it takes place abroad in percentage."@en .
 
 
 ###  https://foerderfunke.org/default#permanentRightOfResidence
@@ -599,12 +677,24 @@
                                                                 rdfs:comment "True if a person has sufficient means of subsistence under the Freedom of Movement Act, false otherwise."@en .
 
 
+###  https://foerderfunke.org/default#tooFarFromTrainingCompany
+<https://foerderfunke.org/default#tooFarFromTrainingCompany> rdf:type owl:DatatypeProperty ;
+                                                             rdfs:domain <https://foerderfunke.org/default#Adress> ;
+                                                             rdfs:range xsd:boolean ;
+                                                             rdfs:comment "True if an adress is too far from the user's training company to stay there during training, false otherwise."@en .
+
+
 ###  https://foerderfunke.org/default#unfitForWork
 <https://foerderfunke.org/default#unfitForWork> rdf:type owl:DatatypeProperty ;
                                                 rdfs:domain <https://foerderfunke.org/default#EarningCapacity> ;
                                                 rdfs:range xsd:boolean ;
                                                 rdfs:comment "True if a person is unfit for gainful employment, false otherwise."@en ;
                                                 rdfs:label "arbeitsunfähig"@de .
+
+
+###  https://foerderfunke.org/default#uninterruptedLegalStayForLessThan15Months
+<https://foerderfunke.org/default#uninterruptedLegalStayForLessThan15Months> rdf:type owl:DatatypeProperty ;
+                                                                             rdfs:comment "True if a non-German nationa has been in Germany for less than 15 months without interruption on a permitted, authorized or tolerated basis."@en .
 
 
 ###  https://foerderfunke.org/default#wageCutOffsetMonths
@@ -639,6 +729,10 @@
                   rdfs:subClassOf <https://foerderfunke.org/default#Disability> .
 
 
+###  https://foerderfunke.org/default#Adress
+<https://foerderfunke.org/default#Adress> rdf:type owl:Class .
+
+
 ###  https://foerderfunke.org/default#CareNeed
 <https://foerderfunke.org/default#CareNeed> rdf:type owl:Class ;
                                             rdfs:subClassOf <https://foerderfunke.org/default#Event> .
@@ -649,6 +743,10 @@
                                                      rdfs:subClassOf <https://foerderfunke.org/default#Event> ;
                                                      rdfs:comment "An accident on one's way to work."@en ;
                                                      rdfs:label "Wegeunfall"@de .
+
+
+###  https://foerderfunke.org/default#Contract
+<https://foerderfunke.org/default#Contract> rdf:type owl:Class .
 
 
 ###  https://foerderfunke.org/default#Country
@@ -728,6 +826,10 @@
                                                                      "Kindergartenunfall"@de .
 
 
+###  https://foerderfunke.org/default#LegalCode
+<https://foerderfunke.org/default#LegalCode> rdf:type owl:Class .
+
+
 ###  https://foerderfunke.org/default#MaritalStatus
 <https://foerderfunke.org/default#MaritalStatus> rdf:type owl:Class ;
                                                  rdfs:comment "Instances define a person's marital status."@en .
@@ -766,6 +868,10 @@
                                                    rdfs:comment "Types of residence permits"@en .
 
 
+###  https://foerderfunke.org/default#ResidenceStatus
+<https://foerderfunke.org/default#ResidenceStatus> rdf:type owl:Class .
+
+
 ###  https://foerderfunke.org/default#School
 <https://foerderfunke.org/default#School> rdf:type owl:Class ;
                                           rdfs:subClassOf <https://foerderfunke.org/default#Training> .
@@ -797,6 +903,11 @@
 <https://foerderfunke.org/default#VocationalTraining> rdf:type owl:Class ;
                                                       rdfs:subClassOf <https://foerderfunke.org/default#Training> ;
                                                       rdfs:label "Berufsausbildung"@de .
+
+
+###  https://foerderfunke.org/default#VocationalTrainingContract
+<https://foerderfunke.org/default#VocationalTrainingContract> rdf:type owl:Class ;
+                                                              rdfs:subClassOf <https://foerderfunke.org/default#Contract> .
 
 
 ###  https://foerderfunke.org/default#WorkAccident
@@ -861,6 +972,15 @@
                                                        <https://foerderfunke.org/default#MaritalStatus> .
 
 
+###  https://foerderfunke.org/default#CraftsCode
+<https://foerderfunke.org/default#CraftsCode> rdf:type owl:NamedIndividual ,
+                                                       <https://foerderfunke.org/default#LegalCode> .
+
+
+###  https://foerderfunke.org/default#Divorced
+<https://foerderfunke.org/default#Divorced> rdf:type owl:NamedIndividual .
+
+
 ###  https://foerderfunke.org/default#Employee
 <https://foerderfunke.org/default#Employee> rdf:type owl:NamedIndividual ,
                                                      <https://foerderfunke.org/default#EmploymentStatus> ;
@@ -900,9 +1020,19 @@
                                                                 <https://foerderfunke.org/default#TaxLiabilityScope> .
 
 
+###  https://foerderfunke.org/default#MaritimeLabourAct
+<https://foerderfunke.org/default#MaritimeLabourAct> rdf:type owl:NamedIndividual ,
+                                                              <https://foerderfunke.org/default#LegalCode> .
+
+
 ###  https://foerderfunke.org/default#Married
 <https://foerderfunke.org/default#Married> rdf:type owl:NamedIndividual ,
                                                     <https://foerderfunke.org/default#MaritalStatus> .
+
+
+###  https://foerderfunke.org/default#NursingProfessionsAct
+<https://foerderfunke.org/default#NursingProfessionsAct> rdf:type owl:NamedIndividual ,
+                                                                  <https://foerderfunke.org/default#LegalCode> .
 
 
 ###  https://foerderfunke.org/default#OpenProceeding
@@ -938,6 +1068,12 @@
                                                                        <https://foerderfunke.org/default#Insurance> .
 
 
+###  https://foerderfunke.org/default#Tolerated
+<https://foerderfunke.org/default#Tolerated> rdf:type owl:NamedIndividual ,
+                                                      <https://foerderfunke.org/default#ResidenceStatus> ;
+                                             rdfs:label "Geduldet"@de .
+
+
 ###  https://foerderfunke.org/default#TrainingBudget
 <https://foerderfunke.org/default#TrainingBudget> rdf:type owl:NamedIndividual ,
                                                            <https://foerderfunke.org/default#SocialBenefit> .
@@ -962,6 +1098,16 @@
 ###  https://foerderfunke.org/default#User
 <https://foerderfunke.org/default#User> rdf:type owl:NamedIndividual ,
                                                  <https://foerderfunke.org/default#Person> .
+
+
+###  https://foerderfunke.org/default#VocationalTrainingAct
+<https://foerderfunke.org/default#VocationalTrainingAct> rdf:type owl:NamedIndividual ,
+                                                                  <https://foerderfunke.org/default#LegalCode> .
+
+
+###  https://foerderfunke.org/default#Widowed
+<https://foerderfunke.org/default#Widowed> rdf:type owl:NamedIndividual ,
+                                                    <https://foerderfunke.org/default#MaritalStatus> .
 
 
 ###  Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi
