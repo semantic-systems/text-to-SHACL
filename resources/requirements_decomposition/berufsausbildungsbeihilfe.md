@@ -87,4 +87,4 @@ Eine Ausbildung oder berufsvorbereitende Bildungsmaßnahme im Ausland ist wie fo
     - are not tolerated AND have been in Germany for less than 15 months without interruption on a permitted, authorized or tolerated basis (GREEN)
 6. User cannot cover their personal basic needs [1] (YELLOW: what funds are considered enough in a legal sense must be explained or inferred from user income)
 
-[1] Simplified to basic needs because SHACL Core cannot sum over the individual expenses that are listed in the text (living expesnes, travel costs, family trips, work clothes...)
+[1] Simplified to basic needs because SHACL Core cannot sum over the individual expenses that are listed in the text (living expenses, travel costs, family trips, work clothes...)
