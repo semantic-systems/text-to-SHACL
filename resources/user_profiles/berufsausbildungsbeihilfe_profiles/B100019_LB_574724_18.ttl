@@ -4,7 +4,7 @@
 # Does not meet requirement "The training is subject to a vocational training contract"
 
 ff:User ff:participates ex:SomeTraining ;
-        ff:parentalAddress ex:SomeAddress ;
+        ff:parentalAdress ex:SomeAdress ;
         ff:isNationalOf ff:Germany ;
         ff:canCoverPersonalBasicNeeds false .
 
@@ -17,6 +17,6 @@ ex:SomeTraining a ff:VocationalTraining ;
     ff:percentAbroad 0 ;
     ff:monthsAbroad 0 .
 
-ex:SomeAddress ff:tooFarFromTrainingCompany true .
+ex:SomeAdress ff:tooFarFromTrainingCompany true .
 
 ex:SomeDisability a ff:Disability .

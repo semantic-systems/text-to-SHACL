@@ -4,7 +4,7 @@
 # Does not meet requirement "User participates in a pre-vocational training program OR vocational training"
 
 ff:User ff:participates ex:SomeTraining ;
-        ff:parentalAddress ex:SomeAddress ;
+        ff:parentalAdress ex:SomeAdress ;
         ff:isNationalOf ff:Germany ;
         ff:canCoverPersonalBasicNeeds false .
 
@@ -16,4 +16,4 @@ ex:SomeTraining a ex:SomeTraining ;
         ff:percentAbroad 49 ;
     ] .
 
-ex:SomeAddress ff:tooFarFromTrainingCompany true .
+ex:SomeAdress ff:tooFarFromTrainingCompany true .

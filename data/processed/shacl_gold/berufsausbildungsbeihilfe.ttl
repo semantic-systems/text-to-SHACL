@@ -26,7 +26,7 @@ ff:BerufsausbildungsbeihilfeShape a sh:NodeShape ;
     sh:or (
         # User's parents live too far away from the training company to stay with them during training
         [
-            sh:path ( ff:parentalAddress ff:tooFarFromTrainingCompany ) ;
+            sh:path ( ff:parentalAdress ff:tooFarFromTrainingCompany ) ;
             sh:minCount 1 ;
             sh:in (true)
         ]

@@ -4,7 +4,7 @@
 # Does not meet requirement "The pre-vocational training program takes place in Germany or partly abroad for less than half of the intended funding period"
 
 ff:User ff:participates ex:SomeTraining ;
-        ff:parentalAddress ex:SomeAddress ;
+        ff:parentalAdress ex:SomeAdress ;
         ff:isNationalOf ff:Germany ;
         ff:canCoverPersonalBasicNeeds false .
 
@@ -16,4 +16,4 @@ ex:SomeTraining a ff:PreVocationalTraining ;
         ff:percentAbroad 50 ;
     ] .
 
-ex:SomeAddress ff:tooFarFromTrainingCompany true .
+ex:SomeAdress ff:tooFarFromTrainingCompany true .

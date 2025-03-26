@@ -4,7 +4,7 @@
 # Does no meet requirement "The training takes place in Germany or partly abroad"
 
 ff:User ff:participates ex:SomeTraining ;
-        ff:parentalAddress ex:SomeAddress ;
+        ff:parentalAdress ex:SomeAdress ;
         ff:isNationalOf ff:Germany ;
         ff:canCoverPersonalBasicNeeds false .
 
@@ -17,7 +17,7 @@ ex:SomeTraining a ff:VocationalTraining ;
     ff:percentAbroad 100 ;
     ff:monthsAbroad 12 .
 
-ex:SomeAddress ff:tooFarFromTrainingCompany true .
+ex:SomeAdress ff:tooFarFromTrainingCompany true .
 
 ex:SomeContract a ff:VocationalTrainingContract .
 

@@ -4,7 +4,7 @@
 # Does not meet requirement "The part abroad is less than 1 year, if any"
 
 ff:User ff:participates ex:SomeTraining ;
-        ff:parentalAddress ex:SomeAddress ;
+        ff:parentalAdress ex:SomeAdress ;
         ff:isNationalOf ff:Germany ;
         ff:canCoverPersonalBasicNeeds false .
 
@@ -17,7 +17,7 @@ ex:SomeTraining a ff:VocationalTraining ;
     ff:percentAbroad 50 ;
     ff:monthsAbroad 13 .
 
-ex:SomeAddress ff:tooFarFromTrainingCompany true .
+ex:SomeAdress ff:tooFarFromTrainingCompany true .
 
 ex:SomeContract a ff:VocationalTrainingContract .
 

@@ -4,7 +4,7 @@
 # Eligible for vocational training allowance (Berufsausbildungsbeihilfe)
 
 ff:User ff:participates ex:SomeTraining ;
-        ff:parentalAddress ex:SomeAddress ;
+        ff:parentalAdress ex:SomeAdress ;
         ff:isNationalOf ff:Germany ;
         ff:canCoverPersonalBasicNeeds false .
 
@@ -16,4 +16,4 @@ ex:SomeTraining a ff:PreVocationalTraining ;
         ff:percentAbroad 49 ;
     ] .
 
-ex:SomeAddress ff:tooFarFromTrainingCompany true .
+ex:SomeAdress ff:tooFarFromTrainingCompany true .
