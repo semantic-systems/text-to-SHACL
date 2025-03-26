@@ -1,0 +1,17 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Does not meet requirement "User is at least 18 years old"
+
+ff:User ff:participates ex:SomeTraining ;
+        ff:hasAge 17 ;
+        ff:isNationalOf ff:Germany ;
+        ff:canCoverPersonalBasicNeeds false .
+
+# Prevocational training
+
+ex:SomeTraining a ff:PreVocationalTraining ;
+    ff:commissionedByEmploymentAgency true ;
+    ff:intendedFundingPeriod [
+        ff:percentAbroad 49 ;
+    ] .

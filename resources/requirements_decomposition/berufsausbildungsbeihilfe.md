@@ -65,23 +65,26 @@ Eine Ausbildung oder berufsvorbereitende Bildungsmaßnahme im Ausland ist wie fo
 
 <b>Requirements decomposition</b>:
 
-* User participates in a pre-vocational training program OR vocational training (GREEN)
-* The pre-vocational training program must
-  * take place on behalf of the employment agency (GREEN)
-  * take place in Germany (GREEN) OR partly abroad and the part abroad is less than half of the funding period (GREEN) and the part abroad appears appropriate with regard to the total duration of the measure (RED: ambiguous qualifier "appears appropriate", likely discretionary decision)
-* The vocational training must
-  * be formally recognized under the Vocational Training Act, the Crafts Code, the Maritime Labour Act or the Nursing Professions Act (GREEN) OR the user has a disability (GREEN)
-  * be their first training (GREEN) OR they cannot be permanently integrated into the labor market in any other way (RED: discretionary third-party decision) or they have to repeat the training due to a disability (GREEN)
-  * be subject to a vocational training contract between the user and the employer
-  * take place in Germany OR
-    * partly abroad (GREEN) and not longer than 1 year abroad (GREEN) and the part of the training abroad appears to be appropriate in view of the total duration of the training (RED: discretionary third-party decision)
-    * completely abroad and the training abroad is particularly conducive to the user's professional objective and it is officially confirmed that the training abroad is equivalent to in-company training in Germany (RED: discretionary third-party decisions)
-* User does not live with their parents during the training and the company is too far away from their parents' home OR 
-    * they are at least 18 years old (GREEN) OR
-    * they are or were married (GREEN) OR
-    * they have at least one child who lives with them (GREEN) OR
-    * they have a disability (GREEN)
-* User is a German national (GREEN) OR
-  * does not have a residence permit under the Asylum Act (GREEN) AND
-  * are not tolerated and have been in Germany for less than 15 months without interruption on a permitted, authorized or tolerated basis (GREEN)
-* User cannot cover their living costs (YELLOW: what funds are considered enough to cover living costs in a legal sense must be inferred or explained)
+1. User participates in a pre-vocational training program OR vocational training (GREEN)
+2. The pre-vocational training program must
+    - be commissioned by the employment agency (GREEN) AND
+    - take place in Germany (GREEN) OR 
+      - partly abroad AND the part abroad is less than half of the intended funding period (GREEN) AND appears appropriate with regard to the total duration of the measure (RED: "appears appropriate" is subjective and likely a discretionary decision)
+3. The vocational training must
+    - be formally recognized under the Vocational Training Act, the Crafts Code, the Maritime Labour Act or the Nursing Professions Act (GREEN) OR the user has a disability (GREEN)
+    - be their first training (GREEN) OR they cannot be permanently integrated into the labor market in any other way (RED: discretionary third-party decision) OR they have to repeat the training due to a disability (GREEN) AND
+    - be subject to a vocational training contract (GREEN) AND
+    - take place in Germany OR
+      - partly abroad for less than 1 year (GREEN) AND the part abroad appears appropriate in view of the total duration of the training (RED: "appears appropriate" is subjective and likely a discretionary decision) OR
+      - completely abroad (GREEN) AND the training abroad is particularly conducive to the user's professional objectives (RED: "particularly conducive" is subjective and likely a discretionary decision) AND training abroad will be officially equated with vocational training in Germany (RED: discretionary third-party decision)
+4. User's parents live too far away from the training company to stay with them during training (YELLOW: what qualifies as "too far away" must be explained or inferred from actual distance) OR 
+    - they are at least 18 years old (GREEN) OR
+    - they are OR were married (GREEN) OR
+    - they have at least one child living with them (GREEN) OR
+    - they have a disability (GREEN)
+5. User is a German national (GREEN) OR
+    - does not have a residence permit under the Asylum Act (GREEN) AND
+    - are not tolerated AND have been in Germany for less than 15 months without interruption on a permitted, authorized or tolerated basis (GREEN)
+6. User cannot cover their personal basic needs [1] (YELLOW: what funds are considered enough in a legal sense must be explained or inferred from user income)
+
+[1] Simplified to basic needs because SHACL Core cannot sum over the individual expenses that are listed in the text (living expesnes, travel costs, family trips, work clothes...)

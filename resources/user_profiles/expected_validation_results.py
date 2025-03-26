@@ -328,3 +328,35 @@ guv_rentenabfindung_expected = {
     "B100019_LB_102799525_8.ttl": "ineligible", # missing info
     "B100019_LB_102799525_9.ttl": "ineligible", # missing info
 }
+
+berufsausbildungsbeihilfe_expected = {
+    "B100019_LB_574724_1.ttl": "eligible",
+    "B100019_LB_574724_2.ttl": "eligible",
+    "B100019_LB_574724_3.ttl": "eligible",
+    "B100019_LB_574724_4.ttl": "eligible",
+    "B100019_LB_574724_5.ttl": "eligible",
+    "B100019_LB_574724_6.ttl": "eligible",
+    "B100019_LB_574724_7.ttl": "eligible",
+    "B100019_LB_574724_8.ttl": "eligible",
+    "B100019_LB_574724_9.ttl": "eligible",
+    "B100019_LB_574724_10.ttl": "eligible",
+    "B100019_LB_574724_11.ttl": "eligible",
+    "B100019_LB_574724_12.ttl": "eligible",
+    "B100019_LB_574724_13.ttl": "ineligible",
+    "B100019_LB_574724_14.ttl": "ineligible",
+    "B100019_LB_574724_15.ttl": "ineligible",
+    "B100019_LB_574724_16.ttl": "ineligible",
+    "B100019_LB_574724_17.ttl": "ineligible",
+    "B100019_LB_574724_18.ttl": "ineligible",
+    "B100019_LB_574724_19.ttl": "ineligible",
+    "B100019_LB_574724_20.ttl": "ineligible",
+    "B100019_LB_574724_21.ttl": "ineligible",
+    "B100019_LB_574724_22.ttl": "ineligible",
+    "B100019_LB_574724_23.ttl": "ineligible",
+    "B100019_LB_574724_24.ttl": "ineligible",
+    "B100019_LB_574724_25.ttl": "ineligible",
+    "B100019_LB_574724_26.ttl": "ineligible",
+    "B100019_LB_574724_27.ttl": "ineligible",
+    "B100019_LB_574724_28.ttl": "ineligible",
+    "B100019_LB_574724_29.ttl": "ineligible",
+}

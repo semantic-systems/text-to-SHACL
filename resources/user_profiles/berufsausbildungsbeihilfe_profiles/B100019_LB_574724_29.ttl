@@ -1,0 +1,19 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Does not meet requirement "User cannot cover their personal basic needs"
+
+ff:User ff:participates ex:SomeTraining ;
+        ff:hasDisability true ;
+        ff:isNationalOf ex:SomeCountry ;
+        ff:hasResidenceStatus ex:SomeStatus ; # not ff:Tolerated
+        ff:uninterruptedLegalStayForLessThan15Months false ;
+        ff:canCoverPersonalBasicNeeds true .
+
+# Prevocational training
+
+ex:SomeTraining a ff:PreVocationalTraining ;
+    ff:commissionedByEmploymentAgency true ;
+    ff:intendedFundingPeriod [
+        ff:percentAbroad 49 ;
+    ] .

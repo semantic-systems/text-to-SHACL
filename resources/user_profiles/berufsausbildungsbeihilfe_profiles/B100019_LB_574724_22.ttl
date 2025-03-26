@@ -1,0 +1,24 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Does not meet requirement "User's parents live too far away from the training company to stay with them during training"
+
+ff:User ff:participates ex:SomeTraining ;
+        ff:parentalAddress ex:SomeAddress ;
+        ff:isNationalOf ff:Germany ;
+        ff:canCoverPersonalBasicNeeds false .
+
+# Vocational training
+
+ex:SomeTraining a ff:VocationalTraining ;
+    ff:ruleExemptionBecause ex:SomeDisability ;
+    ff:isFirstVocationalTraining false ;
+    ff:subjectToContract ex:SomeContract ;
+    ff:percentAbroad 0 ;
+    ff:monthsAbroad 0 .
+
+ex:SomeAddress ff:tooFarFromTrainingCompany false .
+
+ex:SomeContract a ff:VocationalTrainingContract .
+
+ex:SomeDisability a ff:Disability .

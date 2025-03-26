@@ -1,0 +1,16 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Mising information for accepted living situations
+
+ff:User ff:participates ex:SomeTraining ;
+        ff:isNationalOf ff:Germany ;
+        ff:canCoverPersonalBasicNeeds false .
+
+# Prevocational training
+
+ex:SomeTraining a ff:PreVocationalTraining ;
+    ff:commissionedByEmploymentAgency true ;
+    ff:intendedFundingPeriod [
+        ff:percentAbroad 49 ;
+    ] .
