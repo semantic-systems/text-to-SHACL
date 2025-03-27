@@ -27,9 +27,9 @@ der infolge der Begleitung entsteht.
 2. The user is admitted as an accompanying person for inpatient care in a hospital OR invests more than 8 hours to accompany a person in a hospital. (GREEN)
 3. The accompaniment is medically necessary. (RED: Discretionary third-party decision)
 4. The accompanied patient
-    - has a disability (GREEN) AND
-    - has statutory accident insurance (GREEN) AND
-    - receives integration assistance (GREEN)
+	- has a disability (GREEN) AND
+	- has statutory accident insurance (GREEN) AND
+	- receives integration assistance (GREEN)
 5. The user encounters a loss of earnings (GREEN).
 6. The user is a close relative OR member of the immediate circle of the patient (YELLOW: Scope of "close relative" and "immediate social environment" must be explained or inferred from the relation that the user has with the)
-7. The user is not remunerated for the accompaniment (GREEN), for example as personal assistant or as accompanying person in the context of intgration support. (RED: Examples cannot be meaningfully queried because they are not exhaustive)
+7. The user is not remunerated for the accompaniment (GREEN), for example as personal assistant or as accompanying person in the context of integration support. (RED: Examples cannot be meaningfully queried because they are not exhaustive)

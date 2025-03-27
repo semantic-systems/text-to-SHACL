@@ -1,0 +1,159 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+
+ff:B100019_LB_574724 a ff:SocialBenefit ;
+    rdfs:label "Berufsausbildungsbeihilfe"@de, "Vocational training allowance"@en .
+
+# CONSTRAINTS
+
+ff:BerufsausbildungsbeihilfeShape a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_574724 ;
+    sh:targetNode ff:User ;
+    # User participates in a pre-vocational training program OR vocational training
+    sh:property [
+        sh:path ff:participates ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedValueShape [
+            sh:or (
+                ff:PreVocationalTrainingShape
+                ff:VocationalTrainingShape
+            )
+        ] ;
+    ] ;
+    sh:or (
+        # User's parents live too far away from the training company to stay with them during training
+        [
+            sh:path ( ff:parentalAdress ff:tooFarFromTrainingCompany ) ;
+            sh:minCount 1 ;
+            sh:in (true)
+        ]
+        # User is at least 18 years old
+        [
+            sh:path ff:hasAge ;
+            sh:minCount 1 ;
+            sh:minInclusive 18 ;
+        ]
+        # User is OR was married
+        [
+            sh:path ff:hasMaritalStatus ;
+            sh:minCount 1 ;
+            sh:in ( ff:Married ff:Divorced ff:Widowed )
+        ]
+        # User has at least one child living with them
+        [
+            sh:path ff:hasChild ;
+            sh:qualifiedMinCount 1 ;
+            sh:qualifiedValueShape [
+                sh:path ff:sameHouseholdAs ;
+                sh:hasValue ff:User ;
+            ]
+        ]
+        # User has a disability
+        [
+            sh:path ff:hasDisability ;
+            sh:minCount 1 ;
+            sh:in (true)
+        ]
+    ) ;
+    sh:or (
+        # User is German national
+        [
+            sh:path ff:isNationalOf ;
+            sh:hasValue ff:Germany ;
+        ]
+        # User does not have a residence permit under the Asylum Act
+        [
+            sh:path ff:hasAsylumActPermit ;
+            sh:minCount 1 ;
+            sh:in (false) ;
+        ]
+        [
+            # User is not tolerated
+            sh:property [
+                sh:path ff:hasResidenceStatus ;
+                sh:minCount 1 ;
+                sh:not [
+                    sh:in (ff:Tolerated)
+                ] ;
+            ] ;
+            # User has not been in Germany for less than 15 months without interruption on a premitted, authorized, or tolerated basis
+            sh:property [
+                sh:path ff:uninterruptedLegalStayForLessThan15Months ;
+                sh:minCount 1 ;
+                sh:in (false)
+            ]
+        ]
+    ) ;
+    # User cannot cover their personal basic needs
+    sh:property [
+        sh:path ff:canCoverPersonalBasicNeeds ;
+        sh:minCount 1 ;
+        sh:in (false) ;
+    ] .
+
+ff:PreVocationalTrainingShape a sh:NodeShape ;
+    sh:class ff:PreVocationalTraining ;
+    # The pre-vcational training pogram takes place on behalf of the employment agency
+    sh:property [
+        sh:path ff:commissionedByEmploymentAgency ;
+        sh:minCount 1 ;
+        sh:in (true) ;
+    ] ;
+    # The pre-vocational training program takes place in Germany or partly abroad for less than half of the intended funding period
+    sh:property [
+        sh:path ( ff:intendedFundingPeriod ff:percentAbroad ) ;
+        sh:minCount 1 ;
+        sh:maxExclusive 50 ;
+    ] .
+
+ff:VocationalTrainingShape a sh:NodeShape ;
+    sh:class ff:VocationalTraining ;
+    sh:or (
+        # The vocational training program must be formally recognized
+        [
+            sh:path ff:recognizedByLaw ;
+            sh:minCount 1 ;
+            sh:in (ff:VocationalTrainingAct ff:CraftsCode ff:MaritimeLabourAct ff:NursingProfessionsAct)
+        ]
+        # The user has a disability
+        [
+            sh:path ff:ruleExemptionBecause ;
+            sh:minCount 1 ;
+            sh:class ff:Disability ;
+        ]
+    ) ;
+    sh:or (
+        # It is the user's first vocational training
+        [
+            sh:path ff:isFirstVocationalTraining ;
+            sh:minCount 1 ;
+            sh:in (true)
+        ]
+        # The user must repeat or extend the training due to a disability
+        [
+            sh:path ff:ruleExemptionBecause ;
+            sh:minCount 1 ;
+            sh:class ff:Disability
+        ]
+    ) ;
+    # The training is subject to a vocational training contract
+    sh:property [
+        sh:path ff:subjectToContract ;
+        sh:minCount 1 ;
+        sh:class ff:VocationalTrainingContract ;
+    ] ;
+    # The training takes place in Germany or partly abroad
+    sh:property [
+        sh:path ff:percentAbroad ;
+        sh:minCount 1 ;
+        sh:maxExclusive 100 ;
+    ] ;
+    # The part abroad is less than 1 year, if any
+    sh:property [
+        sh:path ff:monthsAbroad ;
+        sh:minCount 1 ;
+        sh:maxInclusive 12 ;
+    ] .

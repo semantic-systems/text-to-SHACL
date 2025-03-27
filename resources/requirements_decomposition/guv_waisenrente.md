@@ -14,9 +14,7 @@ Unfallversicherung.
 
 <b>Requirements text</b>:
 
-Sie erhalten die Waisenrente, wenn die Person infolge eines Versicherungsfalls
-gestorben ist. Dazu gehören Arbeitsunfälle, Unfälle auf dem Arbeitsweg und
-Berufskrankheiten.
+Sie erhalten die Waisenrente, wenn die Person infolge eines Versicherungsfalls gestorben ist. Dazu gehören Arbeitsunfälle, Unfälle auf dem Arbeitsweg und Berufskrankheiten.
 
 Sie erhalten die Waisenrente als
 
@@ -25,8 +23,7 @@ Sie erhalten die Waisenrente als
   * Enkel oder Geschwisterteil, wenn Sie im Haushalt der verstorbenen Person gelebt haben und dort versorgt und betreut wurden.
   * Sie können zudem die Waisenrente erhalten, wenn die verstorbene Person überwiegend für Ihren Lebensunterhalt aufgekommen ist.
 
-Unter diesen Voraussetzungen erhalten Sie die Waisenrente auch dann, wenn Sie
-18 bis unter 27 Jahre alt sind:
+Unter diesen Voraussetzungen erhalten Sie die Waisenrente auch dann, wenn Sie 18 bis unter 27 Jahre alt sind:
 
   * Sie befinden sich in Schul- oder Berufsausbildung oder
   * Sie können wegen einer körperlichen, geistigen oder seelischen Behinderung nicht selbst für Ihren Unterhalt aufkommen oder
@@ -44,7 +41,7 @@ Unter diesen Voraussetzungen erhalten Sie die Waisenrente auch dann, wenn Sie
     - foster child (GREEN) OR 
     - grandchild (GREEN) OR
   - the deceased person had the main responsibility for the user's living expenses (YELLOW: meaning of main responsibility in a legal sense must be inferred or explained)
-2. The person who died had statutory accident insurance. (GREEN)
+2. The person who died had statutory accident insurance [1] (GREEN).
 3. The cause of death was an insurance event (YELLOW: definition of the terms in a legal sense must be inferred or explained):
   - accident at work OR 
   - a commuting accident OR
@@ -61,3 +58,5 @@ Unter diesen Voraussetzungen erhalten Sie die Waisenrente auch dann, wenn Sie
       - after the completion of community service OR
       - after the completion of a voluntary service
       (GREEN)
+
+[1] Not explicitly mentioned in the requirements text, but implied by benefit's name and "insurance event".

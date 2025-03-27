@@ -8,10 +8,8 @@
 
 <b>Description</b>: 
 
-Wenn Sie infolge eines Arbeits- oder Wegeunfalles oder einer anerkannten
-Berufskrankheit an qualifizierten Maßnahmen zur Teilhabe am Arbeitsleben
-(einer beruflichen Reha), teilnehmen und kein Arbeitsentgelt beziehen,
-erhalten Sie Übergangsgeld.
+Wenn Sie infolge eines Arbeits- oder Wegeunfalles oder einer anerkannten Berufskrankheit an qualifizierten Maßnahmen zur Teilhabe am Arbeitsleben
+(einer beruflichen Reha), teilnehmen und kein Arbeitsentgelt beziehen, erhalten Sie Übergangsgeld.
 
 <b>Requirements text</b>:
 
@@ -20,11 +18,11 @@ erhalten Sie Übergangsgeld.
 
 <b>Requirements decomposition</b>:
 
-1. User has statutory accident insurance* (GREEN)
+1. User has statutory accident insurance [1] (GREEN)
 2. User had an insurance event (YELLOW: definition of the terms in a legal sense must be inferred or explained):
-    - accident at work OR 
-    - a commuting accident OR
-    - a recognized occupational disease.
+	- accident at work OR
+	- a commuting accident OR
+	- a recognized occupational disease.
 3. As a result of the insurance event, the user takes part in occupational rehabilitation. (YELLOW: which measures are qualified must be inferred or explained)
 
-*Not explicitly mentioned in the requirements text, but can be inferred from the benefit's name
+[1] Not explicitly mentioned in the requirements text, but implied by the benefit's name.

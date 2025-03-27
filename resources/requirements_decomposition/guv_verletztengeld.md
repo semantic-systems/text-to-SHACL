@@ -18,9 +18,11 @@ sind, erhalten Sie Verletztengeld.
 
 <b>Requirements decomposition</b>:
 
-1. User has statutory accident insurance (GREEN)
+1. User has statutory accident insurance [1] (GREEN)
 2. User is unfit for work (YELLOW: "unfit for work" in a legal sense must be inferred or explained)
 3. The unfitness for work was caused by an insurance event (YELLOW: definition of the terms in a legal sense must be inferred or explained):
-    - accident at work OR 
-    - a commuting accident OR
-    - a recognized occupational disease.
+	- accident at work OR
+	- a commuting accident OR
+	- a recognized occupational disease.
+
+[1] Not explicitly mentioned in the requirements text, but implied by the benefit's name and "insurance event".

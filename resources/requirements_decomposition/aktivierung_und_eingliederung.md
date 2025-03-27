@@ -18,7 +18,7 @@ Wenn Sie Leistungen der Grundsicherung beziehen, können Sie durch Maßnahmen un
 
 <b>Requirements decomposition</b>:
 
-1. User receives basic income support. (GREEN)
-2. User had a discussion with an integration specialist. (RED: A procedural step in the application rather than a personal eligibility criterion)
-3. In the discussion, the necessity of the benefit was determined. (RED: A procedural step in the application rather than a personal eligibility criterion; discretionary third-party decision)
-4. Participation in the funded measure was approved by the Jobcenter before the start of the measure. (RED: A procedural step in the application rather than a personal eligibility criterion; discretionary third-party decision; user's general eligibility should be determined without requiring them to have already chosen or even started a specific measure)
+1. User receives basic income support (GREEN).
+2. User had a discussion with an integration specialist (RED: A procedural step in the application rather than a personal eligibility criterion.).
+3. In the discussion, the necessity of the benefit was determined (RED: A procedural step in the application rather than a personal eligibility criterion; discretionary third-party decision).
+4. Participation in the funded measure was approved by the Jobcentre before the start of the measure (RED: A procedural step in the application rather than a personal eligibility criterion; discretionary third-party decision; user's general eligibility should be determined without requiring them to have already chosen or even started a specific measure).

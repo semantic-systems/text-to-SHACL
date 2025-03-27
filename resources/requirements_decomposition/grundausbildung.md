@@ -23,7 +23,7 @@ und im Alltag brauchen.
 <b>Requirements decomposition</b>:
 
 1. User has a disability OR is at risk of a disability (GREEN).
-2. The disability is a visual OR hearing impairement (GREEN).
+2. The disability is a visual OR hearing impairment (GREEN).
 3. The disability is severe (YELLOW: Meaning of severe in a legal sense must be explained or inferred).
 4. User's rehabilitation provider is the Federal Employment Agency (GREEN).
 5. The disability reduces the user's prospect of participating in working life permanently (GREEN) AND significantly (RED: Likely discretionary)

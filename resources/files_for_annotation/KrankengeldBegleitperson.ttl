@@ -1,0 +1,90 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+
+ff:B100019_LB_103817036 a ff:SocialBenefit ;
+    rdfs:label "Krankengeld für Begleitperson bei stationärer Behandlung von Menschen mit Behinderung"@de, "Sickness allowance for accompanying persons with disabilities during inpatient treatment"@en.
+
+# CONSTRAINTS
+
+ff:KrankengeldBegleitpersonShape a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_103817036 ;
+    sh:targetNode ff:User ;
+    # User has statutory accident insurance
+    sh:property [
+        sh:path ff:hasInsurance ;
+        sh:hasValue ff:StatutoryHealthInsurance ;
+        sh:message "Does not meet requirement 'User has statutory accident insurance'"@en
+    ] ;
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedValueShape ff:AccompanimentShape ;
+        sh:message "Does not meet requirement 'User accompanies a patient in hospital'"@en
+    ] .
+
+ff:AccompanimentShape a sh:NodeShape ;
+    sh:class ff:MedicalAccompaniment ;
+    sh:or (
+        # User is addmitted as accompanying person for inpatient treatment
+        [
+            sh:path ff:accompaniesInpatientTreatment ;
+            sh:minCount 1 ;
+            sh:in (true) ;
+        ]
+        # User invests more than 8 hours to accompany a person in a hospital
+        [
+            sh:path ff:durationInHours ;
+            sh:minCount 1 ;
+            sh:minExclusive 8 ;
+        ]
+    ) ;
+    sh:property [
+        sh:path ff:accompaniesPatient ;
+        sh:minCount 1 ;
+        sh:node ff:PatientShape ;
+    ] ;
+    # The user encounters a loss of earnings 
+    sh:property [
+        sh:path ff:causesLossOfEarnings ;
+        sh:minCount 1 ;
+        sh:in (true);
+    ] ;
+    # The user is not remunerated for the accompaniment 
+    sh:property [
+        sh:path ff:isRenumerated ;
+        sh:minCount 1 ;
+        sh:in (false) ;
+    ] .
+
+ff:PatientShape a sh:NodeShape ;
+    # The accompanied patient has a disability
+    sh:property [
+        sh:path ff:hasDisability ;
+        sh:minCount 1 ;
+        sh:in (true) ;
+    ] ;
+    # The accompanied patient has statutory accident insurance
+    sh:property [
+        sh:path ff:hasInsurance ;
+        sh:hasValue ff:StatutoryHealthInsurance ;
+    ] ;
+    # The accompanied patient receives integration assistance
+    sh:proeprty [
+        sh:path ff:receives ;
+        sh:hasValue ff:IntegrationAssistance ;
+    ] ;
+    sh:or (
+        # The user is a close relative of the patient
+        [
+            sh:path ff:closeRelative ;
+            sh:hasValue ff:User ;
+        ]
+        # The user is a member of the immediate circle of the patient
+        [
+            sh:path ff:immediateCircleMember ;
+            sh:hasValue ff:User ;
+        ]
+    ) .
