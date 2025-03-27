@@ -1,0 +1,19 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Does not meet requirement "User is admitted as an accompanying person for inpatient care in a hospital OR invests more than 8 hours to accompany a person in a hospital"
+
+ff:User ff:hasInsurance ff:StatutoryHealthInsurance ;
+        ff:hasEvent ex:SomeEvent .
+
+ex:SomeEvent a ff:MedicalAccompaniment ;
+        ff:accompaniesInpatientTreatment false ;
+        ff:durationInHours 8 ;
+        ff:accompaniesPatient ex:SomePatient ;
+        ff:causesLossOfEarnings true ;
+        ff:isRenumerated false .
+
+ex:SomePatient ff:hasDisability true ;
+        ff:hasInsurance ff:StatutoryHealthInsurance ;
+        ff:receives ff:IntegrationAssistance ;
+        ff:closeRelative ff:User .

@@ -1,0 +1,18 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Does not meet requirement "The accompanied patient has statutory accident insurance"
+
+ff:User ff:hasInsurance ff:StatutoryHealthInsurance ;
+        ff:hasEvent ex:SomeEvent .
+
+ex:SomeEvent a ff:MedicalAccompaniment ;
+        ff:duratoinInHours 8.1 ;
+        ff:accompaniesPatient ex:SomePatient ;
+        ff:causesLossOfEarnings true ;
+        ff:isRenumerated false .
+
+ex:SomePatient ff:hasDisability true ;
+        ff:hasInsurance ex:SomeInsurance ;
+        ff:receives ff:IntegrationAssistance ;
+        ff:closeRelative ff:User .

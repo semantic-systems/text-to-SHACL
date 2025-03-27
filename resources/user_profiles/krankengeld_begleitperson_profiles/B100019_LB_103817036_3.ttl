@@ -1,0 +1,18 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Eligible for Sickness allowance for accompanying persons with disabilities during inpatient treatment (Krankengeld Begleitperson)
+
+ff:User ff:hasInsurance ff:StatutoryHealthInsurance ;
+        ff:hasEvent ex:SomeEvent .
+
+ex:SomeEvent a ff:MedicalAccompaniment ;
+        ff:accompaniesInpatientTreatment true ;
+        ff:accompaniesPatient ex:SomePatient ;
+        ff:causesLossOfEarnings true ;
+        ff:isRenumerated false .
+
+ex:SomePatient ff:hasDisability true ;
+        ff:hasInsurance ff:StatutoryHealthInsurance ;
+        ff:receives ff:IntegrationAssistance ;
+        ff:immediateCircleMember ff:User .

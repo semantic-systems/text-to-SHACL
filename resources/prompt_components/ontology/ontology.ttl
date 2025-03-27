@@ -75,6 +75,13 @@
                                                 rdfs:comment "Links a person to an event that  caused their death."@en .
 
 
+###  https://foerderfunke.org/default#closeRelative
+<https://foerderfunke.org/default#closeRelative> rdf:type owl:ObjectProperty ;
+                                                 rdfs:domain <https://foerderfunke.org/default#Person> ;
+                                                 rdfs:range <https://foerderfunke.org/default#Person> ;
+                                                 rdfs:comment "Links a person to another person who is a close relative."@en .
+
+
 ###  https://foerderfunke.org/default#countryOfEmployment
 <https://foerderfunke.org/default#countryOfEmployment> rdf:type owl:ObjectProperty ;
                                                        rdfs:domain <https://foerderfunke.org/default#Employment> ;
@@ -214,6 +221,13 @@
                                                       rdfs:domain <https://foerderfunke.org/default#Person> ;
                                                       rdfs:range <https://foerderfunke.org/default#ResidenceStatus> ;
                                                       rdfs:comment "Links a person to their residence status in Germany."@en .
+
+
+###  https://foerderfunke.org/default#immediateCircleMember
+<https://foerderfunke.org/default#immediateCircleMember> rdf:type owl:ObjectProperty ;
+                                                         rdfs:domain <https://foerderfunke.org/default#Person> ;
+                                                         rdfs:range <https://foerderfunke.org/default#Person> ;
+                                                         rdfs:comment "Links a person to another person who is a member of their immediate circle."@en .
 
 
 ###  https://foerderfunke.org/default#incomeTaxCountry
@@ -431,6 +445,13 @@
                                                          rdfs:comment "True if a person has reached the age limit under § 41 SGB XII, false otherwise."@en .
 
 
+###  https://foerderfunke.org/default#accompaniesInpatientTreatment
+<https://foerderfunke.org/default#accompaniesInpatientTreatment> rdf:type owl:DatatypeProperty ;
+                                                                 rdfs:domain <https://foerderfunke.org/default#MedicalAccompaniment> ;
+                                                                 rdfs:range xsd:boolean ;
+                                                                 rdfs:comment "True if medical accompaniment event involves admission for inpatient treatment, false otherwise."@en .
+
+
 ###  https://foerderfunke.org/default#adequateHealthInsurance
 <https://foerderfunke.org/default#adequateHealthInsurance> rdf:type owl:DatatypeProperty ;
                                                            rdfs:domain <https://foerderfunke.org/default#Person> ;
@@ -459,6 +480,13 @@
                                                               rdfs:comment "True if a person can cover their personal basic needs with their income, assets, and priority benefits, false otherwise."@en .
 
 
+###  https://foerderfunke.org/default#causesLossOfEarnings
+<https://foerderfunke.org/default#causesLossOfEarnings> rdf:type owl:DatatypeProperty ;
+                                                        rdfs:domain <https://foerderfunke.org/default#Event> ;
+                                                        rdfs:range xsd:boolean ;
+                                                        rdfs:comment "True if an event causes a loss of earnings for the person experiencing it, false otherwise."@en .
+
+
 ###  https://foerderfunke.org/default#commissionedByEmploymentAgency
 <https://foerderfunke.org/default#commissionedByEmploymentAgency> rdf:type owl:DatatypeProperty ;
                                                                   rdfs:domain <https://foerderfunke.org/default#Training> ;
@@ -473,11 +501,18 @@
                                                                 rdfs:comment "True if a person has been subject to compulsory insurance for at least 12 months within the last 30 months before registering as unemployed, false otherwise."@en .
 
 
+###  https://foerderfunke.org/default#durationInHours
+<https://foerderfunke.org/default#durationInHours> rdf:type owl:DatatypeProperty ;
+                                                   rdfs:domain <https://foerderfunke.org/default#Event> ;
+                                                   rdfs:range xsd:decimal ;
+                                                   rdfs:comment "The total duration of an event in hours."@en .
+
+
 ###  https://foerderfunke.org/default#employableHoursPerDay
 <https://foerderfunke.org/default#employableHoursPerDay> rdf:type owl:DatatypeProperty ;
                                                          rdfs:domain <https://foerderfunke.org/default#Person> ;
-                                                         rdfs:range xsd:int ;
-                                                         rdfs:comment "Links a person o the fractional hours they are able to work per day."@en .
+                                                         rdfs:range xsd:decimal ;
+                                                         rdfs:comment "Links a person to the hours they are able to work per day."@en .
 
 
 ###  https://foerderfunke.org/default#entitledToAsylum
@@ -576,6 +611,13 @@
                                                rdfs:domain <https://foerderfunke.org/default#EarningCapacity> ;
                                                rdfs:range xsd:boolean ;
                                                rdfs:comment "True if a given condition (e.g., earning capacity) is permanent, false otherwise."@en .
+
+
+###  https://foerderfunke.org/default#isRenumerated
+<https://foerderfunke.org/default#isRenumerated> rdf:type owl:DatatypeProperty ;
+                                                 rdfs:domain <https://foerderfunke.org/default#Event> ;
+                                                 rdfs:range xsd:boolean ;
+                                                 rdfs:comment "True if a person is renumerated for an event, false otherwise."@en .
 
 
 ###  https://foerderfunke.org/default#isSingleParent
@@ -694,13 +736,15 @@
 
 ###  https://foerderfunke.org/default#uninterruptedLegalStayForLessThan15Months
 <https://foerderfunke.org/default#uninterruptedLegalStayForLessThan15Months> rdf:type owl:DatatypeProperty ;
+                                                                             rdfs:domain <https://foerderfunke.org/default#Person> ;
+                                                                             rdfs:range xsd:boolean ;
                                                                              rdfs:comment "True if a non-German nationa has been in Germany for less than 15 months without interruption on a permitted, authorized or tolerated basis."@en .
 
 
 ###  https://foerderfunke.org/default#wageCutOffsetMonths
 <https://foerderfunke.org/default#wageCutOffsetMonths> rdf:type owl:DatatypeProperty ;
                                                        rdfs:domain <https://foerderfunke.org/default#Event> ;
-                                                       rdfs:range xsd:integer ;
+                                                       rdfs:range xsd:int ;
                                                        rdfs:comment "Links an event to the number of full months within which a wage cut occurred relative to the date of the event. Negative (resp. positive) values indicate a wage cut before (resp. after) the event."@en .
 
 
@@ -833,6 +877,11 @@
 ###  https://foerderfunke.org/default#MaritalStatus
 <https://foerderfunke.org/default#MaritalStatus> rdf:type owl:Class ;
                                                  rdfs:comment "Instances define a person's marital status."@en .
+
+
+###  https://foerderfunke.org/default#MedicalAccompaniment
+<https://foerderfunke.org/default#MedicalAccompaniment> rdf:type owl:Class ;
+                                                        rdfs:subClassOf <https://foerderfunke.org/default#Event> .
 
 
 ###  https://foerderfunke.org/default#MoveToGermany
@@ -1003,6 +1052,11 @@
                                                     <https://foerderfunke.org/default#Country> .
 
 
+###  https://foerderfunke.org/default#IntegrationAssistance
+<https://foerderfunke.org/default#IntegrationAssistance> rdf:type owl:NamedIndividual ,
+                                                                  <https://foerderfunke.org/default#SocialBenefit> .
+
+
 ###  https://foerderfunke.org/default#JobSeeker
 <https://foerderfunke.org/default#JobSeeker> rdf:type owl:NamedIndividual ,
                                                       <https://foerderfunke.org/default#EmploymentStatus> .
@@ -1066,6 +1120,11 @@
 ###  https://foerderfunke.org/default#StatutoryAccidentInsurance
 <https://foerderfunke.org/default#StatutoryAccidentInsurance> rdf:type owl:NamedIndividual ,
                                                                        <https://foerderfunke.org/default#Insurance> .
+
+
+###  https://foerderfunke.org/default#StatutoryHealthInsurance
+<https://foerderfunke.org/default#StatutoryHealthInsurance> rdf:type owl:NamedIndividual ,
+                                                                     <https://foerderfunke.org/default#Insurance> .
 
 
 ###  https://foerderfunke.org/default#Tolerated

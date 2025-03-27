@@ -1,0 +1,17 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Missin information for "The accompanied patient has a disability"
+
+ff:User ff:hasInsurance ff:StatutoryHealthInsurance, ex:SomeOtherInsurance ;
+        ff:hasEvent ex:SomeEvent, ex:SomeOtherEvent.
+
+ex:SomeEvent a ff:MedicalAccompaniment ;
+        ff:accompaniesInpatientTreatment true ;
+        ff:accompaniesPatient ex:SomePatient ;
+        ff:causesLossOfEarnings true ;
+        ff:isRenumerated false .
+
+ex:SomePatient ff:hasInsurance ff:StatutoryHealthInsurance ;
+        ff:receives ff:IntegrationAssistance ;
+        ff:closeRelative ff:User .

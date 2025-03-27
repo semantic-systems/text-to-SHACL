@@ -45787,9 +45787,14 @@ idlb_to_labels: Dict[str, Dict[str, str]] = {
         "english label": "Funding for activation and professional integration measures",
         "short label": "Aktivierung und Eingliederung"              
     },
-    "B100019_LB_102799525_1.ttl": {
+    "B100019_LB_102799525.ttl": {
         "german label": "Gesetzliche Unfallversicherung Rentenabfindung",
         "english label": "Statutory accident insurance pension compensation",
         "short label": "GUV Rentenabfindung"
-    }
+    },
+    "B100019_LB_103817036.ttl": {
+        "german label": "Krankengeld für Begleitperson bei stationärer Behandlung von Menschen mit Behinderung",
+        "english label": "Sickness allowance for accompanying persons with disabilities during inpatient treatment",
+        "short label": "Krankengeld Begleitperson"
+    },    
 }

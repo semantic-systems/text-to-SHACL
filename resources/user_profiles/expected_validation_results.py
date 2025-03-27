@@ -360,3 +360,25 @@ berufsausbildungsbeihilfe_expected = {
     "B100019_LB_574724_28.ttl": "ineligible",
     "B100019_LB_574724_29.ttl": "ineligible",
 }
+
+krankengeld_begleitperson_expected = {
+    "B100019_LB_103817036_1.ttl": "eligible",
+    "B100019_LB_103817036_2.ttl": "eligible",
+    "B100019_LB_103817036_3.ttl": "eligible",
+    "B100019_LB_103817036_4.ttl": "eligible",
+    "B100019_LB_103817036_5.ttl": "eligible",
+    "B100019_LB_103817036_6.ttl": "ineligible",
+    "B100019_LB_103817036_7.ttl": "ineligible",
+    "B100019_LB_103817036_8.ttl": "ineligible",
+    "B100019_LB_103817036_9.ttl": "ineligible",
+    "B100019_LB_103817036_10.ttl": "ineligible",
+    "B100019_LB_103817036_11.ttl": "ineligible",
+    "B100019_LB_103817036_12.ttl": "ineligible",
+    "B100019_LB_103817036_13.ttl": "ineligible", # missing info
+    "B100019_LB_103817036_14.ttl": "ineligible", # missing info
+    "B100019_LB_103817036_15.ttl": "ineligible", # missing info
+    "B100019_LB_103817036_16.ttl": "ineligible", # missing info
+    "B100019_LB_103817036_17.ttl": "ineligible", # missing info
+    "B100019_LB_103817036_18.ttl": "ineligible", # missing info
+    "B100019_LB_103817036_19.ttl": "ineligible", # missing info
+}
