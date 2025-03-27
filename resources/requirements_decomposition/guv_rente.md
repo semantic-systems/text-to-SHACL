@@ -14,8 +14,7 @@ Unfallversicherung eine Rente.
 
 <b>Requirements text</b>:
 
-Wenn Sie gesetzlich unfallversichert sind, haben Sie unter folgenden
-Voraussetzungen Anspruch auf Rente:
+Wenn Sie gesetzlich unfallversichert sind, haben Sie unter folgenden Voraussetzungen Anspruch auf Rente:
 
   * Ihre Erwerbsfähigkeit ist gemindert: 
     * infolge eines oder mehrerer Versicherungsfälle,
@@ -28,10 +27,10 @@ Voraussetzungen Anspruch auf Rente:
 2. User has reduced earning capacity (GREEN)
 3. The earning capacity is reduced for more than 26 weeks (GREEN)
 4. The earning capacity is reduced by at least 20% (YELLOW: how to determine the percentage must be inferred or explained)
-4. The reduction resulted from one or more insurance events* (YELLOW: definition of the terms in a legal sense must be inferred or explained):
+4. The reduction resulted from one or more insurance events [1] (YELLOW: definition of the terms in a legal sense must be inferred or explained):
     - accident at work OR 
     - a commuting accident OR
     - a recognized occupational disease.
 3. The insurance event reduces earning capacity for more than 26 weeks after the event. (GREEN)
 
-*The types of statutory accident insurance events are known from other requirements texts and, in principle, accessible to the LLM via the ontology
+[1] The types of statutory accident insurance events are known from other requirements texts.
