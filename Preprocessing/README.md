@@ -18,4 +18,3 @@ python Preprocessing/SplitDataset.py <social_benefits_dir> <splits_dir> --train_
 # Step 5: Get the mappings used in further analysis
 python Preprocessing/GetMappings.py <service_desc_dir> <schemata_dir>
 ```
-
