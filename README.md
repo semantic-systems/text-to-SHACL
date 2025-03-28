@@ -46,7 +46,7 @@ The repository is structured as follows.
     - **[Pipeline](Pipeline)**: Code used to run experiments.
         - **[Inference](Pipeline/Inference)**: Code for generating model output.
         - **[Evaluation](Pipeline/Evaluation)**: Code for evaluating LLM-generated SHACL shapes.
-    - **[Preprocessing](Preprocessing)**: Code for scraping and preparing the dataset.
+    - **[Preprocessing](Preprocessing)**: Code for scraping and preparing the dataset. Please refer to the README.py inside this folder for usage.
     - **[resources](resources)**: Supporting materials.
         - **[requiremets_decomposition](resources/requirements_decomposition)**: Extraction and categorization of individual requirements from original texts.
         - **[schemata](resources/schemata)**: Metadata about social benefits and experiments.
