@@ -1,5 +1,6 @@
 {
-    "name": "Ausbildungsgeld beantragen",
+    "name": "Ausbildungsgeld",
     "idlb": "B100019_LB_574711",
+    "description": "Als Mensch mit Behinderungen können Sie zur Sicherung des Lebensunterhaltes\nAusbildungsgeld erhalten, wenn Sie an bestimmten Bildungsmaßnahmen teilnehmen.",
     "requirements": "  * Sie haben eine Behinderung und Ihr zuständiger Rehabilitationsträger ist die Bundesagentur für Arbeit.\n  * Sie werden an einer der folgenden Maßnahmen teilnehmen: \n    * (erste) berufliche Ausbildung,\n    * berufsvorbereitende Bildungsmaßnahme einschließlich einer Grundausbildung,\n    * individuelle betriebliche Qualifizierung im Rahmen der Unterstützten Beschäftigung,\n    * Eingangsverfahren oder Berufsbildungsbereich in einer Werkstatt für behinderte Menschen oder bei einem anderen Leistungsanbieter.\n  * Sie haben keinen Anspruch auf Übergangsgeld."
 }

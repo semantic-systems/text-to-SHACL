@@ -1,0 +1,6 @@
+{
+    "name": "Gesetzliche Unfallversicherung Übergangsgeld",
+    "idlb": "B100019_LB_582422",
+    "description": "Wenn Sie infolge eines Arbeits- oder Wegeunfalles oder einer anerkannten\nBerufskrankheit an qualifizierten Maßnahmen zur Teilhabe am Arbeitsleben\n(einer beruflichen Reha), teilnehmen und kein Arbeitsentgelt beziehen,\nerhalten Sie Übergangsgeld.",
+    "requirements": "  * Bei Ihnen liegt ein Arbeits oder Wegeunfall oder eine anerkannte Berufskrankheit vor.\n  * Sie nehmen an einer qualifizierten Maßnahme zur Teilhabe am Arbeitsleben teil (berufliche Reha)."
+}

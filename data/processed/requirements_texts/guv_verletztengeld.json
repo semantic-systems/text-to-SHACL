@@ -1,0 +1,6 @@
+{
+    "name": "Gesetzlichen Unfallversicherung Verletztengeld",
+    "idlb": "B100019_LB_582429",
+    "description": "Wenn Sie wegen eines Arbeitsunfalls oder einer Berufskrankheit arbeitsunfähig\nsind, erhalten Sie Verletztengeld.",
+    "requirements": "  * Sie erhalten Verletztengeld aus der gesetzlichen Unfallversicherung, wenn Sie aufgrund eines Versicherungsfalls arbeitsunfähig sind.\n  * Als Versicherungsfälle gelten Arbeits- und Wegeunfälle sowie Berufskrankheiten."
+}

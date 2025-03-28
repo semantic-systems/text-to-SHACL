@@ -1,0 +1,6 @@
+{
+    "name": "Gesetzliche Unfallversicherung Rente",
+    "idlb": "B100019_LB_582404",
+    "description": "Wenn Sie nach einem Arbeitsunfall oder wegen einer Berufskrankheit in Ihrer\nErwerbsfähigkeit gemindert sind, erhalten Sie von der gesetzlichen\nUnfallversicherung eine Rente.",
+    "requirements": "Wenn Sie gesetzlich unfallversichert sind, haben Sie unter folgenden\nVoraussetzungen Anspruch auf Rente:\n\n  * Ihre Erwerbsfähigkeit ist gemindert: \n    * infolge eines oder mehrerer Versicherungsfälle,\n    * über die 26. Woche nach dem Versicherungsfall hinaus,\n    * um mindestens 20 Prozent."
+}
