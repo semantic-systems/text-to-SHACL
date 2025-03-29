@@ -6,7 +6,7 @@ Mappings regarding identifiers used in PVOG including
 - idlb_to_ars: Maps IDLB to a corresponding ARS.
 - idlb_to_name: Maps IDLB to the PVOG name of the corresponding administrative service.
 - prefix_to_state: Maps the prefix of an IDLB to the corresponding federal state.
-- idlb_to_labels: Maps IDLB to a German label, English label and short label.
+- idlb_to_labels: Maps IDLB to a German label, English label and snake case label.
 """
 
 from typing import Dict
@@ -45695,106 +45695,106 @@ idlb_to_labels: Dict[str, Dict[str, str]] = {
     "B100019_LB_574711": {
         "german label": "Ausbildungsgeld",
         "english label": "Training allowance",
-        "short label": "Ausbildungsgeld"
+        "snake case": "ausbildungsgeld"
     },
     "B100019_LB_576842": {
         "german label": "Arbeitslosengeld",
         "english label": "Unemployment benefit",
-        "short label": "Arbeitslosengeld"
+        "snake case": "arbeitslosengeld"
     },
     "B100019_LB_576848": {
         "german label": "Insolvenzgeld",
         "english label": "Insolvency allowance",
-        "short label": "Insolvenzgeld"
+        "snake case": "insolvenzgeld"
     },
     "B100019_LB_581863": {
         "german label": "Kinderzuschlag",
         "english label": "Child supplement",
-        "short label": "Kinderzuschlag"
+        "snake case": "kinderzuschlag"
     },
     "B100019_LB_582404": {
         "german label": "Gesetzliche Unfallversicherung Rente",
         "english label": "Statutory accident insurance pension",
-        "short label": "GUV Rente"
+        "snake case": "guv_rente"
     },
     "B100019_LB_582422": {
         "german label": "Gesetzliche Unfallversicherung Übergangsgeld",
         "english label": "Statutory accident insurance transitional allowance",
-        "short label": "GUV Uebergangsgeld"
+        "snake case": "guv_uebergangsgeld"
     },
     "B100019_LB_582429": {
         "german label": "Gesetzlichen Unfallversicherung Verletztengeld",
         "english label": "Statutory accident insurance injury allowance",
-        "short label": "GUV Verletztengeld"
+        "snake case": "guv_verletztengeld"
     },
     "B100019_LB_582435": {
         "german label": "Gesetzliche Unfallversicherung Waisenrente",
         "english label": "Statutory accident insurance orphan's pension",
-        "short label": "GUV Waisenrente"
+        "snake case": "guv_waisenrente"
     },
     "B100019_LB_582441": {
         "german label": "Gesetzliche Unfallversicherung Witwen- und Witwerrente",
         "english label": "Statutory accident insurance widow's pension",
-        "short label": "GUV Witwenrente"
+        "snake case": "guv_witwenrente"
     },
     "B100019_LB_106311931": {
         "german label": "Bürgergeld",
         "english label": "Citizen benefit",
-        "short label": "Buergergeld"
+        "snake case": "buergergeld"
     },
     "B100019_LB_576986": {
         "german label": "Kindergeld",
         "english label": "Child benefit",
-        "short label": "Kindergeld"
+        "snake case": "kindergeld"
     },
     "L100040_LB_12280162": {
         "german label": "Bildung und Teilhabe",
         "english label": "Education and participation",
-        "short label": "Bildung und Teilhabe"
+        "snake case": "bildung_und_teilhabe"
     },
     "B100019_LB_574724": {
         "german label": "Berufsausbildungsbeihilde",
         "english label": "Vocational training allowance",
-        "short label": "Berufsausbildungsbeihilfe"
+        "snake case": "berufsausbildungsbeihilfe"
     },
     "B100019_LB_102713860": {
         "german label": "Einstiegsgeld",
         "english label": "Introductory allowance",
-        "short label": "Einstiegsgeld"
+        "snake case": "einstiegsgeld"
     },
     "B100019_LB_102717659": {
         "german label": "Grundausbildung für Menschen mit Seh- oder Hörbehinderung",
         "english label": "Basic training for people with visual or hearing impairments",
-        "short label": "Grundausbildung"
+        "snake case": "grundausbildung"
     },
     "B100019_LB_102716305": {
         "german label": "Übergangsgeld für Menschen mit Behinderung",
         "english label": "Transitional allowance for people with disabilities",
-        "short label": "Uebergangsgeld Behinderung"
+        "snake case": "uebergangsgeld_behinderung"
     },
     "B100019_LB_102799515": {
         "german label": "Gesetzliche Unfallversicherung Kinderverletztengeld",
         "english label": "Statutory accident insurance child injury benefit",
-        "short label": "GUV Kinderverletztengeld"
+        "snake case": "guv_kinderverletztengeld"
     },
     "L100040_LB_8664880": {
         "german label": "Grundsicherung im Alter und bei Erwerbsminderung",
         "english label": "Basic income support in old age and in case of reduced earning capacity",
-        "short label": "Grundsicherung"        
+        "snake case": "grundsicherung"        
     },
     "B100019_LB_102730340": {
         "german label": "Förderung für Maßnahmen zur Aktivierung und beruflichen Eingliederung",
         "english label": "Funding for activation and professional integration measures",
-        "short label": "Aktivierung und Eingliederung"              
+        "snake case": "aktivierung_und_eingliederung"              
     },
     "B100019_LB_102799525.ttl": {
         "german label": "Gesetzliche Unfallversicherung Rentenabfindung",
         "english label": "Statutory accident insurance pension compensation",
-        "short label": "GUV Rentenabfindung"
+        "snake case": "guv_rentenabfindung"
     },
     "B100019_LB_103817036.ttl": {
         "german label": "Krankengeld für Begleitperson bei stationärer Behandlung von Menschen mit Behinderung",
         "english label": "Sickness allowance for accompanying persons with disabilities during inpatient treatment",
-        "short label": "Krankengeld Begleitperson"
+        "snake case": "krankengeld_begleitperson"
     },    
 }
