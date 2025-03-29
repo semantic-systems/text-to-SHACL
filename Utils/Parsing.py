@@ -4,6 +4,7 @@ Parsing.py
 Utility functions for analyzing text and extracting information.
 """
 from typing import Tuple, Optional, Any, Dict
+from resources.schemata.ids_schema import idlb_to_labels
 import ast
 import os
 import rdflib
@@ -81,4 +82,19 @@ def search_dict_in_file(file_path: str, dict_name: str) -> Dict[str,str]:
                     if isinstance(node.value, ast.Dict) and node.value.keys:
                         return {ast.literal_eval(key): ast.literal_eval(value) for key, value in zip(node.value.keys, node.value.values)}
     
+    return None
+
+def get_idlb_from_label(label_type: str, target_label: str, logger: logging.Logger, idlb_to_labels: Dict[str,Any]=idlb_to_labels) -> str:
+    """Returns the IDLB corresponding to the given label
+
+    :param schema: Mapping from IDLB to different labels.
+    :param label_type: The type of label to search for, i.e. "german label", "english label", or "short label".
+    :param target_label: The label value to search for.
+    :return: The IDLB that corresponding to the given label.
+    """
+    for idlb, details in idlb_to_labels.items():
+        if details.get(label_type).lower() == target_label:
+            return idlb
+        
+    logger.warning(f"Label '{target_label}' not found in the provided schema.")
     return None
