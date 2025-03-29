@@ -1,0 +1,18 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Eligible for vocational training allowance (Berufsausbildungsbeihilfe)
+
+ff:User ff:participates ex:SomeTraining ;
+        ff:hasDisability true ;
+        ff:isNationalOf ex:SomeCountry ;
+        ff:hasAsylumActPermit false ;
+        ff:canCoverPersonalBasicNeeds false .
+
+# Prevocational training
+
+ex:SomeTraining a ff:PreVocationalTraining ;
+    ff:commissionedByEmploymentAgency true ;
+    ff:intendedFundingPeriod [
+        ff:percentAbroad 49 ;
+    ] .

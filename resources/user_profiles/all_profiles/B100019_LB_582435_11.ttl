@@ -1,0 +1,12 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Does not meet requirement "The deceased person was the user's natural parent or primary caretaker" or "The deceased person was the user's stepchild, foster child, or grandchild" 
+
+ff:User ex:someRelation ex:SomePerson ;
+    ff:hasAge 15 .
+
+ex:SomePerson ff:hasInsurance ff:StatutoryAccidentInsurance ;
+        ff:causeOfDeath ex:SomeEvent .
+
+ex:SomeEvent a ff:CommutingAccident .

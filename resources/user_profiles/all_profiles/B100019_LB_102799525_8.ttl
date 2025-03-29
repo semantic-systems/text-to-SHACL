@@ -1,0 +1,6 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Missing information for "User has re-married OR entered a new civil union after widowhood"
+
+ff:User ff:isEligibleFor ff:B100019_LB_582441 .

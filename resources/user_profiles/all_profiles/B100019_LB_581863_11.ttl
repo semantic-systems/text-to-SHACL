@@ -1,0 +1,18 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Does not meet requirement 'Child is not eligible for other benefits with priority over child supplement.'
+
+ff:User ff:receivesChildBenefitFor ex:Kim ;
+		# IncomeShapeB
+		ff:isSingleParent true ;
+		ff:hasIncome [
+			ff:personalGrossIncome 600 ;
+			ff:reducesChildSupplementTo 1 ;
+		] ;
+		ff:hasConsiderableAssets false .
+
+ex:Kim ff:hasAge 24 ;
+	ff:hasMaritalStatus ff:Single ;
+	ff:sameHouseholdAs ff:User ;
+	ff:hasNoPriorityClaimsOver ex:SomeBenefit.

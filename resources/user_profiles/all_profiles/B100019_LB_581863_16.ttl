@@ -1,0 +1,16 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Does not meet requirement 'User has at least one child that fulfills certain criteria. '
+
+ff:User ff:receivesChildBenefitFor ex:Kim ;
+		# IncomeShapeA
+		ff:isSingleParent false ;
+		ff:hasIncome [
+			ff:familyGrossIncome 900 ;
+			ff:reducesChildSupplementTo 1 ;
+		] ;
+		ff:hasConsiderableAssets false .
+
+ex:Kim ff:hasAge 32 ;
+	ff:hasMaritalStatus ff:Married .

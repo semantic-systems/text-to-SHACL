@@ -1,0 +1,11 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Missing information for "The reduction results from one or more insurance events."
+
+ff:User ff:hasInsurance ff:StatutoryAccidentInsurance, ex:SomeOtherInsurance ;
+        ff:hasEarningCapacity ff:ReducedEarningCapacity .
+
+ff:ReducedEarningCapacity a ff:EarningCapacity ;
+        ff:reductionInPercent 20 ;
+        ff:reductionDurationInWeeks 27 .

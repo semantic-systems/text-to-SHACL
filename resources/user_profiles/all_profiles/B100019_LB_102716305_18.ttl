@@ -1,0 +1,13 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Missing information for "Because of their disability, the user needs support with their integration into the workforce"
+
+ff:User ff:hasDisability true ;
+	ff:workforceIntegrationProblemBecause ex:SomeDisability ;
+	ff:hasRehabilitationProvider ff:FederalEmploymentAgency ;
+	# PreEmploymentPeriodA
+	ff:isVocationalReturnee true ;
+	ff:socialSecurityDuration _:b0 .
+
+_:b0 ff:monthsTotal 12 .

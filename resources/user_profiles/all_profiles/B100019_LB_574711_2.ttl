@@ -1,0 +1,9 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Eligible for training allowance (Ausbildungsgeld)
+
+ff:User ff:hasDisability true ;
+        ff:hasRehabilitationProvider ff:FederalEmploymentAgency ;
+        ex:someProperty ex:SomeValue ;
+        ff:isIneligibleFor ff:B100019_LB_102716305 .

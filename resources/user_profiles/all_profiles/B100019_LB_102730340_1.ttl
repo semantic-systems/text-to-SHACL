@@ -1,0 +1,6 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Eligible for Funding for activation and professional integration measures (Aktiierung und Eingliederung)
+
+ff:User ff:receives ff:L100040_LB_8664880 .

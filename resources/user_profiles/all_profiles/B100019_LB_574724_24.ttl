@@ -1,0 +1,17 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Does not meet requirement "User has at least one child living with them"
+
+ff:User ff:participates ex:SomeTraining ;
+        ff:hasChild ex:SomeChild ;
+        ff:isNationalOf ff:Germany ;
+        ff:canCoverPersonalBasicNeeds false .
+
+# Prevocational training
+
+ex:SomeTraining a ff:PreVocationalTraining ;
+    ff:commissionedByEmploymentAgency true ;
+    ff:intendedFundingPeriod [
+        ff:percentAbroad 49 ;
+    ] .

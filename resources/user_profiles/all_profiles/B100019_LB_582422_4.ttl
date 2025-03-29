@@ -1,0 +1,12 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Eligible for Occupational rehabilitation allowance (Gesetzliche Unfallversicherung Übergangsgeld Berufliche Reha)
+
+ff:User ff:hasInsurance ff:StatutoryAccidentInsurance ;
+	ff:hasEvent ex:SomeEvent, ex:SomeOtherEvent .
+
+ex:SomeEvent a ff:CommutingAccident ;
+	ff:resultsInTreatment ex:SomeTreatment .
+
+ex:SomeTreatment a ff:OccupationalRehabilitation .

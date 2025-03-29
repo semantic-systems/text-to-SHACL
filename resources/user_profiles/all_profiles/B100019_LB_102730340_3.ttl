@@ -1,0 +1,6 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Does not meet requirement "User receives basic income support"
+
+ff:User ff:receives ex:SomeBenefit .

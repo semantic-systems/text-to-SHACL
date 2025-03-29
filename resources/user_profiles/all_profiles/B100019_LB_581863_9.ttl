@@ -1,22 +1,21 @@
 @prefix ex: <http://example.org/ns#> .
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix ff: <https://foerderfunke.org/default#> .
 
-# Test (ff:isEligibleFor ff:hasPriorityOver) = ff:B100019_LB_581863
+# Does not meet requirement 'Child lives in the same household as the user.'
 
-ff:User ff:hasChild ex:Kim ;
+ff:User ff:receivesChildBenefitFor ex:Kim ;
+		# IncomeShapeA
 		ff:isSingleParent false ;
 		ff:hasIncome [
 			ff:familyGrossIncome 900 ;
-			ff:reducesChildSupplementTo 1;
-		] .
+			ff:reducesChildSupplementTo 1 ;
+		] ;
+		ff:hasConsiderableAssets false .
 
-ex:Kim a ff:Child ;
-	ff:hasAge 24 ;
+ex:Kim ff:hasAge 24 ;
 	ff:hasMaritalStatus ff:Single ;
-	ff:sameHouseholdAs ff:User ;
-	ff:receivesChildBenefit 250 ;
-	ff:isEligibleFor ex:SomeBenefit .
+	ff:sameHouseholdAs ex:SomeOtherUser ;
+	ff:hasNoPriorityClaimsOver ff:B100019_LB_581863 .
 
 ex:SomeBenefit a ff:SocialBenefit ;
-	ff:hasPriorityOver ff:B100019_LB_581863 .
+	ff:hasPriorityOver ex:SomeOtherBenefit .

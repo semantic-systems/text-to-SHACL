@@ -1,0 +1,15 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Eligible for basic training for people with severe visual or hearing impairement (Grundausbildung)
+
+ff:User ff:hasDisabilityType ex:SomeDisability, ex:SomeOtherDisability ;
+    ff:hasRehabilitationProvider ff:FederalEmploymentAgency ;
+    ff:workforceIntegrationProblemBecause ex:SomeDisability .
+
+ex:SomeDisability a ff:VisualImpairment ;
+    ff:severeDisability true ;
+    ff:reducesWorkProspectsPermanently true .
+
+ex:SomeOtherDisability a ex:SomeTypeOfDisability ;
+    ff:severeDisability false .

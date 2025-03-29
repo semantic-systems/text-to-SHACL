@@ -1,16 +1,11 @@
 @prefix ex: <http://example.org/ns#> .
 @prefix ff: <https://foerderfunke.org/default#> .
 
-# Test (ff:hasIncome ff:coversBasicNeeds) = true
+# Does not meet requirement 'User is able to work at least 3 hours per day'
 
-ff:User ff:employableHoursPerDay 3 ;
-        ff:hasAge 15 ;
-        ff:isPensionable false ;
-        ff:hasIncome [
-            ff:coversBasicNeeds false ;
-        ] ;
-        ff:isEligibleFor ex:SomeBenefit ;
+ff:User ff:employableHoursPerDay 2.99 ;
+        ff:hasAge 69 ;
+        ff:isPensionable true ;
+        ff:hasNoPriorityClaimsOver ff:B100019_LB_106311931 ;
+        ff:canCoverBasicNeedsOfBenefitUnit false ;
         ff:countryOfResidence ff:Germany .
-
-ex:SomeBenefit a ff:SocialBenefit ;
-	ff:hasPriorityOver ff:B100019_LB_106311931 .

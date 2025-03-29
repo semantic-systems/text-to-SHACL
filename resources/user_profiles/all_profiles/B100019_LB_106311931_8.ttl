@@ -1,0 +1,11 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Does not meet requirement 'User may not be eligible for other benefits with priority over Bürgergeld '
+
+ff:User ff:employableHoursPerDay 3 ;
+        ff:hasAge 15 ;
+        ff:isPensionable false ;
+        ff:hasNoPriorityClaimsOver ex:SomeBenefit ;
+        ff:canCoverBasicNeedsOfBenefitUnit false ;
+        ff:countryOfResidence ff:Germany .

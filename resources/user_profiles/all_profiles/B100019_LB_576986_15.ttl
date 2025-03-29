@@ -1,0 +1,22 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Does not met requirement "User's residence situation falls into one of the covered categories"
+
+ff:User ff:incomeTaxCountry ff:Germany ;
+	ff:incomeTaxLiability ff:UnlimitedTaxLiability ;
+	# ResidencyShapeB/C
+	ff:isNationalOf ex:Ireland;
+	ff:hasEvent [
+		a ff:MoveToGermany ;
+		ff:lessThanFourMonthsAgo false ;
+	] ;
+	ff:hasChild ex:Fredda, ex:Mac.
+
+# ChildShapeA
+ex:Fredda ff:countryOfResidence ex:Ireland .
+ex:Ireland a ff:EEAplusCH .
+
+ex:Mac ff:countryOfResidence ex:Tuvalu .

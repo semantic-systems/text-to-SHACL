@@ -1,0 +1,19 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Does not meet requirement "The pre-vcational training pogram takes place on behalf of the employment agency"
+
+ff:User ff:participates ex:SomeTraining ;
+        ff:parentalAdress ex:SomeAdress ;
+        ff:isNationalOf ff:Germany ;
+        ff:canCoverPersonalBasicNeeds false .
+
+# Prevocational training
+
+ex:SomeTraining a ff:PreVocationalTraining ;
+    ff:commissionedByEmploymentAgency false ;
+    ff:intendedFundingPeriod [
+        ff:percentAbroad 49 ;
+    ] .
+
+ex:SomeAdress ff:tooFarFromTrainingCompany true .

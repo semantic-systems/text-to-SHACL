@@ -1,0 +1,14 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Eligible for statutory accident insurance injury allowance (Gesetzliche Unfallversicherung Verletztengeld)
+
+ff:User ff:hasInsurance ff:StatutoryAccidentInsurance ;
+    ff:hasEarningCapacity ff:UnfitForWork .
+
+ff:UnfitForWork a ff:EarningCapacity ;
+    ff:triggeringEvent ex:SomeEvent, ex:SomeOtherEvent .
+
+ex:SomeEvent a ff:WorkAccident .
+
+ex:SomeOtherEvent a ff:WorkAccident .

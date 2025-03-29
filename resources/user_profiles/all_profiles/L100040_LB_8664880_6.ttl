@@ -1,0 +1,7 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Does not meet requirement The user cannot cover their personal basic needs with their salary, assets, and priority benefits
+
+ff:User ff:canCoverPersonalBasicNeeds true ;
+    ff:aboveSGBXII41AgeLimit true .

@@ -1,0 +1,18 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Does not meet requirement 'As a couple, shared gross income is at least 900€/Month.' 
+
+ff:User ff:receivesChildBenefitFor ex:Kim ;
+		# IncomeShapeA
+		ff:isSingleParent false ;
+		ff:hasIncome [
+			ff:familyGrossIncome 899.99 ;
+			ff:reducesChildSupplementTo 1 ;
+		] ;
+		ff:hasConsiderableAssets false .
+
+ex:Kim ff:hasAge 24 ;
+	ff:hasMaritalStatus ff:Single ;
+	ff:sameHouseholdAs ff:User ;
+	ff:hasNoPriorityClaimsOver ff:B100019_LB_581863 .

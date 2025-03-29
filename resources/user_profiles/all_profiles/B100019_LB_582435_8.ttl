@@ -1,0 +1,12 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Does not meet requirement "The person who died lived in the same household as the userr"
+
+ff:User ff:stepChildTo ex:SomePerson ;
+    ff:hasAge 15 .
+
+ex:SomePerson ff:hasInsurance ff:StatutoryAccidentInsurance ;
+        ff:causeOfDeath ex:SomeEvent .
+
+ex:SomeEvent a ff:CommutingAccident .

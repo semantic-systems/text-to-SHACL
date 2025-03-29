@@ -1,15 +1,11 @@
 @prefix ex: <http://example.org/ns#> .
 @prefix ff: <https://foerderfunke.org/default#> .
 
-# Test ff:isPenionable = true
+# Eligible for citizen benefit (Bürgergeld)
 
-ff:User ff:hasAge 68 ;
-        ff:isPensionable true ;
-        ff:hasIncome [
-            ff:coversBasicNeeds false ;
-        ] ;
-        ff:isEligibleFor ex:SomeBenefit ;
+ff:User ff:employableHoursPerDay 3.01 ;
+        ff:hasAge 57 ;
+        ff:isPensionable false ;
+        ff:hasNoPriorityClaimsOver ff:B100019_LB_106311931 ;
+        ff:canCoverBasicNeedsOfBenefitUnit false ;
         ff:countryOfResidence ff:Germany .
-
-ex:SomeBenefit a ff:SocialBenefit ;
-	ff:hasPriorityOver ex:SomeOtherBenefit .

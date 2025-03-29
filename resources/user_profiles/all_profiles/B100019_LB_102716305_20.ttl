@@ -1,0 +1,13 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Missing information for "Within last 3 years..."
+
+ff:User ff:hasDisability true ;
+	ff:workforceIntegrationProblemBecause ex:SomeDisability ;
+	ff:hasRehabilitationProvider ff:FederalEmploymentAgency ;
+	# PreEmploymentPeriodB
+	ff:isVocationalReturnee false ;
+	ff:receivedBenefit ff:B100019_LB_576842 .
+
+ff:B100019_LB_576842 a ff:SocialBenefit .

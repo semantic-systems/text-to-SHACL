@@ -1,0 +1,19 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Does not meet requirement "The user is a close relative of the patient OR a member of the immediate circle of the patient"
+
+ff:User ff:hasInsurance ff:StatutoryHealthInsurance ;
+        ff:hasEvent ex:SomeEvent .
+
+ex:SomeEvent a ff:MedicalAccompaniment ;
+        ff:accompaniesInpatientTreatment true ;
+        ff:accompaniesPatient ex:SomePatient ;
+        ff:causesLossOfEarnings true ;
+        ff:isRenumerated false .
+
+ex:SomePatient ff:hasDisability true ;
+        ff:hasInsurance ff:StatutoryHealthInsurance ;
+        ff:receives ff:IntegrationAssistance ;
+        ff:closeRelative ex:PersonA, ex:PersonB ;
+        ff:immediateCircleMember ex:PersonC, ex:PersonA .

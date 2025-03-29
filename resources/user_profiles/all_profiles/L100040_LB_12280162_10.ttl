@@ -1,0 +1,6 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Missing information for "User receives citizen benefit OR social assistance OR asylum seeker benefits"
+
+ff:User ff:hasAge 24 .

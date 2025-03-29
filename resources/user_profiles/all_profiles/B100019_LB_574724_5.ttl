@@ -1,0 +1,24 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Eligible for vocational training allowance (Berufsausbildungsbeihilfe)
+
+ff:User ff:participates ex:SomeTraining ;
+        ff:parentalAdress ex:SomeAdress ;
+        ff:isNationalOf ff:Germany ;
+        ff:canCoverPersonalBasicNeeds false .
+
+# Vocational training
+
+ex:SomeTraining a ff:VocationalTraining ;
+    ff:ruleExemptionBecause ex:SomeDisability ;
+    ff:isFirstVocationalTraining false ;
+    ff:subjectToContract ex:SomeContract ;
+    ff:percentAbroad 0 ;
+    ff:monthsAbroad 0 .
+
+ex:SomeAdress ff:tooFarFromTrainingCompany true .
+
+ex:SomeContract a ff:VocationalTrainingContract .
+
+ex:SomeDisability a ff:Disability .

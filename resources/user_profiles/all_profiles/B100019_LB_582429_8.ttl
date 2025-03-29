@@ -1,0 +1,12 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Does not meet requirement "User is unfit for work because of an insurance event"
+
+ff:User ff:hasInsurance ff:StatutoryAccidentInsurance ;
+    ff:hasEarningCapacity ff:UnfitForWork .
+
+ff:UnfitForWork a ff:EarningCapacity ;
+    ff:triggeringEvent ex:SomeEvent .
+
+ex:SomeEvent a ex:EventTyp .

@@ -1,0 +1,10 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Missing information for 'User is at least 15 years old'
+
+ff:User ff:employableHoursPerDay 3 ;
+        ff:isPensionable false ;
+        ff:countryOfResidence ff:Germany ;
+        ff:canCoverBasicNeedsOfBenefitUnit false ;
+        ff:hasNoPriorityClaimsOver ff:B100019_LB_106311931 .

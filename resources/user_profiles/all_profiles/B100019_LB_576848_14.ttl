@@ -1,0 +1,16 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Does not meet requirement "An insolvency event occurred"
+
+ff:User ff:hasEmployment ex:SomeEmployment ;
+    ff:hasEmploymentStatus ff:Employee .
+
+# CountryShapeA
+ex:SomeEmployment ff:employer ex:SomeEmployer ;
+    ff:countryOfEmployment ff:Germany .
+
+ex:SomeEmployer ff:hasEvent ex:SomeEvent .
+
+# InsolvencyEventShapeA
+ex:SomeEvent a ex:SomeProceeding .

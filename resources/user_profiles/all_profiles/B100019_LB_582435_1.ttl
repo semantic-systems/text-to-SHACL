@@ -1,0 +1,12 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Eligible for orphan's pension (Waisenrente)
+
+ff:User ff:naturalChildTo ex:SomePerson ;
+    ff:hasAge 15 .
+
+ex:SomePerson ff:hasInsurance ff:StatutoryAccidentInsurance ;
+        ff:causeOfDeath ex:SomeEvent .
+
+ex:SomeEvent a ff:WorkAccident .

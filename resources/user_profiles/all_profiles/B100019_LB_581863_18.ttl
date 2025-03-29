@@ -1,0 +1,13 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Missing ff:hasIncome for IncomeShapeA OR IncomeShapeB
+
+ff:User ff:receivesChildBenefitFor ex:Kim ;
+		ff:isSingleParent false ;
+		ff:hasConsiderableAssets false .
+
+ex:Kim ff:hasAge 24 ;
+	ff:hasMaritalStatus ff:Single ;
+	ff:sameHouseholdAs ff:User ;
+	ff:hasNoPriorityClaimsOver ff:B100019_LB_581863 .

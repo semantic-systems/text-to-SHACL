@@ -1,0 +1,6 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Eligible for introductory allowance (Einstiegsgeld)
+
+ff:User ff:receivesBenefit ff:B100019_LB_106311931 .

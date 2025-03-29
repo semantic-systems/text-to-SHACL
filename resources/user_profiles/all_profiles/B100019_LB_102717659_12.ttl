@@ -1,0 +1,11 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Missing information for "User's rehabilitation provider is the Federal Employment Agency"
+
+ff:User ff:hasDisabilityType ex:SomeDisability ;
+    ff:workforceIntegrationProblemBecause ex:SomeDisability .
+
+ex:SomeDisability a ff:VisualImpairment ;
+    ff:severeDisability true ;
+    ff:reducesWorkProspectsPermanently true .

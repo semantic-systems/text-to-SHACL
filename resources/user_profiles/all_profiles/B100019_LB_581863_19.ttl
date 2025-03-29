@@ -1,0 +1,17 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Mising ff:isSingleParent for IncomeShapeA OR IncomeShapeB
+
+ff:User ff:receivesChildBenefitFor ex:Kim ;
+		# IncomeShapeB
+		ff:hasIncome [
+			ff:personalGrossIncome 600 ;
+			ff:reducesChildSupplementTo 1 ;
+		] ;
+		ff:hasConsiderableAssets false .
+
+ex:Kim ff:hasAge 24 ;
+	ff:hasMaritalStatus ff:Single ;
+	ff:sameHouseholdAs ff:User ;
+	ff:hasNoPriorityClaimsOver ff:B100019_LB_581863 .

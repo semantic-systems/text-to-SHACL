@@ -1,0 +1,12 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Does not meet requirement "The disability reduces the user's prospect of participating in working life permanently"
+
+ff:User ff:hasDisabilityType ex:SomeDisability ;
+    ff:hasRehabilitationProvider ff:FederalEmploymentAgency ;
+    ff:workforceIntegrationProblemBecause ex:SomeDisability .
+
+ex:SomeDisability a ff:VisualImpairment ;
+    ff:severeDisability true ;
+    ff:reducesWorkProspectsPermanently false .

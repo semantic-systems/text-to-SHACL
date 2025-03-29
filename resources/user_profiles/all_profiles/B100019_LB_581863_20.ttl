@@ -1,0 +1,17 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Missing information for "Child may not be married or in a civil union."
+
+ff:User ff:receivesChildBenefitFor ex:Child0 ;
+		# IncomeShapeB
+		ff:isSingleParent true ;
+		ff:hasIncome [
+			ff:personalGrossIncome 600 ;
+			ff:reducesChildSupplementTo 1 ;
+		] ;
+		ff:hasConsiderableAssets false .
+
+ex:Child0 ff:hasAge 24 ;
+	ff:sameHouseholdAs ff:User ;
+	ff:hasNoPriorityClaimsOver ff:B100019_LB_581863 .

@@ -1,0 +1,19 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Eligible for insolvency allowance (Insolvenzgeld)
+
+ff:User ff:hasEmployment ex:SomeEmployment ;
+    ff:hasEmploymentStatus ff:Employee ;
+    ff:socialSecurityCountry ff:Germany .
+
+# CountryShapeB
+ex:SomeEmployment ff:employer ex:SomeEmployer ;
+    ff:countryOfEmployment ex:SomeCountry .
+
+ex:SomeEmployer ff:hasEvent ex:SomeEvent .
+
+# InsolvencyEventShapeA
+ex:SomeEvent a ff:InsolvencyProceeding ;
+    ff:isOpen true ;
+    ff:wageCutOffsetMonths -3 .

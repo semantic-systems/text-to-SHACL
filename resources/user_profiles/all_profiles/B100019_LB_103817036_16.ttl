@@ -1,0 +1,17 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Missing information for "The user is not remunerated for the accompaniment"
+
+ff:User ff:hasInsurance ff:StatutoryHealthInsurance ;
+        ff:hasEvent ex:SomeEvent .
+
+ex:SomeEvent a ff:MedicalAccompaniment ;
+        ff:accompaniesInpatientTreatment true ;
+        ff:accompaniesPatient ex:SomePatient ;
+        ff:causesLossOfEarnings true .
+
+ex:SomePatient ff:hasDisability true ;
+        ff:hasInsurance ff:StatutoryHealthInsurance ;
+        ff:receives ff:IntegrationAssistance ;
+        ff:closeRelative ff:User .

@@ -1,0 +1,14 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Missing information for "The user participates in vocational training or school" or "The user cannot support themselves because of a disability"
+
+ff:User ff:naturalChildTo ex:SomePerson ;
+    ff:hasAge 19 .
+
+ex:SomePerson ff:hasInsurance ff:StatutoryAccidentInsurance ;
+        ff:causeOfDeath ex:SomeEvent .
+
+ex:SomeEvent a ff:CommutingAccident .
+
+ex:SomeDisability a ff:Disability .

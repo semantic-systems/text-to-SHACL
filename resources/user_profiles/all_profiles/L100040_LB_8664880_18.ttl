@@ -1,0 +1,10 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Missing information for "The user is older than 17 years"
+
+ff:User ff:canCoverPersonalBasicNeeds false ;
+    # EarningSituationA
+    ff:hasEarningCapaity ex:SomeCapacity .
+
+ex:SomeCapacity a ff:UnfitForWork .

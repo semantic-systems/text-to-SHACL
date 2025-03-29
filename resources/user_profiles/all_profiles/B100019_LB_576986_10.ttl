@@ -1,0 +1,15 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+# Does not meet requirement "User is a German national"
+
+ff:User ff:incomeTaxCountry ex:Lesotho;
+	ff:incomeTaxLiability ff:UnlimitedTaxLiability;
+	# ResidencyShapeA
+	ff:isNationalOf ex:Lesotho;
+	ff:hasChild ex:Qwert.
+
+# ChildShapeA
+ex:Qwert ff:countryOfResidence ff:Germany .
+ff:Germany a ff:EEAplusCH .

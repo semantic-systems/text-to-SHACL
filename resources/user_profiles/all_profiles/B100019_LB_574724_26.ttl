@@ -1,0 +1,18 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Does not meet nationality requirements
+
+ff:User ff:participates ex:SomeTraining ;
+        ff:hasDisability true ;
+        ff:isNationalOf ex:SomeCountry ;
+        ff:hasAsylumActPermit true ;
+        ff:canCoverPersonalBasicNeeds false .
+
+# Prevocational training
+
+ex:SomeTraining a ff:PreVocationalTraining ;
+    ff:commissionedByEmploymentAgency true ;
+    ff:intendedFundingPeriod [
+        ff:percentAbroad 49 ;
+    ] .

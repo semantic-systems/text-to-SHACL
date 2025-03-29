@@ -1,0 +1,10 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Missing information for "The death was caused by an insurance event"
+
+ff:User ff:deceasedSpouse ex:SomePerson .
+
+ex:SomePerson ff:causeOfDeath ex:SomeEvent .
+
+ex:SomeEvent ff:legalUnionBeforeEvent ff:User .

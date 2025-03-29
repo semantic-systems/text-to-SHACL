@@ -1,0 +1,11 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Missing information for "The user receives training budget"
+
+ff:User ff:canCoverPersonalBasicNeeds false ;
+    # EarningSituationC
+    ff:hasAge 18 ;
+    ff:participates ex:SomeTraining .
+
+ex:SomeTraining a ff:VocationalTraining .

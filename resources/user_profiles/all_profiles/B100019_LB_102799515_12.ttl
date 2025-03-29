@@ -1,0 +1,15 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Missing information for "The child's care needs were caused by a school accident OR a kindergarten accident"
+
+ff:User ff:sameHouseholdAs ex:Child, ex:AnotherChild ;
+        ff:wasEntitledToCashBenefitBefore ex:CareNeeds .
+
+ex:Child ff:needsCare ex:CareNeeds ;
+        ff:hasAge 11 .
+
+ex:AnotherChild ff:needsCare ex:CareNeeds ;
+        ff:hasAge 13 .
+
+ex:CareNeeds ff:caregiverInHousehold ff:User .

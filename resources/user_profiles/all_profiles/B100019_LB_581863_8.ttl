@@ -1,27 +1,21 @@
 @prefix ex: <http://example.org/ns#> .
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix ff: <https://foerderfunke.org/default#> .
 
-# Eligible for child supplement (Kinderzuschlag)
+# Does not meet requirement 'Child is not married or in a registered partnership. '
 
-ff:User ff:hasChild ex:Kim, ex:Sam ;
+ff:User ff:receivesChildBenefitFor ex:Kim ;
+		# IncomeShapeB
 		ff:isSingleParent true ;
 		ff:hasIncome [
 			ff:personalGrossIncome 600 ;
 			ff:reducesChildSupplementTo 1 ;
-		] .
+		] ;
+		ff:hasConsiderableAssets false .
 
-ex:Kim a ff:Child ;
-	ff:hasAge 24 ;
-	ff:hasMaritalStatus ff:Single ;
+ex:Kim ff:hasAge 24 ;
+	ff:hasMaritalStatus ff:Married ;
 	ff:sameHouseholdAs ff:User ;
-	ff:receivesChildBenefit 250 ;
-	ff:isEligibleFor ex:SomeBenefit .
+	ff:hasNoPriorityClaimsOver ff:B100019_LB_581863 .
 
 ex:SomeBenefit a ff:SocialBenefit ;
 	ff:hasPriorityOver ex:SomeOtherBenefit .
-
-ex:Sam a ff:Child ;
-	ff:hasAge 26 ;
-	ff:hasMaritalStatus ff:Married ;
-	ff:receivesChildBenefit 0 .

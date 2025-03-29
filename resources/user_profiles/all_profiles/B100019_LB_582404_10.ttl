@@ -1,0 +1,14 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Does not meet requiement "User has reduced earning capacity"
+
+ff:User ff:hasInsurance ff:StatutoryAccidentInsurance, ex:SomeOtherInsurance ;
+        ff:hasEarningCapacity ff:ReducedEarningCapacity .
+
+ff:ReducedEarningCapacity a ff:EarningCapacity ;
+        ff:reductionInPercent 19.99 ;
+        ff:reductionDurationInWeeks 27 ;
+        ff:triggeringEvent ex:SomeEvent .
+
+ex:SomeEvent a ff:WorkAccident .

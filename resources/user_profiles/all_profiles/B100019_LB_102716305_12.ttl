@@ -1,0 +1,13 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Does not meet requirement "User has been subject to social security for at least 12 months within the last 3 years"
+ff:User ff:hasDisability true ;
+	ff:workforceIntegrationProblemBecause ex:SomeDisability ;
+	ff:hasRehabilitationProvider ff:FederalEmploymentAgency ;
+	# PreEmploymentPeriodB
+	ff:isVocationalReturnee false ;
+	ff:socialSecurityDuration _:b0 .
+
+_:b0 ff:monthsInLast3Years 11 ;
+	ff:monthsTotal 12 . # Only suffices if user is a vocational returnee

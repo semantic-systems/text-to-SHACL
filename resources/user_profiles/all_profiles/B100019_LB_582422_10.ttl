@@ -1,0 +1,11 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Missing information for "The event is an accident at work, commuting accident or occupational disease"
+
+ff:User ff:hasInsurance ff:StatutoryAccidentInsurance ; 
+	ff:hasEvent ex:SomeEvent .
+
+ex:SomeEvent ff:resultsInTreatment ex:SomeTreatment .
+
+ex:SomeTreatment a ff:OccupationalRehabilitation .

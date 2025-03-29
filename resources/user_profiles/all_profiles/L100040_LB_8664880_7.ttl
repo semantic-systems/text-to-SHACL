@@ -1,0 +1,7 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Does not meet requirement "The user has reached the age limit under § 41 SGB XII "
+
+ff:User ff:canCoverPersonalBasicNeeds false ;
+    ff:aboveSGBXII41AgeLimit false .

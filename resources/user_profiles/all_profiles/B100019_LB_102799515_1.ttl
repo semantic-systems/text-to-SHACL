@@ -1,0 +1,15 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Eligible for statutory accident insurance child injury benefit (Gesetzliche Unfallversicherung Kinderverletztengeld)
+
+ff:User ff:sameHouseholdAs ex:Child ;
+        ff:wasEntitledToCashBenefitBefore ex:CareNeeds .
+
+ex:Child ff:needsCare ex:CareNeeds ;
+        ff:hasAge 11 .
+
+ex:CareNeeds ff:triggeringEvent ex:SomeEvent ;
+        ff:caregiverInHousehold ff:User .
+
+ex:SomeEvent a ff:SchoolAccident .

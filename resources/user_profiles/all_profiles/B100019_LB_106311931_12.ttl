@@ -1,0 +1,10 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Missing information for 'User has not yet reached the legal retirement age.'
+
+ff:User ff:employableHoursPerDay 3 ;
+        ff:hasAge 69 ;
+        ff:hasNoPriorityClaimsOver ff:B100019_LB_106311931 ;
+        ff:canCoverBasicNeedsOfBenefitUnit false ;
+        ff:countryOfResidence ff:Germany .

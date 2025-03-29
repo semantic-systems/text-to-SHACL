@@ -1,0 +1,11 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Missing information for "The disability is a visual OR hearing impairement"
+
+ff:User ff:hasDisabilityType ex:SomeDisability ;
+    ff:hasRehabilitationProvider ff:FederalEmploymentAgency ;
+    ff:workforceIntegrationProblemBecause ex:SomeDisability .
+
+ex:SomeDisability ff:severeDisability true ;
+    ff:reducesWorkProspectsPermanently true .

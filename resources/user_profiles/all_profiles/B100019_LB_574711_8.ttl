@@ -1,0 +1,7 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Missing information for 'User is not eligible for transitional allowance'
+
+ff:User ff:hasDisability true ;
+        ff:hasRehabilitationProvider ff:FederalEmploymentAgency .

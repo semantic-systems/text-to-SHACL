@@ -1,0 +1,17 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Missing ff:hasConsiderableAssets for 'User has no considerable assets.'
+
+ff:User ff:receivesChildBenefitFor ex:Kim ;
+		# IncomeShapeB
+		ff:isSingleParent true ;
+		ff:hasIncome [
+			ff:personalGrossIncome 600 ;
+			ff:reducesChildSupplementTo 1 ;
+		] .
+
+ex:Kim ff:hasAge 24 ;
+	ff:hasMaritalStatus ff:Single ;
+	ff:sameHouseholdAs ff:User ;
+	ff:hasNoPriorityClaimsOver ff:B100019_LB_581863 .

@@ -1,0 +1,10 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Missing information for 'User is able to work at least 3 hours per day'
+
+ff:User ff:hasAge 15 ;
+        ff:isPensionable false ;
+        ff:hasNoPriorityClaimsOver ff:B100019_LB_106311931 ;
+        ff:canCoverBasicNeedsOfBenefitUnit false ;
+        ff:countryOfResidence ff:Germany .

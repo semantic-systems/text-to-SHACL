@@ -1,0 +1,11 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Does not meet requirement 'User has an employment for less than 15 hours per week'
+
+ff:User ff:hasEmployment ex:SomeEmployment ;
+        ff:availableForPlacement true ;
+        ff:compulsoryInsuranceFor12In30Months true ;
+        ff:hasEmploymentStatus ff:RegisteredUnemployed .
+
+ex:SomeEmployment ff:workHoursPerWeek 15 .

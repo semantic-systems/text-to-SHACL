@@ -1,0 +1,14 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Does not meet requirement "The child needs care"
+
+ff:User ff:sameHouseholdAs ex:Child ;
+        ff:wasEntitledToCashBenefitBefore ex:CareNeeds .
+
+ex:Child ff:hasAge 7 .
+
+ex:CareNeeds ff:triggeringEvent ex:SomeEvent ;
+        ff:caregiverInHousehold ff:User .
+
+ex:SomeEvent a ff:SchoolAccident .

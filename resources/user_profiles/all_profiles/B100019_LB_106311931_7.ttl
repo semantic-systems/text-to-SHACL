@@ -1,16 +1,11 @@
 @prefix ex: <http://example.org/ns#> .
 @prefix ff: <https://foerderfunke.org/default#> .
 
-# Test ff:countryOfResidence != Germany
+# Does not meet requirement 'User has not yet reached the legal retirement age'
 
-ff:User ff:employableHoursPerDay 3 ;
-        ff:hasAge 15 ;
-        ff:isPensionable false ;
-        ff:hasIncome [
-            ff:coversBasicNeeds false ;
-        ] ;
-        ff:isEligibleFor ex:SomeBenefit ;
-        ff:countryOfResidence ff:Kyrgyzstan .
-
-ex:SomeBenefit a ff:SocialBenefit ;
-	ff:hasPriorityOver ff:SomeOtherBenefit .
+ff:User ff:employableHoursPerDay 6 ;
+        ff:hasAge 69 ;
+        ff:isPensionable true ;
+        ff:hasNoPriorityClaimsOver ff:B100019_LB_106311931 ;
+        ff:canCoverBasicNeedsOfBenefitUnit false ;
+        ff:countryOfResidence ff:Germany .

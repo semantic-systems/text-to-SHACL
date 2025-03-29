@@ -1,0 +1,22 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Does not meet requirement "The vocational training program must be formally recognized or he user has a disability"
+
+ff:User ff:participates ex:SomeTraining ;
+        ff:parentalAdress ex:SomeAdress ;
+        ff:isNationalOf ff:Germany ;
+        ff:canCoverPersonalBasicNeeds false .
+
+# Vocational training
+
+ex:SomeTraining a ff:VocationalTraining ;
+    ff:recognizedByLaw ex:SomeLaw ;
+    ff:isFirstVocationalTraining true ;
+    ff:subjectToContract ex:SomeContract ;
+    ff:percentAbroad 0 ;
+    ff:monthsAbroad 0 .
+
+ex:SomeAdress ff:tooFarFromTrainingCompany true .
+
+ex:SomeContract a ff:VocationalTrainingContract .

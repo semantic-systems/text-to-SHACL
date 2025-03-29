@@ -1,0 +1,16 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Eligible for Transitional allowance for people with disabilities (Übergangsgeld für Menschen mit Behinderung)
+
+ff:User ff:hasDisability true ;
+	ff:workforceIntegrationProblemBecause ex:SomeDisability ;
+	ff:hasRehabilitationProvider ff:FederalEmploymentAgency ;
+	# PreEmploymentPeriodB
+	ff:isVocationalReturnee false ;
+	ff:receivedBenefit ff:B100019_LB_576842 .
+
+ex:SomeDisability a ff:Disability .
+
+ff:B100019_LB_576842 a ff:SocialBenefit ;
+	ff:receivedWithinLast3Years true .
