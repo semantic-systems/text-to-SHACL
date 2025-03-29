@@ -37,8 +37,8 @@ class PromptHandler:
         self.prompt_variables = supported_modes[mode]["prompt_variables"]
         self.prompt_template = PromptTemplate(template=self._load_prompt_template()) # e.g. "Tell me a fun fact about {animal}."
         
-        # Load variable prompt components and fixed input component
-        self.prompt_components = {} # e.g. {"animal": "wombats"}
+        # Load variable prompt components that depend on the mode
+        self.prompt_components = {} # e.g. {"instruction": "Fetch!"}
         for variable in self.prompt_variables:
             load_method = getattr(self, f"_load_{variable}", None)
             if callable(load_method):
@@ -46,16 +46,16 @@ class PromptHandler:
             else:
                 logger.error(f"No loader method defined for prompt variable: {variable}")
                 raise
-        self.prompt_components["input"] = self.load_input(input_path)
+        # Load fixed prompt component, i.e. input requirements
+        self.prompt_components["input"] = self._load_input(input_path)
         
         self.rendered_prompt = self.prompt_template.format(**self.prompt_components) # e.g. "Tell me a fun fact about wombats."
         
-    def _load_shacl_gold_from_idlb(self, idlb: str) -> str:
-        """Returns the SHACL groundtruth for the benefit with the specified IDLB."""
-        groundtruth_base_dir = os.path.abspath(os.path.join(self.train_dir, os.pardir, os.pardir, "shacl_gold"))
-        groundtruth_path = os.path.join(groundtruth_base_dir, f"{idlb}_gold.ttl")
-        shacl_gold_string = load_file(file_path=groundtruth_path, logger=logger)
-        return shacl_gold_string
+    def _load_shacl_gold(self, filename: str) -> str:
+        """Returns the SHACL groundtruth for the benefit with the specified filename."""
+        benefit, _ = os.path.splitext(filename)
+        shacl_gold_path = os.path.join(os.getenv("SHACL_GOLD_DIR"), f"{benefit}.ttl")
+        return load_file(file_path=shacl_gold_path, logger=logger)
 
     def _load_prompt_template(self) -> str:
         """Returns the prompt template for the specified mode."""
@@ -68,11 +68,11 @@ class PromptHandler:
         return load_file(file_path=instruction_path, logger=logger)
     
     def _load_ontology(self) -> str:
-        """Returns the ontology for the specified mode."""
+        """Returns the ontology."""
         ontology_path = os.path.join(self.prompt_components_dir, f"ontology/ontology.ttl")
         return load_file(file_path=ontology_path, logger=logger)
     
-    def load_input(self, file_path: str) -> str:
+    def _load_input(self, file_path: str) -> str:
         """Returns the model input for a given test or train file."""
         # Extract the benefit name, IDLB, and requirements text
         with open(file_path, 'r', encoding='utf-8') as json_file:
@@ -110,10 +110,10 @@ class PromptHandler:
             
             # Load input from the train file
             input_path = os.path.join(self.train_dir, example)
-            example_input = self.load_input(input_path)
+            example_input = self._load_input(input_path)
             
             # Load corresponding SHACL groundtruth
-            shacl_gold = self._load_shacl_gold_from_idlb(idlb)
+            shacl_gold = self._load_shacl_gold(idlb)
             
             # Load example template and replace placeholders
             example_template_path = os.path.join(self.prompt_components_dir, self.mode, "example_template.txt")
