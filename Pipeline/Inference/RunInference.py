@@ -20,7 +20,7 @@ from .Model import ModelHandler
 from .Prompt import PromptHandler
 from Utils.Logger import setup_logger
 from Utils.FileHandling import setup_experiment_directory
-from Utils.Parsing import retrieve_parsable_turtle
+from Utils.Parsing import retrieve_parsable_turtle, get_idlb_from_label
 from resources.schemata.modes_schema import supported_modes
 
 logger = setup_logger(__name__, "logs/RunInference.log")
@@ -37,7 +37,8 @@ def run_fewshot_experiment(test_dir: str, prompt_components_dir: str, model_hand
     parsed_output_dir = os.path.join(experiment_dir, "output", "parsed_output")
     os.makedirs(parsed_output_dir, exist_ok=True)
     for test_file in os.listdir(test_dir):
-        idlb = os.path.splitext(test_file)[0]
+        benefit_label = os.path.splitext(test_file)[0]
+        idlb = get_idlb_from_label(label_type="snake case", target_label=benefit_label, logger=logger)
         run_key = f"{mode}_{model.model_name}_{idlb}"
         parsed_output_path = os.path.join(parsed_output_dir, f"{run_key}.ttl")
         
@@ -52,42 +53,52 @@ def run_fewshot_experiment(test_dir: str, prompt_components_dir: str, model_hand
         start_time = datetime.now()
         try:
             response = chain.invoke(prompt_components)
+            finish_reason = response.response_metadata["finish_reason"]
         except Exception as e:
             logger.error(f"Error invoking {model.model_name}: {e}")
-            continue
+            finish_reason = str(e)
         end_time = datetime.now()
         
-        # Try to retrieve valid Turtle from raw output
-        raw_output = response.content
-        turtle_output = retrieve_parsable_turtle(raw_output, logger)
-        
-        # Save parsed output if it includes valid Turtle
-        if turtle_output is not None:
-            try:
-                with open(parsed_output_path, "w", encoding="utf-8") as turtle_file:
-                    turtle_file.write(turtle_output)
-                logger.info(f"Saved parsed output to {parsed_output_path}")
-            except Exception as e:
-                logger.error(f"Error saving parsed output: {e}")
-            
-        # Fetch metadata, rendered prompt, and raw response
+        # Extract metadata about the run
         metadata = {
+            "finish_reason": finish_reason,
             "mode": mode,
             "model": model.model_name,
-            "valid_turtle": 0 if turtle_output is None else 1,
             "test_idlb": idlb,
-            "in-context examples": prompt_handler.examples,
+            "test_file": benefit_label,
+            "example_files": prompt_handler.examples,
             "timestamp": start_time.isoformat(),
             "inference_time": (end_time - start_time).total_seconds(),
-            "parsed_output_path": None if turtle_output is None else parsed_output_path,
-            "token_usage": response.response_metadata["token_usage"],
-            "finish_reason": response.response_metadata["finish_reason"]
         }
+        
+        if "response" in locals():
+            # Search for valid Turtle in raw output
+            raw_output = response.content
+            turtle_output = retrieve_parsable_turtle(raw_output, logger)
+        
+            # Save valid Turtle content, if any
+            if turtle_output:
+                try:
+                    with open(parsed_output_path, "w", encoding="utf-8") as turtle_file:
+                        turtle_file.write(turtle_output)
+                    logger.info(f"Saved parsed output to {parsed_output_path}")
+                except Exception as e:
+                    logger.error(f"Error saving parsed output: {e}")
+            
+            # Add response specific metadata
+            response_metadata = {
+                "valid_turtle": 0 if turtle_output is None else 1,
+                "parsed_output_path": None if turtle_output is None else parsed_output_path,
+                "token_usage": response.response_metadata["token_usage"],
+            }
+            metadata.update(response_metadata)
+
+        # Consolidate results
         results.append({
             "run_key": run_key,
             "metadata": metadata,
             "rendered_prompt": prompt_handler.rendered_prompt,
-            "raw_response": response.content,
+            "raw_response": response.content if 'response' in locals() else None,
         })
     
     # Save raw outputs
@@ -123,7 +134,8 @@ def run_baseline_experiment(test_dir: str, prompt_components_dir: str, model_han
         parsed_output_dir = os.path.join(experiment_dir, model.model_name, "output", "parsed_output")
         os.makedirs(parsed_output_dir, exist_ok=True)
         for test_file in os.listdir(test_dir):
-            idlb = os.path.splitext(test_file)[0]
+            benefit_label = os.path.splitext(test_file)[0]
+            idlb = get_idlb_from_label(label_type="snake case", target_label=benefit_label, logger=logger)
             run_key = f"{mode}_{model.model_name}_{idlb}"
             parsed_output_path = os.path.join(parsed_output_dir, f"{run_key}.ttl")
             
@@ -138,42 +150,51 @@ def run_baseline_experiment(test_dir: str, prompt_components_dir: str, model_han
             start_time = datetime.now()
             try:
                 response = chain.invoke(prompt_components)
+                finish_reason = response.response_metadata["finish_reason"]
             except Exception as e:
                 logger.error(f"Error invoking {model.model_name}: {e}")
-                continue
+                finish_reason = str(e)
             end_time = datetime.now()
             
-            # Try to retrieve valid Turtle from raw output
-            raw_output = response.content
-            turtle_output = retrieve_parsable_turtle(raw_output, logger)
-            
-            # Save parsed output if it includes valid Turtle
-            if turtle_output is not None:
-                try:
-                    with open(parsed_output_path, "w", encoding="utf-8") as turtle_file:
-                        turtle_file.write(turtle_output)
-                    logger.info(f"Saved parsed output to {parsed_output_path}")
-                except Exception as e:
-                    logger.error(f"Error saving parsed output: {e}")
-                
-            # Fetch metadata, rendered prompt, and raw response
+            # Extract metadata about the run
             metadata = {
+                "finish_reason": finish_reason,
                 "mode": mode,
                 "model": model.model_name,
-                "valid_turtle": 0 if turtle_output is None else 1,
                 "test_idlb": idlb,
+                "test_file": benefit_label,
                 "timestamp": start_time.isoformat(),
                 "inference_time": (end_time - start_time).total_seconds(),
-                "parsed_output_path": None if turtle_output is None else parsed_output_path,
-                "token_usage": response.response_metadata["token_usage"],
-                "finish_reason": response.response_metadata["finish_reason"]
             }
             
+            if 'response' in locals():
+                # Search for valid Turtle in raw output
+                raw_output = response.content
+                turtle_output = retrieve_parsable_turtle(raw_output, logger)
+            
+                # Save valid Turtle content, if any
+                if turtle_output:
+                    try:
+                        with open(parsed_output_path, "w", encoding="utf-8") as turtle_file:
+                            turtle_file.write(turtle_output)
+                        logger.info(f"Saved parsed output to {parsed_output_path}")
+                    except Exception as e:
+                        logger.error(f"Error saving parsed output: {e}")
+                
+                # Add response specific metadata
+                response_metadata = {
+                    "valid_turtle": 0 if turtle_output is None else 1,
+                    "parsed_output_path": None if turtle_output is None else parsed_output_path,
+                    "token_usage": response.response_metadata["token_usage"],
+                }
+                metadata.update(response_metadata)
+
+            # Consolidate results
             results.append({
                 "run_key": run_key,
                 "metadata": metadata,
                 "rendered_prompt": prompt_handler.rendered_prompt,
-                "raw_response": response.content,
+                "raw_response": response.content if 'response' in locals() else None,
             })
         
         # Save raw outputs
@@ -186,12 +207,12 @@ def run_baseline_experiment(test_dir: str, prompt_components_dir: str, model_han
     
 def main(test_dir: str, prompt_components_dir: str, results_dir: str, mode: str, api_key: str, base_url: str, train_dir: str = None, examples: int = None):
     """
-    Checks if the mode is supported and, if so, runs thecorresponding experiment.
+    Checks if the mode is supported and, if so, runs the corresponding experiment.
 
     :param test_dir: Directory containing test files.
     :param prompt_components_dir: Directory wiht components for constructing prompts.
     :param results_dir: Directory to save the experiment results.
-    :param mode: Experiment mode (e.g., "baseline", "fewshot").
+    :param mode: Type of experiment (e.g., "baseline", "fewshot").
     :param api_key: API key for authenticating requests to Chat-AI API.
     :param base_url: Base URL for the Chat-AI API endpoint.
     :param train_dir: (Optional) Directory containing in-context examples.
