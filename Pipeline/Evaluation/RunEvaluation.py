@@ -7,9 +7,9 @@ import argparse
 import json
 import os
 import pandas as pd
-from typing import Optional, List, Dict, Any
 from pyshacl import validate
 from pyshacl.errors import ReportableRuntimeError
+from typing import Optional, List, Dict, Any
 from Utils.Logger import setup_logger
 from Utils.FileHandling import save_dict_to_json
 from .GraphMatch import GraphMatcher
@@ -95,25 +95,25 @@ def append_to_overall_summary(experiment_metrics: Dict[str, Any], overall_summar
     logger.info(f"Saved overall summary to {overall_summary_path}")
 
 def evaluate_experiment(experiment_dir: str, shacl_gold_dir: str, user_profiles_dir: str, overall_summary_path: str):
-    raw_output_path = os.path.join(experiment_dir, "output", "raw_output.json")
     metrics_dir = os.path.join(experiment_dir, "metrics")
     os.makedirs(metrics_dir, exist_ok=True)
     
     # Load raw outputs
+    raw_output_path = os.path.join(experiment_dir, "output", "raw_output.json")
     with open(raw_output_path, "r") as file:
-        raw_outputs = json.load(file)
+        raw_output = json.load(file)
     
     per_file_performance = []
-    for run in raw_outputs:
+    for run in raw_output:
         run_key = run["run_key"]
-        valid_turtle = run["metadata"]["valid_turtle"]
+        is_valid_turtle = run["metadata"]["valid_turtle"]
         
         # If the model did not output valid Turtle, set worst metrics
-        if valid_turtle == 0:
+        if is_valid_turtle == 0:
             per_file_performance.append(
                 {
                     "run_key": run_key,
-                    "valid_turtle": valid_turtle,
+                    "valid_turtle": is_valid_turtle,
                     "valid_shacl": 0,
                     "graph_edit_distance": 1,
                     **{metric: 0 for metric in ["gbert_precision", "gbert_recall", "gbert_f1"]},
@@ -127,13 +127,13 @@ def evaluate_experiment(experiment_dir: str, shacl_gold_dir: str, user_profiles_
         syntax_compliant = shacl_syntax_compliant(parsed_output_path)
         
         # Compare generated SHACL graph with groundtruth SHACL graph
-        shacl_gold_path = os.path.join(shacl_gold_dir, f"{run["metadata"]["test_idlb"]}_gold.ttl")
+        shacl_gold_path = os.path.join(shacl_gold_dir, f"{run["metadata"]["test_file"]}.ttl")
         matcher = GraphMatcher(parsed_output_path, shacl_gold_path)
         triple_match = matcher.compute_triple_match()
         ged = matcher.compute_ged()
         gbert = matcher.compute_gbert()
         
-        # Compute validation performance only for valid SHACL graphs
+        # Compute validation performance only for well-formed SHACL graphs
         if syntax_compliant:
             validation_performance = matcher.compute_validation_performance(user_profiles_dir)
         else:
@@ -145,7 +145,7 @@ def evaluate_experiment(experiment_dir: str, shacl_gold_dir: str, user_profiles_
             }        
         per_file_performance.append({
             "run_key": run_key,
-            "valid_turtle": valid_turtle,
+            "valid_turtle": is_valid_turtle,
             "valid_shacl": syntax_compliant,
             "graph_edit_distance": ged,
             **gbert,
@@ -163,7 +163,7 @@ def evaluate_experiment(experiment_dir: str, shacl_gold_dir: str, user_profiles_
         "mode": run["metadata"]["mode"],
         "model": run["metadata"]["model"],
         **compute_average_metrics(per_file_performance),
-        **compute_average_metadata(raw_outputs),
+        **compute_average_metadata(raw_output),
     }
     
     # Save detailed experiment summary
@@ -176,8 +176,8 @@ def evaluate_experiment(experiment_dir: str, shacl_gold_dir: str, user_profiles_
     return average_performance
 
 
-def main(experiment_dir: str, results_dir: str, shacl_gold_dir: str, user_profiles_dir: str):
-    mode = os.path.basename(os.path.normpath(experiment_dir))
+def main(mode: str, results_dir: str, shacl_gold_dir: str, user_profiles_dir: str):
+    experiment_dir = os.path.join(results_dir, mode)
     logger.info(f"Running evaluation for {mode} experiment.")
     overall_summary_path = os.path.join(results_dir, "performance_by_experiment.csv")
     
