@@ -5,7 +5,6 @@ Functions for testing whether a given SHACL shapes graph validates RDF
 graphs as expected.
 """
 import os
-import sys
 import unittest
 from pyshacl import validate
 from typing import Tuple
