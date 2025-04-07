@@ -40,16 +40,20 @@ class ModelHandler:
         self.available_models = ModelHandler._model_keys_cache
 
         self.main_model = 'mistral-large-instruct' # TODO: Update depending on results
-        self.base_models = ['meta-llama-3.1-8b-instruct', 
-                            'llama-3.1-nemotron-70b-instruct', 
-                            'llama-3.1-sauerkrautlm-70b-instruct', 
-                            'mistral-large-instruct']
+        self.base_models = ['meta-llama-3.1-8b-instruct', # meta
+                            'qwq-32b', # alibaba cloud
+                            'deepseek-r1-distill-llama-70b',
+                            'llama-3.3-70b-instruct', # meta
+                            'llama-3.1-sauerkrautlm-70b-instruct', # meta
+                            'mistral-large-instruct', # mistral
+                            'qwen2.5-72b-instruct', # alibaba cloud
+                            ]
         self.default_configs = {
             # "temperature": 0.7, # Flattens/sharpens the probability distribution over tokens (high = more creative)
             # "top_p": 0.8, # Cumulative probability of tokens to sample from (high = more deterministic)
             # "max_tokens": None, # Max nof newly generated tokens
             # "logprobs": False, # Token level log probabilities
-            "timeout": 60, # Seconds until API call times out
+            "timeout": 90, # Seconds until API call times out
             "max_retries": 2 # Max nof retries after a failed API call
         }
         
