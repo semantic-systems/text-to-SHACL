@@ -18,7 +18,6 @@ from sklearn.metrics import precision_score, recall_score, f1_score, accuracy_sc
 from scipy.optimize import linear_sum_assignment
 from bert_score import score as score_bert
 from pyshacl import validate
-from pyshacl.errors import ReportableRuntimeError
 from Utils.Logger import setup_logger
 from Utils.Parsing import norm_string
 
@@ -26,17 +25,17 @@ logger = setup_logger(__name__, "logs/GraphMatch.log")
 
 class GraphMatcher:
     """ 
-    A class for comparing a generated SHACL graph against a gold standard SHACL graph.
-    Supports metrics:
+    A class for comparing a generated SHACL graph against a gold standard
+    SHACL graph. Supports metrics:
     - Triple match (accuracy, precision, recall, F1 score)
     - G-BERTScore (precision, recall, F1 score)
-    - Graph Edit Distance (GED)
+    - Graph Edit Distance
     - Validation performance (precision, recall, accuracy, F1 score)
     
     :attr gold_file_path: Path to the gold SHACL graph (.ttl)
-    :attr generated_file_path: Path to the generated SHACL graph (.ttl)
-    :attr gold_graph: List of triples in the gold graph (List[Tuple[str,str,str]])
-    :attr generated_graph: List of triplesin the generated graph.
+    :attr gen_file_path: Path to the generated SHACL graph (.ttl)
+    :attr gold_graph: List of triples in the gold graph.
+    :attr gen_graph: List of triples in the generated graph.
     """
     def __init__(self, gold_file_path: str, generated_file_path: str):
         self.gold_file_path = gold_file_path
@@ -47,17 +46,17 @@ class GraphMatcher:
     def _load_triples(self, turtle_file_path: str) -> List[Tuple[str,str,str]]:
         """Extracts a list of normalized triples from a Turtle file."""
         try:
-            g = rdflib.Graph()
-            g.parse(turtle_file_path, format="turtle")
-            # Represent triples as a list of tuples, i.e. [(s1, p1, o1),(s2,p2,o3),...]
-            triples = [(norm_string(s), norm_string(p), norm_string(o)) for s, p, o in g]  
+            graph = rdflib.Graph()
+            graph.parse(turtle_file_path, format="turtle")
+            # Represent triples as a list of tuples, i.e. [(s1,p1,o1),(s2,p2,o3),...]
+            triples = [(norm_string(s), norm_string(p), norm_string(o)) for s, p, o in graph]  
             return triples
         except Exception as e:
             logger.error(f"Error loading triples from {turtle_file_path}: {e}")
             raise
     
     def _load_digraph(self, turtle_file_path: str) -> nx.DiGraph:
-        """Loads a NetworkX DiGraph from a Turtle files."""
+        """Loads a NetworkX DiGraph from a Turtle file."""
         try:
             rdf_graph = rdflib.Graph()
             rdf_graph.parse(turtle_file_path, format="turtle")
@@ -104,7 +103,7 @@ class GraphMatcher:
         """
         Measures the similarity between the triples in the generated and
         gold graphs using G-BERTScore, a metric based on the token
-        similarity between contextual embeddings of the triples.
+        similarity between the contextual embeddings of the triples.
         
         G-BERTScore treats each edge as a sentence and follows these steps:
         1. Compute BERTScore for each pair of generated and gold edges.
@@ -160,7 +159,7 @@ class GraphMatcher:
         """
         Computes Graph Edit Distance (GED), which measures the costs of 
         transforming the generated graph into a graph that is isomorphic
-        to the gold graph.Normalizes the GED to fall between 0 and 1.
+        to the gold graph. Normalizes the GED to fall between 0 and 1.
         
         :return: Normalized GED between the generated and gold graphs.
         """
