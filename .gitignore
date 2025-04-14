@@ -17,9 +17,6 @@ data/processed/splits/test/*
 # Ignore results (for now)
 results/
 
-# Ignore protégé ontology
-resources/prompt_components/ontology/ontology_protege.ttl
-
 .vscode/
 .env
 
