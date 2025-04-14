@@ -7,17 +7,18 @@ GraphMatch.py
     https://github.com/Jiuzhouh/PiVe, https://github.com/ChristopheCruz/LLM4KGC, 
     https://github.com/swarnaHub/ExplaGraphs/tree/main
 """
-import numpy as np
 import os
 import rdflib
-import networkx as nx
-from gklearn.ged.env import GEDEnv
+import time
 from typing import Dict, List, Tuple
 from sklearn import preprocessing
 from sklearn.metrics import precision_score, recall_score, f1_score, accuracy_score
 from scipy.optimize import linear_sum_assignment
 from bert_score import score as score_bert
 from pyshacl import validate
+import networkx as nx
+import numpy as np
+# from gklearn.ged.env import GEDEnv
 from Utils.Logger import setup_logger
 from Utils.Parsing import norm_string
 
@@ -42,14 +43,28 @@ class GraphMatcher:
         self.gen_file_path = generated_file_path
         self.gold_triples = self._load_triples(gold_file_path)
         self.gen_triples = self._load_triples(generated_file_path)
-        
+        self.ged_timeout = 0
+    
+    def _normalize_iri(self, iri: str) -> str:
+        """Normalizes blank nodes and spelling of IRIs."""
+        if isinstance(iri, rdflib.term.BNode):
+            # Replace memory address with a common identifier for blank nodes
+            return "_:blank"
+        else:
+            # Convert to lowercase and strip leading/trailing spaces
+            return norm_string(iri)
+    
     def _load_triples(self, turtle_file_path: str) -> List[Tuple[str,str,str]]:
         """Extracts a list of normalized triples from a Turtle file."""
+        
         try:
             graph = rdflib.Graph()
             graph.parse(turtle_file_path, format="turtle")
-            # Represent triples as a list of tuples, i.e. [(s1,p1,o1),(s2,p2,o3),...]
-            triples = [(norm_string(s), norm_string(p), norm_string(o)) for s, p, o in graph]  
+
+            triples = [
+                (self._normalize_iri(s), self._normalize_iri(p), self._normalize_iri(o))
+                for s, p, o in graph
+            ]
             return triples
         except Exception as e:
             logger.error(f"Error loading triples from {turtle_file_path}: {e}")
@@ -163,35 +178,30 @@ class GraphMatcher:
         
         :return: Normalized GED between the generated and gold graphs.
         """
-        # Load the SHACL graphs as NetworkX DiGraphs
-        gold_digraph = self._load_digraph(self.gold_file_path)
-        gen_digraph = self._load_digraph(self.gen_file_path)
-        try:
-            # Configure the GED environment
-            ged_env = GEDEnv()
-            ged_env.set_edit_cost('CONSTANT', edit_cost_constants=[1, 1, 1, 1, 1, 1])
-            ged_env.add_nx_graph(gold_digraph, '')
-            ged_env.add_nx_graph(gen_digraph, '')
-            listID = ged_env.get_all_graph_ids()
-            ged_env.init(init_type='LAZY_WITHOUT_SHUFFLED_COPIES')
-            options = {'initialization_method': 'RANDOM', 'threads': 1}
-            ged_env.set_method('BIPARTITE', options)
-            ged_env.init_method()
-            
-            # Compute GED
-            ged_env.run_method(listID[0], listID[1])
-            dis = ged_env.get_upper_bound(listID[0], listID[1])
-        except Exception as e:
-            logger.error(f"Error computing GED: {e}")
-            raise
-        
-        # Normalize GED
-        normalizing_constant = (gold_digraph.number_of_nodes() + gold_digraph.number_of_edges() + 
-                                gen_digraph.number_of_nodes() + gen_digraph.number_of_edges())
-        if normalizing_constant == 0:
-            return 0.0
-        dis = dis / normalizing_constant
-        return round(dis,4)
+        gold_graph = self._load_digraph(self.gold_file_path)
+        gen_graph = self._load_digraph(self.gen_file_path)
+        ged_timeout = 1
+
+        normalizing_constant = (
+            gold_graph.number_of_nodes() +
+            gold_graph.number_of_edges() +
+            gen_graph.number_of_nodes() +
+            gen_graph.number_of_edges()
+        )
+
+        start_time = time.time()
+        ged = nx.graph_edit_distance(gold_graph, gen_graph, timeout=ged_timeout)
+        elapsed_time = time.time() - start_time
+
+        if elapsed_time >= ged_timeout:
+            logger.info(f"Timeout likely hit for GED computation (took {elapsed_time:.2f} seconds).")
+            self.ged_timeout = 1
+
+        assert ged <= normalizing_constant
+
+        ged_norm = ged / normalizing_constant
+
+        return ged_norm
     
     def compute_validation_performance(self, user_profiles_dir: str) -> Dict[str, float]:
         """ 
