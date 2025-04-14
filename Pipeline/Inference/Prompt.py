@@ -9,7 +9,7 @@ import json
 import random
 from typing import Any, Dict, Optional
 from langchain_core.prompts import PromptTemplate
-from resources.schemata.modes_schema import supported_modes
+from resources.schemata.method_schema import supported_modes
 from Utils.Logger import setup_logger
 from Utils.FileHandling import load_file
 
@@ -69,7 +69,7 @@ class PromptHandler:
     
     def _load_ontology(self) -> str:
         """Returns the ontology."""
-        ontology_path = os.path.join(self.prompt_components_dir, f"ontology/ontology.ttl")
+        ontology_path = os.path.join(self.prompt_components_dir, f"ontology/ontology.omn")
         return load_file(file_path=ontology_path, logger=logger)
     
     def _load_input(self, file_path: str) -> str:
