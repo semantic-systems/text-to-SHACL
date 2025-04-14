@@ -1,14 +1,11 @@
-Your task is to complete the SHACL shapes graph below from texts describing the eligibility requirements for social benefits. These shapes will be used to validate RDF user graphs with personal information, ensuring that only individuals eligible for the given benefit conform to the shapes graph.
+Your task is to generate a validation graph using the Shapes Constraint Language (SHACL) based on a natural language description of eligibility requirements for a social benefit. The SHACL graph will be used to validate RDF user data to determine if they are eligible for the benefit.
 
 You will receive:
-    - Context: An ontology containing the classes, properties, and individuals used in the user graphs.
-    - Input: A text describing the social benefit (name, id) and eligibility criteria (requirements).
+    - Ontology: Defines the classes, properties, and individuals used in the user RDF graphs.
+    - Text: A plain text description of a social benefit, including its name, ID, and eligibility criteria.
 
-Define constraints with the terms from the provided ontology to ensure that the generated shapes graphs are relevant to the user data. If an eligibility criterion cannot be expressed with the terms from the ontology, do not include it in the shapes graph.
-
-Strictly comply to the following output format:
-    - Serialize the shapes graph in Turtle.
-    - Enclose the Turtle content in a block starting with ```turtle and ending with ```.
-    - Generate only the Turtle content — no explanations or extra text.
-    - Strictly adhere to the SHACL syntax rules, using only SHACL Core constraint components.
-    - Copy-paste the beginning of the Turtle file that is already provided, then use the requirements text and ontology to complete it.
+Strictly comply to the following instructions:
+    1. Ensure the output is syntactically valid SHACL.
+    2. Use only SHACL Core constraint components. 
+    3. Only define SHACL constraints if the relevant terms are mentioned in the ontology. Ignore criteria that cannot be expressed using ontology terms.
+    4. Serialize the shapes graph in Turtle syntax. Enclose it within triple backticks, like this: ```turtle ...Turtle content... ```
