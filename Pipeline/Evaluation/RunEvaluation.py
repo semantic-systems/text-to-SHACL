@@ -116,7 +116,7 @@ def append_to_overall_summary(experiment_metrics: Dict[str, Any], overall_summar
         'mode', 'model', 'valid_turtle_all', 'valid_shacl_all', 'graph_edit_distance_all',
         'gbert_f1_all', 'triple_f1_all', 'validation_f1_all', 'graph_edit_distance_valid_only',
         'gbert_f1_valid_only', 'triple_accuracy_valid_only', 'triple_f1_valid_only', 
-        'validation_f1_valid_only', 'inference_time'
+        'validation_f1_valid_only', 'ged_timeout_all', 'inference_time'
     ]
     
     average_df = pd.DataFrame([{
@@ -154,7 +154,8 @@ def evaluate_experiment(experiment_dir: str, shacl_gold_dir: str, user_profiles_
     per_file_performance = []
     
     # For each inference run, compute the metrics
-    for run in raw_output:
+    for i, run in enumerate(raw_output):
+        logger.info(f"Evaluating run {i + 1}/{len(raw_output)}")
         run_key = run["run_key"]
         metadata = run["metadata"]
         is_valid_turtle = metadata["valid_turtle"]
@@ -248,7 +249,8 @@ def main(mode: str, results_dir: str, shacl_gold_dir: str, user_profiles_dir: st
     if mode == "baseline":
         baseline_summary_metrics = []
         models = [directory for directory in os.listdir(experiment_dir) if os.path.isdir(os.path.join(experiment_dir, directory))]
-        for model in models:
+        for i, model in enumerate(models):
+            logger.info(f"Evaluating model {i + 1}/{len(models)}: {model}")
             model_dir = os.path.join(experiment_dir, model)
             experiment_metrics = evaluate_experiment(model_dir, shacl_gold_dir, user_profiles_dir, overall_summary_path)
             baseline_summary_metrics.append(experiment_metrics)
