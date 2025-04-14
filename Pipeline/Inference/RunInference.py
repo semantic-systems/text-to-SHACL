@@ -4,35 +4,35 @@ RunInference.py
 - Use LLM-inference to generate SHACL shapes for social benefits in the test split.
 - Save raw and parsed outputs in the results directory for this method.
 - Currently supported methods: 
-    - "baseline": Prompt includes instruction + ontology, inference is executed 
-    with multiple models.
-    - "xshotrandom": Prompt includes instruction + ontology + variable number
-    of randomly selected examples from train split, inference is executed with main
-    model only.
-    # TODO: to be extended
+    - "baseline": Prompt includes instruction + ontology, run with multiple models.
+    - "fewshot": Prompt includes instruction + ontology + variable number
+    of randomly selected examples with solution, run with main model.
+    - "cot": Prompt includes step-by-step instruction + ontology + variable number
+    of randomly selected examples solved step-by-step, run with main model.
 """
 
 import os
 import json
 import argparse
-from datetime import datetime
+import time
 from .Model import ModelHandler
 from .Prompt import PromptHandler
 from Utils.Logger import setup_logger
 from Utils.FileHandling import setup_experiment_directory
 from Utils.Parsing import retrieve_parsable_turtle, get_idlb_from_label
-from resources.schemata.modes_schema import supported_modes
+from resources.schemata.method_schema import supported_modes
 
 logger = setup_logger(__name__, "logs/RunInference.log")
 
 def run_fewshot_experiment(test_dir: str, prompt_components_dir: str, model_handler: ModelHandler, results_dir: str, train_dir: str, examples: int, mode: str = "fewshot"):
     logger.info(f"Starting {mode} experiment...")
+    start_time_total = time.time()()
     
     # Initialize instance of main model
     model = model_handler.initialize_model(model_handler.main_model)
     
     experiment_dir = setup_experiment_directory(results_dir, mode)
-    
+
     results = []
     parsed_output_dir = os.path.join(experiment_dir, "output", "parsed_output")
     os.makedirs(parsed_output_dir, exist_ok=True)
@@ -50,14 +50,14 @@ def run_fewshot_experiment(test_dir: str, prompt_components_dir: str, model_hand
         
         # Invoke model
         logger.info(f"Invoking {model.model_name}")
-        start_time = datetime.now()
+        start_time = time.time()()
         try:
             response = chain.invoke(prompt_components)
             finish_reason = response.response_metadata["finish_reason"]
         except Exception as e:
             logger.error(f"Error invoking {model.model_name}: {e}")
             finish_reason = str(e)
-        end_time = datetime.now()
+        elapsed_time = time.time()() - start_time
         
         # Extract metadata about the run
         metadata = {
@@ -68,7 +68,7 @@ def run_fewshot_experiment(test_dir: str, prompt_components_dir: str, model_hand
             "test_file": benefit_label,
             "example_files": prompt_handler.examples,
             "timestamp": start_time.isoformat(),
-            "inference_time": (end_time - start_time).total_seconds(),
+            "inference_time": elapsed_time.total_seconds(),
         }
         
         if "response" in locals():
@@ -106,8 +106,9 @@ def run_fewshot_experiment(test_dir: str, prompt_components_dir: str, model_hand
     with open(raw_output_path, 'w', encoding='utf-8') as json_file:
         json.dump(results, json_file, ensure_ascii=False, indent=4)
     logger.info(f"Saved raw outputs to {raw_output_path}")
-        
-    logger.info(f"{mode.capitalize()} experiment completed!")
+    
+    elapsed_time_toal = time.time()() - start_time_total
+    logger.info(f"{mode.capitalize()} experiment completed! Total runtime: {elapsed_time_toal}")
 
 def run_baseline_experiment(test_dir: str, prompt_components_dir: str, model_handler: ModelHandler, results_dir: str, mode: str = "baseline"):
     """
@@ -121,6 +122,7 @@ def run_baseline_experiment(test_dir: str, prompt_components_dir: str, model_han
     :param mode: Mode of the experiment (default: "baseline").
     """
     logger.info(f"Starting {mode} experiment...")
+    start_time_total = time.time()()
     
     # Initialize model instances
     models = [model_handler.initialize_model(key) for key in model_handler.base_models]
@@ -147,14 +149,14 @@ def run_baseline_experiment(test_dir: str, prompt_components_dir: str, model_han
             
             # Invoke model
             logger.info(f"Invoking {model.model_name} ({i+1}/{len(models)})")
-            start_time = datetime.now()
+            start_time = time.time()()
             try:
                 response = chain.invoke(prompt_components)
                 finish_reason = response.response_metadata["finish_reason"]
             except Exception as e:
                 logger.error(f"Error invoking {model.model_name}: {e}")
                 finish_reason = str(e)
-            end_time = datetime.now()
+            elapsed_time = time.time()() - start_time
             
             # Extract metadata about the run
             metadata = {
@@ -164,7 +166,7 @@ def run_baseline_experiment(test_dir: str, prompt_components_dir: str, model_han
                 "test_idlb": idlb,
                 "test_file": benefit_label,
                 "timestamp": start_time.isoformat(),
-                "inference_time": (end_time - start_time).total_seconds(),
+                "inference_time": elapsed_time.total_seconds(),
             }
             
             if 'response' in locals():
@@ -202,8 +204,9 @@ def run_baseline_experiment(test_dir: str, prompt_components_dir: str, model_han
         with open(raw_output_path, 'w', encoding='utf-8') as json_file:
             json.dump(results, json_file, ensure_ascii=False, indent=4)
         logger.info(f"Saved raw outputs to {raw_output_path}")
-        
-    logger.info(f"{mode.capitalize()} experiment completed!")
+    
+    elapsed_time_total = time.time()() - start_time
+    logger.info(f"{mode.capitalize()} experiment completed! Total runtime: {elapsed_time_total}")
     
 def main(test_dir: str, prompt_components_dir: str, results_dir: str, mode: str, api_key: str, base_url: str, train_dir: str = None, examples: int = None):
     """
