@@ -6,7 +6,7 @@ expected when they are validated against a syntactically and semantically
 correct SHACL shapes graph.
 """
 
-arbeitslosengeld_expected = {
+arbeitslosengeld = {
     "B100019_LB_576842_1.ttl": "eligible",
     "B100019_LB_576842_2.ttl": "eligible",
     "B100019_LB_576842_3.ttl": "eligible",
@@ -21,7 +21,7 @@ arbeitslosengeld_expected = {
     "B100019_LB_576842_12.ttl": "ineligible", # missing info
 }
 
-kinderzuschlag_expected = {
+kinderzuschlag = {
     "B100019_LB_581863_1.ttl": "eligible",
     "B100019_LB_581863_2.ttl": "eligible",
     "B100019_LB_581863_3.ttl": "eligible",
@@ -44,7 +44,7 @@ kinderzuschlag_expected = {
     "B100019_LB_581863_20.ttl": "ineligible", # missing info
 }
 
-buergergeld_expected = {
+buergergeld = {
     "B100019_LB_106311931_1.ttl": "eligible",
     "B100019_LB_106311931_2.ttl": "eligible",
     "B100019_LB_106311931_3.ttl": "eligible",
@@ -63,7 +63,7 @@ buergergeld_expected = {
     "B100019_LB_106311931_16.ttl": "ineligible", # missing info
 }
 
-insolvenzgeld_expected = {
+insolvenzgeld = {
     "B100019_LB_576848_1.ttl": "eligible",
     "B100019_LB_576848_2.ttl": "eligible",
     "B100019_LB_576848_3.ttl": "eligible",
@@ -81,7 +81,7 @@ insolvenzgeld_expected = {
     "B100019_LB_576848_15.ttl": "ineligible", # missing info
 }
 
-kinderzuschlag_expected = {
+kinderzuschlag = {
     "B100019_LB_576986_1.ttl": "eligible",
     "B100019_LB_576986_2.ttl": "eligible",
     "B100019_LB_576986_3.ttl": "eligible",
@@ -108,7 +108,7 @@ kinderzuschlag_expected = {
     "B100019_LB_576986_24.ttl": "eligible",
 }
 
-guv_rente_expected = {
+guv_rente = {
     "B100019_LB_582404_1.ttl": "eligible",
     "B100019_LB_582404_2.ttl": "eligible",
     "B100019_LB_582404_3.ttl": "eligible",
@@ -125,7 +125,7 @@ guv_rente_expected = {
     "B100019_LB_582404_14.ttl": "ineligible", # missing info
 }
 
-uebergangsgeld_berufliche_reha_expected = {
+guv_uebergangsgeld = {
     "B100019_LB_582422_1.ttl": "eligible",
     "B100019_LB_582422_2.ttl": "eligible",
     "B100019_LB_582422_3.ttl": "eligible",
@@ -139,7 +139,7 @@ uebergangsgeld_berufliche_reha_expected = {
     "B100019_LB_582422_11.ttl": "ineligible", # missing info
 }
 
-guv_verletztengeld_expected = {
+guv_verletztengeld = {
     "B100019_LB_582429_1.ttl": "eligible",
     "B100019_LB_582429_2.ttl": "eligible",
     "B100019_LB_582429_3.ttl": "eligible",
@@ -203,7 +203,7 @@ bildung_und_teilhabe = {
     "L100040_LB_12280162_11.ttl": "ineligible", # missing info
 }
 
-ausbildungsgeld_expected = {
+ausbildungsgeld = {
     "B100019_LB_574711_1.ttl": "eligible",
     "B100019_LB_574711_2.ttl": "eligible",
     "B100019_LB_574711_3.ttl": "eligible",
@@ -216,7 +216,7 @@ ausbildungsgeld_expected = {
     "B100019_LB_574711_10.ttl": "ineligible", # missing info
 }
 
-einstiegsgeld_expected = {
+einstiegsgeld = {
     "B100019_LB_102713860_1.ttl": "eligible",
     "B100019_LB_102713860_2.ttl": "eligible",
     "B100019_LB_102713860_3.ttl": "eligible",
@@ -224,7 +224,7 @@ einstiegsgeld_expected = {
     "B100019_LB_102713860_5.ttl": "ineligible",
 }
 
-uebergangsgeld_behinderung_expected = {
+uebergangsgeld_behinderung = {
     "B100019_LB_102716305_1.ttl": "eligible",
     "B100019_LB_102716305_2.ttl": "eligible",
     "B100019_LB_102716305_3.ttl": "eligible",
@@ -250,7 +250,7 @@ uebergangsgeld_behinderung_expected = {
     "B100019_LB_102716305_23.ttl": "ineligible", # missing info
 }
 
-grundausbildung_expected = {
+grundausbildung = {
     "B100019_LB_102717659_1.ttl": "eligible",
     "B100019_LB_102717659_2.ttl": "eligible",
     "B100019_LB_102717659_3.ttl": "eligible",
@@ -269,7 +269,7 @@ grundausbildung_expected = {
     "B100019_LB_102717659_16.ttl": "ineligible", # missing info
 }
 
-guv_kinderverletztengeld_expected = {
+guv_kinderverletztengeld = {
     "B100019_LB_102799515_1.ttl": "eligible",
     "B100019_LB_102799515_2.ttl": "eligible",
     "B100019_LB_102799515_3.ttl": "eligible",
@@ -285,7 +285,7 @@ guv_kinderverletztengeld_expected = {
     "B100019_LB_102799515_13.ttl": "ineligible", # missing info
 }
 
-grundsicherung_expected = {
+grundsicherung = {
     "L100040_LB_8664880_1.ttl": "eligible",
     "L100040_LB_8664880_2.ttl": "eligible",
     "L100040_LB_8664880_3.ttl": "eligible",
@@ -310,14 +310,14 @@ grundsicherung_expected = {
     "L100040_LB_8664880_22.ttl": "ineligible", # missing info
 }
 
-aktivierung_und_eingliederung_expected = {
+aktivierung_und_eingliederung = {
     "B100019_LB_102730340_1.ttl": "eligible",
     "B100019_LB_102730340_2.ttl": "eligible",
     "B100019_LB_102730340_3.ttl": "ineligible",
     "B100019_LB_102730340_4.ttl": "ineligible", # missing info
 }
 
-guv_rentenabfindung_expected = {
+guv_rentenabfindung = {
     "B100019_LB_102799525_1.ttl": "eligible",
     "B100019_LB_102799525_2.ttl": "eligible",
     "B100019_LB_102799525_3.ttl": "eligible",
@@ -329,7 +329,7 @@ guv_rentenabfindung_expected = {
     "B100019_LB_102799525_9.ttl": "ineligible", # missing info
 }
 
-berufsausbildungsbeihilfe_expected = {
+berufsausbildungsbeihilfe = {
     "B100019_LB_574724_1.ttl": "eligible",
     "B100019_LB_574724_2.ttl": "eligible",
     "B100019_LB_574724_3.ttl": "eligible",
@@ -361,7 +361,7 @@ berufsausbildungsbeihilfe_expected = {
     "B100019_LB_574724_29.ttl": "ineligible",
 }
 
-krankengeld_begleitperson_expected = {
+krankengeld_begleitperson = {
     "B100019_LB_103817036_1.ttl": "eligible",
     "B100019_LB_103817036_2.ttl": "eligible",
     "B100019_LB_103817036_3.ttl": "eligible",
