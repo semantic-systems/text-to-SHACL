@@ -14,6 +14,7 @@ ff:Einstiegsgeld a sh:NodeShape ;
     sh:targetNode ff:User ;
     sh:property [
         sh:path ff:receivesBenefit ;
+        sh:minCount 1 ;
         sh:hasValue ff:B100019_LB_106311931 ; # Citizen benefit
         sh:message "Does not meet requirement 'User receives citizen benefit.'"@en ;
     ] .

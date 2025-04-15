@@ -39,6 +39,7 @@ ff:ParentShapeB a sh:NodeShape ;
 ff:InsuranceEventShapeA a sh:NodeShape ;
     sh:property [
         sh:path ff:hasInsurance ;
+        sh:minCount 1 ;
         sh:hasValue ff:StatutoryAccidentInsurance ;
     ] ;
     sh:property [
@@ -50,10 +51,12 @@ ff:InsuranceEventShapeA a sh:NodeShape ;
 ff:InsuranceEventShapeB a sh:NodeShape ;
     sh:property [
         sh:path ff:sameHouseholdAs ;
+        sh:minCount 1 ;
         sh:hasValue ff:User ;
     ] ;
     sh:property [
         sh:path ff:hasInsurance ;
+        sh:minCount 1 ;
         sh:hasValue ff:StatutoryAccidentInsurance ;
     ] ;
     sh:property [

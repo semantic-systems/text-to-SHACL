@@ -47,6 +47,7 @@ ff:CareNeedsShape a sh:NodeShape ;
     # The user was entitled to a cash benefit before the child's care needs started
     sh:property [
         sh:path [ sh:inversePath ff:wasEntitledToCashBenefitBefore ] ;
+        sh:minCount 1 ;
         sh:hasValue ff:User
     ] ;
     # No other member of the household can provide the needed care

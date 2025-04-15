@@ -48,6 +48,7 @@ ff:BerufsausbildungsbeihilfeShape a sh:NodeShape ;
             sh:qualifiedMinCount 1 ;
             sh:qualifiedValueShape [
                 sh:path ff:sameHouseholdAs ;
+                sh:minCount 1 ;
                 sh:hasValue ff:User ;
             ]
         ]
@@ -62,6 +63,7 @@ ff:BerufsausbildungsbeihilfeShape a sh:NodeShape ;
         # User is German national
         [
             sh:path ff:isNationalOf ;
+            sh:minCount 1 ;
             sh:hasValue ff:Germany ;
         ]
         # User does not have a residence permit under the Asylum Act

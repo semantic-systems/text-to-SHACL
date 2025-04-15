@@ -15,6 +15,7 @@ ff:KrankengeldBegleitpersonShape a sh:NodeShape ;
     # User has statutory accident insurance
     sh:property [
         sh:path ff:hasInsurance ;
+        sh:minCount 1 ;
         sh:hasValue ff:StatutoryHealthInsurance ;
         sh:message "Does not meet requirement 'User has statutory accident insurance'"@en
     ] ;
@@ -69,22 +70,26 @@ ff:PatientShape a sh:NodeShape ;
     # The accompanied patient has statutory accident insurance
     sh:property [
         sh:path ff:hasInsurance ;
+        sh:minCount 1 ;
         sh:hasValue ff:StatutoryHealthInsurance ;
     ] ;
     # The accompanied patient receives integration assistance
-    sh:proeprty [
+    sh:property [
         sh:path ff:receives ;
+        sh:minCount 1 ;
         sh:hasValue ff:IntegrationAssistance ;
     ] ;
     sh:or (
         # The user is a close relative of the patient
         [
             sh:path ff:closeRelative ;
+            sh:minCount 1 ;
             sh:hasValue ff:User ;
         ]
         # The user is a member of the immediate circle of the patient
         [
             sh:path ff:immediateCircleMember ;
+            sh:minCount 1 ;
             sh:hasValue ff:User ;
         ]
     ) .

@@ -41,9 +41,11 @@ ff:OtherBenefitsShapeA a sh:NodeShape ;
 ff:OtherBenefitsShapeB a sh:NodeShape ;
     sh:property [
         sh:path ff:receivesBenefit ;
+        sh:minCount 1 ;
         sh:hasValue ff:L100040_LB_8665924 ; # housing benefit
     ] ;
     sh:property [
         sh:path ff:receivesBenefit ;
+        sh:minCount 1 ;
         sh:hasValue ff:B100019_LB_581863 ; # child supplement
     ] .

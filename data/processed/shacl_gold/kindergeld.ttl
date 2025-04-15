@@ -16,6 +16,7 @@ ff:KindergeldShape a sh:NodeShape ;
     # User is subject to income tax in Germany
     sh:property [
         sh:path ff:incomeTaxCountry ;
+        sh:minCount 1 ;
         sh:hasValue ff:Germany ;
         sh:message "Does not meet requirement 'User is subject to income tax in Germany.'"@en ;
     ] ;
@@ -49,6 +50,7 @@ ff:KindergeldShape a sh:NodeShape ;
 ff:ResidencyShapeA a sh:NodeShape ;
     sh:property [
         sh:path ff:isNationalOf ;
+        sh:minCount 1 ;
         sh:hasValue ff:Germany ;
     ] .
 

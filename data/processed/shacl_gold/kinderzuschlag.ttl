@@ -33,6 +33,7 @@ ff:KinderzuschlagShape a sh:NodeShape ;
     # User has no considerable assets
     sh:property[
         sh:path ff:hasConsiderableAssets ;
+        sh:minCount 1 ;
         sh:hasValue false ;
         sh:message "Does not meet requirement 'User has no considerable assets.'"@en ;
     ] .
@@ -55,11 +56,13 @@ ff:ChildShape a sh:NodeShape ;
     # Child must live in the same household as the user
     sh:property [
         sh:path ff:sameHouseholdAs ;
+        sh:minCount 1 ;
         sh:hasValue ff:User ;
     ] ;
     # Child may not be eligible for other benefits with priority over child supplement 
     sh:property [
         sh:path ff:hasNoPriorityClaimsOver ;
+        sh:minCount 1 ;
 		sh:hasValue ff:B100019_LB_581863 ; # Child supplement
     ] .
 

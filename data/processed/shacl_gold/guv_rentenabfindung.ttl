@@ -15,6 +15,7 @@ ff:GUVRentenabfindungShape a sh:NodeShape ;
     # User is eligible for widow's pension under statutory accident insurance
     sh:property [
         sh:path ff:isEligibleFor ;
+        sh:minCount 1 ;
         sh:hasValue ff:B100019_LB_582441 ;
         sh:message "Does not meet requirement 'User is eligible for widow's pension under statutory accident insurance'"@en ;
     ] ;

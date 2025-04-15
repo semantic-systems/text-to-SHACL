@@ -16,6 +16,7 @@ ff:GUVVerletztengeldShape a sh:NodeShape ;
     # User has statutory accident insurance
     sh:property [
         sh:path ff:hasInsurance ;
+        sh:minCount 1 ;
         sh:hasValue ff:StatutoryAccidentInsurance ;
         sh:message "Does not meet requirement 'User has statutory accident insurance'"@en
     ] ;

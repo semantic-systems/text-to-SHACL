@@ -15,6 +15,7 @@ ff:AktivierungUndEingliederungShape a sh:NodeShape ;
     # User receives basic income support
     sh:property [
         sh:path ff:receives ;
+        sh:minCount 1 ;
         sh:hasValue ff:L100040_LB_8664880 ; # Grundsicherung
         sh:message "Does not meet requirement 'User receives basic income support'"@en ;
     ] .

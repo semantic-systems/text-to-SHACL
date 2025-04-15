@@ -80,8 +80,6 @@ ff:EarningSituationC a sh:NodeShape ;
     # The user receives training budget
     sh:property [
         sh:path ff:receivesBenefit ;
-        sh:qualifiedMinCount 1 ;
-        sh:qualifiedValueShape [
-            sh:in (ff:TrainingBudget) ;
-        ]
+        sh:minCount 1 ;
+        sh:hasValue ff:TrainingBudget ;
     ] .
