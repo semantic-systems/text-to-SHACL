@@ -6,6 +6,13 @@ expected when they are validated against a syntactically and semantically
 correct SHACL shapes graph.
 """
 
+aktivierung_und_eingliederung = {
+    "B100019_LB_102730340_1.ttl": "eligible",
+    "B100019_LB_102730340_2.ttl": "eligible",
+    "B100019_LB_102730340_3.ttl": "ineligible",
+    "B100019_LB_102730340_4.ttl": "ineligible", # missing info
+}
+
 arbeitslosengeld = {
     "B100019_LB_576842_1.ttl": "eligible",
     "B100019_LB_576842_2.ttl": "eligible",
@@ -21,27 +28,63 @@ arbeitslosengeld = {
     "B100019_LB_576842_12.ttl": "ineligible", # missing info
 }
 
-kinderzuschlag = {
-    "B100019_LB_581863_1.ttl": "eligible",
-    "B100019_LB_581863_2.ttl": "eligible",
-    "B100019_LB_581863_3.ttl": "eligible",
-    "B100019_LB_581863_4.ttl": "eligible",
-    "B100019_LB_581863_5.ttl": "eligible",
-    "B100019_LB_581863_6.ttl": "ineligible", # missing info
-    "B100019_LB_581863_7.ttl": "ineligible",
-    "B100019_LB_581863_8.ttl": "ineligible",
-    "B100019_LB_581863_9.ttl": "ineligible",
-    "B100019_LB_581863_10.ttl": "ineligible",
-    "B100019_LB_581863_11.ttl": "ineligible",
-    "B100019_LB_581863_12.ttl": "ineligible",
-    "B100019_LB_581863_13.ttl": "ineligible",
-    "B100019_LB_581863_14.ttl": "ineligible",
-    "B100019_LB_581863_15.ttl": "ineligible",
-    "B100019_LB_581863_16.ttl": "ineligible",
-    "B100019_LB_581863_17.ttl": "ineligible", # missing info
-    "B100019_LB_581863_18.ttl": "ineligible", # missing info
-    "B100019_LB_581863_19.ttl": "ineligible", # missing info
-    "B100019_LB_581863_20.ttl": "ineligible", # missing info
+ausbildungsgeld = {
+    "B100019_LB_574711_1.ttl": "eligible",
+    "B100019_LB_574711_2.ttl": "eligible",
+    "B100019_LB_574711_3.ttl": "eligible",
+    "B100019_LB_574711_4.ttl": "ineligible",
+    "B100019_LB_574711_5.ttl": "ineligible",
+    "B100019_LB_574711_6.ttl": "ineligible",
+    "B100019_LB_574711_7.ttl": "ineligible",
+    "B100019_LB_574711_8.ttl": "ineligible", # missing info
+    "B100019_LB_574711_9.ttl": "ineligible", # missing info
+    "B100019_LB_574711_10.ttl": "ineligible", # missing info
+}
+
+berufsausbildungsbeihilfe = {
+    "B100019_LB_574724_1.ttl": "eligible",
+    "B100019_LB_574724_2.ttl": "eligible",
+    "B100019_LB_574724_3.ttl": "eligible",
+    "B100019_LB_574724_4.ttl": "eligible",
+    "B100019_LB_574724_5.ttl": "eligible",
+    "B100019_LB_574724_6.ttl": "eligible",
+    "B100019_LB_574724_7.ttl": "eligible",
+    "B100019_LB_574724_8.ttl": "eligible",
+    "B100019_LB_574724_9.ttl": "eligible",
+    "B100019_LB_574724_10.ttl": "eligible",
+    "B100019_LB_574724_11.ttl": "eligible",
+    "B100019_LB_574724_12.ttl": "eligible",
+    "B100019_LB_574724_13.ttl": "ineligible",
+    "B100019_LB_574724_14.ttl": "ineligible",
+    "B100019_LB_574724_15.ttl": "ineligible",
+    "B100019_LB_574724_16.ttl": "ineligible",
+    "B100019_LB_574724_17.ttl": "ineligible",
+    "B100019_LB_574724_18.ttl": "ineligible",
+    "B100019_LB_574724_19.ttl": "ineligible",
+    "B100019_LB_574724_20.ttl": "ineligible",
+    "B100019_LB_574724_21.ttl": "ineligible",
+    "B100019_LB_574724_22.ttl": "ineligible",
+    "B100019_LB_574724_23.ttl": "ineligible",
+    "B100019_LB_574724_24.ttl": "ineligible",
+    "B100019_LB_574724_25.ttl": "ineligible",
+    "B100019_LB_574724_26.ttl": "ineligible",
+    "B100019_LB_574724_27.ttl": "ineligible",
+    "B100019_LB_574724_28.ttl": "ineligible",
+    "B100019_LB_574724_29.ttl": "ineligible",
+}
+
+bildung_und_teilhabe = {
+    "L100040_LB_12280162_1.ttl": "eligible",
+    "L100040_LB_12280162_2.ttl": "eligible",
+    "L100040_LB_12280162_3.ttl": "eligible",
+    "L100040_LB_12280162_4.ttl": "eligible",
+    "L100040_LB_12280162_5.ttl": "eligible",
+    "L100040_LB_12280162_6.ttl": "ineligible",
+    "L100040_LB_12280162_7.ttl": "ineligible",
+    "L100040_LB_12280162_8.ttl": "ineligible",
+    "L100040_LB_12280162_9.ttl": "ineligible", # missing info
+    "L100040_LB_12280162_10.ttl": "ineligible", # missing info
+    "L100040_LB_12280162_11.ttl": "ineligible", # missing info
 }
 
 buergergeld = {
@@ -82,6 +125,29 @@ insolvenzgeld = {
 }
 
 kinderzuschlag = {
+    "B100019_LB_581863_1.ttl": "eligible",
+    "B100019_LB_581863_2.ttl": "eligible",
+    "B100019_LB_581863_3.ttl": "eligible",
+    "B100019_LB_581863_4.ttl": "eligible",
+    "B100019_LB_581863_5.ttl": "eligible",
+    "B100019_LB_581863_6.ttl": "ineligible", # missing info
+    "B100019_LB_581863_7.ttl": "ineligible",
+    "B100019_LB_581863_8.ttl": "ineligible",
+    "B100019_LB_581863_9.ttl": "ineligible",
+    "B100019_LB_581863_10.ttl": "ineligible",
+    "B100019_LB_581863_11.ttl": "ineligible",
+    "B100019_LB_581863_12.ttl": "ineligible",
+    "B100019_LB_581863_13.ttl": "ineligible",
+    "B100019_LB_581863_14.ttl": "ineligible",
+    "B100019_LB_581863_15.ttl": "ineligible",
+    "B100019_LB_581863_16.ttl": "ineligible",
+    "B100019_LB_581863_17.ttl": "ineligible", # missing info
+    "B100019_LB_581863_18.ttl": "ineligible", # missing info
+    "B100019_LB_581863_19.ttl": "ineligible", # missing info
+    "B100019_LB_581863_20.ttl": "ineligible", # missing info
+}
+
+kindergeld = {
     "B100019_LB_576986_1.ttl": "eligible",
     "B100019_LB_576986_2.ttl": "eligible",
     "B100019_LB_576986_3.ttl": "eligible",
@@ -189,33 +255,6 @@ guv_waisenrente = {
     "B100019_LB_582435_20.ttl": "ineligible",
 }
 
-bildung_und_teilhabe = {
-    "L100040_LB_12280162_1.ttl": "eligible",
-    "L100040_LB_12280162_2.ttl": "eligible",
-    "L100040_LB_12280162_3.ttl": "eligible",
-    "L100040_LB_12280162_4.ttl": "eligible",
-    "L100040_LB_12280162_5.ttl": "eligible",
-    "L100040_LB_12280162_6.ttl": "ineligible",
-    "L100040_LB_12280162_7.ttl": "ineligible",
-    "L100040_LB_12280162_8.ttl": "ineligible",
-    "L100040_LB_12280162_9.ttl": "ineligible", # missing info
-    "L100040_LB_12280162_10.ttl": "ineligible", # missing info
-    "L100040_LB_12280162_11.ttl": "ineligible", # missing info
-}
-
-ausbildungsgeld = {
-    "B100019_LB_574711_1.ttl": "eligible",
-    "B100019_LB_574711_2.ttl": "eligible",
-    "B100019_LB_574711_3.ttl": "eligible",
-    "B100019_LB_574711_4.ttl": "ineligible",
-    "B100019_LB_574711_5.ttl": "ineligible",
-    "B100019_LB_574711_6.ttl": "ineligible",
-    "B100019_LB_574711_7.ttl": "ineligible",
-    "B100019_LB_574711_8.ttl": "ineligible", # missing info
-    "B100019_LB_574711_9.ttl": "ineligible", # missing info
-    "B100019_LB_574711_10.ttl": "ineligible", # missing info
-}
-
 einstiegsgeld = {
     "B100019_LB_102713860_1.ttl": "eligible",
     "B100019_LB_102713860_2.ttl": "eligible",
@@ -310,13 +349,6 @@ grundsicherung = {
     "L100040_LB_8664880_22.ttl": "ineligible", # missing info
 }
 
-aktivierung_und_eingliederung = {
-    "B100019_LB_102730340_1.ttl": "eligible",
-    "B100019_LB_102730340_2.ttl": "eligible",
-    "B100019_LB_102730340_3.ttl": "ineligible",
-    "B100019_LB_102730340_4.ttl": "ineligible", # missing info
-}
-
 guv_rentenabfindung = {
     "B100019_LB_102799525_1.ttl": "eligible",
     "B100019_LB_102799525_2.ttl": "eligible",
@@ -327,38 +359,6 @@ guv_rentenabfindung = {
     "B100019_LB_102799525_7.ttl": "ineligible", # missing info
     "B100019_LB_102799525_8.ttl": "ineligible", # missing info
     "B100019_LB_102799525_9.ttl": "ineligible", # missing info
-}
-
-berufsausbildungsbeihilfe = {
-    "B100019_LB_574724_1.ttl": "eligible",
-    "B100019_LB_574724_2.ttl": "eligible",
-    "B100019_LB_574724_3.ttl": "eligible",
-    "B100019_LB_574724_4.ttl": "eligible",
-    "B100019_LB_574724_5.ttl": "eligible",
-    "B100019_LB_574724_6.ttl": "eligible",
-    "B100019_LB_574724_7.ttl": "eligible",
-    "B100019_LB_574724_8.ttl": "eligible",
-    "B100019_LB_574724_9.ttl": "eligible",
-    "B100019_LB_574724_10.ttl": "eligible",
-    "B100019_LB_574724_11.ttl": "eligible",
-    "B100019_LB_574724_12.ttl": "eligible",
-    "B100019_LB_574724_13.ttl": "ineligible",
-    "B100019_LB_574724_14.ttl": "ineligible",
-    "B100019_LB_574724_15.ttl": "ineligible",
-    "B100019_LB_574724_16.ttl": "ineligible",
-    "B100019_LB_574724_17.ttl": "ineligible",
-    "B100019_LB_574724_18.ttl": "ineligible",
-    "B100019_LB_574724_19.ttl": "ineligible",
-    "B100019_LB_574724_20.ttl": "ineligible",
-    "B100019_LB_574724_21.ttl": "ineligible",
-    "B100019_LB_574724_22.ttl": "ineligible",
-    "B100019_LB_574724_23.ttl": "ineligible",
-    "B100019_LB_574724_24.ttl": "ineligible",
-    "B100019_LB_574724_25.ttl": "ineligible",
-    "B100019_LB_574724_26.ttl": "ineligible",
-    "B100019_LB_574724_27.ttl": "ineligible",
-    "B100019_LB_574724_28.ttl": "ineligible",
-    "B100019_LB_574724_29.ttl": "ineligible",
 }
 
 krankengeld_begleitperson = {
