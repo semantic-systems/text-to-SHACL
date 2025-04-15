@@ -40,7 +40,7 @@ ff:CapacityReductionShape a sh:NodeShape ;
     sh:property [
         sh:path ff:reductionDurationInWeeks ;
         sh:minCount 1 ;
-        sh:minInclusive 27 ;
+        sh:minExclusive 26 ;
     ] ;
     # The reduction results from one or more insurance events.
     sh:property [
