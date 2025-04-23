@@ -2,766 +2,773 @@ Prefix: ff: <https://foerderfunke.org/default#>
 Prefix: rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 Prefix: rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 Prefix: xsd: <http://www.w3.org/2001/XMLSchema#>
+Datatype: rdf:PlainLiteral
+Datatype: xsd:boolean
+Datatype: xsd:dateTime
+Datatype: xsd:decimal
+Datatype: xsd:int 
 
 ObjectProperty: ff:atRiskOfDisabilityType
-    Annotations: ff:comment "Links a person to a particular type of disability that they risk developing."@en
+    Annotations: rdfs:comment "Links a person to a particular type of disability that they risk developing."@en
     Domain: ff:Person
-    Range: ff:Disability
+    Range: ff:Disability 
 
 ObjectProperty: ff:cannotSupportThemselvesBecause
-    Annotations: ff:comment "Points to a reason (e.g., Disability) why a person cannot support themselves."@en
+    Annotations: rdfs:comment "Points to a reason (e.g., Disability) why a person cannot support themselves."@en
     Domain: ff:Person
-    Range: ff:Disability
+    Range: ff:Disability 
 
 ObjectProperty: ff:caregiverInHousehold
-    Annotations: ff:comment "Links a care need to a person who can provide the care and lives in the same household as the person who needs care."@en
+    Annotations: rdfs:comment "Links a care need to a person who can provide the care and lives in the same household as the person who needs care."@en
     Domain: ff:CareNeed
-    Range: ff:Person
+    Range: ff:Person 
 
 ObjectProperty: ff:causeOfDeath
-    Annotations: ff:comment "Links a person to an event that  caused their death."@en
+    Annotations: rdfs:comment "Links a person to an event that  caused their death."@en
     Domain: ff:Person
-    Range: ff:Event
+    Range: ff:Event 
 
 ObjectProperty: ff:closeRelative
-    Annotations: ff:comment "Links a person to another person who is a close relative."@en
+    Annotations: rdfs:comment "Links a person to another person who is a close relative."@en
     Domain: ff:Person
-    Range: ff:Person
+    Range: ff:Person 
 
 ObjectProperty: ff:countryOfEmployment
-    Annotations: ff:comment "Defines the country where an employment takes place."@en
+    Annotations: rdfs:comment "Defines the country where an employment takes place."@en
     Domain: ff:Employment
-    Range: ff:Country
+    Range: ff:Country 
 
 ObjectProperty: ff:countryOfResidence
-    Annotations: ff:comment "Links a person to their country of residence."@en
+    Annotations: rdfs:comment "Links a person to their country of residence."@en
     Domain: ff:Person
-    Range: ff:Country
+    Range: ff:Country 
 
 ObjectProperty: ff:deceasedCivilPartner
-    Annotations: ff:comment "Links a person to another person who deceased as their civil partner."@en
+    Annotations: rdfs:comment "Links a person to another person who deceased as their civil partner."@en
     Domain: ff:Person
-    Range: ff:Person
+    Range: ff:Person 
 
 ObjectProperty: ff:deceasedSpouse
-    Annotations: ff:comment "Links a person who deceased as their spouse."@en
+    Annotations: rdfs:comment "Links a person who deceased as their spouse."@en
     Domain: ff:Person
-    Range: ff:Person
+    Range: ff:Person 
 
 ObjectProperty: ff:derivesFreedomOfMovementFrom
-    Annotations: ff:comment "Links a person to another person from whom they derive freedom of movement under the Freedom of Movement Act."@en
+    Annotations: rdfs:comment "Links a person to another person from whom they derive freedom of movement under the Freedom of Movement Act."@en
     Domain: ff:Person
-    Range: ff:Person
+    Range: ff:Person 
 
 ObjectProperty: ff:employer
-    Annotations: ff:comment "Links a person to a person or organization that employs them."@en
+    Annotations: rdfs:comment "Links a person to a person or organization that employs them."@en
     Domain: ff:Employment
-    Range: ff:Employer
+    Range: ff:Employer 
 
 ObjectProperty: ff:fosterChildTo
-    Annotations: ff:comment "Links a person to their foster parent."@en
+    Annotations: rdfs:comment "Links a person to their foster parent."@en
     Domain: ff:Person
-    Range: ff:Person
+    Range: ff:Person 
 
 ObjectProperty: ff:hasChild
-    Annotations: ff:comment "Links a person to their child."@en
+    Annotations: rdfs:comment "Links a person to their child."@en
     Domain: ff:Person
-    Range: ff:Person
+    Range: ff:Person 
 
 ObjectProperty: ff:hasDisabilityType
-    Annotations: ff:comment "Links a person to a particular type of disability that they have."@en
+    Annotations: rdfs:comment "Links a person to a particular type of disability that they have."@en
     Domain: ff:Person
-    Range: ff:Disability
+    Range: ff:Disability 
 
 ObjectProperty: ff:hasEarningCapacity
-    Annotations: ff:comment "Links a person to the status of their earning capacity."@en
+    Annotations: rdfs:comment "Links a person to the status of their earning capacity."@en
     Domain: ff:Person
-    Range: ff:EarningCapacity
+    Range: ff:EarningCapacity 
 
 ObjectProperty: ff:hasEmployment
-    Annotations: ff:comment "Links a user to a current employment."@en
+    Annotations: rdfs:comment "Links a user to a current employment."@en
     Domain: ff:Person
-    Range: ff:Employment
+    Range: ff:Employment 
 
 ObjectProperty: ff:hasEmploymentStatus
-    Annotations: ff:comment "Links a person to their legal employment status."@en
+    Annotations: rdfs:comment "Links a person to their legal employment status."@en
     Domain: ff:Person
-    Range: ff:EmploymentStatus
+    Range: ff:EmploymentStatus 
 
 ObjectProperty: ff:hasEvent
-    Domain: ff:Employer, ff:Person
-    Range: ff:Event
+    Domain: ff:Employer,
+        ff:Person
+    Range: ff:Event 
 
 ObjectProperty: ff:hasIncome
-    Annotations: ff:comment "Links a person to an object describing their income."@en
+    Annotations: rdfs:comment "Links a person to an object describing their income."@en
     Domain: ff:Person
-    Range: ff:Income
+    Range: ff:Income 
 
 ObjectProperty: ff:hasInsurance
-    Annotations: ff:comment "Links a person to an insurance that they have."@en
+    Annotations: rdfs:comment "Links a person to an insurance that they have."@en
     Domain: ff:Person
-    Range: ff:Insurance
+    Range: ff:Insurance 
 
 ObjectProperty: ff:hasMaritalStatus
-    Annotations: ff:comment "Links a person to their legal marital status."@en
+    Annotations: rdfs:comment "Links a person to their legal marital status."@en
     Domain: ff:Person
-    Range: ff:MaritalStatus
+    Range: ff:MaritalStatus 
 
 ObjectProperty: ff:hasNoPriorityClaimsOver
-    Annotations: ff:comment "Links a person to a social benefit if they are not eligible for other benefits with priority over this one."@en
+    Annotations: rdfs:comment "Links a person to a social benefit if they are not eligible for other benefits with priority over this one."@en
     Domain: ff:Person
-    Range: ff:SocialBenefit
+    Range: ff:SocialBenefit 
 
 ObjectProperty: ff:hasPrimaryCareTaker
-    Annotations: ff:comment "Links a person to a person who has the main responsibility for their living expenses."@en
+    Annotations: rdfs:comment "Links a person to a person who has the main responsibility for their living expenses."@en
     Domain: ff:Person
-    Range: ff:Person
+    Range: ff:Person 
 
 ObjectProperty: ff:hasRehabilitationProvider
-    Annotations: ff:comment "Links a person to their rehabilitation provider."@en
+    Annotations: rdfs:comment "Links a person to their rehabilitation provider."@en
     Domain: ff:Person
-    Range: ff:RehabilitationProvider
+    Range: ff:RehabilitationProvider 
 
 ObjectProperty: ff:hasResidencePermit
-    Annotations: ff:comment "Links a person to a residence permit that they hold."@en
+    Annotations: rdfs:comment "Links a person to a residence permit that they hold."@en
     Domain: ff:Person
-    Range: ff:ResidencePermit
+    Range: ff:ResidencePermit 
 
 ObjectProperty: ff:hasResidenceStatus
-    Annotations: ff:comment "Links a person to their residence status in Germany."@en
+    Annotations: rdfs:comment "Links a person to their residence status in Germany."@en
     Domain: ff:Person
-    Range: ff:ResidenceStatus
+    Range: ff:ResidenceStatus 
 
 ObjectProperty: ff:immediateCircleMember
-    Annotations: ff:comment "Links a person to another person who is a member of their immediate circle."@en
+    Annotations: rdfs:comment "Links a person to another person who is a member of their immediate circle."@en
     Domain: ff:Person
-    Range: ff:Person
+    Range: ff:Person 
 
 ObjectProperty: ff:incomeTaxCountry
-    Annotations: ff:comment "Links a person to the country where they are subject to income tax."@en
+    Annotations: rdfs:comment "Links a person to the country where they are subject to income tax."@en
     Domain: ff:Person
-    Range: ff:Country
+    Range: ff:Country 
 
 ObjectProperty: ff:incomeTaxLiability
-    Annotations: ff:comment "Links a person to the scope of their income tax liability."@en
+    Annotations: rdfs:comment "Links a person to the scope of their income tax liability."@en
     Domain: ff:Person
-    Range: ff:TaxLiabilityScope
+    Range: ff:TaxLiabilityScope 
 
 ObjectProperty: ff:intendedFundingPeriod
-    Annotations: ff:comment "Links something (e.g., a training) to the intended funding period."@en
+    Annotations: rdfs:comment "Links something (e.g., a training) to the intended funding period."@en
     Domain: ff:Training
-    Range: ff:Duration
+    Range: ff:Duration 
 
 ObjectProperty: ff:isEligibleFor
-    Annotations: ff:comment "Links a person to a service for which they are eligible."@en
+    Annotations: rdfs:comment "Links a person to a service for which they are eligible."@en
     Domain: ff:Person
-    Range: ff:SocialBenefit
+    Range: ff:SocialBenefit 
 
 ObjectProperty: ff:isIneligibleFor
-    Annotations: ff:comment "Links a person to a service for which they are ineligible."@en
+    Annotations: rdfs:comment "Links a person to a service for which they are ineligible."@en
     Domain: ff:Person
-    Range: ff:SocialBenefit
+    Range: ff:SocialBenefit 
 
 ObjectProperty: ff:isNationalOf
-    Annotations: ff:comment "Links a person to a country where they are a national."@en
+    Annotations: rdfs:comment "Links a person to a country where they are a national."@en
     Domain: ff:Person
-    Range: ff:Country
+    Range: ff:Country 
 
 ObjectProperty: ff:legalUnionBeforeEvent
-    Annotations: ff:comment "Links an event (e.g., insurance event), experienced by person A, to another person B with whom they were married or in a civil union before and during the event."@en
+    Annotations: rdfs:comment "Links an event (e.g., insurance event), experienced by person A, to another person B with whom they were married or in a civil union before and during the event."@en
     Domain: ff:Event
-    Range: ff:Person
+    Range: ff:Person 
 
 ObjectProperty: ff:naturalChildTo
-    Annotations: ff:comment "Links a person to their natural parent."@en
+    Annotations: rdfs:comment "Links a person to their natural parent."@en
     Domain: ff:Person
-    Range: ff:Person
+    Range: ff:Person 
 
 ObjectProperty: ff:needsCare
-    Annotations: ff:comment "Links a person who needs care to a node describing their care needs."@en
+    Annotations: rdfs:comment "Links a person who needs care to a node describing their care needs."@en
     Domain: ff:Person
-    Range: ff:CareNeed
+    Range: ff:CareNeed 
 
 ObjectProperty: ff:parentalAdress
-    Annotations: ff:comment "Links a person to the adress of one or more parents."@en
+    Annotations: rdfs:comment "Links a person to the adress of one or more parents."@en
     Domain: ff:Person
-    Range: ff:Adress
+    Range: ff:Adress 
 
 ObjectProperty: ff:participates
-    Annotations: ff:comment "Links a person to a program, e.g. a formal training, in which they are currently participating."@en
+    Annotations: rdfs:comment "Links a person to a program, e.g. a formal training, in which they are currently participating."@en
     Domain: ff:Person
-    Range: ff:Training
+    Range: ff:Training 
 
 ObjectProperty: ff:receivedBenefit
-    Annotations: ff:comment "Links a person to a benefit that they have received in the past."@en
+    Annotations: rdfs:comment "Links a person to a benefit that they have received in the past."@en
     Domain: ff:Person
-    Range: ff:SocialBenefit
+    Range: ff:SocialBenefit 
 
 ObjectProperty: ff:receivesBenefit
-    Annotations: ff:comment "Links a person to a social benefit that they are currently receiving."@en
+    Annotations: rdfs:comment "Links a person to a social benefit that they are currently receiving."@en
     Domain: ff:Person
-    Range: ff:SocialBenefit
+    Range: ff:SocialBenefit 
 
 ObjectProperty: ff:receivesChildBenefitFor
-    Annotations: ff:comment "Links a person to a child for which they receive child benefit."@en
+    Annotations: rdfs:comment "Links a person to a child for which they receive child benefit."@en
     Domain: ff:Person
-    Range: ff:Person
+    Range: ff:Person 
 
 ObjectProperty: ff:recognizedByLaw
-    Annotations: ff:comment "Links something to a law under which it is officially recoginzed."@en
+    Annotations: rdfs:comment "Links something to a law under which it is officially recoginzed."@en
     Domain: ff:Training
-    Range: ff:LegalCode
+    Range: ff:LegalCode 
 
 ObjectProperty: ff:resultsInTreatment
-    Annotations: ff:comment "Describes an event that results in medical treatment."@en
+    Annotations: rdfs:comment "Describes an event that results in medical treatment."@en
     Domain: ff:Event
-    Range: ff:OccupationalRehabilitation
+    Range: ff:OccupationalRehabilitation 
 
 ObjectProperty: ff:ruleExemptionBecause
-    Annotations: ff:comment "Links something to a reason why it is exempted from a certain rule."@en
+    Annotations: rdfs:comment "Links something to a reason why it is exempted from a certain rule."@en
     Domain: ff:Training
-    Range: ff:Disability
+    Range: ff:Disability 
 
 ObjectProperty: ff:sameHouseholdAs
-    Annotations: ff:comment "Links two persons who live in the same household."@en
+    Annotations: rdfs:comment "Links two persons who live in the same household."@en
     Domain: ff:Person
-    Range: ff:Person
+    Range: ff:Person 
 
 ObjectProperty: ff:socialSecurityCountry
-    Annotations: ff:comment "Links a person to the country where they are subject to social security."@en
+    Annotations: rdfs:comment "Links a person to the country where they are subject to social security."@en
     Domain: ff:Person
-    Range: ff:Country
+    Range: ff:Country 
 
 ObjectProperty: ff:socialSecurityDuration
-    Annotations: ff:comment "Links a person to a node describing the duration of their social security obligations."@en
+    Annotations: rdfs:comment "Links a person to a node describing the duration of their social security obligations."@en
     Domain: ff:Person
-    Range: ff:Duration
+    Range: ff:Duration 
 
 ObjectProperty: ff:stepChildTo
-    Annotations: ff:comment "Links a person to their step parent."@en
+    Annotations: rdfs:comment "Links a person to their step parent."@en
     Domain: ff:Person
-    Range: ff:Person
+    Range: ff:Person 
 
 ObjectProperty: ff:subjectToContract
-    Annotations: ff:comment "Links something to a type of contract to which it is subject."@en
+    Annotations: rdfs:comment "Links something to a type of contract to which it is subject."@en
     Domain: ff:Training
-    Range: ff:VocationalTrainingContract
+    Range: ff:VocationalTrainingContract 
 
 ObjectProperty: ff:triggeringEvent
-    Annotations: ff:comment "Links something (e.g., earning capacity) to an event that caused it."@en
-    Domain: ff:EarningCapacity, ff:OccupationalRehabilitation
-    Range: ff:Event
+    Annotations: rdfs:comment "Links something (e.g., earning capacity) to an event that caused it."@en
+    Domain: ff:EarningCapacity,
+        ff:OccupationalRehabilitation
+    Range: ff:Event 
 
 ObjectProperty: ff:wasEligibleFor
-    Annotations: ff:comment "Links a person to a benefit for which they have been eligible in the past."@en
+    Annotations: rdfs:comment "Links a person to a benefit for which they have been eligible in the past."@en
     Domain: ff:Person
-    Range: ff:SocialBenefit
+    Range: ff:SocialBenefit 
 
 ObjectProperty: ff:wasEntitledToCashBenefitBefore
-    Annotations: ff:comment "Links a person to an event before which they were entitled to a cash benefit like salary or unemployment benefit."@en
+    Annotations: rdfs:comment "Links a person to an event before which they were entitled to a cash benefit like salary or unemployment benefit."@en
     Domain: ff:Person
-    Range: ff:Event
+    Range: ff:Event 
 
 ObjectProperty: ff:workforceIntegrationProblemBecause
-    Annotations: ff:comment "Points to a reason (e.g., Disabiltiy) why a person needs support with their integration into the workforce."@en
+    Annotations: rdfs:comment "Points to a reason (e.g., Disabiltiy) why a person needs support with their integration into the workforce."@en
     Domain: ff:Person
-    Range: ff:Disability
+    Range: ff:Disability 
 
 DataProperty: ff:aboveSGBXII41AgeLimit
-    Annotations: ff:comment "True if a person has reached the age limit under § 41 SGB XII, false otherwise."@en
+    Annotations: rdfs:comment "True if a person has reached the age limit under § 41 SGB XII, false otherwise."@en
     Domain: ff:Person
-    Range: xsd:boolean
-
-DataProperty: ff:accompaniesInpatientTreatment
-    Annotations: ff:comment "True if medical accompaniment event involves admission for inpatient treatment, false otherwise."@en
-    Domain: ff:MedicalAccompaniment
-    Range: xsd:boolean
+    Range: xsd:boolean 
 
 DataProperty: ff:adequateHealthInsurance
-    Annotations: ff:comment "True if a person has adequate health insurance cover under the Freedom of Movement Act, false otherwise."@en
+    Annotations: rdfs:comment "True if a person has adequate health insurance cover under the Freedom of Movement Act, false otherwise."@en
     Domain: ff:Person
-    Range: xsd:boolean
+    Range: xsd:boolean 
 
 DataProperty: ff:availableForPlacement
-    Annotations: ff:comment "True if a person is able and willing to work subject to compulsory insurance under normal labor market conditions, false otherwise."@en
+    Annotations: rdfs:comment "True if a person is able and willing to work subject to compulsory insurance under normal labor market conditions, false otherwise."@en
     Domain: ff:Person
-    Range: xsd:boolean
+    Range: xsd:boolean 
 
 DataProperty: ff:canCoverBasicNeedsOfBenefitUnit
-    Annotations: ff:comment "True if a person can cover the basic needs of themselves and the unemployed individuals in their benefit unit with their income, assets, and priority benefits, false otherwise."@en
+    Annotations: rdfs:comment "True if a person can cover the basic needs of themselves and the unemployed individuals in their benefit unit with their income, assets, and priority benefits, false otherwise."@en
     Domain: ff:Person
-    Range: xsd:boolean
+    Range: xsd:boolean 
 
 DataProperty: ff:canCoverPersonalBasicNeeds
-    Annotations: ff:comment "True if a person can cover their personal basic needs with their income, assets, and priority benefits, false otherwise."@en
+    Annotations: rdfs:comment "True if a person can cover their personal basic needs with their income, assets, and priority benefits, false otherwise."@en
     Domain: ff:Person
-    Range: xsd:boolean
+    Range: xsd:boolean 
 
 DataProperty: ff:causesLossOfEarnings
-    Annotations: ff:comment "True if an event causes a loss of earnings for the person experiencing it, false otherwise."@en
+    Annotations: rdfs:comment "True if an event causes a loss of earnings for the person experiencing it, false otherwise."@en
     Domain: ff:Event
-    Range: xsd:boolean
+    Range: xsd:boolean 
 
 DataProperty: ff:commissionedByEmploymentAgency
-    Annotations: ff:comment "True if a given training was commissioned by the employment agency, false otherwise."@en
+    Annotations: rdfs:comment "True if a given training was commissioned by the employment agency, false otherwise."@en
     Domain: ff:Training
-    Range: xsd:boolean
+    Range: xsd:boolean 
 
 DataProperty: ff:compulsoryInsuranceFor12In30
-    Annotations: ff:comment "True if a person has been subject to compulsory insurance for at least 12 months within the last 30 months before registering as unemployed, false otherwise."@en
+    Annotations: rdfs:comment "True if a person has been subject to compulsory insurance for at least 12 months within the last 30 months before registering as unemployed, false otherwise."@en
     Domain: ff:Person
-    Range: xsd:boolean
-
-DataProperty: ff:durationInHours
-    Annotations: ff:comment "The total duration of an event in hours."@en
-    Domain: ff:Event
-    Range: xsd:decimal
+    Range: xsd:boolean 
 
 DataProperty: ff:eligibleWithinLast3Years
-    Annotations: ff:comment "True if a person was eligible for a social benefit within the last 3 years."@en
+    Annotations: rdfs:comment "True if a person was eligible for a social benefit within the last 3 years."@en
     Domain: ff:SocialBenefit
-    Range: xsd:boolean
+    Range: xsd:boolean 
 
 DataProperty: ff:employableHoursPerDay
-    Annotations: ff:comment "Links a person to the hours they are able to work per day."@en
+    Annotations: rdfs:comment "Links a person to the hours they are able to work per day."@en
     Domain: ff:Person
-    Range: xsd:decimal
+    Range: xsd:decimal 
 
 DataProperty: ff:entitledToAsylum
-    Annotations: ff:comment "True if a person is entitled to asylum, false otherwise."@en
+    Annotations: rdfs:comment "True if a person is entitled to asylum, false otherwise."@en
     Domain: ff:Person
-    Range: xsd:boolean
+    Range: xsd:boolean 
 
 DataProperty: ff:entitlesToEmployment
-    Annotations: ff:comment "True if a permit entitles to employment, false otherwise."@en
+    Annotations: rdfs:comment "True if a permit entitles to employment, false otherwise."@en
     Domain: ff:ResidencePermit
-    Range: xsd:boolean
+    Range: xsd:boolean 
 
 DataProperty: ff:familyGrossIncome
-    Annotations: ff:comment "Points to the amount of family gross income."@en
+    Annotations: rdfs:comment "Points to the amount of family gross income."@en
     Domain: ff:Income
-    Range: xsd:decimal
+    Range: xsd:decimal 
+
+DataProperty: ff:fullDayAccompaniment
+    Annotations: rdfs:comment "A medical accompaniement takes more than 8 hours."@en
+    Domain: ff:MedicalAccompaniment
+    Range: xsd:boolean 
 
 DataProperty: ff:hasAge
-    Annotations: ff:comment "Links a person to their age in completed years."@en
+    Annotations: rdfs:comment "Links a person to their age in completed years."@en
     Domain: ff:Person
-    Range: xsd:int
+    Range: xsd:int 
 
 DataProperty: ff:hasAsylumActPermit
-    Annotations: ff:comment "True if a person has a residence permit under the Asylum Act, false otherwise."@en
+    Annotations: rdfs:comment "True if a person has a residence permit under the Asylum Act, false otherwise."@en
     Domain: ff:Person
-    Range: xsd:boolean
+    Range: xsd:boolean 
 
 DataProperty: ff:hasConsiderableAssets
-    Annotations: ff:comment "True if a person has considerable assets under the German Social Code, false otherwise."@en
+    Annotations: rdfs:comment "True if a person has considerable assets under the German Social Code, false otherwise."@en
     Domain: ff:Person
-    Range: xsd:boolean
+    Range: xsd:boolean 
 
 DataProperty: ff:hasDate
-    Annotations: ff:comment "Links an event to the date when it took place."@en
+    Annotations: rdfs:comment "Links an event to the date when it took place."@en
     Domain: ff:Event
-    Range: xsd:dateTime
+    Range: xsd:dateTime 
 
 DataProperty: ff:hasDisability
-    Annotations: ff:comment "True if a person has a disability, false otherwise."@en
+    Annotations: rdfs:comment "True if a person has a disability, false otherwise."@en
     Domain: ff:Person
-    Range: xsd:boolean
+    Range: xsd:boolean 
 
 DataProperty: ff:inEmployment
-    Annotations: ff:comment "True if a person is currently in an employment relationship, false otherwise."@en
+    Annotations: rdfs:comment "True if a person is currently in an employment relationship, false otherwise."@en
     Domain: ff:Person
-    Range: xsd:boolean
+    Range: xsd:boolean 
+
+DataProperty: ff:inPatientCoAdmission
+    Annotations: rdfs:comment "True if a person is admitted as accompanying person for inpatient treatment, false otherwise."@en
+    Domain: ff:MedicalAccompaniment
+    Range: xsd:boolean 
 
 DataProperty: ff:isFirstVocationalTraining
-    Annotations: ff:comment "True if a training instance is a person's first vocational training, false otherwise."@en
+    Annotations: rdfs:comment "True if a training instance is a person's first vocational training, false otherwise."@en
     Domain: ff:Training
-    Range: xsd:boolean
+    Range: xsd:boolean 
 
 DataProperty: ff:isInTransitionalPeriod
-    Annotations: ff:comment "True if a person is in a transitional period of 4 calendar months or less between between two formal educations or after the completion of compulsory military service / community service / voluntary service. False otherwise."@en
+    Annotations: rdfs:comment "True if a person is in a transitional period of 4 calendar months or less between between two formal educations or after the completion of compulsory military service / community service / voluntary service. False otherwise."@en
     Domain: ff:Person
-    Range: xsd:boolean
+    Range: xsd:boolean 
 
 DataProperty: ff:isOpen
-    Annotations: ff:comment "True if a proceeding is open, false otherwise."@en
+    Annotations: rdfs:comment "True if a proceeding is open, false otherwise."@en
     Domain: ff:InsolvencyProceeding
-    Range: xsd:boolean
+    Range: xsd:boolean 
 
 DataProperty: ff:isPensionable
-    Annotations: ff:comment "True, if a person has reached the legal retirement age, false otherwise."@en
+    Annotations: rdfs:comment "True, if a person has reached the legal retirement age, false otherwise."@en
     Domain: ff:Person
-    Range: xsd:boolean
+    Range: xsd:boolean 
 
 DataProperty: ff:isPermanent
-    Annotations: ff:comment "True if a given condition (e.g., earning capacity) is permanent, false otherwise."@en
+    Annotations: rdfs:comment "True if a given condition (e.g., earning capacity) is permanent, false otherwise."@en
     Domain: ff:EarningCapacity
-    Range: xsd:boolean
+    Range: xsd:boolean 
 
 DataProperty: ff:isRenumerated
-    Annotations: ff:comment "True if a person is renumerated for an event, false otherwise."@en
+    Annotations: rdfs:comment "True if a person is renumerated for an event, false otherwise."@en
     Domain: ff:Event
-    Range: xsd:boolean
+    Range: xsd:boolean 
 
 DataProperty: ff:isSingleParent
-    Annotations: ff:comment "True if a person is a single parent, false otherwise."@en
+    Annotations: rdfs:comment "True if a person is a single parent, false otherwise."@en
     Domain: ff:Person
-    Range: xsd:boolean
+    Range: xsd:boolean 
 
 DataProperty: ff:isVocationalReturnee
-    Annotations: ff:comment "True if a person is a vocational returnee, false otherwise."@en
+    Annotations: rdfs:comment "True if a person is a vocational returnee, false otherwise."@en
     Domain: ff:Person
-    Range: xsd:boolean
+    Range: xsd:boolean 
 
 DataProperty: ff:lessThanFourMonthsAgo
-    Annotations: ff:comment "True if an event happened less than four months ago, false otherwise."@en
+    Annotations: rdfs:comment "True if an event happened less than four months ago, false otherwise."@en
     Domain: ff:Event
-    Range: xsd:boolean
+    Range: xsd:boolean 
 
 DataProperty: ff:monthsAbroad
-    Annotations: ff:comment "Links something with a duration (e.g., a training) to the time that it takes place abroad in complete months."@en
+    Annotations: rdfs:comment "Links something with a duration (e.g., a training) to the time that it takes place abroad in complete months."@en
     Domain: ff:Training
-    Range: xsd:int
+    Range: xsd:int 
 
 DataProperty: ff:monthsTotal
-    Annotations: ff:comment "The total duration of something in completed months."@en
+    Annotations: rdfs:comment "The total duration of something in completed months."@en
     Domain: ff:Duration
-    Range: xsd:int
+    Range: xsd:int 
 
 DataProperty: ff:monthsWithinLast3Years
-    Annotations: ff:comment "The duration of something within the last three years in compelted months."@en
+    Annotations: rdfs:comment "The duration of something within the last three years in compelted months."@en
     Domain: ff:Duration
-    Range: xsd:int
+    Range: xsd:int 
 
 DataProperty: ff:newUnionAfterWidowhood
-    Annotations: ff:comment "True if a widowed person remarried or entered a new civil union."@en
+    Annotations: rdfs:comment "True if a widowed person remarried or entered a new civil union."@en
     Domain: ff:MaritalStatus
-    Range: xsd:boolean
+    Range: xsd:boolean 
 
 DataProperty: ff:obviousLackOfAssets
-    Annotations: ff:comment "True if an event coincides with an obvious lack of assets of the thing experiencing the event."@en
+    Annotations: rdfs:comment "True if an event coincides with an obvious lack of assets of the thing experiencing the event."@en
     Domain: ff:Employer
-    Range: xsd:boolean
+    Range: xsd:boolean 
 
 DataProperty: ff:percentAbroad
-    Annotations: ff:comment "Links something with a duration (e.g., a training) to the time that it takes place abroad in percentage."@en
+    Annotations: rdfs:comment "Links something with a duration (e.g., a training) to the time that it takes place abroad in percentage."@en
     Domain: ff:Duration,
         ff:Training
-    Range: xsd:decimal
+    Range: xsd:decimal 
 
 DataProperty: ff:permanentRightOfResidence
-    Annotations: ff:comment "True if a person has acquired a permanent right of residence under the Freedom of Movement Act, false otherwise."@en
+    Annotations: rdfs:comment "True if a person has acquired a permanent right of residence under the Freedom of Movement Act, false otherwise."@en
     Domain: ff:Person
-    Range: xsd:boolean
+    Range: xsd:boolean 
 
 DataProperty: ff:personalGrossIncome
-    Annotations: ff:comment "Points to the amount of personal gross income."@en
+    Annotations: rdfs:comment "Points to the amount of personal gross income."@en
     Domain: ff:Income
-    Range: xsd:int
+    Range: xsd:int 
 
 DataProperty: ff:receivedWithinLast3Years
-    Annotations: ff:comment "True if a person received a benefit within the last 3 years."@en
+    Annotations: rdfs:comment "True if a person received a benefit within the last 3 years."@en
     Domain: ff:SocialBenefit
-    Range: xsd:boolean
+    Range: xsd:boolean 
 
 DataProperty: ff:recognizedRefugee
-    Annotations: ff:comment "True if a person is a legally recognized refugee, false otherwise."@en
+    Annotations: rdfs:comment "True if a person is a legally recognized refugee, false otherwise."@en
     Domain: ff:Person
-    Range: xsd:boolean
+    Range: xsd:boolean 
 
 DataProperty: ff:reducesChildSupplementTo
-    Annotations: ff:comment "An applicant's income is offset against child supplement to varying degrees. This property links an income to the amount of child supplement remaining after any income-related reductions are taken into account."@en
+    Annotations: rdfs:comment "An applicant's income is offset against child supplement to varying degrees. This property links an income to the amount of child supplement remaining after any income-related reductions are taken into account."@en
     Domain: ff:Income
-    Range: xsd:decimal
+    Range: xsd:decimal 
 
 DataProperty: ff:reducesWorkProspectsPermanently
-    Annotations: ff:comment "True if a disability reduces a person's prospect of participating in working life permanently."@en
+    Annotations: rdfs:comment "True if a disability reduces a person's prospect of participating in working life permanently."@en
     Domain: ff:Disability
-    Range: xsd:boolean
+    Range: xsd:boolean 
 
 DataProperty: ff:reductionDurationInWeeks
-    Annotations: ff:comment "Points to the duration in completed weeks for which something (e.g., earning capacity) has been reduced."@en
+    Annotations: rdfs:comment "Points to the duration in completed weeks for which something (e.g., earning capacity) has been reduced."@en
     Domain: ff:EarningCapacity
-    Range: xsd:int
+    Range: xsd:int 
 
 DataProperty: ff:reductionInPercent
-    Annotations: ff:comment "Points to the percentage by which something (e.g. earning capacity) is reduced."@en
+    Annotations: rdfs:comment "Points to the percentage by which something (e.g. earning capacity) is reduced."@en
     Domain: ff:EarningCapacity
-    Range: xsd:decimal
+    Range: xsd:decimal 
 
 DataProperty: ff:rejectedForLackOfAssets
-    Annotations: ff:comment "True if an insolvency application was rejected for lack of assets, false otherwise."@en
+    Annotations: rdfs:comment "True if an insolvency application was rejected for lack of assets, false otherwise."@en
     Domain: ff:InsolvencyApplication
-    Range: xsd:boolean
+    Range: xsd:boolean 
 
 DataProperty: ff:severeDisability
-    Annotations: ff:comment "True if a disability is severe, false otherwise."@en
+    Annotations: rdfs:comment "True if a disability is severe, false otherwise."@en
     Domain: ff:Disability
-    Range: xsd:boolean
+    Range: xsd:boolean 
 
 DataProperty: ff:sufficientMeansOfSubsistence
-    Annotations: ff:comment "True if a person has sufficient means of subsistence under the Freedom of Movement Act, false otherwise."@en
+    Annotations: rdfs:comment "True if a person has sufficient means of subsistence under the Freedom of Movement Act, false otherwise."@en
     Domain: ff:Person
-    Range: xsd:boolean
+    Range: xsd:boolean 
 
 DataProperty: ff:tooFarFromTrainingCompany
-    Annotations: ff:comment "True if an adress is too far from the user's training company to stay there during training, false otherwise."@en
+    Annotations: rdfs:comment "True if an adress is too far from the user's training company to stay there during training, false otherwise."@en
     Domain: ff:Adress
-    Range: xsd:boolean
+    Range: xsd:boolean 
 
 DataProperty: ff:unfitForWork
-    Annotations: ff:comment "True if a person is unfit for gainful employment, false otherwise."@en, rdfs:label "arbeitsunfähig"@de
+    Annotations: rdfs:comment "True if a person is unfit for gainful employment, false otherwise."@en, rdfs:label "arbeitsunfähig"@de
     Domain: ff:EarningCapacity
-    Range: xsd:boolean
+    Range: xsd:boolean 
 
 DataProperty: ff:uninterruptedLegalStayForLessThan15Months
-    Annotations: ff:comment "True if a non-German nationa has been in Germany for less than 15 months without interruption on a permitted, authorized or tolerated basis."@en
+    Annotations: rdfs:comment "True if a non-German nationa has been in Germany for less than 15 months without interruption on a permitted, authorized or tolerated basis."@en
     Domain: ff:Person
-    Range: xsd:boolean
+    Range: xsd:boolean 
 
 DataProperty: ff:wageCutOffsetMonths
-    Annotations: ff:comment "Links an event to the number of full months within which a wage cut occurred relative to the date of the event. Negative (resp. positive) values indicate a wage cut before (resp. after) the event."@en
+    Annotations: rdfs:comment "Links an event to the number of full months within which a wage cut occurred relative to the date of the event. Negative (resp. positive) values indicate a wage cut before (resp. after) the event."@en
     Domain: ff:Event
-    Range: xsd:int
+    Range: xsd:int 
 
 DataProperty: ff:workHoursPerWeek
-    Annotations: ff:comment "Links a person to the fractional hours they are working on a job per week."@en
+    Annotations: rdfs:comment "Links a person to the fractional hours they are working on a job per week."@en
     Domain: ff:Employment
-    Range: xsd:decimal
+    Range: xsd:decimal 
 
-Class: ff:Adress
+Class: ff:Adress 
 
 Class: ff:CareNeed
-    SubClassOf: ff:Event
+    SubClassOf: ff:Event 
 
 Class: ff:CommutingAccident
-    Annotations: ff:comment "An accident on one's way to work."@en, rdfs:label "Wegeunfall"@de
-    SubClassOf: ff:Event
+    Annotations: rdfs:comment "An accident on one's way to work."@en, rdfs:label "Wegeunfall"@de
+    SubClassOf: ff:Event 
 
-Class: ff:Contract
+Class: ff:Contract 
 
-Class: ff:Country
+Class: ff:Country 
 
-Class: ff:Disability
+Class: ff:Disability 
 
 Class: ff:DiscontinuationOfBusiness
-    Annotations: ff:comment "The complete discontinuation of business activity."@en
-    SubClassOf: ff:Event
+    Annotations: rdfs:comment "The complete discontinuation of business activity."@en
+    SubClassOf: ff:Event 
 
-Class: ff:Duration
+Class: ff:Duration 
 
 Class: ff:EEAplusCH
-    Annotations: ff:comment "Member states of the European Economic Area (EEA) and Switzerland."@en
-    SubClassOf: ff:Country
+    Annotations: rdfs:comment "Member states of the European Economic Area (EEA) and Switzerland."@en
+    SubClassOf: ff:Country 
 
 Class: ff:EarningCapacity
-    Annotations: ff:comment "Subsumes characteristics of a person's earning capacity."@en, rdfs:label "Erwerbsfähigkeit"@de
+    Annotations: rdfs:comment "Subsumes characteristics of a person's earning capacity."@en, rdfs:label "Erwerbsfähigkeit"@de 
 
-Class: ff:Employer
+Class: ff:Employer 
 
-Class: ff:Employment
+Class: ff:Employment 
 
 Class: ff:EmploymentStatus
-    Annotations: ff:comment "Instances define a person's legal employment status."@en
+    Annotations: rdfs:comment "Instances define a person's legal employment status."@en 
 
 Class: ff:EntryProcedureAndVocationalTrainingArea
-    Annotations: ff:comment "Entry procedure and vocational training in a workshop for people with disabilities or other recognized service providers."@en, rdfs:label "Eingangsverfahren und Berufsbildungsbereich"@de
-    SubClassOf: ff:Training
+    Annotations: rdfs:comment "Entry procedure and vocational training in a workshop for people with disabilities or other recognized service providers."@en, rdfs:label "Eingangsverfahren und Berufsbildungsbereich"@de
+    SubClassOf: ff:Training 
 
-Class: ff:Event
+Class: ff:Event 
 
 Class: ff:HearingImpairment
-    SubClassOf: ff:Disability
+    SubClassOf: ff:Disability 
 
 Class: ff:Income
-    Annotations: ff:comment "Subsumes characteristics of a person's income situation."@en
+    Annotations: rdfs:comment "Subsumes characteristics of a person's income situation."@en 
 
 Class: ff:InsolvencyApplication
-    SubClassOf: ff:Event
+    SubClassOf: ff:Event 
 
 Class: ff:InsolvencyProceeding
-    SubClassOf: ff:Event
+    SubClassOf: ff:Event 
 
 Class: ff:Insurance
-    Annotations: ff:label "Gesetzliche Unfallversicherung"@de
+    Annotations: rdfs:label "Gesetzliche Unfallversicherung"@de 
 
 Class: ff:KindergartenAccident
-    Annotations: ff:comment "An accident at kindergarten covered by statutory accident insurance."@en, rdfs:label "Kindergartenunfall"@de
-    SubClassOf: ff:Event
+    Annotations: rdfs:comment "An accident at kindergarten covered by statutory accident insurance."@en, rdfs:label "Kindergartenunfall"@de
+    SubClassOf: ff:Event 
 
-Class: ff:LegalCode
+Class: ff:LegalCode 
 
 Class: ff:MaritalStatus
-    Annotations: ff:comment "Instances define a person's marital status."@en
+    Annotations: rdfs:comment "Instances define a person's marital status."@en 
 
 Class: ff:MedicalAccompaniment
-    SubClassOf: ff:Event
+    SubClassOf: ff:Event 
 
 Class: ff:MoveToGermany
-    SubClassOf: ff:Event
+    SubClassOf: ff:Event 
 
 Class: ff:OccupationalDisease
-    Annotations: ff:comment "A recognized occupational disease."@en, rdfs:label "Berufskrankheit"@de
-    SubClassOf: ff:Event
+    Annotations: rdfs:comment "A recognized occupational disease."@en, rdfs:label "Berufskrankheit"@de
+    SubClassOf: ff:Event 
 
 Class: ff:OccupationalRehabilitation
-    Annotations: ff:label "Berufliche Rehabilitation"@de
+    Annotations: rdfs:label "Berufliche Rehabilitation"@de 
 
 Class: ff:Person
-    Annotations: ff:comment "A human being."@en
+    Annotations: rdfs:comment "A human being."@en 
 
 Class: ff:RehabilitationProvider
-    Annotations: ff:comment "An institution that assumes the costs for a person's rehabilitation."@en, rdfs:label "zuständiger Rehabilitationsträger"@de
+    Annotations: rdfs:comment "An institution that assumes the costs for a person's rehabilitation."@en, rdfs:label "zuständiger Rehabilitationsträger"@de 
 
 Class: ff:ResidencePermit
-    Annotations: ff:comment "Types of residence permits"@en
+    Annotations: rdfs:comment "Types of residence permits"@en 
 
-Class: ff:ResidenceStatus
+Class: ff:ResidenceStatus 
 
 Class: ff:School
-    SubClassOf: ff:Training
+    SubClassOf: ff:Training 
 
 Class: ff:SchoolAccident
-    Annotations: ff:comment "An accident at school covered by statutory accident insurance."@en, rdfs:label "Schulunfall"@de
-    SubClassOf: ff:Event
+    Annotations: rdfs:comment "An accident at school covered by statutory accident insurance."@en, rdfs:label "Schulunfall"@de
+    SubClassOf: ff:Event 
 
 Class: ff:SocialBenefit
-    Annotations: ff:comment "A government program to provide financial support to people under certain conditions."@en
+    Annotations: rdfs:comment "A government program to provide financial support to people under certain conditions."@en 
 
 Class: ff:TaxLiabilityScope
-    Annotations: ff:comment "Instances define the scope of a person's tax liability."@en
+    Annotations: rdfs:comment "Instances define the scope of a person's tax liability."@en 
 
 Class: ff:Training
-    Annotations: ff:comment "Types of formal training or education programs."@en
+    Annotations: rdfs:comment "Types of formal training or education programs."@en 
 
 Class: ff:VisualImpairment
-    SubClassOf: ff:Disability
+    SubClassOf: ff:Disability 
 
 Class: ff:VocationalTraining
-    Annotations: ff:label "Berufsausbildung"@de
-    SubClassOf: ff:Training
+    Annotations: rdfs:label "Berufsausbildung"@de
+    SubClassOf: ff:Training 
 
 Class: ff:VocationalTrainingContract
-    SubClassOf: ff:Contract
+    SubClassOf: ff:Contract 
 
 Class: ff:WorkAccident
-    Annotations: ff:comment "An accident at the work place."@en, rdfs:label "Arbeitsunfall"@de
-    SubClassOf: ff:Event
+    Annotations: rdfs:comment "An accident at the work place."@en, rdfs:label "Arbeitsunfall"@de
+    SubClassOf: ff:Event 
 
 Individual: ff:AsylumSeekerBenefits
-    Types: ff:SocialBenefit
+    Types: ff:SocialBenefit 
 
 Individual: ff:B100019_LB_102716305
-    Annotations: ff:label "Gesetzliche Unfallversicherung Übergangsgeld"@de, rdfs:label "Statutory accident insurance transitional allowance"@en
-    Types: ff:SocialBenefit
+    Annotations: rdfs:label "Gesetzliche Unfallversicherung Übergangsgeld"@de, rdfs:label "Statutory accident insurance transitional allowance"@en
+    Types: ff:SocialBenefit 
 
 Individual: ff:B100019_LB_106311931
-    Annotations: ff:label "Bürgergeld"@de, rdfs:label "Citizen benefit"@en
-    Types: ff:SocialBenefit
+    Annotations: rdfs:label "Bürgergeld"@de, rdfs:label "Citizen benefit"@en
+    Types: ff:SocialBenefit 
 
 Individual: ff:B100019_LB_576842
-    Annotations: ff:label "Arbeitslosengeld"@de, rdfs:label "Unemployment benefit"@en
-    Types: ff:SocialBenefit
+    Annotations: rdfs:label "Arbeitslosengeld"@de, rdfs:label "Unemployment benefit"@en
+    Types: ff:SocialBenefit 
 
 Individual: ff:B100019_LB_576986
-    Annotations: ff:label "Child allowance"@en, rdfs:label "Kindergeld"@de
-    Types: ff:SocialBenefit
+    Annotations: rdfs:label "Child allowance"@en, rdfs:label "Kindergeld"@de
+    Types: ff:SocialBenefit 
 
 Individual: ff:B100019_LB_581863
-    Annotations: ff:label "Child supplement"@en, rdfs:label "Kinderzuschlag"@de
-    Types: ff:SocialBenefit
+    Annotations: rdfs:label "Child supplement"@en, rdfs:label "Kinderzuschlag"@de
+    Types: ff:SocialBenefit 
 
 Individual: ff:CivilUnion
-    Types: ff:MaritalStatus
+    Types: ff:MaritalStatus 
 
 Individual: ff:CraftsCode
-    Types: ff:LegalCode
+    Types: ff:LegalCode 
 
-Individual: ff:Divorced
+Individual: ff:Divorced 
 
 Individual: ff:Employee
-    Annotations: ff:comment "A person who is considered employed by law. May require special clearance (e.g. for relatives of the employer)."@en
-    Types: ff:EmploymentStatus
+    Annotations: rdfs:comment "A person who is considered employed by law. May require special clearance (e.g. for relatives of the employer)."@en
+    Types: ff:EmploymentStatus 
 
 Individual: ff:FederalEmploymentAgency
-    Annotations: ff:label "Bundesagentur für Arbeit"@de
-    Types: ff:RehabilitationProvider
+    Annotations: rdfs:label "Bundesagentur für Arbeit"@de
+    Types: ff:RehabilitationProvider 
 
 Individual: ff:FullEarningCapacity
-    Types: ff:EarningCapacity
+    Types: ff:EarningCapacity 
 
 Individual: ff:Germany
-    Types: ff:Country
+    Types: ff:Country 
 
 Individual: ff:IntegrationAssistance
-    Types: ff:SocialBenefit
+    Types: ff:SocialBenefit 
 
 Individual: ff:JobSeeker
-    Types: ff:EmploymentStatus
+    Types: ff:EmploymentStatus 
 
 Individual: ff:L100040_LB_8665924
-    Annotations: ff:label "Housing benefit"@en, rdfs:label "Wohngeld"@de
-    Types: ff:SocialBenefit
+    Annotations: rdfs:label "Housing benefit"@en, rdfs:label "Wohngeld"@de
+    Types: ff:SocialBenefit 
 
 Individual: ff:LimitedTaxLiability
-    Types: ff:TaxLiabilityScope
+    Types: ff:TaxLiabilityScope 
 
 Individual: ff:MaritimeLabourAct
-    Types: ff:LegalCode
+    Types: ff:LegalCode 
 
 Individual: ff:Married
-    Types: ff:MaritalStatus
+    Types: ff:MaritalStatus 
 
 Individual: ff:NursingProfessionsAct
-    Types: ff:LegalCode
+    Types: ff:LegalCode 
 
-Individual: ff:OpenProceeding
+Individual: ff:OpenProceeding 
 
 Individual: ff:ReducedEarningCapacity
-    Types: ff:EarningCapacity
+    Types: ff:EarningCapacity 
 
 Individual: ff:RegisteredUnemployed
-    Annotations: ff:comment "A person has officially registered as unemployed with the authorities."@en
-    Types: ff:EmploymentStatus
+    Annotations: rdfs:comment "A person has officially registered as unemployed with the authorities."@en
+    Types: ff:EmploymentStatus 
 
-Individual: ff:RejectedForLackOfAssets
+Individual: ff:RejectedForLackOfAssets 
 
-Individual: ff:SelfEmployed
+Individual: ff:SelfEmployed 
 
 Individual: ff:SocialAssistance
-    Types: ff:SocialBenefit
+    Types: ff:SocialBenefit 
 
 Individual: ff:StatutoryAccidentInsurance
-    Types: ff:Insurance
+    Types: ff:Insurance 
 
 Individual: ff:StatutoryHealthInsurance
-    Types: ff:Insurance
+    Types: ff:Insurance 
 
 Individual: ff:Tolerated
-    Annotations: ff:label "Geduldet"@de
-    Types: ff:ResidenceStatus
+    Annotations: rdfs:label "Geduldet"@de
+    Types: ff:ResidenceStatus 
 
 Individual: ff:TrainingBudget
-    Types: ff:SocialBenefit
+    Types: ff:SocialBenefit 
 
 Individual: ff:Unemployed
-    Annotations: ff:comment "A person is available for the employment agency's placement efforts and not in employment or in employment for less than 15 hours per week."@en
-    Types: ff:EmploymentStatus
+    Annotations: rdfs:comment "A person is available for the employment agency's placement efforts and not in employment or in employment for less than 15 hours per week."@en
+    Types: ff:EmploymentStatus 
 
 Individual: ff:UnemploymentBenefitsSVG
-    Annotations: ff:label "Arbeitslosenbeihilfe nach dem Soldatenversorgungsgesetz"@de
-    Types: ff:SocialBenefit
+    Annotations: rdfs:label "Arbeitslosenbeihilfe nach dem Soldatenversorgungsgesetz"@de
+    Types: ff:SocialBenefit 
 
 Individual: ff:UnfitForWork
-    Types: ff:EarningCapacity
+    Types: ff:EarningCapacity 
 
 Individual: ff:UnlimitedTaxLiability
-    Types: ff:TaxLiabilityScope
+    Types: ff:TaxLiabilityScope 
 
 Individual: ff:User
-    Types: ff:Person
+    Types: ff:Person 
 
 Individual: ff:VocationalTrainingAct
-    Types: ff:LegalCode
+    Types: ff:LegalCode 
 
 Individual: ff:Widowed
     Types: ff:MaritalStatus
