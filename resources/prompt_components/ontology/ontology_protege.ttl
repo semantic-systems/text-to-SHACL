@@ -484,7 +484,7 @@ ff:familyGrossIncome rdf:type owl:DatatypeProperty ;
 ff:fullDayAccompaniment rdf:type owl:DatatypeProperty ;
                         rdfs:domain ff:MedicalAccompaniment ;
                         rdfs:range xsd:boolean ;
-                        rdfs:comment "A medical accompaniement takes more than 8 hours."@en .
+                        rdfs:comment "A medical accompaniement takes more than 8 hours, including time at the hospital and travel to and from the hospital."@en .
 
 
 ###  https://foerderfunke.org/default#hasAge

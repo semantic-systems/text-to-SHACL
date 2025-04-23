@@ -340,7 +340,7 @@ DataProperty: ff:familyGrossIncome
     Range: xsd:decimal 
 
 DataProperty: ff:fullDayAccompaniment
-    Annotations: rdfs:comment "A medical accompaniement takes more than 8 hours."@en
+    Annotations: rdfs:comment "A medical accompaniement takes more than 8 hours, including time at the hospital and travel to and from the hospital."@en
     Domain: ff:MedicalAccompaniment
     Range: xsd:boolean 
 
