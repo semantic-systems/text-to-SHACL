@@ -31,15 +31,15 @@ ff:AccompanimentShape a sh:NodeShape ;
     sh:or (
         # User is addmitted as accompanying person for inpatient treatment
         [
-            sh:path ff:accompaniesInpatientTreatment ;
+            sh:path ff:inPatientCoAdmission ;
             sh:minCount 1 ;
             sh:in (true) ;
         ]
-        # User invests more than 8 hours to accompany a person in a hospital
+        # User accompanies a patient or a full day
         [
-            sh:path ff:durationInHours ;
+            sh:path ff:fullDayAccompaniment ;
             sh:minCount 1 ;
-            sh:minExclusive 8 ;
+            sh:in (true) ;
         ]
     ) ;
     sh:property [

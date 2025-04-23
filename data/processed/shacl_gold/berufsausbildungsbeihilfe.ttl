@@ -98,7 +98,7 @@ ff:BerufsausbildungsbeihilfeShape a sh:NodeShape ;
 
 ff:PreVocationalTrainingShape a sh:NodeShape ;
     sh:class ff:PreVocationalTraining ;
-    # The pre-vcational training pogram takes place on behalf of the employment agency
+    # The pre-vocational training pogram takes place on behalf of the employment agency
     sh:property [
         sh:path ff:commissionedByEmploymentAgency ;
         sh:minCount 1 ;
