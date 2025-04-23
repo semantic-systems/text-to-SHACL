@@ -5,7 +5,7 @@
 @prefix xml: <http://www.w3.org/XML/1998/namespace> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@base <http://www.semanticweb.org/socialbenefitapplicant> .
+@base <http://www.semanticweb.org/socialbenefitapplicant#> .
 
 <http://www.semanticweb.org/socialbenefitapplicant> rdf:type owl:Ontology .
 
@@ -396,13 +396,6 @@ ff:aboveSGBXII41AgeLimit rdf:type owl:DatatypeProperty ;
                          rdfs:comment "True if a person has reached the age limit under § 41 SGB XII, false otherwise."@en .
 
 
-###  https://foerderfunke.org/default#accompaniesInpatientTreatment
-ff:accompaniesInpatientTreatment rdf:type owl:DatatypeProperty ;
-                                 rdfs:domain ff:MedicalAccompaniment ;
-                                 rdfs:range xsd:boolean ;
-                                 rdfs:comment "True if medical accompaniment event involves admission for inpatient treatment, false otherwise."@en .
-
-
 ###  https://foerderfunke.org/default#adequateHealthInsurance
 ff:adequateHealthInsurance rdf:type owl:DatatypeProperty ;
                            rdfs:domain ff:Person ;
@@ -452,13 +445,6 @@ ff:compulsoryInsuranceFor12In30 rdf:type owl:DatatypeProperty ;
                                 rdfs:comment "True if a person has been subject to compulsory insurance for at least 12 months within the last 30 months before registering as unemployed, false otherwise."@en .
 
 
-###  https://foerderfunke.org/default#durationInHours
-ff:durationInHours rdf:type owl:DatatypeProperty ;
-                   rdfs:domain ff:Event ;
-                   rdfs:range xsd:decimal ;
-                   rdfs:comment "The total duration of an event in hours."@en .
-
-
 ###  https://foerderfunke.org/default#eligibleWithinLast3Years
 ff:eligibleWithinLast3Years rdf:type owl:DatatypeProperty ;
                             rdfs:domain ff:SocialBenefit ;
@@ -492,6 +478,13 @@ ff:familyGrossIncome rdf:type owl:DatatypeProperty ;
                      rdfs:domain ff:Income ;
                      rdfs:range xsd:decimal ;
                      rdfs:comment "Points to the amount of family gross income."@en .
+
+
+###  https://foerderfunke.org/default#fullDayAccompaniment
+ff:fullDayAccompaniment rdf:type owl:DatatypeProperty ;
+                        rdfs:domain ff:MedicalAccompaniment ;
+                        rdfs:range xsd:boolean ;
+                        rdfs:comment "A medical accompaniement takes more than 8 hours."@en .
 
 
 ###  https://foerderfunke.org/default#hasAge
@@ -534,6 +527,13 @@ ff:inEmployment rdf:type owl:DatatypeProperty ;
                 rdfs:domain ff:Person ;
                 rdfs:range xsd:boolean ;
                 rdfs:comment "True if a person is currently in an employment relationship, false otherwise."@en .
+
+
+###  https://foerderfunke.org/default#inPatientCoAdmission
+ff:inPatientCoAdmission rdf:type owl:DatatypeProperty ;
+                        rdfs:domain ff:MedicalAccompaniment ;
+                        rdfs:range xsd:boolean ;
+                        rdfs:comment "True if a person is admitted as accompanying person for inpatient treatment, false otherwise."@en .
 
 
 ###  https://foerderfunke.org/default#isFirstVocationalTraining
