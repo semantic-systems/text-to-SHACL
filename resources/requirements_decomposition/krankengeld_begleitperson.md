@@ -24,7 +24,7 @@ der infolge der Begleitung entsteht.
 <b>Requirements decomposition</b>:
 
 1. The user has statutory accident insurance. (GREEN)
-2. The user is admitted as an accompanying person for inpatient care in a hospital OR invests more than 8 hours to accompany a person in a hospital. (GREEN)
+2. The user is co-admitted as an accompanying person for inpatient care (GREEN) OR accompanies a patient for a full-day, meaning time at the hospital, combined with travel to and from the hospital, totals at least 8 hours.(GREEN)
 3. The accompaniment is medically necessary. (RED: Discretionary third-party decision)
 4. The accompanied patient
 	- has a disability (GREEN) AND
