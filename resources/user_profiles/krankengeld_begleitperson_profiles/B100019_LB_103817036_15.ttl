@@ -7,7 +7,7 @@ ff:User ff:hasInsurance ff:StatutoryHealthInsurance ;
         ff:hasEvent ex:SomeEvent .
 
 ex:SomeEvent a ff:MedicalAccompaniment ;
-        ff:duratoinInHours 8.1 ;
+        ff:fullDayAccompaniment true ;
         ff:accompaniesPatient ex:SomePatient ;
         ff:causesLossOfEarnings true ;
         ff:isRenumerated false .

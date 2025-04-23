@@ -7,7 +7,7 @@ ff:User ff:hasInsurance ff:StatutoryHealthInsurance, ex:SomeOtherInsurance ;
         ff:hasEvent ex:SomeEvent, ex:SomeOtherEvent.
 
 ex:SomeEvent a ff:MedicalAccompaniment ;
-        ff:accompaniesInpatientTreatment true ;
+        ff:inPatientCoAdmission true ;
         ff:accompaniesPatient ex:SomePatient ;
         ff:causesLossOfEarnings true ;
         ff:isRenumerated false .

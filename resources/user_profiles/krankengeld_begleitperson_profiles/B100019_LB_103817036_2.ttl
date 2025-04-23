@@ -7,7 +7,7 @@ ff:User ff:hasInsurance ff:StatutoryHealthInsurance ;
         ff:hasEvent ex:SomeEvent .
 
 ex:SomeEvent a ff:MedicalAccompaniment ;
-        ff:durationInHours 8.1 ; # CHANGE
+        ff:fullDayAccompaniment true ;
         ff:accompaniesPatient ex:SomePatient ;
         ff:causesLossOfEarnings true ;
         ff:isRenumerated false .
@@ -15,4 +15,4 @@ ex:SomeEvent a ff:MedicalAccompaniment ;
 ex:SomePatient ff:hasDisability true ;
         ff:hasInsurance ff:StatutoryHealthInsurance ;
         ff:receives ff:IntegrationAssistance ;
-        ff:closeRelative ff:User . # CHANGE
+        ff:closeRelative ff:User .
