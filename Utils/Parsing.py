@@ -3,21 +3,25 @@ Parsing.py
 
 Utility functions for analyzing text and extracting information.
 """
-from typing import Tuple, Optional, Any, Dict
-from resources.schemata.ids_schema import idlb_to_labels
 import ast
-import os
+import re
 import rdflib
 import logging
+import os
+from typing import Optional, Any, Dict, Tuple
+from resources.schemata.ids_schema import idlb_to_labels
+from resources.schemata.method_schema import supported_modes
+from Utils.Logger import setup_logger
 
-def retrieve_parsable_turtle(input_string: str, logger: logging.Logger) -> Optional[str]:
+def retrieve_parsable_turtle(input_string: str, logfile: str = "logs/Parsing.py") -> Optional[str]:
     """
     Return parsable Turtle content from input string, if any.
     
     :param input_string: Input string to extract Turtle content from.
-    :param logger: Logger object.
+    :param logfile: Path to the log file.
     :return: Valid Turtle content, if found, None otherwise.
     """
+    logger = setup_logger(__name__, logfile)
     prefixes = ["@prefix", "@base", "<http://", "PREFIX"]
     
     # If Turtle flags are present, extract everything in between
@@ -46,25 +50,6 @@ def retrieve_parsable_turtle(input_string: str, logger: logging.Logger) -> Optio
 
     return turtle_candidate
 
-def get_run_key_components(run_key: str) -> Tuple[str, str, str]:
-    """
-    Extracts model, method, and idlb of social benefit from the run key.
-
-    :run_key: Run key in the format "<method>_<model>_<idlb>".
-    :returns: Method, model, and benefit name for a given prompt.
-    """
-    # Remove suffix, if input string is a filename
-    run_key = os.path.splitext(run_key)[0]
-    components = run_key.split('_')
-
-    # Ensure valid prompt ID format
-    if len(components) < 2:
-        raise ValueError("Invalid prompt ID format")
-
-    # Extract the prompt configs
-    method, model, idlb = components[0], components[1], '_'.join(components[2:])
-    return method, model, idlb
-
 def norm_string(input: Any) -> str:
     """Converts input into a lowercased string without leading or trailing white spaces."""
     return str(input).lower().strip()
@@ -81,20 +66,87 @@ def search_dict_in_file(file_path: str, dict_name: str) -> Dict[str,str]:
                 if isinstance(target, ast.Name) and target.id == dict_name:
                     if isinstance(node.value, ast.Dict) and node.value.keys:
                         return {ast.literal_eval(key): ast.literal_eval(value) for key, value in zip(node.value.keys, node.value.values)}
-    
+
     return None
 
-def get_idlb_from_label(label_type: str, target_label: str, logger: logging.Logger, idlb_to_labels: Dict[str,Any]=idlb_to_labels) -> str:
-    """Returns the IDLB corresponding to the given label
+def get_idlb_from_label(label_value: str, label_type: str, logfile: str = "logs/Parsing.log", idlb_to_labels: Dict[str,Any]=idlb_to_labels) -> str:
+    """Returns the IDLB corresponding to the given label.
+    
+    Supports conversion from "german label", "english label", and "short label" to IDLB.
 
-    :param schema: Mapping from IDLB to different labels.
-    :param label_type: The type of label to search for, i.e. "german label", "english label", or "short label".
-    :param target_label: The label value to search for.
-    :return: The IDLB that corresponding to the given label.
+    :param label_value: The value of the input label.
+    :param label_type: The type of the input label.
+    :param logfile: Path to the log file.
+    :param idlb_to_labels: Mapping from IDLB to labels.
+    
+    :return: The IDLB that corresponds to the input label.
     """
+    logger = setup_logger(__name__, logfile)
     for idlb, details in idlb_to_labels.items():
-        if details.get(label_type).lower() == target_label:
+        if details.get(label_type).lower() == label_value:
             return idlb
         
-    logger.warning(f"Label '{target_label}' not found in the provided schema.")
+    logger.warning(f"Label '{label_value}' of type '{label_type}' not found in the provided schema.")
     return None
+
+def normalize_mode(mode: str) -> str:
+    """Convert synonyms to standard mode name."""
+    mode = mode.lower()
+    for key, mode_data in supported_modes.items():
+        if mode == key or mode in mode_data["synonyms"]:
+            return key
+    # Mode not found in modes schema
+    return mode
+
+def get_idlb_from_intro(intro: str) -> Tuple[str, str]:
+    "Returns the name and IDLB from introductory sentence of benefits description."
+    pattern = r"^Es folgen die Bedingungen für die Sozialleistung '(.+?)' mit der IDLB (\S+)\."
+    match = re.match(pattern, intro)
+    if match:
+        name, idlb = match.groups()
+        return name, idlb
+    return None, None
+
+def get_decomposition_section(file_path: str, logger: logging.Logger) -> str:
+    """Extracts the requirements decomposition from a markdown file also
+    including other sections above."""
+    with open(file_path, 'r', encoding='utf-8') as f:
+        lines = f.readlines()
+
+    start = None
+    for line_index, line in enumerate(lines):
+        # Start after the line with the relevant section heading
+        if "<b>Requirements decomposition</b>:" in line:
+            start = line_index + 1
+            break
+
+    if start is not None:
+        # Join everything from the "Requirements decomposition" line onward
+        decomposition_text = ''.join(lines[start:]).strip()
+        return decomposition_text
+    else:
+        logger.error("Failed to extract 'Requirements decomposition' for chain of thought example.")
+
+def generate_parsed_output_path(turtle_output: Optional[str], parsed_output_dir: str, run_key: str, logfile: str = "logs/Parsing.log") -> Optional[str]:
+    """Writes the given Turtle content to a file if the content is not empty.
+
+    :param turtle_output: The Turtle-formatted RDF content to be saved. If None or empty, nothing is saved.
+    :param parsed_output_dir: Directory where the parsed output file should be saved.
+    :param run_key: Unique identifier used to name the output file.
+    :param logfile: Path to the log file.
+    :return: The path to the saved file if successful, otherwise None.
+    """
+    logger = setup_logger(__name__, logfile)
+    
+    if not turtle_output:
+        return None
+
+    output_path = os.path.join(parsed_output_dir, f"{run_key}.ttl")
+    try:
+        with open(output_path, "w", encoding="utf-8") as f:
+            f.write(turtle_output)
+        logger.info(f"Saved parsed output to {output_path}")
+        return output_path
+    except Exception as e:
+        logger.error(f"Failed to save parsed output: {e}")
+        return None
