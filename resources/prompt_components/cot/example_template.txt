@@ -1,0 +1,23 @@
+TEXT:
+{text}
+
+SOLUTION:
+Step 1 - Understand the input text. Translate it from German to English and structure the relevant information:
+    - Benefit name (German and English)
+    - IDLB identifier
+    - Eligibility requirements (in English)
+
+{structured_text}
+
+Step 2 - Break down the requirements text into individual eligibility requirements. Decide for each requirement whether to include it in the SHACL graph by assigning it one of the following labels: 
+    - GREEN: A layperson can easily assess if they meet the condition -> Include
+    - YELLOW: A layperson could likely assess if they meet the condition with some explanation -> Include
+    - RED: The requirement is ambiguous or is at the discretion of third parties and cannot be clearly assessed -> Exclude
+
+{decomposition}
+
+Step 3 - Generate the SHACL graph in Turtle syntax. Model only the GREEN and YELLOW requirements using ontology terms and SHACL Core components. The final answer is:
+
+```turtle
+{shacl}
+```

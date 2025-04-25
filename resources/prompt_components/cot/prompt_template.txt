@@ -1,0 +1,18 @@
+{instruction}
+
+--- BEGINNING OF ONTOLOGY ---
+
+{ontology}
+
+--- END OF ONTOLOGY ---
+
+--- BEGINNNING OF EXAMPLES ---
+
+{cot_examples}
+
+--- END OF EXAMPLES ---
+
+TEXT:
+{input}
+
+SOLUTION:
