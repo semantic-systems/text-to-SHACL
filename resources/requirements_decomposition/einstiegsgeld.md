@@ -36,4 +36,4 @@ Zusätzliche Voraussetzungen bei Selbständigkeit/ Existenzgründung:
 3. The user has not yet started the new employment or self-employed activity (RED: depends on requirement 2).
 4. The user will work at least 15 hours in the job (RED: depends on requirement 2).
 5. The new job is suitable for addressing the user's need for assistance in the long term (RED: depends on requirement 2; "suitable" is ambiguous).
-7. The introductory allowance is necessary for the user's integration into the general labor market (RED: "necessary" is ambiguous).
+6. The introductory allowance is necessary for the user's integration into the general labor market (RED: "necessary" is ambiguous).
