@@ -2,11 +2,6 @@ Prefix: ff: <https://foerderfunke.org/default#>
 Prefix: rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 Prefix: rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 Prefix: xsd: <http://www.w3.org/2001/XMLSchema#>
-Datatype: rdf:PlainLiteral
-Datatype: xsd:boolean
-Datatype: xsd:dateTime
-Datatype: xsd:decimal
-Datatype: xsd:int 
 
 ObjectProperty: ff:atRiskOfDisabilityType
     Annotations: rdfs:comment "Links a person to a particular type of disability that they risk developing."@en
