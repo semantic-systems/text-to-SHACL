@@ -4,7 +4,6 @@ RunEvaluation.py
 Compute evaluation metrics for a given experiment.
 """
 
-
 import argparse
 import json
 import os
@@ -17,6 +16,7 @@ from Utils.FileHandling import save_dict_to_json
 from .GraphMatch import GraphMatcher
 
 logger = setup_logger(__name__, "logs/RunEvaluation.log")
+
 
 def shacl_syntax_compliant(shacl_path: str) -> Optional[bool]:
     """
@@ -49,6 +49,7 @@ def shacl_syntax_compliant(shacl_path: str) -> Optional[bool]:
     # Return None if an unexpected error occurred
     return None
 
+
 def compute_average_metrics(per_file_performance: List[Dict[str, Any]]) -> Dict[str, Any]:
     """
     Computes two types of average metrics across test files:
@@ -78,6 +79,7 @@ def compute_average_metrics(per_file_performance: List[Dict[str, Any]]) -> Dict[
 
     return {**avg_all, **avg_valid}
 
+
 def compute_average_metadata(raw_outputs: List[Dict[str, Any]]) -> Dict[str, Any]:
     """
     Computes average inference time and token usage from raw outputs.
@@ -103,6 +105,7 @@ def compute_average_metadata(raw_outputs: List[Dict[str, Any]]) -> Dict[str, Any
     avg_metadata = {metric: round(value, 4) for metric, value in df.mean().to_dict().items()}
     
     return avg_metadata
+
 
 def append_to_overall_summary(experiment_metrics: Dict[str, Any], overall_summary_path: str):
     """
@@ -132,6 +135,7 @@ def append_to_overall_summary(experiment_metrics: Dict[str, Any], overall_summar
     
     overall_results.to_csv(overall_summary_path, index=False)
     logger.info(f"Saved overall summary to {overall_summary_path}")
+
 
 def evaluate_experiment(experiment_dir: str, shacl_gold_dir: str, user_profiles_dir: str, overall_summary_path: str) -> Dict[str, Any]:
     """
@@ -265,6 +269,7 @@ if __name__ == "__main__":
     parser.add_argument("results_dir", help="Directory with results from all experiments.")
     parser.add_argument("shacl_gold_dir", help="Directory with groundtruth SHACL shapes.")
     parser.add_argument("user_profiles_dir", help="Directory with synthetic user profiles.")
+    parser.add_argument("log_file", default="logs/RunEvaluation.log", help="Save logs to this file.")
     
     args = parser.parse_args()
-    main(args.experiment_dir, args.results_dir, args.shacl_gold_dir, args.user_profiles_dir)
+    main(args.experiment_dir, args.results_dir, args.shacl_gold_dir, args.user_profiles_dir, args.log_file)

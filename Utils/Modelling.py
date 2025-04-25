@@ -12,6 +12,7 @@ from .Logger import setup_logger
 
 logger = setup_logger(__name__, "logs/Modelling.log")
 
+
 def extract_details(desc_path: str) -> Tuple[str, str, str, str, str]:
     """
     Extract the following details from a social benefit description that
@@ -40,6 +41,7 @@ def extract_details(desc_path: str) -> Tuple[str, str, str, str, str]:
     addressee = benefit_description["addressees"]
 
     return camel_case_name, idlb, requirements, legal_basis, description, addressee
+
 
 def generate_modelling_template(full_desc_path: str, template_path: str, save_dir: str = None) -> str:
     """

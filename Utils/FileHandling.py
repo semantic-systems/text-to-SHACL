@@ -3,15 +3,14 @@ FileHandling.py
 
 Utility functions for handling files.
 """
-
 import os
 import json
-import time
 import shutil
 import requests
 import logging
 import subprocess
 from typing import Any, Dict
+
 
 def download_and_save_file(url: str, params: dict, save_dir: str, filename: str) -> str:
     """
@@ -41,6 +40,7 @@ def download_and_save_file(url: str, params: dict, save_dir: str, filename: str)
     
     return save_path
 
+
 def save_dict_to_json(data: Dict[Any,Any], save_path: str):
     """Saves the data to a JSON file at the specified path."""
     # Ensure that the save directory exists
@@ -48,6 +48,7 @@ def save_dict_to_json(data: Dict[Any,Any], save_path: str):
     os.makedirs(save_dir, exist_ok=True)
     with open(save_path, 'w', encoding='utf-8') as file:
         json.dump(data, file, ensure_ascii=False, indent=4)
+
 
 def copy_files(file_list: list, src_dir: str, dest_dir: str):
     """
@@ -60,6 +61,7 @@ def copy_files(file_list: list, src_dir: str, dest_dir: str):
     for file in file_list:
         shutil.copy(os.path.join(src_dir, file), os.path.join(dest_dir, file))
 
+
 def validate_input_directory(input_dir: str, logger: logging.Logger):
     """Validates that the input directory exists, is a directory, and is not empty."""
     if not os.path.exists(input_dir):
@@ -71,6 +73,7 @@ def validate_input_directory(input_dir: str, logger: logging.Logger):
     if not os.listdir(input_dir):
         logger.error(f"Input directory '{input_dir}' is empty.")
         raise ValueError(f"Input directory '{input_dir}' is empty.")
+
 
 def save_file(content: str, filepath: str, logger: logging.Logger) -> None:
     """Saves content to a file at the specified path."""
@@ -86,6 +89,7 @@ def save_file(content: str, filepath: str, logger: logging.Logger) -> None:
     except Exception as e:
         logger.error(f"An error occurred while saving the file: {e}")
 
+
 def load_file(file_path: str, logger: logging.Logger, as_json: bool = False) -> Any:
     """Return file content as a string or JSON object using utf-8 encoding."""
     try:
@@ -94,6 +98,7 @@ def load_file(file_path: str, logger: logging.Logger, as_json: bool = False) -> 
     except FileNotFoundError as e:
         logger.error(f"Failed to load prompt component. File not found: {file_path}")
         raise ValueError
+
 
 def convert_md_to_pdf(md_file, output_folder, new_file_name):
     """Converts a markdown file to a PDF and saves the PDF to the output folder."""

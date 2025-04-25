@@ -18,11 +18,13 @@ ibm_palette = [
     "#DC267F", "#009E73", "#C0C0C0",
 ]
 
+
 def load_and_prepare_data(csv_path: str):
     df = pd.read_csv(csv_path)
     df["graph_edit_distance_all"] = 1 - df["graph_edit_distance_all"]
     df["graph_edit_distance_valid_only"] = 1 - df["graph_edit_distance_valid_only"]
     return df
+
 
 def plot_bar_chart(df, metrics, title):
     # Compute sum across selected metrics and sort by it (descending)
@@ -44,6 +46,7 @@ def plot_bar_chart(df, metrics, title):
     plt.tight_layout()
     plt.show()
 
+
 def plot_inference_time(df: pd.DataFrame):
     df = df.sort_values("inference_time", ascending=True)
     plt.figure(figsize=(12, 6))
@@ -55,6 +58,7 @@ def plot_inference_time(df: pd.DataFrame):
     plt.xticks(rotation=45, ha="right")
     plt.tight_layout()
     plt.show()
+
 
 def plot_heatmap(df: pd.DataFrame, metrics: List[str], title: str):
     custom_cmap = LinearSegmentedColormap.from_list("orange_to_blue", ["#DC267F", "#648FFF"])
@@ -76,6 +80,7 @@ def plot_heatmap(df: pd.DataFrame, metrics: List[str], title: str):
     plt.tight_layout()
     plt.figtext(0.99, 0.01, "* GED is inverted", horizontalalignment='right', fontsize=12)
     plt.show()
+
 
 def plot_summary_metrics(csv_path: str):
     if not os.path.exists(csv_path):

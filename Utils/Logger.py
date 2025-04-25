@@ -3,10 +3,10 @@ Logger.py
 
 Functions for setting up a customized logger.
 """
-
 import logging
 import os
 from typing import Optional
+
 
 def setup_logger(module_name: str, log_file: Optional[str] = None, level=logging.INFO):
     """

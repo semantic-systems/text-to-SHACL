@@ -9,6 +9,7 @@ import unittest
 from pyshacl import validate
 from typing import Tuple
 
+
 def validate_data_graph(data_graph: str, shacl_graph: str) -> Tuple[str,str,str]:
     """Check if a given data graph conforms with a SHACL shapes graph.
 

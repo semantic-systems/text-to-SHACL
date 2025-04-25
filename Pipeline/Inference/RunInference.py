@@ -29,6 +29,7 @@ from resources.schemata.method_schema import supported_modes
 MAX_RETRIES = 3
 INITIAL_DELAY = 60
 
+
 def validate_mode_params(mode: str, num_examples: int, k: int) -> Tuple[int, int]:
     """Checks if the requested mode and parameters valid.
     
@@ -56,6 +57,7 @@ def validate_mode_params(mode: str, num_examples: int, k: int) -> Tuple[int, int
                          f"Supported modes are: {supported_modes.keys()}")
 
     return mode, num_examples, k
+
 
 def invoke_model_with_retry(prompt_handler: PromptHandler, model: ChatOpenAI, logger: logging.Logger) -> Tuple[str, str, float, dict]:
     """Invokes an LLM with retry logic on rate limit errors.
@@ -94,7 +96,7 @@ def invoke_model_with_retry(prompt_handler: PromptHandler, model: ChatOpenAI, lo
     
     return response, finish_reason, start_time, elapsed_time
 
-    
+
 def process_file(filepath: str, 
                  mode:str, 
                  model: ChatOpenAI, 
@@ -172,6 +174,7 @@ def process_file(filepath: str,
         "rendered_prompt": prompt_handler.rendered_prompt,
         "raw_response": raw_response,
     }
+
 
 def run_experiment(test_dir: str, 
                    prompt_components_dir: str, 
@@ -263,6 +266,7 @@ def run_experiment(test_dir: str,
     elapsed_time_total = (time.time() - start_time_total) / 60
     logger.info(f"{mode.capitalize()} experiment completed! Total runtime: {elapsed_time_total:.2f} minutes.")
     
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run LLM prompting experiment for SHACL generation from text.")
     parser.add_argument("--test_dir", required=True, help="Directory containing the test files.")

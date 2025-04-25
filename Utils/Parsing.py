@@ -13,6 +13,7 @@ from resources.schemata.ids_schema import idlb_to_labels
 from resources.schemata.method_schema import supported_modes
 from Utils.Logger import setup_logger
 
+
 def retrieve_parsable_turtle(input_string: str, logfile: str = "logs/Parsing.py") -> Optional[str]:
     """
     Return parsable Turtle content from input string, if any.
@@ -50,9 +51,11 @@ def retrieve_parsable_turtle(input_string: str, logfile: str = "logs/Parsing.py"
 
     return turtle_candidate
 
+
 def norm_string(input: Any) -> str:
     """Converts input into a lowercased string without leading or trailing white spaces."""
     return str(input).lower().strip()
+
 
 def search_dict_in_file(file_path: str, dict_name: str) -> Dict[str,str]:
     """Returns the dictionary if a non-empty dictionary with the given name
@@ -68,6 +71,7 @@ def search_dict_in_file(file_path: str, dict_name: str) -> Dict[str,str]:
                         return {ast.literal_eval(key): ast.literal_eval(value) for key, value in zip(node.value.keys, node.value.values)}
 
     return None
+
 
 def get_idlb_from_label(label_value: str, label_type: str, logfile: str = "logs/Parsing.log", idlb_to_labels: Dict[str,Any]=idlb_to_labels) -> str:
     """Returns the IDLB corresponding to the given label.
@@ -89,6 +93,7 @@ def get_idlb_from_label(label_value: str, label_type: str, logfile: str = "logs/
     logger.warning(f"Label '{label_value}' of type '{label_type}' not found in the provided schema.")
     return None
 
+
 def normalize_mode(mode: str) -> str:
     """Convert synonyms to standard mode name."""
     mode = mode.lower()
@@ -98,6 +103,7 @@ def normalize_mode(mode: str) -> str:
     # Mode not found in modes schema
     return mode
 
+
 def get_idlb_from_intro(intro: str) -> Tuple[str, str]:
     "Returns the name and IDLB from introductory sentence of benefits description."
     pattern = r"^Es folgen die Bedingungen für die Sozialleistung '(.+?)' mit der IDLB (\S+)\."
@@ -106,6 +112,7 @@ def get_idlb_from_intro(intro: str) -> Tuple[str, str]:
         name, idlb = match.groups()
         return name, idlb
     return None, None
+
 
 def get_decomposition_section(file_path: str, logger: logging.Logger) -> str:
     """Extracts the requirements decomposition from a markdown file also
@@ -126,6 +133,7 @@ def get_decomposition_section(file_path: str, logger: logging.Logger) -> str:
         return decomposition_text
     else:
         logger.error("Failed to extract 'Requirements decomposition' for chain of thought example.")
+
 
 def generate_parsed_output_path(turtle_output: Optional[str], parsed_output_dir: str, run_key: str, logfile: str = "logs/Parsing.log") -> Optional[str]:
     """Writes the given Turtle content to a file if the content is not empty.
