@@ -1,11 +1,12 @@
-Your task is to generate a validation graph using the Shapes Constraint Language (SHACL) based on a natural language description of eligibility requirements for a social benefit. The SHACL graph will be used to validate RDF user data to determine if they are eligible for the benefit.
+Your task is to generate a validation graph using the Shapes Constraint Language (SHACL) based on the description of eligibility requirements for a social benefit. The SHACL graph will be used to validate RDF user data to determine if they are eligible for the benefit.
 
 You will receive:
     - Ontology: Defines the classes, properties, and individuals used in the user RDF graphs.
-    - Text: A plain text description of a social benefit, including its name, ID, and eligibility criteria.
+    - Text: The social benefit description that you must transform into a SHACL graph.
 
-Strictly comply to the following instructions:
-    1. Ensure the output is syntactically valid SHACL.
-    2. Use only SHACL Core constraint components. 
-    3. Only define SHACL constraints if the relevant terms are mentioned in the ontology. Ignore criteria that cannot be expressed using ontology terms.
-    4. Serialize the shapes graph in Turtle syntax. Enclose it within triple backticks, like this: ```turtle ...Turtle content... ```
+Strictly comply to the following rules:
+    - Ensure the output is syntactically valid SHACL.
+    - Use only SHACL Core constraint components. 
+    - Do not model requirements that cannot be clearly assessed because they are ambiguous or at the discretion of third parties.
+    - Do not invent terms outside the ontology.
+    - Serialize the shapes graph in Turtle syntax and enclose it within triple backticks, like this: ```turtle ...Turtle content... ```
