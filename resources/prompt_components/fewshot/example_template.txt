@@ -1,7 +1,7 @@
-Text:
-
-{train_input}
+TEXT:
+{text}
 
 SHACL:
-
-{shacl_gold}
+```turtle
+{shacl}
+```

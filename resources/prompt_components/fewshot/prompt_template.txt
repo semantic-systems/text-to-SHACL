@@ -12,4 +12,7 @@
 
 --- END OF EXAMPLES ---
 
+TEXT:
 {input}
+
+SHACL:

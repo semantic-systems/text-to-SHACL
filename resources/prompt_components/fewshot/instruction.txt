@@ -1,15 +1,13 @@
-Your task is to complete the SHACL shapes graph below from texts describing the eligibility requirements for a social benefit. The shapes graph will be used to validate RDF user graphs containing personal information, ensuring that only individuals eligible for the given benefit conform to the shapes graph.
+Your task is to generate a validation graph using the Shapes Constraint Language (SHACL) based on the description of eligibility requirements for a social benefit. The SHACL graph will be used to validate RDF user data to determine if they are eligible for the benefit.
 
 You will receive:
-    - Ontology: An ontology containing the classes, properties, and individuals used in the user graphs.
-    - Examples: Examples that you can use to understand how to generate a SHACL shapes graph from an input.
-    - Input: A text describing the social benefit (name, id) and eligibility criteria (requirements).
+    - Ontology: Defines the classes, properties, and individuals used in the user RDF graphs.
+    - Examples: Solved examples to learn the task.
+    - Text: Thew social benefit description that you must transform into a SHACL graph.
 
-Define constraints with the terms from the provided ontology to ensure that the generated shapes graphs are relevant to the user data. If an eligibility criterion cannot be expressed with the terms from the ontology, do not include it in the shapes graph.
-
-Strictly comply to the following output format:
-    - Serialize the SHACL shapes graph in Turtle.
-    - Enclose the Turtle content in a block starting with ```turtle and ending with ```.
-    - Generate only the Turtle content — no explanations or extra text.
-    - Strictly adhere to the SHACL syntax rules, using only SHACL Core constraint components.
-    - Copy-paste the beginning of the Turtle file that is already provided, then use the requirements text and ontology to complete it.
+Strictly comply to the following rules:
+    - Ensure the output is syntactically valid SHACL.
+    - Use only SHACL Core constraint components.
+    - Do not model requirements that cannot be clearly assessed because they are ambiguous or at the discretion of third parties.
+    - Do not invent terms outside the ontology.
+    - Serialize the shapes graph in Turtle syntax and wrap it in triple backticks.
