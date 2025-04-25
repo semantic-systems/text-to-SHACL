@@ -153,7 +153,7 @@ def generate_parsed_output_path(turtle_output: Optional[str], parsed_output_dir:
     try:
         with open(output_path, "w", encoding="utf-8") as f:
             f.write(turtle_output)
-        logger.info(f"Saved parsed output to {output_path}")
+        logger.info(f"Saved parsed output to {os.path.abspath(output_path)}")
         return output_path
     except Exception as e:
         logger.error(f"Failed to save parsed output: {e}")
