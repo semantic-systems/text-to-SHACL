@@ -274,7 +274,7 @@ def run_experiment(test_dir: str,
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run LLM prompting experiment for SHACL generation from text.")
     parser.add_argument("--test_dir", required=True, help="Directory containing the test files.")
-    parser.add_argument("--prompt_components_dir", required=True, help="irectory containing the prompt components")
+    parser.add_argument("--prompt_components_dir", required=True, help="Directory containing the prompt components")
     parser.add_argument("--results_dir", required=True, help="Directory to save the results.")
     parser.add_argument("--mode", required=True, choices=["baseline", "fewshot", "cot"], help="Prompting strategy to use.")
     parser.add_argument("--api_key", required=True, help="API key for Chat-AI API.")
