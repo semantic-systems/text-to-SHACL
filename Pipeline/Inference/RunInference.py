@@ -215,7 +215,8 @@ def run_experiment(test_dir: str,
     )
     models = [model_handler.initialize_model(key) for key in model_keys]
     
-    experiment_dir = setup_experiment_directory(results_dir, experiment_name)
+    experiment_dir = os.path.join(results_dir, experiment_name)
+    os.makedirs(experiment_dir, exist_ok=True)
     
     for i, model in enumerate(models):        
         parsed_output_dir = os.path.join(experiment_dir, model.model_name, "output", "parsed_output")
