@@ -6,6 +6,7 @@ Utility functions for handling files.
 
 import os
 import json
+import time
 import shutil
 import requests
 import logging
@@ -85,16 +86,8 @@ def save_file(content: str, filepath: str, logger: logging.Logger) -> None:
     except Exception as e:
         logger.error(f"An error occurred while saving the file: {e}")
 
-def setup_experiment_directory(results_dir, mode):
-    """Clears and creates an experiment directory."""
-    experiment_dir = os.path.join(results_dir, mode)
-    if os.path.exists(experiment_dir):
-        shutil.rmtree(experiment_dir)
-    os.makedirs(experiment_dir, exist_ok=True)
-    return experiment_dir
-
 def load_file(file_path: str, logger: logging.Logger, as_json: bool = False) -> Any:
-    """Load file content as text or JSON using utf-8 encoding."""
+    """Return file content as a string or JSON object using utf-8 encoding."""
     try:
         with open(file_path, 'r', encoding = "utf-8") as file:
             return json.load(file) if as_json else file.read()
