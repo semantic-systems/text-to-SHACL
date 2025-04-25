@@ -176,17 +176,16 @@ class PromptHandler:
         
         examples = []
         for example in selected_examples:
-            text = example["text"]
-            shacl = f"```turtle\n{example["shacl"]}\n```"
-            
-            # Store IDLB of selected example
-            _, idlb = get_idlb_from_intro(text)
-            self.selected_examples_id.append(idlb)
+            text, shacl = example["text"], example["shacl"]
             
             # Populate the fewshot example template
             example_tmpl = load_file(file_path=example_tmpl_path, logger=self.logger)
             example_string = example_tmpl.replace("{text}", text).replace("{shacl}", shacl).rstrip()
             examples.append(example_string)
+            
+            # Store selected example
+            _, idlb = get_idlb_from_intro(text)
+            self.selected_examples_id.append(idlb)
        
         return "\n\n\n".join(examples)
     
@@ -203,8 +202,9 @@ class PromptHandler:
         
         examples = []
         for example in selected_examples:
-            # Load example output for step 1 (understand the input text)
-            text = example["text"]
+            text, shacl = example["text"], example["shacl"]
+            
+            # Load example output for step 1 (translate and structure the input)
             benefit_de, idlb = get_idlb_from_intro(text)
             benefit_en = idlb_to_labels[idlb]["english label"]
             benefit_snake = idlb_to_labels[idlb]["snake case"]
@@ -215,18 +215,14 @@ class PromptHandler:
                 f"Requirements text (EN): {requirements_en}"
             )
             
-            # Load example output for step 2 (decompose the input text)
+            # Load example output for step 2 (extract individual requirements)
             decomposition = get_decomposition_section(os.path.join(decomposition_dir, f"{benefit_snake}.md"), self.logger)   
-            
-            # Load example output for step 3 (generate SHACL)
-            shacl = f"```turtle\n{example["shacl"]}\n```"
-            
-            # Store IDLB of selected example
-            self.selected_examples_id.append(idlb)
             
             # Populate the chain of thought example template
             example_tmpl = load_file(file_path=example_tmpl_path, logger=self.logger)
             example_string = example_tmpl.replace("{text}", text).replace("{structured_text}", structured_text).replace("{decomposition}", decomposition).replace("{shacl}", shacl).rstrip()
             examples.append(example_string)
+            
+            self.selected_examples_id.append(idlb)
        
         return "\n\n\n".join(examples)
