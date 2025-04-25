@@ -67,7 +67,7 @@ class ModelHandler:
     
     def initialize_model(self, model_key: str, custom_configs:  Dict[str, Any] = None) -> ChatOpenAI:
         """Returns an instance of an OpenAI model with customized configs, if any."""      
-        self.logger.info(f"Initializing model with key: {model_key}")
+        self.logger.info(f"Initializing {model_key}")
         
         if model_key not in self.available_models:
             self.logger.error(f"Invalid model key. Available models: {self.available_models}")
@@ -82,7 +82,6 @@ class ModelHandler:
                 model_name=model_key,
                 **configs,
             )
-            self.logger.info(f"Model {model_key} initialized successfully.")
             return model_instance
         except Exception as e:
             self.logger.exception(f"Failed to initialize {model_key}.")
