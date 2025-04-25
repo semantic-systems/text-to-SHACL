@@ -4,21 +4,27 @@ method_schema.py
 Information about the methodology including:
 - supported_modes: Dictionary of supported modes with their descriptions,
     synonyms, models, and prompt variables.
-
+- avg_syntax_metrics, avg_all_metrics, and avg_valid_only_metrics: Lists
+    of metric names used for evaluation
+- metric_to_legend: Dictionary mapping full metric names to shortcuts, for
+    use in plots and legends.
 """
 
 supported_modes = {
     "baseline": {
-        "description": "Prompt includes instruction + ontology, inference is executed with multiple models.",
+        "description": "Prompt includes instruction + ontology + input, no examples.",
         "synonyms": ["zeroshot", "base"],
-        "models": ['meta-llama-3.1-8b-instruct', 'llama-3.1-nemotron-70b-instruct', 'llama-3.1-sauerkrautlm-70b-instruct', 'mistral-large-instruct', 'qwen2.5-72b-instruct'],
-        "prompt_variables": ["instruction", "ontology"]
+        "prompt_variables": ["instruction", "ontology", "input"]
     },
     "fewshot": {
-        "description": "Prompt includes instruction + ontology + variable number of randomly selected examples from train split, inference is executed with main model only.",
-        "synonyms": ["incontext learning", "in-context learning", "incontext", "few-shot"],
-        "models": ['mistral-large-instruct'],
-        "prompt_variables": ["instruction", "ontology", "fewshot_examples"]
+        "description": "Prompt includes instruction + ontology + example input-output pairs + input.",
+        "synonyms": ["incontext learning", "in-context learning", "incontext", "few-shot", "fs"],
+        "prompt_variables": ["instruction", "ontology", "fewshot_examples", "input"]
+    },
+    "cot": {
+        "description": "Prompt includes instruction + ontology + example input-output pairs with step-by-step solution + input.",
+        "synonyms": ["chain of thought", "chain-of-thought"],
+        "prompt_variables": ["instruction", "ontology", "cot_examples", "input"]
     }
 }
 
