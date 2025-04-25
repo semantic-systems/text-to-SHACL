@@ -185,7 +185,7 @@ def run_experiment(test_dir: str,
                    custom_models: List[str] = None,
                    groundtruth_dir: str = None, 
                    num_examples: int = 0, 
-                   k: int = 0):
+                   k: int = 0) -> str:
     """Runs a prompting experiment with the specified mode and parameters.
     
     :param test_dir: Directory containing the test files.
@@ -198,6 +198,8 @@ def run_experiment(test_dir: str,
     :param k: Number of folds for k-fold cross-validation (only for fewshot or cot).
     :param groundtruth_dir: Directory containing SHACL gold files for examples.
     :param custom_models: Optional list of custom model names to use.
+    
+    :return: Name of the experiment.
     """
     start_time_total = time.time()
     
@@ -265,6 +267,8 @@ def run_experiment(test_dir: str,
     
     elapsed_time_total = (time.time() - start_time_total) / 60
     logger.info(f"{mode.capitalize()} experiment completed! Total runtime: {elapsed_time_total:.2f} minutes.")
+    
+    return experiment_name
     
 
 if __name__ == "__main__":
