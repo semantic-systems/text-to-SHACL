@@ -21,7 +21,6 @@ from langchain_openai.chat_models.base import ChatOpenAI
 from .Model import ModelHandler
 from .Prompt import PromptHandler
 from Utils.Logger import setup_logger
-from Utils.FileHandling import setup_experiment_directory
 from Utils.Parsing import retrieve_parsable_turtle, get_idlb_from_label, normalize_mode, generate_parsed_output_path
 from resources.schemata.method_schema import supported_modes
 
@@ -78,6 +77,7 @@ def invoke_model_with_retry(prompt_handler: PromptHandler, model: ChatOpenAI, lo
             chain = prompt_handler.prompt_template | model
             response = chain.invoke(prompt_handler.prompt_components)
             finish_reason = response.response_metadata["finish_reason"]
+            break
         # Retry with exponential backoff on rate limit error
         except RateLimitError as e:
             retries += 1
@@ -159,7 +159,7 @@ def process_file(filepath: str,
     if response:
         raw_response = response.content
         token_usage = response.response_metadata["token_usage"]
-        turtle_output = retrieve_parsable_turtle(response.content, logifle=logger.log_file)
+        turtle_output = retrieve_parsable_turtle(response.content, logfile=logger.log_file)
         parsed_output_path = generate_parsed_output_path(turtle_output, parsed_output_dir, run_key, logger.log_file)
 
         metadata.update({
