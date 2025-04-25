@@ -1,0 +1,6 @@
+* You are fit for work. This means that you 
+  * can work at least 3 hours a day and
+  * are at least 15 years old and have not yet reached the legal retirement age. If you were born after 1963, this is 67 years. If you were born before 1964, you can look up the age limit that applies to you in the table in § 7a of the German Social Code II (SGB II).
+* You are in need of assistance. This means that you are unable to cover your own necessary living expenses and the living expenses of unemployed individuals living in your benefit unit either from your own resources (income and assets) and strength (use of labor) or with the help of other priority benefits (e.g. unemployment benefit, housing benefit, child supplement).
+* You have no priority claims against other benefit providers (e.g. housing benefit) or other persons, such as divorced spouses or the father or mother of your child.
+* You live in the Federal Republic of Germany.

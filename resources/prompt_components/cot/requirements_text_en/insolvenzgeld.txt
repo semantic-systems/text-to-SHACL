@@ -1,0 +1,16 @@
+In order for you to receive insolvency allowance, certain requirements must be
+must be met:
+
+  * There is an insolvency event if
+    * Insolvency proceedings are opened against the assets of your employer or
+    * insolvency application is rejected due to lack of assets or
+    * Business operations are completely discontinued due to obvious lack of assets.
+  * You have not been paid for up to 3 months prior to the insolvency event.
+  * As an employee you are 
+    * employed within Germany or
+    * have been temporarily posted abroad while retaining the obligation to pay social insurance in Germany.
+  * You must prove that you are legally considered an employee by means of a notification from the German Pension Insurance Clearing Office (status determination procedure) if, for example, you are a
+    * managing partner,
+    * shareholder of a limited liability company or
+    * relative of the employer.
+  * Further information can be found on the website of the Federal Employment Agency.
