@@ -12,9 +12,6 @@ python Preprocessing/GetServiceDescriptions.py <service_catalogs_dir> <all_servi
 # Step 3: Select social benefits for further analysis and filter descriptions
 python Preprocessing/ExtractSocialBenefitRequirements.py <all_service_descriptions_dir> <social_benefits_dir> --editorial_system <editorial_system> --matters --addressees --legal_bases --manual_selection
 
-# Step 4: Split the data into train and test sets
-python Preprocessing/SplitDataset.py <social_benefits_dir> <splits_dir> --train_ratio
-
-# Step 5: Get the mappings used in further analysis
+# Step 4: Get the mappings used in further analysis
 python Preprocessing/GetMappings.py <service_desc_dir> <schemata_dir>
 ```
