@@ -70,10 +70,10 @@ def invoke_model_with_retry(prompt_handler: PromptHandler, model: ChatOpenAI, lo
     retries = 0
     delay = INITIAL_DELAY
     response = None
-    start_time = time.time()
     
     while retries <= MAX_RETRIES:
         try:
+            start_time = time.time()
             chain = prompt_handler.prompt_template | model
             response = chain.invoke(prompt_handler.prompt_components)
             finish_reason = response.response_metadata["finish_reason"]
