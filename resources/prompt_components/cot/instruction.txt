@@ -1,4 +1,4 @@
-Your task is to generate a validation graph using the Shapes Constraint Language (SHACL) based on the description of eligibility requirements for a social benefit. The SHACL graph will be used to validate RDF user data to determine if they are eligible for the benefit.
+Your task is to generate a validation graph using the Shapes Constraint Language (SHACL) based on the description of eligibility requirements for a social benefit. The SHACL graph will be used to validate RDF user data to determine if they are eligible for the benefit. It must therefore always target the node "ff:User".
 
 You will receive:
     - Ontology: Defines the classes, properties, and individuals used in RDF user graphs.
