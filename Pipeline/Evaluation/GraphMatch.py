@@ -18,11 +18,11 @@ from bert_score import score as score_bert
 from pyshacl import validate
 import networkx as nx
 import numpy as np
-# from gklearn.ged.env import GEDEnv
 from Utils.Logger import setup_logger
 from Utils.Parsing import norm_string
 
-logger = setup_logger(__name__, "logs/GraphMatch.log")
+# Constants
+GED_TIMEOUT = 120
 
 class GraphMatcher:
     """ 
@@ -37,13 +37,15 @@ class GraphMatcher:
     :attr gen_file_path: Path to the generated SHACL graph (.ttl)
     :attr gold_graph: List of triples in the gold graph.
     :attr gen_graph: List of triples in the generated graph.
+    :attr logger: Logger for the class.
     """
-    def __init__(self, gold_file_path: str, generated_file_path: str):
+    def __init__(self, gold_file_path: str, generated_file_path: str, logfile: str = "logs/GraphMatch.log"):
         self.gold_file_path = gold_file_path
         self.gen_file_path = generated_file_path
         self.gold_triples = self._load_triples(gold_file_path)
         self.gen_triples = self._load_triples(generated_file_path)
-        self.ged_timeout = 0
+        self.ged_timed_out = 0
+        self.logger = setup_logger(__name__, logfile)
     
     def _normalize_iri(self, iri: str) -> str:
         """Normalizes blank nodes and spelling of IRIs."""
@@ -67,7 +69,7 @@ class GraphMatcher:
             ]
             return triples
         except Exception as e:
-            logger.error(f"Error loading triples from {turtle_file_path}: {e}")
+            self.logger.error(f"Error loading triples from {turtle_file_path}: {e}")
             raise
     
     def _load_digraph(self, turtle_file_path: str) -> nx.DiGraph:
@@ -80,7 +82,7 @@ class GraphMatcher:
                 digraph.add_edge(subject, object, predicate=predicate)
             return digraph
         except Exception as e:
-            logger.error(f"Error loading DiGraph from {turtle_file_path}: {e}")
+            self.logger.error(f"Error loading DiGraph from {turtle_file_path}: {e}")
             raise
     
     def compute_triple_match(self) -> Dict[str, float]:
@@ -144,10 +146,10 @@ class GraphMatcher:
 
         # Compute BERTScore between all pairs of gold and generated edges
         try:
-            logger.info("Computing BERTScores between all triples...")
+            self.logger.info("Computing BERTScores between all triples...")
             _, _, bs_F1 = score_bert(cands=candidates, refs=references, lang='en', idf=False)
         except Exception as e:
-            logger.error(f"Error computing BERTScores: {e}")
+            self.logger.error(f"Error computing BERTScores: {e}")
             raise
 
         score_matrix = np.zeros((len(gold_edges), len(gen_edges)))
@@ -156,7 +158,7 @@ class GraphMatcher:
                 score_matrix[i][j] = bs_F1[ref_cand_index[(gold_edge, gen_edge)]]
                 
         # Solve the linear assignment problem to maximize the sum of BERTScores
-        logger.info("Solving linear assignment problem...")
+        self.logger.info("Solving linear assignment problem...")
         row_ind, col_ind = linear_sum_assignment(score_matrix, maximize=True)
         
         # Compute final G-BERT Score based on the optimal assignment
@@ -180,7 +182,6 @@ class GraphMatcher:
         """
         gold_graph = self._load_digraph(self.gold_file_path)
         gen_graph = self._load_digraph(self.gen_file_path)
-        ged_timeout = 1
 
         normalizing_constant = (
             gold_graph.number_of_nodes() +
@@ -190,12 +191,12 @@ class GraphMatcher:
         )
 
         start_time = time.time()
-        ged = nx.graph_edit_distance(gold_graph, gen_graph, timeout=ged_timeout)
+        ged = nx.graph_edit_distance(gold_graph, gen_graph, timeout=GED_TIMEOUT)
         elapsed_time = time.time() - start_time
 
-        if elapsed_time >= ged_timeout:
-            logger.info(f"Timeout likely hit for GED computation (took {elapsed_time:.2f} seconds).")
-            self.ged_timeout = 1
+        if elapsed_time >= GED_TIMEOUT:
+            self.logger.info(f"Timeout likely hit for GED computation (took {elapsed_time:.2f} seconds).")
+            self.ged_timed_out = 1
 
         assert ged <= normalizing_constant
 
@@ -220,7 +221,7 @@ class GraphMatcher:
                 conforms_with_gen, _, _ = validate(data_graph=profile_path, shacl_graph=self.gen_file_path)
                 conforms_with_gold, _, _ = validate(data_graph=profile_path, shacl_graph=self.gold_file_path)
             except Exception as e:
-                logger.error(f"Error validating {profile_path}: {e}")
+                self.logger.error(f"Error validating {profile_path}: {e}")
                 continue
             
             if conforms_with_gen and conforms_with_gold:
