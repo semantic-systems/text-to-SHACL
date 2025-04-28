@@ -27,11 +27,6 @@ def load_and_prepare_data(csv_path: str):
 
 
 def plot_bar_chart(df, metrics, title):
-    # Compute sum across selected metrics and sort by it (descending)
-    df["__model_score__"] = df[metrics].sum(axis=1)
-    df = df.sort_values("__model_score__", ascending=False).drop(columns="__model_score__")
-
-    # Melt and map metric names to legend labels
     melted = df.melt(id_vars=["model"], value_vars=metrics,
                      var_name="Metric", value_name="Score")
     melted["Metric"] = melted["Metric"].map(metric_to_legend)
@@ -48,11 +43,10 @@ def plot_bar_chart(df, metrics, title):
 
 
 def plot_inference_time(df: pd.DataFrame):
-    df = df.sort_values("inference_time", ascending=True)
     plt.figure(figsize=(12, 6))
     sns.set_theme(style="whitegrid")
     sns.set_palette([ibm_palette[0]] * len(df))
-    sns.barplot(data=df, x="model", y="inference_time", hue="model")
+    sns.barplot(data=df, x="model", y="runtime (sec)", hue="model")
     plt.title("Inference Time by Model")
     plt.ylabel("Inference Time (seconds)")
     plt.xticks(rotation=45, ha="right")
@@ -85,7 +79,7 @@ def plot_heatmap(df: pd.DataFrame, metrics: List[str], title: str):
 def plot_summary_metrics(csv_path: str):
     if not os.path.exists(csv_path):
         raise FileNotFoundError(f"File not found: {csv_path}")
-
+    
     df = load_and_prepare_data(csv_path)
     
     # Drop discarded models
