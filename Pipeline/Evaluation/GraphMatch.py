@@ -10,6 +10,7 @@ GraphMatch.py
 import os
 import rdflib
 import time
+from rdflib import Graph
 from typing import Dict, List, Tuple
 from sklearn import preprocessing
 from sklearn.metrics import precision_score, recall_score, f1_score, accuracy_score
@@ -22,7 +23,7 @@ from Utils.Logger import setup_logger
 from Utils.Parsing import norm_string
 
 # Constants
-GED_TIMEOUT = 120
+GED_TIMEOUT = 100
 
 class GraphMatcher:
     """ 
@@ -101,6 +102,7 @@ class GraphMatcher:
         truth = labels.fit_transform([self.gold_triples])
         pred = labels.fit_transform([self.gen_triples])
 
+        self.logger.info("Computing triple match metrics...")
         precision = precision_score(truth, pred, average='micro')
         recall = recall_score(truth, pred, average='micro')
         f1 = f1_score(truth, pred, average='micro')  
@@ -145,8 +147,8 @@ class GraphMatcher:
                 ref_cand_index[(gold_edge, gen_edge)] = len(references) - 1
 
         # Compute BERTScore between all pairs of gold and generated edges
+        self.logger.info("Computing G-BERTScore...")
         try:
-            self.logger.info("Computing BERTScores between all triples...")
             _, _, bs_F1 = score_bert(cands=candidates, refs=references, lang='en', idf=False)
         except Exception as e:
             self.logger.error(f"Error computing BERTScores: {e}")
@@ -158,7 +160,6 @@ class GraphMatcher:
                 score_matrix[i][j] = bs_F1[ref_cand_index[(gold_edge, gen_edge)]]
                 
         # Solve the linear assignment problem to maximize the sum of BERTScores
-        self.logger.info("Solving linear assignment problem...")
         row_ind, col_ind = linear_sum_assignment(score_matrix, maximize=True)
         
         # Compute final G-BERT Score based on the optimal assignment
@@ -190,12 +191,13 @@ class GraphMatcher:
             gen_graph.number_of_edges()
         )
 
+        self.logger.info("Computing GED...")
         start_time = time.time()
         ged = nx.graph_edit_distance(gold_graph, gen_graph, timeout=GED_TIMEOUT)
         elapsed_time = time.time() - start_time
 
+        # Logging timeout, meaning the result may not be exact
         if elapsed_time >= GED_TIMEOUT:
-            self.logger.info(f"Timeout likely hit for GED computation (took {elapsed_time:.2f} seconds).")
             self.ged_timed_out = 1
 
         assert ged <= normalizing_constant
@@ -213,13 +215,21 @@ class GraphMatcher:
         :return: Dictionary with precision, recall, accuracy, and F1 score.
         """
         y_true, y_pred = [], []
-    
+
+        shacl_gen = Graph()
+        shacl_gen.parse(self.gen_file_path, format="turtle")
+        shacl_gold = Graph()
+        shacl_gold.parse(self.gold_file_path, format="turtle")
+        
         # For each profile, check if it conforms with the generated and groundtruth graphs
+        self.logger.info("Computing validation performance...")
         for profile in os.listdir(user_profiles_dir):
             profile_path = os.path.join(user_profiles_dir, profile)
+            data_graph = Graph()
+            data_graph.parse(profile_path, format="turtle")
             try:
-                conforms_with_gen, _, _ = validate(data_graph=profile_path, shacl_graph=self.gen_file_path)
-                conforms_with_gold, _, _ = validate(data_graph=profile_path, shacl_graph=self.gold_file_path)
+                conforms_with_gen, _, _ = validate(data_graph=data_graph, shacl_graph=shacl_gen)
+                conforms_with_gold, _, _ = validate(data_graph=data_graph, shacl_graph=shacl_gold)
             except Exception as e:
                 self.logger.error(f"Error validating {profile_path}: {e}")
                 continue
