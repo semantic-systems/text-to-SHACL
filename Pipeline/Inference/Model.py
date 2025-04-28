@@ -49,8 +49,8 @@ class ModelHandler:
                             'qwen2.5-72b-instruct',
                             ]
         self.default_configs = {
-            "timeout": 60, # Seconds until API call times out
-            "max_retries": 2 # Max nof retries after a failed API call
+            "timeout": 90, # seconds
+            "max_retries": 2
         }
         
     def get_available_model_keys(self, base_url: str, api_key: str) -> List[str]:
