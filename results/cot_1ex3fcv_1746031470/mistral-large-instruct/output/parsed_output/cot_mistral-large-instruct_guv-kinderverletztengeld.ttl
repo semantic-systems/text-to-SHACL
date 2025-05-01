@@ -1,0 +1,54 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# METADATA
+
+ff:B100019_LB_102799515 a ff:SocialBenefit ;
+    rdfs:label "Gesetzliche Unfallversicherung Kinderverletztengeld"@de, "Statutory accident insurance child care allowance"@en .
+
+# CONSTRAINTS
+
+ff:KinderverletztengeldShape a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    # User must have at least one child that requires care due to a school or kindergarten accident
+    sh:property [
+        sh:path ff:needsCare ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedValueShape ff:ChildCareShape ;
+        sh:message "Does not meet requirement 'User has at least one child that requires care due to a school or kindergarten accident.'"@en ;
+    ] ;
+    # User must have been eligible for income or other benefits before caring for the child
+    sh:property [
+        sh:path ff:wasEligibleFor ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedValueShape [
+            sh:class ff:SocialBenefit ;
+        ] ;
+        sh:message "Does not meet requirement 'User must have been eligible for income or other benefits before caring for the child.'"@en ;
+    ] ;
+    # No other person in the household can care for the child
+    sh:property [
+        sh:path ff:caregiverInHousehold ;
+        sh:qualifiedMinCount 0 ;
+        sh:message "Does not meet requirement 'No other person in the household can care for the child.'"@en ;
+    ] .
+
+ff:ChildCareShape a sh:NodeShape ;
+    # Child must be younger than 12 years
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:minCount 1 ;
+        sh:maxExclusive 12 ;
+        sh:message "Does not meet requirement 'Child must be younger than 12 years.'"@en ;
+    ] ;
+    # Child must have been involved in a school or kindergarten accident
+    sh:property [
+        sh:path ff:causeOfDeath ;
+        sh:minCount 1 ;
+        sh:class ff:SchoolAccident ;
+        sh:or (
+            [ sh:class ff:KindergartenAccident ]
+        ) ;
+        sh:message "Does not meet requirement 'Child must have been involved in a school or kindergarten accident.'"@en ;
+    ] .

@@ -1,0 +1,53 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# METADATA
+
+ff:L100040_LB_8664880 a ff:SocialBenefit ;
+    rdfs:label "Grundsicherung im Alter und bei Erwerbsminderung"@de, "Basic Security in Old Age and Reduced Earning Capacity"@en .
+
+# CONSTRAINTS
+
+ff:Grundsicherung a sh:NodeShape ;
+    ff:checksFundingRequirement ff:L100040_LB_8664880 ;
+    sh:targetNode ff:User ;
+    sh:property [
+        sh:path ff:canCoverBasicNeedsOfBenefitUnit ;
+        sh:maxCount 0 ;
+        sh:message "Has sufficient means to cover basic needs."@en ;
+    ] ;
+    sh:or (
+        [
+            sh:path ff:aboveSGBXII41AgeLimit ;
+            sh:minCount 1 ;
+            sh:message "Has not reached the age limit under § 41 SGB XII."@en ;
+        ]
+        [
+            sh:path ff:hasEarningCapacity ;
+            sh:minCount 1 ;
+            sh:hasValue ff:ReducedEarningCapacity ;
+            sh:message "Is not reduced in earning capacity."@en ;
+        ]
+        [
+            sh:path ff:hasAge ;
+            sh:minCount 1 ;
+            sh:datatype xsd:int ;
+            sh:minInclusive 18 ;
+            sh:message "Has not reached the age of 18."@en ;
+            sh:or (
+                [
+                    sh:path ff:participates ;
+                    sh:minCount 1 ;
+                    sh:hasValue ff:EntryProcedureAndVocationalTrainingArea ;
+                    sh:message "Has not completed the entry procedure and vocational training area."@en ;
+                ]
+                [
+                    sh:path ff:participates ;
+                    sh:minCount 1 ;
+                    sh:message "Does not receive a training budget."@en ;
+                ]
+            )
+        ]
+    ) .

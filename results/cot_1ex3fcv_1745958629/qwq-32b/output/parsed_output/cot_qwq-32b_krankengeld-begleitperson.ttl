@@ -1,0 +1,42 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+ff:B100019_LB_103817036 a ff:SocialBenefit ;
+    rdfs:label "Krankengeld für Begleitperson bei stationärer Behandlung von Menschen mit Behinderung"@de ;
+    rdfs:label "Sickness benefit for caregiver during inpatient treatment of disabled person"@en .
+
+# CONSTRAINTS
+ff:KrankengeldBegleitperson a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    sh:property [  # Requirement: statutory health insurance
+        sh:path ff:hasInsurance ;
+        sh:minCount 1 ;
+        sh:hasValue ff:StatutoryHealthInsurance ;
+        sh:message "User must have statutory health insurance."@en ;
+    ] ;
+    sh:property [  # Requirement: valid MedicalAccompaniment event
+        sh:path ff:hasEvent ;
+        sh:minCount 1 ;
+        sh:node [  # Shape for MedicalAccompaniment node
+            a sh:NodeShape ;
+            sh:targetClass ff:MedicalAccompaniment ;
+            sh:property [  # Must be inpatient accompaniment
+                sh:path ff:inPatientCoAdmission ;
+                sh:hasValue true ;
+                sh:message "Accompaniment must be for inpatient treatment."@en ;
+            ] ;
+            sh:property [  # Must meet full-day requirement
+                sh:path ff:fullDayAccompaniment ;
+                sh:hasValue true ;
+                sh:message "Accompaniment must last ≥8 hours including travel."@en ;
+            ] ;
+            sh:property [  # Must cause income loss
+                sh:path ff:causesLossOfEarnings ;
+                sh:hasValue true ;
+                sh:message "Event must cause income loss."@en ;
+            ]
+        ] ;
+        sh:message "User must have a qualifying MedicalAccompaniment event."@en ;
+    ] .

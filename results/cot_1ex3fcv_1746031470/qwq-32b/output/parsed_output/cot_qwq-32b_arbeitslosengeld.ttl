@@ -1,0 +1,41 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+ff:B100019_LB_576842 a ff:SocialBenefit ;
+    rdfs:label "Arbeitslosengeld"@de, "Unemployment benefit"@en .
+
+# CONSTRAINTS
+ff:ArbeitslosengeldShape a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    sh:property [
+        # Condition: unemployed or working <15h/week and available for placement
+        sh:path ff:inEmployment ;
+        sh:or (
+            [ sh:hasValue false ; ]
+            [ sh:SPARQL """
+                ASK WHERE {
+                    ?this ff:hasEmployment ?employment .
+                    ?employment ff:workHoursPerWeek ?hours .
+                    FILTER (?hours < 15) .
+                    ?this ff:availableForPlacement true .
+                }
+            """ ]
+        ) ;
+        sh:message "Must be unemployed or work <15h/week and available for placement" ;
+    ] ;
+    sh:property [
+        # Must have registered unemployed status
+        sh:path ff:hasEmploymentStatus ;
+        sh:minCount 1 ;
+        sh:hasValue ff:RegisteredUnemployed ;
+        sh:message "Must be registered as unemployed" ;
+    ] ;
+    sh:property [
+        # Compulsory insurance requirement
+        sh:path ff:compulsoryInsuranceFor12In30 ;
+        sh:minCount 1 ;
+        sh:hasValue true ;
+        sh:message "Must have 12+ months compulsory insurance in last 30 months" ;
+    ] .

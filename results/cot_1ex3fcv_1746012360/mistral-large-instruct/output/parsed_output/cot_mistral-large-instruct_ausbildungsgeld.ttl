@@ -1,0 +1,41 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+
+ff:Ausbildungsgeld a ff:SocialBenefit ;
+    rdfs:label "Ausbildungsgeld"@de, "Training allowance"@en .
+
+# CONSTRAINTS
+
+ff:TrainingAllowanceShape a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    sh:property [
+        sh:path ff:hasDisabilityType ;
+        sh:minCount 1 ;
+        sh:message "Does not meet requirement 'User has a disability.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasRehabilitationProvider ;
+        sh:hasValue ff:FederalEmploymentAgency ;
+        sh:message "Does not meet requirement 'User's rehabilitation provider is the Federal Employment Agency.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:participates ;
+        sh:class [
+            sh:or (
+                [ sh:class ff:VocationalTraining ]
+                [ sh:class ff:EntryProcedureAndVocationalTrainingArea ]
+                [ sh:class ff:School ]
+            )
+        ] ;
+        sh:minCount 1 ;
+        sh:message "Does not meet requirement 'User will participate in one of the specified training measures.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:isEligibleFor ;
+        sh:maxCount 0 ;
+        sh:hasValue ff:B100019_LB_102716305 ; # Transition allowance
+        sh:message "Does not meet requirement 'User has no entitlement to transition allowance.'"@en ;
+    ] .

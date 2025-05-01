@@ -1,0 +1,70 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+ff:B100019_LB_581863 a ff:SocialBenefit ;
+    rdfs:label "Kinderzuschlag"@de, "Child supplement"@en .
+
+ff:KinderzuschlagShape a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    sh:property [
+        sh:path ff:receivesChildBenefitFor ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedValueShape ff:ChildShape ;
+        sh:message "Does not meet child criteria (age, marital status, household)."@en ;
+    ] ;
+    sh:or (
+        ff:IncomeShapeA
+        ff:IncomeShapeB
+    ) ;
+    sh:property [
+        sh:path (ff:hasIncome ff:reducesChildSupplementTo) ;
+        sh:minExclusive 0 ;
+        sh:message "Child supplement would be reduced to zero."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasConsiderableAssets ;
+        sh:hasValue false ;
+        sh:message "User has considerable assets."@en ;
+    ] .
+
+ff:ChildShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:maxExclusive 25 ;
+    ] ;
+    sh:property [
+        sh:path ff:hasMaritalStatus ;
+        sh:not [
+            sh:in (ff:Married ff:CivilUnion) ;
+        ] ;
+    ] ;
+    sh:property [
+        sh:path ff:sameHouseholdAs ;
+        sh:hasValue ff:User ;
+    ] ;
+    sh:property [
+        sh:path ff:hasNoPriorityClaimsOver ;
+        sh:minCount 1 ;
+        sh:hasValue ff:B100019_LB_581863 ;
+    ] .
+
+ff:IncomeShapeA a sh:NodeShape ;
+    sh:property [
+        sh:path ff:isSingleParent ;
+        sh:hasValue false ;
+    ] ;
+    sh:property [
+        sh:path (ff:hasIncome ff:familyGrossIncome) ;
+        sh:minInclusive 900 ;
+    ] .
+
+ff:IncomeShapeB a sh:NodeShape ;
+    sh:property [
+        sh:path ff:isSingleParent ;
+        sh:hasValue true ;
+    ] ;
+    sh:property [
+        sh:path (ff:hasIncome ff:personalGrossIncome) ;
+        sh:minInclusive 600 ;
+    ] .

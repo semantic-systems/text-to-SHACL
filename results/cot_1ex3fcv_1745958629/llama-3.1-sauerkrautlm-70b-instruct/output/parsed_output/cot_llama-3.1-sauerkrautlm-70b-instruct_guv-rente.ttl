@@ -1,0 +1,50 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# METADATA
+
+ff:B100019_LB_582404 a ff:SocialBenefit ;
+    rdfs:label "Gesetzliche Unfallversicherung Rente"@de, "Statutory accident insurance pension"@en .
+
+# CONSTRAINTS
+
+ff:StatutoryAccidentInsurancePension a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_582404 ;
+    sh:targetNode ff:User ;
+    sh:property [
+        sh:path ff:hasEarningCapacity ;
+        sh:minCount 1 ;
+        sh:node [
+            sh:property [
+                sh:path ff:reductionInPercent ;
+                sh:minInclusive 20 ;
+                sh:datatype xsd:decimal ;
+                sh:message "Earning capacity is not reduced by at least 20 percent."@en ;
+            ] ;
+            sh:property [
+                sh:path ff:resultsInTreatment ;
+                sh:node [
+                    sh:property [
+                        sh:path ff:triggeringEvent ;
+                        sh:node [
+                            sh:property [
+                                sh:path ff:causesLossOfEarnings ;
+                                sh:hasValue true ;
+                                sh:message "Triggering event does not cause loss of earnings."@en ;
+                            ] ;
+                        ] ;
+                    ] ;
+                    sh:node [
+                        sh:property [
+                            sh:path ff:reductionDurationInWeeks ;
+                            sh:minInclusive 26 ;
+                            sh:datatype xsd:int ;
+                            sh:message "Reduction in earning capacity has not persisted beyond the 26th week after the insurance event."@en ;
+                        ] ;
+                    ] ;
+                ] ;
+            ] ;
+        ] ;
+    ] .

@@ -1,0 +1,29 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+
+ff:B100019_LB_102799525 a ff:SocialBenefit ;
+    rdfs:label "Gesetzliche Unfallversicherung Rentenabfindung"@de, "Statutory accident insurance lump-sum settlement"@en .
+
+# CONSTRAINTS
+
+ff:RentenabfindungShape a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_102799525 ;
+    sh:targetNode ff:User ;
+    # User is entitled to survivor's benefits from the statutory accident insurance
+    sh:property [
+        sh:path ff:isEligibleFor ;
+        sh:minCount 1 ;
+        sh:hasValue ff:StatutoryAccidentInsurance ; 
+        sh:message "Does not meet requirement 'User is entitled to survivor's benefits from the statutory accident insurance'"@en ;
+    ] ;
+    # User has remarried or entered into a new civil partnership under the Life Partnership Act
+    sh:property [
+        sh:path ff:hasMaritalStatus ;
+        sh:minCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:in ([ff:Married ff:InLifePartnership]) ;
+        sh:message "Does not meet requirement 'User has remarried or entered into a new civil partnership under the Life Partnership Act'"@en ;
+    ] .

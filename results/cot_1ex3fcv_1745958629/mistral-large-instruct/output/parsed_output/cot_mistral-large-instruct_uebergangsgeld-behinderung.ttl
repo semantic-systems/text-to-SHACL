@@ -1,0 +1,63 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+
+ff:B100019_LB_102716305 a ff:SocialBenefit ;
+    rdfs:label "Übergangsgeld für Menschen mit Behinderung"@de, "Transitional allowance for people with disabilities"@en .
+
+# CONSTRAINTS
+
+ff:TransitionalAllowanceShape a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    sh:property [
+        sh:path ff:hasDisability ;
+        sh:minCount 1 ;
+        sh:message "User must have a disability."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasRehabilitationProvider ;
+        sh:hasValue ff:FederalEmploymentAgency ;
+        sh:message "Rehabilitation provider must be the Federal Employment Agency."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:participates ;
+        sh:or (
+            [ sh:class ff:VocationalTraining ]
+            [ sh:class ff:School ]
+            [ sh:class ff:EntryProcedureAndVocationalTrainingArea ]
+        ) ;
+        sh:message "User must participate in a vocational training, school, or entry procedure and vocational training area."@en ;
+    ] ;
+    sh:or (
+        [
+            sh:property [
+                sh:path ff:hasEmployment ;
+                sh:node [
+                    sh:property [
+                        sh:path ff:socialSecurityDuration ;
+                        sh:property [
+                            sh:path ff:monthsWithinLast3Years ;
+                            sh:minInclusive 12 ;
+                            sh:message "User must have been socially insured for at least 12 months in the last 3 years."@en ;
+                        ] ;
+                    ] ;
+                ] ;
+            ]
+        ]
+        [
+            sh:property [
+                sh:path ff:hasEmploymentStatus ;
+                sh:hasValue ff:RegisteredUnemployed ;
+                sh:message "User must be registered as unemployed."@en ;
+            ] ;
+        ]
+        [
+            sh:property [
+                sh:path ff:wasEligibleFor ;
+                sh:hasValue ff:UnemploymentBenefitsSVG ;
+                sh:message "User must have been eligible for unemployment benefits under the SVG."@en ;
+            ] ;
+        ]
+    ) .

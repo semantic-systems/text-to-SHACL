@@ -1,0 +1,67 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# METADATA
+
+ff:B100019_LB_103817036 a ff:SocialBenefit ;
+    rdfs:label "Krankengeld für Begleitperson bei stationärer Behandlung von Menschen mit Behinderung"@de, "Sick pay for accompanying person during inpatient treatment of people with disabilities"@en .
+
+# CONSTRAINTS
+
+ff:KrankengeldBegleitperson a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    sh:property [
+        sh:path ff:hasInsurance ;
+        sh:minCount 1 ;
+        sh:hasValue ff:StatutoryHealthInsurance ; # User is legally health insured
+        sh:message "Does not meet requirement 'User is legally health insured.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:needsCare ;
+        sh:minCount 1 ;
+        sh:property [
+            sh:path ff:causeOfDeath ; # Assuming causeOfDeath is a misnamed property for the reason of needing care
+            sh:hasValue ff:Disability ; # The accompanied person has a disability
+            sh:message "Does not meet requirement 'The accompanied person has a disability.'"@en ;
+        ] ;
+    ] ;
+    sh:property [
+        sh:path ff:needsCare ;
+        sh:minCount 1 ;
+        sh:property [
+            sh:path ff:inPatientCoAdmission ;
+            sh:hasValue "true"^^xsd:boolean ; # The accompanied person is admitted as an inpatient
+            sh:message "Does not meet requirement 'The accompanied person is admitted as an inpatient.'"@en ;
+        ] ;
+    ] ;
+    sh:property [
+        sh:path ff:needsCare ;
+        sh:minCount 1 ;
+        sh:property [
+            sh:path ff:fullDayAccompaniment ;
+            sh:hasValue "true"^^xsd:boolean ; # The accompaniment takes more than 8 hours
+            sh:message "Does not meet requirement 'The accompaniment takes more than 8 hours.'"@en ;
+        ] ;
+    ] ;
+    sh:property [
+        sh:path ff:hasIncome ;
+        sh:minCount 1 ;
+        sh:property [
+            sh:path ff:personalGrossIncome ;
+            sh:minExclusive 0 ; # User has an income loss
+            sh:message "Does not meet requirement 'User has an income loss.'"@en ;
+        ] ;
+    ] ;
+    sh:property [
+        sh:path ff:closeRelative ;
+        sh:minCount 1 ;
+        sh:message "Does not meet requirement 'User is a close relative or part of the closest circle.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:isEligibleFor ;
+        sh:minCount 1 ;
+        sh:hasValue ff:IntegrationAssistance ; # The accompanied person receives integration assistance
+        sh:message "Does not meet requirement 'The accompanied person receives integration assistance.'"@en ;
+    ] .

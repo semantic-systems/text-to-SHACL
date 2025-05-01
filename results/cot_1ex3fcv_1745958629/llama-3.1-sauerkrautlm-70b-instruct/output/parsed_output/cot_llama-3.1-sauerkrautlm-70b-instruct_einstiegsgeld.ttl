@@ -1,0 +1,46 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+
+ff:B100019_LB_102713860 a ff:SocialBenefit ;
+    rdfs:label "Einstiegsgeld"@de, "Startup Grant"@en .
+
+# CONSTRAINTS
+
+ff:EinstiegsgeldShape a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_102713860 ;
+    sh:targetNode ff:User ;
+    # User receives citizen benefit before starting their new job
+    sh:property [
+        sh:path ff:receives ;
+        sh:minCount 1 ;
+        sh:hasValue ff:B100019_LB_106311931 ; # Bürgergeld
+        sh:message "Does not meet requirement 'User receives citizen benefit before starting their new job'"@en ;
+    ] ;
+    # User's new employment is suitable to overcome their need for support in the long run
+    sh:property [
+        sh:path ff:hasNoPriorityClaimsOver ;
+        sh:minCount 1 ;
+        sh:message "Does not meet requirement 'User's new employment is suitable to overcome their need for support in the long run'"@en ;
+    ] ;
+    # The startup grant is required for the user's integration into the general labor market
+    sh:property [
+        sh:path ff:isEligibleFor ;
+        sh:minCount 1 ;
+        sh:hasValue ff:B100019_LB_102713860 ; # Einstiegsgeld
+        sh:message "Does not meet requirement 'The startup grant is required for the user's integration into the general labor market'"@en ;
+    ] ;
+    # User's employment includes at least 15 hours per week
+    sh:property [
+        sh:path ff:hasEmployment ;
+        sh:minCount 1 ;
+        sh:node [
+            sh:property [
+                sh:path ff:workHoursPerWeek ;
+                sh:minInclusive 15 ;
+                sh:message "Does not meet requirement 'User's employment includes at least 15 hours per week'"@en ;
+            ] ;
+        ] ;
+    ] .

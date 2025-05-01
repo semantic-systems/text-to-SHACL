@@ -1,0 +1,79 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# Define the social benefit
+ff:B100019_LB_576986 a ff:SocialBenefit ;
+    rdfs:label "Kindergeld"@de, "Child allowance"@en .
+
+# Main shape targeting the user node
+ff:KindergeldShape a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    
+    # Requirement 1: Must have at least one child meeting eligibility criteria
+    sh:property [
+        sh:path ff:hasChild ;
+        sh:minCount 1 ;
+        sh:node ff:ChildShape ;
+        sh:message "Must have at least one eligible child."@en
+    ] ;
+    
+    # Requirement 2: Either EU/EWR/Switzerland conditions OR non-EU conditions
+    sh:or (
+        # EU/EWR/Switzerland nationals
+        [
+            sh:property [
+                sh:path ff:isNationalOf ;
+                sh:minCount 1 ;
+                sh:class ff:EEAplusCH ;  # Nationality must be EU/EWR/Switzerland
+                sh:message "Parent nationality must be EU/EWR/Switzerland."@en
+            ] ;
+            sh:property [
+                sh:path ff:incomeTaxLiability ;
+                sh:hasValue ff:UnlimitedTaxLiability ;  # Must have unlimited tax liability
+                sh:message "Must have unlimited income tax liability in Germany."@en
+            ]
+        ]
+        # Non-EU/EWR/Switzerland nationals
+        [
+            sh:or (
+                # Residence permit allows work
+                [
+                    sh:path ff:hasResidencePermit ;
+                    sh:qualifiedMinCount 1 ;
+                    sh:qualifiedValueShape [
+                        sh:property [
+                            sh:path ff:entitlesToEmployment ;
+                            sh:hasValue true ;
+                            sh:message "Residence permit must entitle to employment."@en
+                        ]
+                    ]
+                ]
+                # Recognized refugee status
+                [
+                    sh:path ff:recognizedRefugee ;
+                    sh:hasValue true ;
+                    sh:message "Must be a recognized refugee."@en
+                ]
+                # Asylum eligibility
+                [
+                    sh:path ff:entitledToAsylum ;
+                    sh:hasValue true ;
+                    sh:message "Must be entitled to asylum."@en
+                ]
+            )
+        ]
+    ) .
+
+# Shape for eligible children
+ff:ChildShape a sh:NodeShape ;
+    # Child's residence must be in Germany or EU/EWR/Switzerland
+    sh:property [
+        sh:path ff:countryOfResidence ;
+        sh:minCount 1 ;
+        sh:or (
+            [ sh:hasValue ff:Germany ]  # Explicitly include Germany
+            [ sh:class ff:EEAplusCH ]  # Other EU/EWR/Switzerland countries
+        ) ;
+        sh:message "Child must reside in Germany or EU/EWR/Switzerland."@en
+    ] .

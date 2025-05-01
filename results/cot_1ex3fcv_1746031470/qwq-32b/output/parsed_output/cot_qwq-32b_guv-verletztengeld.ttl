@@ -1,0 +1,44 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA FOR THE BENEFIT
+ff:B100019_LB_582429 a ff:SocialBenefit ;
+    rdfs:label "Gesetzliche Unfallversicherung Verletztengeld"@de, "Statutory accident insurance injury allowance"@en .
+
+# MAIN SHACL SHAPE
+ff:GUVVerletztengeldShape a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    ff:checksFundingRequirement ff:B100019_LB_582429 ;
+    
+    # Requirement: User must have statutory accident insurance
+    sh:property [
+        sh:path ff:hasInsurance ;
+        sh:minCount 1 ;
+        sh:hasValue ff:StatutoryAccidentInsurance ;
+        sh:message "Does not have statutory accident insurance"@en
+    ] ;
+    
+    # Requirement: User must be unfit for work due to qualifying event
+    sh:property [
+        sh:path ff:hasEarningCapacity ;
+        sh:minCount 1 ;
+        sh:in ( ff:UnfitForWork ) ;
+        sh:node ff:EarningCapacityShape ;
+        sh:message "Not unfit for work or no qualifying event"@en
+    ] .
+
+# NESTED SHAPE FOR EARNING CAPACITY VALIDATION
+ff:EarningCapacityShape a sh:NodeShape ;
+    # The triggering event must be one of the allowed types
+    sh:property [
+        sh:path ff:triggeringEvent ;
+        sh:minCount 1 ;
+        sh:or (
+            [ sh:class ff:WorkAccident ] 
+            [ sh:class ff:CommutingAccident ] 
+            [ sh:class ff:OccupationalDisease ] 
+        ) ;
+        sh:message "Triggering event not a work/commuting accident or occupational disease"@en
+    ] .

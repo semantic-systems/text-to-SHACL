@@ -1,0 +1,28 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+
+ff:B100019_LB_102799525 a ff:SocialBenefit ;
+    rdfs:label "Gesetzliche Unfallversicherung Rentenabfindung"@de, "Statutory accident insurance lump sum compensation for pension"@en .
+
+# CONSTRAINTS
+
+ff:GUVAbfindungShape a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_102799525 ;
+    sh:targetNode ff:User ;
+    # User has a claim to survivor's benefit from the statutory accident insurance
+    sh:property [
+        sh:path ff:hasNoPriorityClaimsOver ;
+        sh:minCount 1 ;
+        sh:hasValue ff:B100019_LB_102716305 ; # Gesetzliche Unfallversicherung Übergangsgeld
+        sh:message "Does not meet requirement 'User has a claim to survivor's benefit from the statutory accident insurance'"@en ;
+    ] ;
+    # User has remarried or entered into a new civil partnership under the Civil Partnership Act
+    sh:property [
+        sh:path ff:newUnionAfterWidowhood ;
+        sh:minCount 1 ;
+        sh:hasValue true ;
+        sh:message "Does not meet requirement 'User has remarried or entered into a new civil partnership under the Civil Partnership Act'"@en ;
+    ] .

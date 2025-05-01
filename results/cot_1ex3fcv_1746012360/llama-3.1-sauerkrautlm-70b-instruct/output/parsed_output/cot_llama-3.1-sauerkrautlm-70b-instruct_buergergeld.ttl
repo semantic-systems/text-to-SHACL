@@ -1,0 +1,79 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# METADATA
+
+ff:B100019_LB_106311931 a ff:SocialBenefit ;
+    rdfs:label "Bürgergeld"@de, "Citizen benefit"@en ;
+    rdfs:comment "Hilfebedürftige erwerbsfähige Personen"@de, "Assistance for capable workers in need"@en .
+
+# CONSTRAINTS
+
+ff:Bürgergeld a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_106311931 ;
+    sh:targetNode ff:User ;
+    sh:property [
+        sh:path ff:canCoverPersonalBasicNeeds ;
+        sh:minCount 0 ;
+        sh:maxCount 0 ;
+        sh:message "User's personal basic needs are covered."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasResidencePermit ;
+        sh:minCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:class ff:ResidencePermit ;
+        sh:property [
+            sh:path ff:entitlesToEmployment ;
+            sh:minCount 1 ;
+            sh:datatype xsd:boolean ;
+            sh:hasValue true ;
+            sh:message "User's residence permit does not entitle to employment."@en ;
+        ] ;
+        sh:message "User does not have a residence permit."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:countryOfResidence ;
+        sh:minCount 1 ;
+        sh:equals ff:Germany ;
+        sh:message "User does not live in Germany."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:minCount 0 ;
+        sh:maxCount 0 ;
+        sh:nodeKind sh:IRI ;
+        sh:class ff:SocialBenefit ;
+        sh:message "User already receives another benefit."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:availableForPlacement ;
+        sh:minCount 1 ;
+        sh:datatype xsd:boolean ;
+        sh:hasValue true ;
+        sh:message "User is not available for placement."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:employableHoursPerDay ;
+        sh:minCount 1 ;
+        sh:datatype xsd:decimal ;
+        sh:minExclusive 3 ;
+        sh:message "User is not employable for at least 3 hours per day."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:minCount 1 ;
+        sh:datatype xsd:int ;
+        sh:minExclusive 14 ;
+        sh:message "User is under 15 years old."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:isPensionable ;
+        sh:minCount 1 ;
+        sh:datatype xsd:boolean ;
+        sh:hasValue false ;
+        sh:message "User has reached the retirement age."@en ;
+    ] ;
+    sh:message "User is not eligible for citizen benefit."@en .

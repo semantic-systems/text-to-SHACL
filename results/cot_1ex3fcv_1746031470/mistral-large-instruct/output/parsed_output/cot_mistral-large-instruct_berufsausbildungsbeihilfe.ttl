@@ -1,0 +1,65 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# METADATA
+
+ff:B100019_LB_574724 a ff:SocialBenefit ;
+    rdfs:label "Berufsausbildungsbeihilfe"@de, "Vocational Training Allowance"@en .
+
+# CONSTRAINTS
+
+ff:VocationalTrainingAllowance a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    sh:property [
+        sh:path ff:participates ;
+        sh:minCount 1 ;
+        sh:class ff:VocationalTraining ;
+        sh:message "Does not meet requirement 'User is participating in a vocational training.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:minCount 1 ;
+        sh:minInclusive 18 ;
+        sh:message "Does not meet requirement 'User is at least 18 years old.'"@en ;
+    ] ;
+    sh:or (
+        [
+            sh:path ff:hasMaritalStatus ;
+            sh:hasValue ff:Married ;
+            sh:message "Does not meet requirement 'User is or was married.'"@en ;
+        ]
+        [
+            sh:path ff:hasChild ;
+            sh:minCount 1 ;
+            sh:message "Does not meet requirement 'User has at least one child living with them.'"@en ;
+        ]
+    ) ;
+    sh:not [
+        sh:property [
+            sh:path ff:hasResidenceStatus ;
+            sh:hasValue ff:Tolerated ;
+            sh:message "Does not meet requirement 'User is not tolerated with less than 15 months of uninterrupted stay in Germany.'"@en ;
+        ] ;
+        sh:property [
+            sh:path ff:uninterruptedLegalStayForLessThan15Months ;
+            sh:hasValue "true"^^xsd:boolean ;
+        ]
+    ] ;
+    sh:property [
+        sh:path ff:canCoverPersonalBasicNeeds ;
+        sh:hasValue "false"^^xsd:boolean ;
+        sh:message "Does not meet requirement 'User cannot cover their personal basic needs.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:participates ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedValueShape [
+            sh:property [
+                sh:path ff:isFirstVocationalTraining ;
+                sh:hasValue "true"^^xsd:boolean ;
+            ]
+        ] ;
+        sh:message "Does not meet requirement 'User is participating in their first vocational training.'"@en ;
+    ] .

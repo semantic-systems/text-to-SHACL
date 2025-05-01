@@ -1,0 +1,48 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# Define the social benefit
+ff:L100040_LB_12280162 a ff:SocialBenefit ;
+    rdfs:label "Bildung und Teilhabe"@de, "Education and Participation Benefits"@en .
+
+# Main shape targeting the user node
+ff:BildungUndTeilhabeShape a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    
+    # Requirement 1: Age under 25
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:minCount 1 ;
+        sh:maxExclusive 25 ;
+        sh:message "The applicant must be under 25 years old."@en
+    ] ;
+    
+    # Requirement 2: Must be receiving one of the listed benefits
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:minCount 1 ;
+        sh:or (
+            # Bürgergeld
+            [ sh:hasValue ff:B100019_LB_106311931 ]
+            
+            # Wohngeld + Kinderzuschlag combination
+            [
+                sh:property [
+                    sh:path ff:receivesBenefit ;
+                    sh:hasValue ff:L100040_LB_8665924
+                ] ;
+                sh:property [
+                    sh:path ff:receivesBenefit ;
+                    sh:hasValue ff:B100019_LB_581863
+                ]
+            ]
+            
+            # Sozialhilfe
+            [ sh:hasValue ff:SocialAssistance ]
+            
+            # Asylbewerberleistungen
+            [ sh:hasValue ff:AsylumSeekerBenefits ]
+        ) ;
+        sh:message "Must be receiving: Bürgergeld, Wohngeld+Kinderzuschlag, Sozialhilfe, or Asylbewerberleistungen."@en
+    ] .

@@ -1,0 +1,32 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# Define the social benefit
+ff:B100019_LB_582422 a ff:SocialBenefit ;
+    rdfs:label "Gesetzliche Unfallversicherung Übergangsgeld Berufliche Reha"@de, "Statutory accident insurance transition allowance occupational rehabilitation"@en .
+
+# Main validation shape for the benefit
+ff:TransitionAllowanceRehaShape a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    
+    # Requirement 1: User must have suffered a qualifying event
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:minCount 1 ;
+        sh:or (
+            [ sh:class ff:WorkAccident ]
+            [ sh:class ff:CommutingAccident ]
+            [ sh:class ff:OccupationalDisease ]
+        ) ;
+        sh:message "Does not meet requirement 'Must have experienced a work/commuting accident or recognized occupational disease'."@en ;
+    ] ;
+    
+    # Requirement 2: User must participate in occupational rehabilitation
+    sh:property [
+        sh:path ff:participates ;
+        sh:minCount 1 ;
+        sh:class ff:OccupationalRehabilitation ;
+        sh:message "Does not meet requirement 'Must participate in occupational rehabilitation measures'."@en ;
+    ] .

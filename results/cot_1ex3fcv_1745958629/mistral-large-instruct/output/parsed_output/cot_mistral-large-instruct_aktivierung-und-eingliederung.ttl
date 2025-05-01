@@ -1,0 +1,20 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+
+ff:B100019_LB_102730340 a ff:SocialBenefit ;
+    rdfs:label "Förderung für Maßnahmen zur Aktivierung und beruflichen Eingliederung"@de, "Funding for activation and professional integration measures"@en .
+
+# CONSTRAINTS
+
+ff:AktivierungUndEingliederungShape a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    # User receives basic income support
+    sh:property [
+        sh:path ff:receives ;
+        sh:minCount 1 ;
+        sh:hasValue ff:L100040_LB_8664880 ; # Grundsicherung
+        sh:message "Does not meet requirement 'User receives basic income support'"@en ;
+    ] .

@@ -1,0 +1,86 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# METADATA
+
+ff:B100019_LB_102716305 a ff:SocialBenefit ;
+    rdfs:label "Übergangsgeld für Menschen mit Behinderung"@de, "Transitional allowance for people with disabilities"@en .
+
+# CONSTRAINTS
+
+ff:UserShape a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    sh:property [
+        sh:path ff:hasDisability ;
+        sh:minCount 1 ;
+        sh:message "The user does not have a disability."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasRehabilitationProvider ;
+        sh:hasValue ff:FederalEmploymentAgency ;
+        sh:message "The user's rehabilitation provider is not the Federal Employment Agency."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:participates ;
+        sh:minCount 1 ;
+        sh:class ff:Training ;
+        sh:message "The user does not participate in a training program."@en ;
+    ] ;
+    sh:or (
+        [
+            sh:property [
+                sh:path ff:hasEmployment ;
+                sh:property [
+                    sh:path ff:socialSecurityDuration ;
+                    sh:property [
+                        sh:path ff:monthsWithinLast3Years ;
+                        sh:minInclusive 12 ;
+                        sh:message "The user was not socially insured for at least 12 months in the last 3 years."@en ;
+                    ] ;
+                ] ;
+            ] ;
+        ]
+        [
+            sh:property [
+                sh:path ff:receivesBenefit ;
+                sh:hasValue ff:B100019_LB_576842 ; # Unemployment benefit
+                sh:message "The user does not receive unemployment benefit."@en ;
+            ] ;
+        ]
+        [
+            sh:property [
+                sh:path ff:receivesBenefit ;
+                sh:hasValue ff:UnemploymentBenefitsSVG ;
+                sh:message "The user does not receive unemployment benefits under the Soldiers' Benefits Act (SVG)."@en ;
+            ] ;
+        ]
+    ) .
+
+# EXCEPTIONS
+
+ff:UserShape a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    sh:or (
+        [
+            sh:property [
+                sh:path ff:isVocationalReturnee ;
+                sh:hasValue "true"^^xsd:boolean ;
+                sh:message "The user is not a vocational returnee."@en ;
+            ] ;
+        ]
+        [
+            sh:property [
+                sh:path ff:hasEvent ;
+                sh:property [
+                    sh:path ff:hasDate ;
+                    sh:property [
+                        sh:path ff:lessThanFourMonthsAgo ;
+                        sh:hasValue "true"^^xsd:boolean ;
+                        sh:message "The user did not complete vocational training within the last year."@en ;
+                    ] ;
+                ] ;
+            ] ;
+        ]
+    ) .

@@ -1,0 +1,53 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# METADATA
+
+ff:B100019_LB_102799515 a ff:SocialBenefit ;
+    rdfs:label "Gesetzliche Unfallversicherung Kinderverletztengeld"@de, "Statutory accident insurance child injury allowance"@en . 
+
+# CONSTRAINTS
+
+ff:KinderverletztengeldShape a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_102799515 ;
+    sh:targetNode ff:User ;
+    # User needs to supervise, care for or nurse a child in their household due to the consequences of an insurance event (school and kindergarten accident)
+    sh:property [
+        sh:path ff:needsCare ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedValueShape ff:CareNeedShape ;
+        sh:message "Does not meet requirement 'User needs to supervise, care for or nurse a child in their household due to the consequences of an insurance event.'"@en ;
+    ] ;
+    # User needs to have been entitled to a monetary benefit before supervising, caring for or nursing their child
+    sh:property [
+        sh:path ff:wasEntitledToCashBenefitBefore ;
+        sh:minCount 1 ;
+        sh:message "Does not meet requirement 'User needs to have been entitled to a monetary benefit before supervising, caring for or nursing their child.'"@en ;
+    ] ;
+    # No other person in the same household can care for the child
+    sh:property [
+        sh:path ff:caregiverInHousehold ;
+        sh:qualifiedMaxCount 0 ;
+        sh:message "Does not meet requirement 'No other person in the same household can care for the child.'"@en ;
+    ] .
+
+ff:CareNeedShape a sh:NodeShape ;
+    # Child must be under 12 years old
+    sh:property [
+        sh:path (ff:receivesChildBenefitFor ff:hasAge) ;
+        sh:minCount 1 ;
+        sh:maxExclusive 12 ;
+    ] ;
+    # Child's care need is due to the consequences of an insurance event (school and kindergarten accident)
+    sh:property [
+        sh:path ff:resultsInTreatment ;
+        sh:minCount 1 ;
+        sh:qualifiedValueShape ff:InsuranceEventShape ;
+    ] .
+
+ff:InsuranceEventShape a sh:NodeShape ;
+    sh:or (
+        ff:SchoolAccident
+        ff:KindergartenAccident
+    ) .

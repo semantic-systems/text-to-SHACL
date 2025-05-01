@@ -1,0 +1,33 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# METADATA
+
+ff:L100040_LB_8664880 a ff:SocialBenefit ;
+    rdfs:label "Grundsicherung im Alter und bei Erwerbsminderung"@de, "Basic Security in Old Age and in the Event of Reduced Earning Capacity"@en .
+
+# CONSTRAINTS
+
+ff:Grundsicherung a sh:NodeShape ;
+    ff:checksFundingRequirement ff:L100040_LB_8664880 ;
+    sh:targetNode ff:User ;
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:minInclusive 65 ;
+        sh:message "Has not reached the age limit under § 41 SGB XII."@en ;
+    ] ;
+    sh:or (
+        [ sh:path ff:hasDisability ; sh:hasValue true ]
+        [
+            sh:path ff:hasEarningCapacity ;
+            sh:hasValue ff:UnfitForWork ;
+            sh:message "Is not permanently fully disabled for gainful employment under § 43 (2) SGB VI."@en ;
+        ]
+    ) ;
+    sh:property [
+        sh:path ff:canCoverPersonalBasicNeeds ;
+        sh:maxInclusive false ;
+        sh:message "Is not needy, i.e., can cover their necessary living expenses from their income and assets."@en ;
+    ] .

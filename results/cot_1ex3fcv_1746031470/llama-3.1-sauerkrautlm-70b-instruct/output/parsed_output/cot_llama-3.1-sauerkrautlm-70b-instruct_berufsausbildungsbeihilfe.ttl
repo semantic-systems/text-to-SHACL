@@ -1,0 +1,105 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+
+ff:B100019_LB_574724 a ff:SocialBenefit ;
+    rdfs:label "Berufsausbildungsbeihilfe"@de, "Vocational training subsidy"@en .
+
+# CONSTRAINTS
+
+ff:Berufsausbildungsbeihilfe a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_574724 ;
+    sh:targetNode ff:User ;
+    sh:property [
+        sh:path ff:parentalAdress ;
+        sh:minCount 1 ;
+        sh:nodeKind sh:BlankNode ;
+        sh:property [
+            sh:path ff:tooFarFromTrainingCompany ;
+            sh:hasValue true ;
+            sh:message "Does not meet requirement 'User's place of training is too far from their parents' home.'"@en ;
+        ] ;
+        sh:property [
+            sh:path ff:naturalChildTo ;
+            sh:nodeKind sh:BlankNode ;
+            sh:property [
+                sh:path ff:hasAge ;
+                sh:minInclusive 18 ;
+                sh:message "Does not meet requirement 'User is at least 18 years old.'"@en ;
+            ] ;
+        ] ;
+        sh:message "Does not meet requirement 'User is not living with their parents during their training.'"@en ;
+    ] ;
+    sh:or [
+        sh:property [
+            sh:path ff:hasMaritalStatus ;
+            sh:hasValue ff:Married ;
+            sh:message "Does not meet requirement 'User is or was married.'"@en ;
+        ] ;
+        sh:property [
+            sh:path ff:hasChild ;
+            sh:minCount 1 ;
+            sh:message "Does not meet requirement 'User has at least one child living with them.'"@en ;
+        ] ;
+    ] ;
+    sh:not [
+        sh:property [
+            sh:path ff:isNationalOf ;
+            sh:hasValue ff:Germany ;
+            sh:message "Does not meet requirement 'User is not a German national.'"@en ;
+        ] ;
+        sh:or [
+            sh:property [
+                sh:path ff:hasResidencePermit ;
+                sh:hasValue ff:AsylumSeekerBenefits ;
+                sh:message "Does not meet requirement 'User is not a German national with a residence permit under the Asylum Act.'"@en ;
+            ] ;
+            sh:property [
+                sh:path ff:hasResidenceStatus ;
+                sh:hasValue ff:Tolerated ;
+                sh:property [
+                    sh:path ff:uninterruptedLegalStayForLessThan15Months ;
+                    sh:hasValue true ;
+                    sh:message "Does not meet requirement 'User is not a tolerated foreigner who has been staying in Germany for less than 15 months without interruption.'"@en ;
+                ] ;
+            ] ;
+        ] ;
+    ] ;
+    sh:property [
+        sh:path ff:canCoverBasicNeedsOfBenefitUnit ;
+        sh:hasValue false ;
+        sh:message "Does not meet requirement 'User cannot afford the necessary means to cover living expenses.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasIncome ;
+        sh:minCount 1 ;
+        sh:nodeKind sh:BlankNode ;
+        sh:property [
+            sh:path ff:reducesChildSupplementTo ;
+            sh:minInclusive 0 ;
+            sh:message "Does not meet requirement 'User cannot afford the necessary means to cover childcare costs.'"@en ;
+        ] ;
+        sh:message "Does not meet requirement 'User cannot afford the necessary means to cover living expenses.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:participates ;
+        sh:minCount 1 ;
+        sh:nodeKind sh:BlankNode ;
+        sh:property [
+            sh:path ff:intendedFundingPeriod ;
+            sh:nodeKind sh:BlankNode ;
+            sh:property [
+                sh:path ff:monthsTotal ;
+                sh:minInclusive 1 ;
+                sh:message "Does not meet requirement 'User's training is not empty.'"@en ;
+            ] ;
+        ] ;
+        sh:property [
+            sh:path ff:recognizedByLaw ;
+            sh:hasValue ff:VocationalTrainingAct ;
+            sh:message "Does not meet requirement 'User's training is recognized under the Vocational Training Act.'"@en ;
+        ] ;
+        sh:message "Does not meet requirement 'User's training is not empty.'"@en ;
+    ] .

@@ -1,0 +1,110 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# METADATA
+
+ff:B100019_LB_582435 a ff:SocialBenefit ;
+    rdfs:label "Gesetzliche Unfallversicherung Waisenrente"@de, "Statutory accident insurance orphan's pension"@en .
+
+# CONSTRAINTS
+
+ff:GUVWaisenrenteShape a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    sh:property [
+        sh:path ff:deceasedCivilPartner ;
+        sh:qualifiedValueShape ff:DeceasedPartnerShape ;
+        sh:qualifiedMinCount 1
+    ] ;
+    sh:property [
+        sh:path ff:deceasedSpouse ;
+        sh:qualifiedValueShape ff:DeceasedPartnerShape ;
+        sh:qualifiedMinCount 1
+    ] ;
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:or (
+            [
+                sh:maxInclusive 17
+            ]
+            [
+                sh:minInclusive 18 ;
+                sh:maxInclusive 26 ;
+                sh:or (
+                    [
+                        sh:property [
+                            sh:path ff:participates ;
+                            sh:class ff:Training ;
+                            sh:minCount 1
+                        ]
+                    ]
+                    [
+                        sh:property [
+                            sh:path ff:hasDisability ;
+                            sh:value true ;
+                            sh:minCount 1
+                        ]
+                    ]
+                    [
+                        sh:property [
+                            sh:path ff:isInTransitionalPeriod ;
+                            sh:value true ;
+                            sh:minCount 1
+                        ]
+                    ]
+                )
+            ]
+        )
+    ] .
+
+ff:DeceasedPartnerShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:causeOfDeath ;
+        sh:minCount 1 ;
+        sh:node ff:InsuranceEventShape ;
+        sh:message "Does not meet requirement 'Death was caused by an insurance event'"@en
+    ] .
+
+ff:InsuranceEventShape a sh:NodeShape ;
+    sh:or (
+        [sh:class ff:WorkAccident]
+        [sh:class ff:CommutingAccident]
+        [sh:class ff:OccupationalDisease]
+    ) .
+
+ff:User a sh:NodeShape ;
+    sh:property [
+        sh:path ff:naturalChildTo ;
+        sh:minCount 1 ;
+        sh:message "Does not meet requirement 'User is a biological child of the deceased person'"@en
+    ] ;
+    sh:or (
+        [
+            sh:property [
+                sh:path ff:stepChildTo ;
+                sh:minCount 1 ;
+                sh:message "Does not meet requirement 'User is a stepchild of the deceased person'"@en
+            ]
+        ]
+        [
+            sh:property [
+                sh:path ff:fosterChildTo ;
+                sh:minCount 1 ;
+                sh:message "Does not meet requirement 'User is a foster child of the deceased person'"@en
+            ]
+        ]
+        [
+            sh:property [
+                sh:path ff:sameHouseholdAs ;
+                sh:minCount 1 ;
+                sh:message "Does not meet requirement 'User lived in the same household as the deceased person'"@en
+            ]
+        ]
+    ) ;
+    sh:property [
+        sh:path ff:hasPrimaryCareTaker ;
+        sh:minCount 1 ;
+        sh:message "Does not meet requirement 'User was cared for and supported by the deceased person'"@en
+    ] .

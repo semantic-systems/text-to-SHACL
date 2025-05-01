@@ -1,0 +1,71 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+
+ff:B100019_LB_574724 a ff:SocialBenefit ;
+    rdfs:label "Berufsausbildungsbeihilfe"@de, "Vocational training allowance"@en .
+
+# CONSTRAINTS
+
+ff:BerufsausbildungsbeihilfeShape a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:minInclusive 18 ;
+        sh:message "Does not meet requirement 'User is at least 18 years old.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasMaritalStatus ;
+        sh:minCount 1 ;
+        sh:in ( ff:Married ff:Widowed ff:Divorced ) ;
+        sh:message "Does not meet requirement 'User is or was married.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasChild ;
+        sh:minCount 1 ;
+        sh:message "Does not meet requirement 'User has at least one child living with them.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasResidenceStatus ;
+        sh:not [ sh:hasValue ff:Tolerated ] ;
+        sh:message "Does not meet requirement 'User does not have a tolerated residence status.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:uninterruptedLegalStayForLessThan15Months ;
+        sh:not [ sh:hasValue true ] ;
+        sh:message "Does not meet requirement 'User has not been in Germany for less than 15 months without interruption on a permitted, authorized or tolerated basis.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasDisability ;
+        sh:maxCount 0 ;
+        sh:message "Does not meet requirement 'User does not have an asylum seeker permit.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:isFirstVocationalTraining ;
+        sh:hasValue true ;
+        sh:message "Does not meet requirement 'User is undertaking their first vocational training.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:participates ;
+        sh:class ff:VocationalTraining ;
+        sh:minCount 1 ;
+        sh:message "Does not meet requirement 'User is participating in a recognized vocational training.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasDisability ;
+        sh:hasValue true ;
+        sh:message "Does not meet requirement 'User has a disability and is undertaking a special vocational training.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasResidencePermit ;
+        sh:minCount 1 ;
+        sh:message "Does not meet requirement 'User has a residence permit.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:participates ;
+        sh:class ff:VocationalTraining ;
+        sh:hasValue true ;
+        sh:message "Does not meet requirement 'User is participating in a vocational training.'"@en ;
+    ] .

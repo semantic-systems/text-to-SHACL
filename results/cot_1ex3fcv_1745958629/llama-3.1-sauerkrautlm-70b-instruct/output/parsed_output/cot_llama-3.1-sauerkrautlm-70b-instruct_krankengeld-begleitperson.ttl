@@ -1,0 +1,40 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+
+ff:B100019_LB_103817036 a ff:SocialBenefit ;
+    rdfs:label "Krankengeld für Begleitperson bei stationärer Behandlung von Menschen mit Behinderung"@de, "Sickness benefit for accompanying persons during inpatient treatment of people with disabilities"@en .
+
+# CONSTRAINTS
+
+ff:Begleitung_auf_Stationärer_Behandlung a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_103817036 ;
+    sh:targetNode ff:User ;
+    sh:property [
+        sh:path ff:hasInsurance ;
+        sh:minCount 1 ;
+        sh:hasValue ff:StatutoryHealthInsurance ;
+        sh:message "Does not meet requirement 'User has statutory health insurance.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:causesLossOfEarnings ;
+        sh:minCount 1 ;
+        sh:hasValue true ;
+        sh:message "Does not meet requirement 'User has a loss of earnings.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:immediateCircleMember ;
+        sh:minCount 1 ;
+        sh:message "Does not meet requirement 'User is a close relative or part of the closest social environment.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:inPatientCoAdmission ;
+        sh:minCount 1 ;
+        sh:or (
+            [ sh:hasValue true ]
+            [ sh:path ff:fullDayAccompaniment ; sh:hasValue true ]
+        ) ;
+        sh:message "Does not meet requirement 'User's inpatient co-admission as an accompanying person is medically necessary or takes more than 8 hours.'"@en ;
+    ] .

@@ -1,0 +1,49 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+
+ff:B100019_LB_582404 a ff:SocialBenefit ;
+    rdfs:label "Gesetzliche Unfallversicherung Rente"@de, "Statutory accident insurance pension"@en .
+
+# CONSTRAINTS
+
+ff:StatutoryAccidentInsurancePension a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_582404 ;
+    sh:targetNode ff:User ;
+    sh:property [
+        sh:path ff:hasInsurance ;
+        sh:minCount 1 ;
+        sh:hasValue ff:StatutoryAccidentInsurance ;
+        sh:message "Does not meet requirement 'User has statutory accident insurance.'"@en ;
+    ] ;
+    sh:property [
+        sh:path [ sh:inversePath ff:resultsInTreatment ;
+                 sh:path ff:WorkAccident ] ;
+        sh:minCount 1 ;
+        sh:message "Does not meet requirement 'User experienced a work accident.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEarningCapacity ;
+        sh:minCount 1 ;
+        sh:node ff:EarningCapacityReducedByAtLeast20Percent ;
+        sh:message "Does not meet requirement 'User's earning capacity is reduced by at least 20 percent.'"@en ;
+    ] ;
+    sh:property [
+        sh:path [ sh:inversePath ff:triggeringEvent ;
+                 sh:path ff:WorkAccident ;
+                 sh:inversePath ff:hasEvent ;
+                 sh:path ff:reductionDurationInWeeks ] ;
+        sh:minCount 1 ;
+        sh:minInclusive 26 ;
+        sh:message "Does not meet requirement 'Reduction in earning capacity persists beyond the 26th week.'"@en ;
+    ] .
+
+ff:EarningCapacityReducedByAtLeast20Percent a sh:NodeShape ;
+    sh:targetNode ff:EarningCapacity ;
+    sh:property [
+        sh:path ff:reductionInPercent ;
+        sh:minInclusive 20 ;
+        sh:message "Earning capacity is not reduced by at least 20 percent."@en ;
+    ] .

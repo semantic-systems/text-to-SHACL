@@ -1,0 +1,50 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# METADATA
+
+ff:B100019_LB_582404 a ff:SocialBenefit ;
+    rdfs:label "Gesetzliche Unfallversicherung Rente"@de, "Statutory accident insurance pension"@en .
+
+# CONSTRAINTS
+
+ff:GesetzlicheUnfallversicherungRente a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    sh:property [
+        sh:path ff:hasInsurance ;
+        sh:minCount 1 ;
+        sh:class ff:StatutoryAccidentInsurance ;
+        sh:message "User must be covered by statutory accident insurance."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEarningCapacity ;
+        sh:minCount 1 ;
+        sh:class ff:ReducedEarningCapacity ;
+        sh:property [
+            sh:path ff:reductionInPercent ;
+            sh:minInclusive 20 ;
+            sh:message "Earning capacity must be reduced by at least 20 percent."@en ;
+        ] ;
+        sh:property [
+            sh:path ff:triggeringEvent ;
+            sh:minCount 1 ;
+            sh:class ff:Event ;
+            sh:property [
+                sh:path ff:hasDate ;
+                sh:datatype xsd:dateTime ;
+                sh:message "Triggering event must have a date."@en ;
+            ] ;
+            sh:property [
+                sh:path ff:causesLossOfEarnings ;
+                sh:hasValue "true"^^xsd:boolean ;
+                sh:message "Triggering event must cause loss of earnings."@en ;
+            ] ;
+        ] ;
+        sh:property [
+            sh:path ff:reductionDurationInWeeks ;
+            sh:minInclusive 26 ;
+            sh:message "Earning capacity must be reduced beyond the 26th week after the triggering event."@en ;
+        ] ;
+    ] .

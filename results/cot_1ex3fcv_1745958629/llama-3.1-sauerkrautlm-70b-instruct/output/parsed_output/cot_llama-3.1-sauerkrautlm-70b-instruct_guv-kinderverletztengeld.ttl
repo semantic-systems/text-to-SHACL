@@ -1,0 +1,47 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# METADATA
+
+ff:B100019_LB_102799515 a ff:SocialBenefit ;
+    rdfs:label "Gesetzliche Unfallversicherung Kinderverletztengeld"@de, "Statutory Accident Insurance Child Injury Benefit"@en .
+
+# CONSTRAINTS
+
+ff:KinderverletztengeldShape a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_102799515 ;
+    sh:targetNode ff:User ;
+    # User must have a child in their household that they need to supervise, care for, or nurse due to the consequences of an insurance accident (school or kindergarten accident)
+    sh:property [
+        sh:path (ff:hasChild ff:needsCare) ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedValueShape [
+            sh:path ff:causeOfDeath ;
+            sh:not [
+                sh:hasValue ff:CommutingAccident, ff:DiscontinuationOfBusiness, ff:InsolvencyApplication, ff:InsolvencyProceeding, ff:KindergartenAccident, ff:MedicalAccompaniment, ff:MoveToGermany, ff:OccupationalDisease, ff:SchoolAccident, ff:WorkAccident ;
+            ] ;
+            sh:path ff:resultsInTreatment ;
+            sh:hasValue ff:OccupationalRehabilitation ;
+        ] ;
+        sh:message "Does not meet requirement 'User has a child in their household that they need to supervise, care for, or nurse due to the consequences of an insurance accident (school or kindergarten accident).'"@en ;
+    ] ;
+    # Child must be under 12 years old
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:minCount 1 ;
+        sh:maxExclusive 12 ;
+        sh:message "Does not meet requirement 'Child must be under 12 years old.'"@en ;
+    ] ;
+    # User must have been entitled to salary or any other cash benefit (e.g., sick pay, unemployment benefit) before supervising, caring for, or nursing the child
+    sh:property [
+        sh:path ff:wasEntitledToCashBenefitBefore ;
+        sh:minCount 1 ;
+        sh:message "Does not meet requirement 'User must have been entitled to salary or any other cash benefit (e.g., sick pay, unemployment benefit) before supervising, caring for, or nursing the child.'"@en ;
+    ] ;
+    # No other household member can take care of the child
+    sh:property [
+        sh:path ff:caregiverInHousehold ; 
+        sh:maxCount 0 ;
+        sh:message "Does not meet requirement 'No other household member can take care of the child.'"@en ;
+    ] .

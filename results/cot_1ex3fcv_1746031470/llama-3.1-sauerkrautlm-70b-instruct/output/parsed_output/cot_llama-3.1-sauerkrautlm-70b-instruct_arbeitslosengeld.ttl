@@ -1,0 +1,45 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# METADATA
+
+ff:B100019_LB_576842 a ff:SocialBenefit ;
+    rdfs:label "Arbeitslosengeld"@de, "Unemployment Benefit"@en .
+
+# CONSTRAINTS
+
+ff:Arbeitslosengeld a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_576842 ;
+    sh:targetNode ff:User ;
+    sh:property [
+        sh:path ff:hasEmploymentStatus ;
+        sh:minCount 1 ;
+        sh:hasValue ff:Unemployed ; # unemployed
+        sh:message "Does not meet requirement 'User is unemployed.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:workHoursPerWeek ;
+        sh:minInclusive 0 ;
+        sh:maxInclusive 15 ;
+        sh:message "Does not meet requirement 'User works less than 15 hours per week.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:compulsoryInsuranceFor12In30 ;
+        sh:minCount 1 ;
+        sh:hasValue true ;
+        sh:message "Does not meet requirement 'User has been compulsorily insured for at least 12 months within the last 30 months.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:availableForPlacement ;
+        sh:minCount 1 ;
+        sh:hasValue true ;
+        sh:message "Does not meet requirement 'User is available for the placement efforts of the employment agency.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEarningCapacity ;
+        sh:minCount 1 ;
+        sh:hasValue ff:FullEarningCapacity ; # able and willing to work full-time
+        sh:message "Does not meet requirement 'User is able and willing to take up a compulsorily-insured employment under normal labor market conditions.'"@en ;
+    ] .

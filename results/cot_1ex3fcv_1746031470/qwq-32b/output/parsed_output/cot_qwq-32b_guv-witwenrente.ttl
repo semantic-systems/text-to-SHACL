@@ -1,0 +1,56 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+ff:B100019_LB_582441 a ff:SocialBenefit ;
+    rdfs:label "Gesetzliche Unfallversicherung Witwen- und Witwerrente"@de, "Statutory accident insurance widow's pension"@en .
+
+# CONSTRAINTS
+ff:GUVWitwenrenteShape a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    sh:or (
+        [
+            # Check for deceased spouse
+            sh:path ff:deceasedSpouse ;
+            sh:qualifiedValueShape ff:EligibleDeceasedShape ;
+            sh:qualifiedMinCount 1
+        ]
+        [
+            # Check for deceased civil partner
+            sh:path ff:deceasedCivilPartner ;
+            sh:qualifiedValueShape ff:EligibleDeceasedShape ;
+            sh:qualifiedMinCount 1
+        ]
+    ) .
+
+ff:EligibleDeceasedShape a sh:NodeShape ;
+    sh:property [
+        # Deceased must have statutory accident insurance
+        sh:path ff:hasInsurance ;
+        sh:minCount 1 ;
+        sh:hasValue ff:StatutoryAccidentInsurance ;
+        sh:message "Deceased must have statutory accident insurance"@en
+    ] ;
+    sh:property [
+        # Cause of death must be an insurance event (work/commuting accident or occupational disease)
+        sh:path ff:causeOfDeath ;
+        sh:minCount 1 ;
+        sh:node ff:EventShape ;
+        sh:message "Death must result from work accident, commuting accident, or occupational disease"@en
+    ] .
+
+ff:EventShape a sh:NodeShape ;
+    sh:or (
+        [sh:class ff:WorkAccident]
+        [sh:class ff:CommutingAccident]
+        [sh:class ff:OccupationalDisease]
+    ) ;
+    sh:property [
+        # User must have been in legal union with deceased before the event
+        sh:path ff:legalUnionBeforeEvent ;
+        sh:minCount 1 ;
+        sh:in (ff:User) ;
+        sh:message "Must have been in marriage/civil partnership with deceased before the event"@en
+    ] .

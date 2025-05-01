@@ -1,0 +1,45 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+ff:B100019_LB_106311931 a ff:SocialBenefit ;
+    rdfs:label "Bürgergeld"@de, "Citizen benefit"@en .
+
+# CONSTRAINTS
+ff:BuergerGeld a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    sh:property [
+        # Earning capacity must not be UnfitForWork
+        sh:path ff:hasEarningCapacity ;
+        sh:minCount 1 ;
+        sh:not [
+            sh:hasValue ff:UnfitForWork
+        ];
+        sh:message "Must have sufficient earning capacity (not UnfitForWork).";
+    ], [
+        # Minimum 3 hours daily employability
+        sh:path ff:employableHoursPerDay ;
+        sh:minInclusive 3.0 ;
+        sh:message "Must be able to work at least 3 hours daily.";
+    ], [
+        # Minimum age 15
+        sh:path ff:hasAge ;
+        sh:minInclusive 15 ;
+        sh:message "Must be at least 15 years old.";
+    ], [
+        # Not pensionable (retirement age not reached)
+        sh:path ff:isPensionable ;
+        sh:hasValue false ;
+        sh:message "Must not have reached pensionable age.";
+    ], [
+        # Inability to cover basic needs
+        sh:path ff:canCoverBasicNeedsOfBenefitUnit ;
+        sh:hasValue false ;
+        sh:message "Must be unable to cover basic needs of benefit unit.";
+    ], [
+        # Residence in Germany
+        sh:path ff:countryOfResidence ;
+        sh:hasValue ff:Germany ;
+        sh:message "Must reside in Germany.";
+    ] .

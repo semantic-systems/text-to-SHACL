@@ -1,0 +1,45 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# METADATA
+
+ff:B100019_LB_106311931 a ff:SocialBenefit ;
+    rdfs:label "Bürgergeld"@de, "Citizen benefit"@en .
+
+# CONSTRAINTS
+
+ff:BürgergeldShape a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    sh:property [
+        sh:path ff:hasEarningCapacity ;
+        sh:hasValue ff:FullEarningCapacity ;
+        sh:message "The user must be able to work."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:employableHoursPerDay ;
+        sh:minInclusive "3"^^xsd:decimal ;
+        sh:message "The user must be able to work at least 3 hours per day."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:minInclusive 15 ;
+        sh:maxExclusive 67 ;
+        sh:message "The user must be at least 15 years old and not yet at the statutory retirement age."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:canCoverPersonalBasicNeeds ;
+        sh:equals false ;
+        sh:message "The user must not be able to cover their personal basic needs with their income, assets, and priority benefits."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasNoPriorityClaimsOver ;
+        sh:hasValue ff:B100019_LB_106311931 ;
+        sh:message "The user must not have priority claims over other benefits."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:countryOfResidence ;
+        sh:hasValue ff:Germany ;
+        sh:message "The user must live in Germany."@en ;
+    ] .

@@ -1,0 +1,41 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+ff:B100019_LB_103817036 a ff:SocialBenefit ;
+    rdfs:label "Krankengeld für Begleitperson bei stationärer Behandlung von Menschen mit Behinderung"@de, "Sickness benefit for caregiver during inpatient treatment of a disabled person"@en .
+
+ff:CaregiverBenefitShape a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    sh:property [
+        # Requirement 1: User has statutory health insurance
+        sh:path ff:hasInsurance ;
+        sh:minCount 1 ;
+        sh:hasValue ff:StatutoryHealthInsurance ;
+        sh:message "The user must be legally health insured."@en ;
+    ],
+    [
+        # Requirement 2: Medical accompaniment is full-day
+        sh:path ff:hasEvent ;
+        sh:minCount 1 ;
+        sh:class ff:MedicalAccompaniment ;
+        sh:property [
+            sh:path ff:fullDayAccompaniment ;
+            sh:hasValue true ;
+        ] ;
+        sh:message "The medical accompaniment must be full-day (≥8 hours including travel)."@en ;
+    ],
+    [
+        # Requirement 4: User has loss of earnings
+        sh:path ff:hasEarningCapacity ;
+        sh:minCount 1 ;
+        sh:property [
+            sh:path ff:triggeringEvent ;
+            sh:minCount 1 ;
+            sh:property [
+                sh:path ff:causesLossOfEarnings ;
+                sh:hasValue true ;
+            ] ;
+        ] ;
+        sh:message "The earning capacity must be triggered by an event causing loss of earnings."@en ;
+    ] .

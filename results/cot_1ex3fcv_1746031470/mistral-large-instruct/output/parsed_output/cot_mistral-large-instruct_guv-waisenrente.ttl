@@ -1,0 +1,95 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# METADATA
+
+ff:B100019_LB_582435 a ff:SocialBenefit ;
+    rdfs:label "Gesetzliche Unfallversicherung Waisenrente"@de, "Statutory accident insurance orphan's pension"@en .
+
+# CONSTRAINTS
+
+ff:WaisenrenteShape a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    sh:or (
+        [
+            sh:path ff:naturalChildTo ;
+            sh:qualifiedValueShape ff:DeceasedParentShape ;
+            sh:qualifiedMinCount 1
+        ]
+        [
+            sh:path ff:stepChildTo ;
+            sh:qualifiedValueShape ff:DeceasedParentShape ;
+            sh:qualifiedMinCount 1
+        ]
+        [
+            sh:path ff:fosterChildTo ;
+            sh:qualifiedValueShape ff:DeceasedParentShape ;
+            sh:qualifiedMinCount 1
+        ]
+        [
+            sh:path ff:hasPrimaryCareTaker ;
+            sh:qualifiedValueShape ff:DeceasedParentShape ;
+            sh:qualifiedMinCount 1
+        ]
+    ) ;
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:lessThanOrEquals 27 ;
+        sh:greaterThanOrEquals 18 ;
+        sh:message "Does not meet age requirement '18 to under 27 years old'"@en
+    ] ;
+    sh:or (
+        [
+            sh:path ff:participates ;
+            sh:qualifiedValueShape ff:SchoolOrVocationalTrainingShape ;
+            sh:qualifiedMinCount 1
+        ]
+        [
+            sh:path ff:hasDisabilityType ;
+            sh:qualifiedValueShape ff:DisabilityShape ;
+            sh:qualifiedMinCount 1
+        ]
+        [
+            sh:path ff:isInTransitionalPeriod ;
+            sh:qualifiedValueShape ff:TransitionalPeriodShape ;
+            sh:qualifiedMinCount 1
+        ]
+    ) .
+
+ff:DeceasedParentShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:causeOfDeath ;
+        sh:minCount 1 ;
+        sh:node ff:InsuranceEventShape ;
+        sh:message "Does not meet requirement 'Death was caused by an insurance event'"@en
+    ] .
+
+ff:InsuranceEventShape a sh:NodeShape ;
+    sh:or (
+        [sh:class ff:WorkAccident]
+        [sh:class ff:CommutingAccident]
+        [sh:class ff:OccupationalDisease]
+    ) .
+
+ff:SchoolOrVocationalTrainingShape a sh:NodeShape ;
+    sh:or (
+        [sh:class ff:School]
+        [sh:class ff:VocationalTraining]
+    ) .
+
+ff:DisabilityShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:reducesWorkProspectsPermanently ;
+        sh:hasValue true ;
+        sh:message "Does not meet requirement 'Person has a disability that reduces work prospects permanently'"@en
+    ] .
+
+ff:TransitionalPeriodShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:isInTransitionalPeriod ;
+        sh:hasValue true ;
+        sh:message "Does not meet requirement 'Person is in a transitional period'"@en
+    ] .

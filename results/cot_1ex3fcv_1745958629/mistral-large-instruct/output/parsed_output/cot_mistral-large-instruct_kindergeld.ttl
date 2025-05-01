@@ -1,0 +1,67 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# METADATA
+
+ff:B100019_LB_576986 a ff:SocialBenefit ;
+    rdfs:label "Kindergeld"@de, "Child allowance"@en .
+
+# CONSTRAINTS
+
+ff:KindergeldShape a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    # User is unlimitedly tax liable in Germany or is taxed as such
+    sh:property [
+        sh:path ff:incomeTaxLiability ;
+        sh:hasValue ff:UnlimitedTaxLiability ;
+        sh:message "The user must be unlimitedly tax liable in Germany or be taxed as such."@en
+    ] ;
+    # User is an EU, EWR, or Swiss citizen
+    sh:property [
+        sh:path ff:isNationalOf ;
+        sh:class ff:EEAplusCH ;
+        sh:message "The user must be a citizen of the EU, EWR, or Switzerland."@en
+    ] ;
+    # User has a valid residence permit or other title allowing work, or is a recognized refugee or asylum seeker
+    sh:or (
+        [
+            sh:property [
+                sh:path ff:hasResidencePermit ;
+                sh:node [
+                    sh:property [
+                        sh:path ff:entitlesToEmployment ;
+                        sh:hasValue "true"^^xsd:boolean ;
+                        sh:message "The residence permit must allow employment."@en
+                    ]
+                ] ;
+                sh:message "The user must have a valid residence permit allowing employment."@en
+            ]
+        ]
+        [
+            sh:property [
+                sh:path ff:recognizedRefugee ;
+                sh:hasValue "true"^^xsd:boolean ;
+                sh:message "The user must be a recognized refugee."@en
+            ]
+        ]
+        [
+            sh:property [
+                sh:path ff:entitledToAsylum ;
+                sh:hasValue "true"^^xsd:boolean ;
+                sh:message "The user must be entitled to asylum."@en
+            ]
+        ]
+    ) ;
+    # User's child must have residence in Germany, EU, EWR, or Switzerland
+    sh:property [
+        sh:path ff:hasChild ;
+        sh:node [
+            sh:property [
+                sh:path ff:countryOfResidence ;
+                sh:class ff:EEAplusCH ;
+                sh:message "The user's child must have residence in Germany, EU, EWR, or Switzerland."@en
+            ]
+        ]
+    ] .

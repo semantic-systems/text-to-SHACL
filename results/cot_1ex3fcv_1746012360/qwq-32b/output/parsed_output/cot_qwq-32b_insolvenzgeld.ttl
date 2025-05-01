@@ -1,0 +1,105 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+
+ff:B100019_LB_576848 a ff:SocialBenefit ;
+    rdfs:label "Insolvenzgeld"@de, "Insolvency allowance"@en .
+
+# CONSTRAINTS
+
+ff:InsolvenzgeldShape a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_576848 ;
+    sh:targetNode ff:User ;
+    # An insolvency event occurred at the employer
+    sh:property [
+        sh:path ( ff:hasEmployment ff:employer ) ; # Employer node
+        sh:minCount 1 ;
+        sh:or (
+            ff:InsolvencyEventShapeA
+            ff:InsolvencyEventShapeB
+            ff:InsolvencyEventShapeC
+        ) ;
+        sh:message "Does not meet requirement 'An insolvency event occurred at the user's employer'."@en ;
+    ] ;
+    # User wage was cut within 3 months before the insolvency event
+    sh:property ff:WageCutShape ;
+    # Employment location criteria (Germany or abroad with German social security)
+    sh:or (
+        ff:CountryShapeA
+        ff:CountryShapeB
+    ) ;
+    # User must be legally recognized as employee
+    sh:property [
+        sh:path ff:hasEmploymentStatus ;
+        sh:minCount 1 ;
+        sh:in (ff:Employee) ;
+        sh:message "Does not meet requirement 'User is an employee by law'."@en ;
+    ] .
+
+# Insolvency proceeding opened against employer
+ff:InsolvencyEventShapeA a sh:NodeShape ;
+    sh:property [
+        sh:path ff:hasEvent ; 
+        sh:class ff:InsolvencyProceeding ; # Must be this event type
+    ] ;
+    sh:property [
+        sh:path ( ff:hasEvent ff:isOpen ) ; 
+        sh:minCount 1 ;
+        sh:in (true) ; # Proceeding must still be open
+    ] .
+
+# Insolvency application rejected for lack of assets
+ff:InsolvencyEventShapeB a sh:NodeShape ;
+    sh:property [
+        sh:path ff:hasEvent ; 
+        sh:class ff:InsolvencyApplication ; 
+    ] ;
+    sh:property [
+        sh:path ( ff:hasEvent ff:rejectedForLackOfAssets ) ; 
+        sh:minCount 1 ;
+        sh:in (true) ; 
+    ] .
+
+# Business discontinued due to obvious lack of assets
+ff:InsolvencyEventShapeC a sh:NodeShape ;
+    sh:property [
+        sh:path ff:hasEvent ; 
+        sh:class ff:DiscontinuationOfBusiness ; 
+    ] ;
+    sh:property [
+        sh:path ff:obviousLackOfAssets ; 
+        sh:minCount 1 ;
+        sh:in (true) ; 
+    ] .
+
+# Wage cut occurred within 3 months before insolvency event
+ff:WageCutShape a sh:PropertyShape ;
+    sh:path ( ff:hasEmployment ff:employer ff:hasEvent ff:wageCutOffsetMonths ) ;
+    sh:minInclusive -3 ;
+    sh:maxInclusive -1 ;
+    sh:minCount 1 ;
+    sh:message "Does not meet requirement 'Wage cut occurred within 3 months before insolvency event'."@en .
+
+# Employed within Germany
+ff:CountryShapeA a sh:NodeShape ;
+    sh:property [
+        sh:path ( ff:hasEmployment ff:countryOfEmployment ) ; 
+        sh:minCount 1 ;
+        sh:in (ff:Germany) ; 
+    ] .
+
+# Employed abroad with German social security
+ff:CountryShapeB a sh:NodeShape ;
+    sh:property [
+        sh:path ( ff:hasEmployment ff:countryOfEmployment ) ; 
+        sh:minCount 1 ;
+        sh:not [ sh:in (ff:Germany) ] ; # Must NOT be Germany
+    ] ;
+    sh:property [
+        sh:path ff:socialSecurityCountry ; 
+        sh:minCount 1 ;
+        sh:in (ff:Germany) ; 
+    ] .

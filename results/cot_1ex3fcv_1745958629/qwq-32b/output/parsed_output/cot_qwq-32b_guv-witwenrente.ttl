@@ -1,0 +1,51 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+ff:B100019_LB_582441 a ff:SocialBenefit ;
+    rdfs:label "Gesetzliche Unfallversicherung Witwen- und Witwerrente"@de, "Statutory accident insurance widow's pension"@en .
+
+# CONSTRAINTS
+ff:GUVWitwenrenteShape a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    sh:or (
+        [ 
+            sh:path ff:deceasedCivilPartner ;
+            sh:qualifiedValueShape ff:DeceasedPartnerShape ;
+            sh:qualifiedMinCount 1
+        ]
+        [ 
+            sh:path ff:deceasedSpouse ;
+            sh:qualifiedValueShape ff:DeceasedPartnerShape ;
+            sh:qualifiedMinCount 1
+        ]
+    ) .
+
+ff:DeceasedPartnerShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:hasInsurance ;
+        sh:minCount 1 ;
+        sh:hasValue ff:StatutoryAccidentInsurance ;
+        sh:message "The deceased must have statutory accident insurance"@en
+    ] ;
+    sh:property [
+        sh:path ff:causeOfDeath ;
+        sh:minCount 1 ;
+        sh:node ff:InsuranceEventShape ;
+        sh:message "Death not caused by valid insurance event or legal union not established before the event"@en
+    ] .
+
+ff:InsuranceEventShape a sh:NodeShape ;
+    sh:or (
+        [ sh:class ff:WorkAccident ]
+        [ sh:class ff:CommutingAccident ]
+        [ sh:class ff:OccupationalDisease ]
+    ) ;
+    sh:property [
+        sh:path ff:legalUnionBeforeEvent ;
+        sh:minCount 1 ;
+        sh:in ( ff:User ) ;
+        sh:message "No legal union before the insurance event"@en
+    ] .

@@ -1,0 +1,134 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+
+ff:B100019_LB_582435 a ff:SocialBenefit ;
+    rdfs:label "Gesetzliche Unfallversicherung Waisenrente"@de, "Statutory accident insurance orphan's pension"@en .
+
+# CONSTRAINTS
+
+ff:GUWWaisenrenteShape a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_582435 ;
+    sh:targetNode ff:User ;
+    sh:or (
+        [ 
+            sh:path ff:naturalChildTo ;
+            sh:qualifiedValueShape ff:DeceasedParentShape ;
+            sh:qualifiedMinCount 1
+        ]
+        [ 
+            sh:path ff:stepChildTo ;
+            sh:qualifiedValueShape ff:DeceasedParentShape ;
+            sh:qualifiedMinCount 1
+        ]
+        [ 
+            sh:path ff:immediateCircleMember ;
+            sh:qualifiedValueShape ff:DeceasedRelativeShape ;
+            sh:qualifiedMinCount 1
+        ]
+    ) .
+
+ff:DeceasedParentShape a sh:NodeShape ;
+     # A person has died due to an insurance event
+     sh:property [
+        sh:path ff:causeOfDeath ;
+        sh:minCount 1 ;
+        sh:node ff:InsuranceEventShape ;
+        sh:message "Does not meet requirement 'Person died due to an insurance event'"@en
+    ] ;
+    sh:property [
+        sh:path ff:hasInsurance ;
+        sh:minCount 1 ;
+        sh:hasValue ff:StatutoryAccidentInsurance ;
+        sh:message "Does not meet requirement 'Deceased person has statutory accident insurance'"@en
+    ] ;
+    sh:property [
+        sh:path ff:sameHouseholdAs ;
+        sh:minCount 1 ;
+        sh:in (ff:User) ;
+        sh:message "Does not meet requirement 'User lived in the household of the deceased person'"@en
+    ] .
+
+ff:DeceasedRelativeShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:hasPrimaryCareTaker ;
+        sh:minCount 1 ;
+        sh:in (ff:User) ;
+        sh:message "Does not meet requirement 'Deceased person was primarily responsible for the user's livelihood'"@en
+    ] ;
+    sh:property [
+        sh:path ff:causeOfDeath ;
+        sh:minCount 1 ;
+        sh:node ff:InsuranceEventShape ;
+        sh:message "Does not meet requirement 'Person died due to an insurance event'"@en
+    ] ;
+    sh:property [
+        sh:path ff:hasInsurance ;
+        sh:minCount 1 ;
+        sh:hasValue ff:StatutoryAccidentInsurance ;
+        sh:message "Does not meet requirement 'Deceased person has statutory accident insurance'"@en
+    ] ;
+    sh:property [
+        sh:path ff:sameHouseholdAs ;
+        sh:minCount 1 ;
+        sh:in (ff:User) ;
+        sh:message "Does not meet requirement 'User lived in the household of the deceased person'"@en
+    ] .
+
+ff:InsuranceEventShape a sh:NodeShape ;
+    # Person died due to an insurance event
+    sh:or (
+            [sh:class ff:WorkAccident]
+            [sh:class ff:CommutingAccident]
+            [sh:class ff:OccupationalDisease]
+     ) ;
+    sh:property [
+        sh:path ff:resultsInTreatment ;
+        sh:minCount 1 ;
+        sh:message "Does not meet requirement 'Person died due to an insurance event'"@en
+    ] .
+
+ff:AgeRestrictionShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:minInclusive 18 ;
+        sh:maxExclusive 27 ;
+        sh:message "Does not meet requirement 'User is between 18 and under 27 years old'"@en
+    ] ;
+    sh:or (
+        [ 
+            sh:path ff:participates ;
+            sh:node ff:TrainingShape ;
+            sh:qualifiedMinCount 1 ;
+            sh:message "Does not meet requirement 'User is in school or vocational training'"@en
+        ]
+        [ 
+            sh:path ff:hasDisabilityType ;
+            sh:node ff:DisabilityShape ;
+            sh:qualifiedMinCount 1 ;
+            sh:message "Does not meet requirement 'User is unable to support themselves due to a physical, mental or emotional disability'"@en
+        ]
+        [ 
+            sh:path ff:isInTransitionalPeriod ;
+            sh:hasValue true ;
+            sh:message "Does not meet requirement 'User is in a transitional period of up to 4 calendar months'"@en
+        ]
+    ) .
+
+ff:TrainingShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:recognizedByLaw ;
+        sh:minCount 1 ;
+        sh:hasValue ff:VocationalTrainingAct ;
+        sh:message "Does not meet requirement 'User is in school or vocational training'"@en
+    ] .
+
+ff:DisabilityShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:reducesWorkProspectsPermanently ;
+        sh:hasValue true ;
+        sh:message "Does not meet requirement 'User is unable to support themselves due to a physical, mental or emotional disability'"@en
+    ] .

@@ -1,0 +1,68 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+
+ff:B100019_LB_582404 a ff:SocialBenefit ;
+    rdfs:label "Gesetzliche Unfallversicherung Rente"@de, "Statutory accident insurance pension"@en ;
+    ff:recognizedByLaw ff:MaritimeLabourAct, ff:CraftsCode, ff:NursingProfessionsAct .
+
+# CONSTRAINTS
+
+ff:StatutoryAccidentInsurancePension a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_582404 ;
+    sh:targetNode ff:User ;
+    sh:property [
+        sh:path ff:hasInsurance ;
+        sh:minCount 1 ;
+        sh:hasValue ff:StatutoryAccidentInsurance ;
+        sh:message "Does not meet requirement 'User has statutory accident insurance.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:minCount 1 ;
+        sh:message "Does not meet requirement 'User experienced an insurance event.'"@en ;
+        sh:node [
+            sh:property [
+                sh:path ff:causesLossOfEarnings ;
+                sh:minCount 1 ;
+                sh:hasValue true ;
+                sh:message "Does the event cause loss of earnings?"@en ;
+            ] ;
+            sh:property [
+                sh:path ff:resultsInTreatment ;
+                sh:minCount 1 ;
+                sh:message "Does the event result in medical treatment?"@en ;
+            ] ;
+        ] ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEarningCapacity ;
+        sh:minCount 1 ;
+        sh:message "Does the user have information about their earning capacity?"@en ;
+        sh:node [
+            sh:property [
+                sh:path ff:isPermanent ;
+                sh:minCount 1 ;
+                sh:hasValue true ;
+                sh:message "Is the reduction in earning capacity permanent?"@en ;
+            ] ;
+            sh:property [
+                sh:path ff:reductionInPercent ;
+                sh:minCount 1 ;
+                sh:node [
+                    sh:minInclusive 20.0 ;
+                    sh:message "Is the earning capacity reduced by at least 20 percent?"@en ;
+                ] ;
+            ] ;
+            sh:property [
+                sh:path ff:reductionDurationInWeeks ;
+                sh:minCount 1 ;
+                sh:node [
+                    sh:minInclusive 26 ;
+                    sh:message "Has the earning capacity been reduced for more than 26 weeks?"@en ;
+                ] ;
+            ] ;
+        ] ;
+    ] .

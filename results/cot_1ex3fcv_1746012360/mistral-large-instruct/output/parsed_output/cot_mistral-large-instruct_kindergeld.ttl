@@ -1,0 +1,60 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# METADATA
+
+ff:B100019_LB_576986 a ff:SocialBenefit ;
+    rdfs:label "Kindergeld"@de, "Child allowance"@en .
+
+# CONSTRAINTS
+
+ff:KindergeldShape a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    sh:property [
+        sh:path ff:incomeTaxLiability ;
+        sh:hasValue ff:UnlimitedTaxLiability ;
+        sh:message "User must be subject to unlimited income tax liability in Germany."@en
+    ] ;
+    sh:or (
+        [
+            sh:property [
+                sh:path ff:isNationalOf ;
+                sh:hasValue ff:EEAplusCH ;
+                sh:message "User must be a national of the EU, EWR, or Switzerland."@en
+            ] ;
+            sh:property [
+                sh:path ff:hasResidencePermit ;
+                sh:qualifiedMinCount 1 ;
+                sh:qualifiedValueShape [
+                    sh:property [
+                        sh:path ff:entitlesToEmployment ;
+                        sh:hasValue true ;
+                        sh:message "User must have a valid residence permit that allows employment."@en
+                    ]
+                ] ;
+                sh:message "User must have a valid residence permit or other residence title that allows employment."@en
+            ]
+        ]
+        [
+            sh:property [
+                sh:path ff:recognizedRefugee ;
+                sh:hasValue true ;
+                sh:message "User must be a legally recognized refugee or asylum seeker."@en
+            ]
+        ]
+    ) ;
+    sh:property [
+        sh:path ff:hasChild ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedValueShape ff:ChildShape ;
+        sh:message "User must have at least one child that meets the requirements."@en
+    ] .
+
+ff:ChildShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:countryOfResidence ;
+        sh:in (ff:Germany ff:EEAplusCH) ;
+        sh:message "Child must have a residence or habitual residence in Germany or another EU/EWR state or Switzerland."@en
+    ] .

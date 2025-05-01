@@ -1,0 +1,61 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# METADATA
+
+ff:B100019_LB_102799515 a ff:SocialBenefit ;
+    rdfs:label "Kinderverletztengeld"@de, "Children's Accident Benefit"@en .
+
+# CONSTRAINTS
+
+ff:KinderverletztengeldShape a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    sh:property [
+        sh:path ff:hasChild ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedValueShape ff:ChildShape ;
+        sh:message "Does not meet requirement 'User has a child that fulfills the criteria.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasIncome ;
+        sh:minCount 1 ;
+        sh:message "Does not meet requirement 'User had an income before caring for the child.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:sameHouseholdAs ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedValueShape ff:NoOtherCaregiverShape ;
+        sh:message "Does not meet requirement 'No other person in the household can care for the child.'"@en ;
+    ] .
+
+ff:ChildShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:minCount 1 ;
+        sh:maxExclusive 12 ;
+        sh:message "Does not meet requirement 'Child is under 12 years old.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:needsCare ;
+        sh:minCount 1 ;
+        sh:hasValue ff:CareNeed ;
+        sh:message "Does not meet requirement 'Child needs care due to an accident.'"@en ;
+    ] .
+
+ff:NoOtherCaregiverShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:sameHouseholdAs ;
+        sh:minCount 1 ;
+        sh:qualifiedMinCount 0 ;
+        sh:qualifiedValueShape ff:CaregiverShape ;
+        sh:message "Does not meet requirement 'No other person in the household can care for the child.'"@en ;
+    ] .
+
+ff:CaregiverShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:canSupportThemselvesBecause ;
+        sh:minCount 0 ;
+        sh:message "Does not meet requirement 'No other person in the household can care for the child.'"@en ;
+    ] .

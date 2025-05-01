@@ -1,0 +1,49 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# METADATA
+
+ff:B100019_LB_103817036 a ff:SocialBenefit ;
+    rdfs:label "Krankengeld für Begleitperson bei stationärer Behandlung von Menschen mit Behinderung"@de, "Sickness benefit for accompanying persons in inpatient treatment of persons with disabilities"@en .
+
+# CONSTRAINTS
+
+ff:KrankengeldShape a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    sh:property [
+        sh:path ff:hasInsurance ;
+        sh:hasValue ff:StatutoryHealthInsurance ;
+        sh:message "User must have statutory health insurance."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:immediateCircleMember ;
+        sh:minCount 1 ;
+        sh:message "User must be a close relative or part of the immediate circle."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasDisability ;
+        sh:hasValue ff:Disability ;
+        sh:message "The accompanied person must have a disability."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:inPatientCoAdmission ;
+        sh:hasValue "true"^^xsd:boolean ;
+        sh:message "Inpatient admission as an accompanying person must be medically necessary."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:fullDayAccompaniment ;
+        sh:hasValue "true"^^xsd:boolean ;
+        sh:message "The accompaniment must be full-day (at least 8 hours)."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:causesLossOfEarnings ;
+        sh:hasValue "true"^^xsd:boolean ;
+        sh:message "User must have a loss of earnings."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:hasValue ff:IntegrationAssistance ;
+        sh:message "The accompanied person must receive integration assistance."@en ;
+    ] .

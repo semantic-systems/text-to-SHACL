@@ -1,0 +1,40 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+ff:B100019_LB_582429 a ff:SocialBenefit ;
+    rdfs:label "Gesetzliche Unfallversicherung Verletztengeld"@de, "Statutory accident insurance injury allowance"@en .
+
+# CONSTRAINTS
+ff:GUVVerletztengeldShape a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    # Requirement 1: User has statutory accident insurance
+    sh:property [
+        sh:path ff:hasInsurance ;
+        sh:minCount 1 ;
+        sh:hasValue ff:StatutoryAccidentInsurance ;
+        sh:message "Must have statutory accident insurance"@en
+    ] ;
+    # Requirement 2: User is unfit for work due to qualifying event
+    sh:property [
+        sh:path ff:hasEarningCapacity ;
+        sh:minCount 1 ;
+        sh:in ( ff:UnfitForWork ) ;
+        sh:node ff:UnfitnessCauseShape ;
+        sh:message "Must be unfit for work due to qualifying event"@en
+    ] .
+
+ff:UnfitnessCauseShape a sh:NodeShape ;
+    # The unfitness must be caused by an approved event type
+    sh:property [
+        sh:path ff:triggeringEvent ;
+        sh:minCount 1 ;
+        sh:or (
+            [ sh:class ff:WorkAccident ] 
+            [ sh:class ff:CommutingAccident ] 
+            [ sh:class ff:OccupationalDisease ] 
+        ) ;
+        sh:message "Unfitness must be caused by work/commuting accident or occupational disease"@en
+    ] .

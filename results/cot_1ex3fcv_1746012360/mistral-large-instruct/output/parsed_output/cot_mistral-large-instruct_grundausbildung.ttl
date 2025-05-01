@@ -1,0 +1,61 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+
+ff:B100019_LB_102717659 a ff:SocialBenefit ;
+    rdfs:label "Grundausbildung für Menschen mit Seh- oder Hörbehinderung"@de, "Basic training for people with visual or hearing impairments"@en .
+
+# CONSTRAINTS
+
+ff:GrundausbildungShape a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_102717659 ;
+    sh:targetNode ff:User ;
+    # User has OR is at risk of a disability
+	sh:or (
+		[
+			sh:path ff:hasDisabilityType ;
+			sh:qualifiedMinCount 1 ;
+            sh:qualifiedValueShape ff:DisabilityShape ;
+		]
+		[
+			sh:path ff:atRiskOfDisabilityType ;
+			sh:qualifiedMinCount 1 ;
+            sh:qualifiedValueShape ff:DisabilityShape ;
+		]
+	) ;
+    # User's rehabilitation provider is the Federal Employment Agency
+    sh:property [
+        sh:path ff:hasRehabilitationProvider ;
+        sh:minCount 1 ;
+        sh:in (ff:FederalEmploymentAgency) ;
+        sh:message "Does not meet requirement 'User's rehabilitation provider is the Federal Employment Agency'"@en
+    ] .
+
+ff:DisabilityShape a sh:NodeShape ;
+    # The disability is a visual OR hearing impairement
+    sh:property [
+        sh:path rdf:type ;
+        sh:minCount 1 ;
+        sh:in ( ff:VisualImpairment ff:HearingImpairment ) ;
+    ] ;
+    # The disability is severe
+    sh:property [
+        sh:path ff:severeDisability ;
+        sh:minCount 1 ;
+        sh:in (true) ;
+    ] ;
+    # The disability reduces the user's prospect of participating in working life permanently
+    sh:property [
+        sh:path ff:reducesWorkProspectsPermanently ;
+        sh:minCount 1 ;
+        sh:in (true) ;
+    ] ;
+    # Because of their disability, the user needs support with their integration into the workforce
+    sh:property [
+        sh:path [ sh:inversePath ff:workforceIntegrationProblemBecause ] ;
+        sh:minCount 1 ;
+        sh:in ( ff:User ) ;
+    ] .

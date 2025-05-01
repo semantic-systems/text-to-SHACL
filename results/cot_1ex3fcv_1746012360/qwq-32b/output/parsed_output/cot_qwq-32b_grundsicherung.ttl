@@ -1,0 +1,76 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# Define the social benefit
+ff:L100040_LB_8664880 a ff:SocialBenefit ;
+    rdfs:label "Grundsicherung im Alter und bei Erwerbsminderung"@de, "Basic Security in Old Age and Reduced Earning Capacity"@en .
+
+# Main validation shape for eligibility
+ff:L100040_LB_8664880Shape a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    
+    # Core requirements
+    sh:property [
+        sh:path ff:canCoverPersonalBasicNeeds ;
+        sh:hasValue false ;
+        sh:message "Cannot meet basic needs requirement: personalBasicNeeds must be false."@en ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasNoPriorityClaimsOver ;
+        sh:minCount 1 ;
+        sh:hasValue ff:L100040_LB_8664860 ; # Benefit itself as target
+        sh:message "Must not have priority claims over this benefit."@en ;
+    ] ;
+
+    # Alternative eligibility conditions
+    sh:or (
+        # Condition 1: Age requirement
+        [
+            sh:property [
+                sh:path ff:aboveSGBXII41AgeLimit ;
+                sh:hasValue true ;
+            ]
+        ]
+        
+        # Condition 2: Permanent work disability
+        [
+            sh:property [
+                sh:path ff:hasAge ;
+                sh:minInclusive 18 ; # 18+ years
+            ] ;
+            
+            sh:property [
+                sh:path ff:hasEarningCapacity ;
+                sh:minCount 1 ;
+                sh:hasValue ff:UnfitForWork ; # Must be this specific earning capacity type
+                sh:property [
+                    sh:path ff:isPermanent ;
+                    sh:hasValue true ; # Must be permanent
+                ]
+            ]
+        ]
+        
+        # Condition 3: Training participation
+        [
+            sh:property [
+                sh:path ff:hasAge ;
+                sh:minInclusive 18 ; # 18+ years
+            ] ;
+            
+            sh:property [
+                sh:path ff:participates ;
+                sh:minCount 1 ;
+                sh:or (
+                    [ sh:class ff:EntryProcedureAndVocationalTrainingArea ] # Entry procedure training
+                    [ sh:property [
+                        sh:path ff:commissionedByEmploymentAgency ;
+                        sh:hasValue true ; # Or commissioned training
+                    ] ]
+                )
+            ]
+        ]
+    ) ;
+    
+    sh:message "Must meet at least one of the age, disability, or training participation conditions."@en .

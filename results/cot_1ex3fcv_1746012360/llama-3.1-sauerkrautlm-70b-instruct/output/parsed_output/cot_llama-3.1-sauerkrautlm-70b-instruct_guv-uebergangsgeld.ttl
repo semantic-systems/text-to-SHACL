@@ -1,0 +1,48 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+
+ff:B100019_LB_582422 a ff:SocialBenefit ;
+    rdfs:label "Gesetzliche Unfallversicherung Übergangsgeld Berufliche Reha"@de, "Statutory accident insurance transitional allowance occupational rehabilitation"@en .
+
+# CONSTRAINTS
+
+ff:StatutoryAccidentInsuranceTransitionalAllowanceShape a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_582422 ;
+    sh:targetNode ff:User ;
+    # User is involved in a work accident, commuting accident, or has a recognized occupational disease
+    sh:or (
+        ff:WorkOrCommutingAccidentShape 
+        ff:OccupationalDiseaseShape 
+    ) ;
+    # User participates in occupational rehabilitation
+    sh:property [
+        sh:path ( ff:participates ff:resultsInTreatment ) ;
+        sh:minCount 1 ;
+        sh:class ff:OccupationalRehabilitation ;
+        sh:message "Does not meet requirement 'User participates in occupational rehabilitation'."@en ;
+    ] .
+
+# User is involved in a work accident
+ff:WorkOrCommutingAccidentShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:class ff:WorkAccident ;
+    ] .
+
+# User is involved in a commuting accident
+ff:CommutingAccidentShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:class ff:CommutingAccident ;
+    ] .
+
+# User has a recognized occupational disease
+ff:OccupationalDiseaseShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:class ff:OccupationalDisease ;
+    ] .

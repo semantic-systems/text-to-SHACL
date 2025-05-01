@@ -1,0 +1,57 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+
+ff:L100040_LB_12280162 a ff:SocialBenefit ;
+    rdfs:label "Bildung und Teilhabe"@de, "Education and participation"@en .
+
+# CONSTRAINTS
+
+ff:BildungUndTeilhabeShape a sh:NodeShape ;
+    ff:checksFundingRequirement ff:L100040_LB_12280162 ;
+    sh:targetNode ff:User ;
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:or (
+            [ sh:hasValue ff:B100019_LB_106311931 ] # Bürgergeld (SGB II) - Citizen benefit
+            [ sh:hasValue ff:L100040_LB_8665924 ] # Wohngeld - Housing benefit
+            [ sh:hasValue ff:B100019_LB_581863 ] # Kinderzuschlag - Child supplement
+            [ sh:hasValue ff:AsylumSeekerBenefits ] # Asylbewerberleistungen (§§ 2 oder 3 AsylbLG) - Asylum seeker benefits
+            [ sh:hasValue ff:SocialAssistance ] # Sozialhilfe (SGB XII – Hilfe zum Lebensunterhalt, Grundsicherung) - Social assistance
+            [ 
+                sh:node ff:LowIncomeFamilyShape ;
+            ]
+        )
+    ] ;
+    # The service recipient is younger than 25 years
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:maxExclusive 25 ;
+    ] .
+
+ff:LowIncomeFamilyShape a sh:NodeShape ;
+    # Family gross income is low
+    sh:property [
+        sh:path ff:familyGrossIncome ;
+        sh:maxExclusive 1000 ; # This is a placeholder, the real threshold needs to be clarified or inferred
+    ] ;
+    # OR: The user cannot cover their personal basic needs
+    sh:or (
+        [ sh:property [
+            sh:path ff:canCoverPersonalBasicNeeds ;
+            sh:equals false ;
+        ] ]
+        [ 
+            sh:property [
+                sh:path ff:canCoverBasicNeedsOfBenefitUnit ;
+                sh:equals false ;
+            ] ;
+        ]
+    ) ;
+    # The service recipient is younger than 18 years for certain benefits
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:maxExclusive 18 ;
+    ] .

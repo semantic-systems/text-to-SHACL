@@ -1,0 +1,79 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# METADATA
+ff:B100019_LB_581863 a ff:SocialBenefit ;
+    rdfs:label "Kinderzuschlag"@de, "Child supplement"@en .
+
+# MAIN SHAPE FOR CHILD SUPPLEMENT ELIGIBILITY
+ff:KinderzuschlagShape a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    sh:property [
+        # User must have at least one eligible child
+        sh:path ff:receivesChildBenefitFor ;
+        sh:minCount 1 ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedValueShape ff:EligibleChildShape ;
+        sh:message "At least one child must meet all criteria."@en ;
+    ] ;
+    sh:or (
+        # Option A: Couple with sufficient income
+        [ sh:property [
+            sh:path ff:isSingleParent ;
+            sh:hasValue false ;
+        ] ;
+          sh:property [
+            sh:path (ff:hasIncome ff:familyGrossIncome) ;
+            sh:minInclusive 900 ;
+            sh:message "Family gross income must be at least 900 EUR/month."@en ;
+        ] ]
+        # Option B: Single parent with sufficient income
+        [ sh:property [
+            sh:path ff:isSingleParent ;
+            sh:hasValue true ;
+        ] ;
+          sh:property [
+            sh:path (ff:hasIncome ff:personalGrossIncome) ;
+            sh:minInclusive 600 ;
+            sh:message "Personal gross income must be at least 600 EUR/month."@en ;
+        ] ]
+    ) ;
+    # Income offset must not reduce supplement to zero
+    sh:property [
+        sh:path (ff:hasIncome ff:reducesChildSupplementTo) ;
+        sh:minExclusive 0 ;
+        sh:message "Income reduction must not eliminate child supplement."@en ;
+    ] ;
+    # No considerable assets requirement
+    sh:property [
+        sh:path ff:hasConsiderableAssets ;
+        sh:hasValue false ;
+        sh:message "Considerable assets disqualify eligibility."@en ;
+    ] .
+
+# CHILD ELIGIBILITY CONSTRAINTS
+ff:EligibleChildShape a sh:NodeShape ;
+    sh:property [
+        # Child must be under 25 years old
+        sh:path ff:hasAge ;
+        sh:maxExclusive 25 ;
+    ] ;
+    sh:property [
+        # Child must not be married or in civil union
+        sh:path ff:hasMaritalStatus ;
+        sh:not [
+            sh:in (ff:Married ff:CivilUnion) ;
+        ] ;
+    ] ;
+    sh:property [
+        # Child must live in user's household
+        sh:path ff:sameHouseholdAs ;
+        sh:hasValue ff:User ;
+    ] ;
+    sh:property [
+        # Child must have no priority claims over child supplement
+        sh:path ff:hasNoPriorityClaimsOver ;
+        sh:minCount 1 ;
+        sh:hasValue ff:B100019_LB_581863 ;
+    ] .

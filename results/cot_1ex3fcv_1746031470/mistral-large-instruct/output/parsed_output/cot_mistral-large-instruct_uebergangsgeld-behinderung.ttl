@@ -1,0 +1,53 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+
+ff:B100019_LB_102716305 a ff:SocialBenefit ;
+    rdfs:label "Übergangsgeld für Menschen mit Behinderung"@de, "Transitional allowance for people with disabilities"@en .
+
+# CONSTRAINTS
+
+ff:TransitionalAllowanceForDisabled a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    sh:property [
+        sh:path ff:hasDisability ;
+        sh:minCount 1 ;
+        sh:message "Does not meet requirement 'User has a disability.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasRehabilitationProvider ;
+        sh:hasValue ff:FederalEmploymentAgency ;
+        sh:message "Does not meet requirement 'Federal Employment Agency is the rehabilitation provider.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:participates ;
+        sh:or (
+            [ sh:path ff:participates ; sh:hasValue ff:VocationalTraining ]
+            [ sh:path ff:participates ; sh:hasValue ff:EntryProcedureAndVocationalTrainingArea ]
+            [ sh:path ff:participates ; sh:hasValue ff:School ]
+        ) ;
+        sh:message "Does not meet requirement 'User participates in a recognized training program.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEmploymentStatus ;
+        sh:or (
+            [ sh:path ff:hasEmploymentStatus ; sh:hasValue ff:Unemployed ]
+            [ sh:path ff:hasEmploymentStatus ; sh:hasValue ff:RegisteredUnemployed ]
+        ) ;
+        sh:message "Does not meet requirement 'User is unemployed or registered unemployed.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:or (
+            [ sh:path ff:receivesBenefit ; sh:hasValue ff:B100019_LB_576842 ]
+            [ sh:path ff:receivesBenefit ; sh:hasValue ff:UnemploymentBenefitsSVG ]
+        ) ;
+        sh:message "Does not meet requirement 'User receives unemployment benefit or unemployment assistance under the Soldiers' Welfare Act.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:compulsoryInsuranceFor12In30 ;
+        sh:minCount 1 ;
+        sh:message "Does not meet requirement 'User has been subject to compulsory insurance for at least 12 months within the last 30 months.'"@en ;
+    ] .
