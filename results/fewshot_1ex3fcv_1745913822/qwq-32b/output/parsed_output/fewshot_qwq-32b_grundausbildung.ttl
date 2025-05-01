@@ -1,0 +1,70 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+ff:B100019_LB_102717659 a ff:SocialBenefit ;
+    rdfs:label "Grundausbildung für Menschen mit Seh- oder Hörbehinderung"@de, "Basic training for people with visual or hearing impairments"@en .
+
+# CONSTRAINTS
+ff:GrundausbildungShape a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    
+    # Requirement 1: Severe visual/hearing impairment or at risk
+    sh:or (
+        [
+            sh:path ff:hasDisabilityType ;
+            sh:qualifiedMinCount 1 ;
+            sh:qualifiedValueShape ff:DisabilityShape ;
+        ]
+        [
+            sh:path ff:atRiskOfDisabilityType ;
+            sh:qualifiedMinCount 1 ;
+            sh:qualifiedValueShape ff:DisabilityShape ;
+        ]
+    ) ;
+    
+    # Requirement 2: Rehabilitation provider is Federal Employment Agency
+    sh:property [
+        sh:path ff:hasRehabilitationProvider ;
+        sh:minCount 1 ;
+        sh:in (ff:FederalEmploymentAgency) ;
+        sh:message "Rehabilitation provider must be Federal Employment Agency"@en ;
+    ] ;
+    
+    # Requirement 4: Available for workforce integration
+    sh:property [
+        sh:path ff:availableForPlacement ;
+        sh:minCount 1 ;
+        sh:hasValue true ;
+        sh:message "Must be willing and able to participate in workforce integration"@en ;
+    ] .
+
+# Helper shape for disability constraints
+ff:DisabilityShape a sh:NodeShape ;
+    # Must be visual or hearing impairment
+    sh:property [
+        sh:path rdf:type ;
+        sh:minCount 1 ;
+        sh:in (ff:VisualImpairment ff:HearingImpairment) ;
+    ] ;
+    
+    # Must be severe
+    sh:property [
+        sh:path ff:severeDisability ;
+        sh:hasValue true ;
+    ] ;
+    
+    # Permanently reduces work prospects
+    sh:property [
+        sh:path ff:reducesWorkProspectsPermanently ;
+        sh:hasValue true ;
+    ] ;
+    
+    # Must be the reason for needing workforce integration
+    sh:property [
+        sh:path [ sh:inversePath ff:workforceIntegrationProblemBecause ] ;
+        sh:minCount 1 ;
+        sh:in (ff:User) ;
+    ] .

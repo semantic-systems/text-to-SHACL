@@ -1,0 +1,66 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+ff:B100019_LB_582435 a ff:SocialBenefit ;
+    rdfs:label "Gesetzliche Unfallversicherung Waisenrente"@de, "Statutory accident insurance orphan's pension"@en .
+
+# MAIN SHAPE
+ff:WaisenrenteShape a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    #死者关系验证
+    sh:or (
+        # 生物学父母
+        [ sh:path ff:naturalChildTo ; sh:qualifiedMinCount 1 ; sh:qualifiedValueShape ff:DeceasedPersonShape ]
+        # 步行父母或养父母
+        [ sh:path ff:stepChildTo ; sh:qualifiedMinCount 1 ; sh:qualifiedValueShape ff:DeceasedPersonShape ]
+        [ sh:path ff:fosterChildTo ; sh:qualifiedMinCount 1 ; sh:qualifiedValueShape ff:DeceasedPersonShape ]
+        # 主要经济支持者
+        [ sh:path ff:hasPrimaryCareTaker ; sh:qualifiedMinCount 1 ; sh:qualifiedValueShape ff:DeceasedPersonShape ]
+    ) ;
+    # 年龄和条件验证
+    sh:or (
+        # 未满18岁自动符合条件
+        [ sh:path ff:hasAge ; sh:maxExclusive 18 ]
+        # 18-27岁且满足条件
+        [
+            sh:and (
+                # 年龄范围
+                [ sh:path ff:hasAge ; sh:minInclusive 18 ; sh:maxExclusive 27 ]
+                # 至少满足一个条件
+                [ sh:or (
+                    # 在校或职业教育
+                    [ sh:path ff:participates ; sh:minCount 1 ; sh:class [ sh:or ( ff:School ff:VocationalTraining ) ] ]
+                    # 残疾导致无法自立
+                    [
+                        sh:path ff:cannotSupportThemselvesBecause ;
+                        sh:minCount 1 ;
+                        sh:qualifiedValueShape [
+                            sh:property [
+                                sh:path ff:reducesWorkProspectsPermanently ;
+                                sh:hasValue true
+                            ]
+                        ]
+                    ]
+                    # 处于过渡期
+                    [ sh:path ff:isInTransitionalPeriod ; sh:hasValue true ]
+                ) ]
+            )
+        ]
+    ) .
+
+# 验证死者原因的形状
+ff:DeceasedPersonShape a sh:NodeShape ;
+    # 确保死亡原因属于法定保险事故
+    sh:property [
+        sh:path ff:causeOfDeath ;
+        sh:minCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:or (
+            [ sh:class ff:WorkAccident ]
+            [ sh:class ff:CommutingAccident ]
+            [ sh:class ff:OccupationalDisease ]
+        )
+    ] .

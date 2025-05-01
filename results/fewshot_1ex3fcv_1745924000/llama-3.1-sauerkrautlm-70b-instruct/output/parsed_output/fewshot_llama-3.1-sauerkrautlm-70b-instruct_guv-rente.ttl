@@ -1,0 +1,42 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+
+ff:B100019_LB_582404 a ff:SocialBenefit ;
+    rdfs:label "Gesetzliche Unfallversicherung Rente"@de, "Statutory accident insurance pension"@en .
+
+# CONSTRAINTS
+
+ff:StatutoryAccidentInsurancePension a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_582404 ;
+    sh:targetNode ff:User ;
+    sh:property [
+        sh:path ff:hasEarningCapacity ;
+        sh:minCount 1 ;
+        sh:nodeKind sh:BlankNode ;
+        sh:property [
+            sh:path ff:reductionInPercent ;
+            sh:minInclusive 20 ;
+            sh:message "Does not meet requirement 'Earning capacity reduction of at least 20 percent.'"@en ;
+        ] ;
+        sh:property [
+            sh:path ff:triggeringEvent ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNode ;
+            sh:property [
+                sh:path ff:resultsInTreatment ;
+                sh:minCount 1 ;
+                sh:nodeKind sh:BlankNode ;
+                sh:property [
+                    sh:path ff:isRenumerated ;
+                    sh:equals false ;
+                    sh:message "Does not meet requirement 'Treatment is not remunerated.'"@en ;
+                ] ;
+            ] ;
+            sh:message "Does not meet requirement 'Earning capacity reduction is due to a versatile accident.'"@en ;
+        ] ;
+        sh:message "Does not meet requirement 'Earning capacity is reduced.'"@en ;
+    ] ;
+    sh:message "Does not meet requirement 'User has reduced earning capacity.'"@en .

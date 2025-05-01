@@ -1,0 +1,56 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# METADATA
+
+ff:L100040_LB_8664880 a ff:SocialBenefit ;
+    rdfs:label "Grundsicherung im Alter und bei Erwerbsminderung"@de, "Basic security in old age and for people with reduced earning capacity"@en .
+
+# CONSTRAINTS
+
+ff:GrundsicherungImAlterUndBeiErwerbsminderung a sh:NodeShape ;
+    ff:checksFundingRequirement ff:L100040_LB_8664880 ;
+    sh:targetNode ff:User ;
+    sh:or (
+        [
+            sh:property [
+                sh:path ff:aboveSGBXII41AgeLimit ;
+                sh:minCount 1 ;
+                sh:hasValue true ;
+                sh:message "Does not meet requirement 'User has reached the age limit under § 41 SGB XII.'"@en ;
+            ] ;
+        ] [
+            sh:property [
+                sh:path ff:hasEarningCapacity ;
+                sh:minCount 1 ;
+                sh:hasValue ff:ReducedEarningCapacity ;
+                sh:message "Does not meet requirement 'User has reduced earning capacity.'"@en ;
+            ] ;
+            sh:property [
+                sh:path ff:hasDisabilityType ;
+                sh:minCount 1 ;
+                sh:message "Does not meet requirement 'User has a disability.'"@en ;
+            ] ;
+        ] [
+            sh:property [
+                sh:path ff:participates ;
+                sh:minCount 1 ;
+                sh:hasValue ff:EntryProcedureAndVocationalTrainingArea ;
+                sh:message "Does not meet requirement 'User participates in entry procedure and vocational training.'"@en ;
+            ] ;
+        ]
+    ) ;
+    sh:property [
+        sh:path ff:canCoverPersonalBasicNeeds ;
+        sh:minCount 1 ;
+        sh:hasValue false ;
+        sh:message "Does not meet requirement 'User cannot cover their personal basic needs.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasNoPriorityClaimsOver ;
+        sh:minCount 1 ;
+        sh:hasValue ff:L100040_LB_8664880 ;
+        sh:message "Does not meet requirement 'User has no priority claims over this benefit.'"@en ;
+    ] .

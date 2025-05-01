@@ -1,0 +1,136 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+
+ff:B100019_LB_102716305 a ff:SocialBenefit ;
+    rdfs:label "Übergangsgeld für Menschen mit Behinderung"@de, "Transitional allowance for people with disabilities"@en .
+
+# CONSTRAINTS
+
+ff:ÜbergangsgeldShape a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_102716305 ;
+    sh:targetNode ff:User ;
+    # User has a disability and needs support for their integration into the workforce
+    sh:property [
+        sh:path ff:hasDisabilityType ;
+        sh:minCount 1 ;
+        sh:message "Does not meet requirement 'User has a disability and needs support for their integration into the workforce'"@en
+    ] ;
+    sh:property [
+        sh:path [ sh:inversePath ff:workforceIntegrationProblemBecause ] ;
+        sh:minCount 1 ;
+        sh:in ( ff:User ) ;
+    ] ;
+    # User's rehabilitation provider is the Federal Employment Agency
+    sh:property [
+        sh:path ff:hasRehabilitationProvider ;
+        sh:minCount 1 ;
+        sh:in (ff:FederalEmploymentAgency) ;
+        sh:message "Does not meet requirement 'User's rehabilitation provider is the Federal Employment Agency'"@en
+    ] ;
+    # User participates in a specific type of training
+    sh:property [
+        sh:path ff:participates ;
+        sh:minCount 1 ;
+        sh:in (
+            [ rdf:type ff:VocationalTraining ]
+            [ rdf:type ff:EntryProcedureAndVocationalTrainingArea ]
+            [ rdf:type ff:School ; 
+              sh:property [
+                sh:path ff:recognizedByLaw ;
+                sh:minCount 1 ;
+                sh:in (ff:VocationalTrainingAct) ;
+              ]
+            ]
+            [ rdf:type ff:Training ; 
+              sh:property [
+                sh:path ff:subjectToContract ;
+                sh:minCount 1 ;
+                sh:in (ff:VocationalTrainingContract) ;
+              ]
+            ]
+        ) ;
+        sh:message "Does not meet requirement 'User participates in a specific type of training'"@en
+    ] ;
+    # One of the following conditions must be true for the last 3 years (Vorbeschäftigungszeit)
+    sh:or (
+        # User was insured for at least 12 months
+        [
+            sh:property [
+                sh:path ff:compulsoryInsuranceFor12In30 ;
+                sh:minCount 1 ;
+                sh:in (true) ;
+            ]
+        ]
+        # User is eligible for unemployment benefit under the SGB III and has applied for it
+        [
+            sh:property [
+                sh:path ff:receivesBenefit ;
+                sh:minCount 1 ;
+                sh:in (ff:B100019_LB_576842) ;
+            ]
+        ]
+        # User is entitled to unemployment assistance under the SVG
+        [
+            sh:property [
+                sh:path ff:receivesBenefit ;
+                sh:minCount 1 ;
+                sh:in (ff:UnemploymentBenefitsSVG) ;
+            ]
+        ]
+    ) ;
+    # Exception: User is a vocational returnee with a disability
+    sh:property [
+        sh:path ff:isVocationalReturnee ;
+        sh:minCount 0 ;
+        sh:maxCount 1 ;
+        sh:in (true) ;
+        sh:message "Is a vocational returnee with a disability, Vorbeschäftigungszeit can be ignored"@en
+    ] ;
+    # Exception: User has completed training in the last year
+    sh:property [
+        sh:path ff:participates ;
+        sh:minCount 0 ;
+        sh:maxCount 1 ;
+        sh:in (
+            [ rdf:type ff:School ; 
+              sh:property [
+                sh:path ff:recognizedByLaw ;
+                sh:minCount 1 ;
+                sh:in (ff:VocationalTrainingAct) ;
+              ] ;
+              sh:property [
+                sh:path ff:intendedFundingPeriod ;
+                sh:minCount 1 ;
+                sh:qualifiedValueShape ff:RecentTrainingShape ;
+              ]
+            ]
+        ) ;
+        sh:message "Has completed training in the last year, Vorbeschäftigungszeit can be ignored"@en
+    ] .
+
+ff:RecentTrainingShape a sh:NodeShape ;
+    # Training took place in the last year
+    sh:property [
+        sh:path ff:intendedFundingPeriod ;
+        sh:minCount 1 ;
+        sh:qualifiedValueShape ff:LastYearShape ;
+    ] ;
+    # Training is equivalent to vocational training in a recognized profession
+    sh:property [
+        sh:path ff:recognizedByLaw ;
+        sh:minCount 1 ;
+        sh:in (ff:VocationalTrainingAct) ;
+    ] .
+
+ff:LastYearShape a sh:NodeShape ;
+    # Duration of the training is within the last year
+    sh:property [
+        sh:path ff:monthsWithinLast3Years ;
+        sh:minCount 1 ;
+        sh:minInclusive 1 ;
+        sh:maxInclusive 12 ;
+    ] .

@@ -1,0 +1,102 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+
+ff:B100019_LB_102713860 a ff:SocialBenefit ;
+    rdfs:label "Einstiegsgeld"@de, "Entry allowance"@en .
+
+# CONSTRAINTS
+
+ff:EinstiegsgeldShape a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_102713860 ;
+    sh:targetNode ff:User ;
+    # User receives citizen benefit before starting the new job
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:minCount 1 ;
+        sh:hasValue ff:B100019_LB_102716305 ; # Bürgergeld
+        sh:message "Does not meet requirement 'User receives citizen benefit before starting the new job'"@en ;
+    ] ;
+    # User applies for the entry allowance before starting the new job
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:minCount 1 ;
+        sh:nodeKind sh:BlankNode ;
+        sh:property [
+            sh:path ff:hasDate ;
+            sh:maxCount 1 ;
+            sh:lessThan [
+                sh:path ff:hasEmployment ;
+                sh:nodeKind sh:BlankNode ;
+                sh:property [
+                    sh:path ff:hasDate ;
+                    sh:maxCount 1 ;
+                ] ;
+            ] ;
+            sh:message "Does not meet requirement 'User applies for the entry allowance before starting the new job'"@en ;
+        ] ;
+        sh:message "Does not meet requirement 'User applies for the entry allowance before starting the new job'"@en ;
+    ] ;
+    # The new employment or self-employment is suitable for the user to overcome their need for assistance in the long term
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:minCount 1 ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:property [
+            sh:path ff:resultsInTreatment ;
+            sh:minCount 0 ;
+            sh:maxCount 0 ;
+        ] ;
+        sh:property [
+            sh:path ff:isRenumerated ;
+            sh:minCount 0 ;
+            sh:maxCount 0 ;
+        ] ;
+        sh:message "Does not meet requirement 'The new employment or self-employment is suitable for the user to overcome their need for assistance in the long term'"@en ;
+    ] ;
+    # The entry allowance is required for the user's integration into the general labor market
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:minCount 1 ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:property [
+            sh:path ff:causesLossOfEarnings ;
+            sh:minCount 0 ;
+            sh:maxCount 0 ;
+        ] ;
+        sh:message "Does not meet requirement 'The entry allowance is required for the user's integration into the general labor market'"@en ;
+    ] ;
+    # The employment comprises at least 15 hours per week
+    sh:property [
+        sh:path ff:hasEmployment ;
+        sh:minCount 1 ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:property [
+            sh:path ff:workHoursPerWeek ;
+            sh:minInclusive 15 ;
+        ] ;
+        sh:message "Does not meet requirement 'The employment comprises at least 15 hours per week'"@en ;
+    ] ;
+    # Additional requirements for self-employment/start-ups
+    sh:or [
+        sh:message "Does not meet additional requirements for self-employment/start-ups"@en ;
+        [
+            sh:property [
+                sh:path ff:hasEvent ;
+                sh:minCount 1 ;
+                sh:nodeKind sh:BlankNodeOrIRI ;
+                sh:property [
+                    sh:path ff:ruleExemptionBecause ;
+                    sh:hasValue ff:PositiveAssessment ; # positive assessment by job center
+                ] ;
+            ] ;
+        ] [
+            sh:property [
+                sh:path ff:hasEmployment ;
+                sh:minCount 1 ;
+                sh:nodeKind sh:BlankNodeOrIRI ;
+            ] ;
+        ] ;
+    ] .

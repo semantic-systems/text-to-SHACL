@@ -1,0 +1,47 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+
+ff:B100019_LB_102730340 a ff:SocialBenefit ;
+    rdfs:label "Förderung für Maßnahmen zur Aktivierung und beruflichen Eingliederung"@de, "Funding for activation and professional integration measures"@en .
+
+# CONSTRAINTS
+
+ff:AktivierungUndEingliederungShape a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_102730340 ;
+    sh:targetNode ff:User ;
+    # User receives basic income support
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:minCount 1 ;
+        sh:hasValue ff:L100040_LB_8664880 ; # Grundsicherung
+        sh:message "Does not meet requirement 'User receives basic income support'"@en ;
+    ] ;
+    # Necessity of support measure established with integration specialist
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:minCount 1 ;
+        sh:nodeKind sh:BlankNode ;
+        sh:property [
+            sh:path ff:triggeringEvent ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:hasValue ff:Integrationsfachkraft ; # Integrationsfachkraft
+            sh:message "Does not meet requirement 'Necessity of support measure established with integration specialist'"@en ;
+        ] ;
+    ] ;
+    # Participation approved by job center before start of measure
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:minCount 1 ;
+        sh:nodeKind sh:BlankNode ;
+        sh:property [
+            sh:path ff:resultsInTreatment ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:hasValue ff:Jobcenter ; # Jobcenter
+            sh:message "Does not meet requirement 'Participation approved by job center before start of measure'"@en ;
+        ] ;
+    ] .

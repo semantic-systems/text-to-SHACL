@@ -1,0 +1,57 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+
+ff:B100019_LB_582441 a ff:SocialBenefit ;
+    rdfs:label "Gesetzliche Unfallversicherung Witwen- und Witwerrente"@de, "Statutory accident insurance widow's pension"@en .
+
+# CONSTRAINTS
+
+ff:GUVWitwenrenteShape a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_582441 ;
+    sh:targetNode ff:User ;
+    # User's spouse OR civil partner died 
+    sh:or (
+        [ 
+            sh:path ff:deceasedCivilPartner ;
+            sh:qualifiedValueShape ff:DeceasedPartnerShape ;
+            sh:qualifiedMinCount 1
+        ]
+        [ 
+            sh:path ff:deceasedSpouse ;
+            sh:qualifiedValueShape ff:DeceasedPartnerShape ;
+            sh:qualifiedMinCount 1
+        ]
+    ) .
+
+ff:DeceasedPartnerShape a sh:NodeShape ;
+     # The deceased partner had statutory accident insurance
+    sh:property [
+        sh:path ff:hasInsurance ;
+        sh:minCount 1 ;
+        sh:hasValue ff:StatutoryAccidentInsurance ;
+        sh:message "Does not meet requirement 'Deceased person has statutory accident insurance'"@en
+    ] ;
+    sh:property [
+        sh:path ff:causeOfDeath ;
+        sh:minCount 1 ;
+        sh:node ff:InsuranceEventShape ;
+        sh:message "Does not meet requirement 'Death was caused by an insurance event' or 'User was married OR lived in a civil union with the deceased person prior to the insured event'"@en
+    ] .
+
+ff:InsuranceEventShape a sh:NodeShape ;
+    # Death was caused by an insurance event
+    sh:or (
+            [sh:class ff:WorkAccident]
+            [sh:class ff:CommutingAccident]
+            [sh:class ff:OccupationalDisease]
+     ) ;
+    # User was married OR lived in a civil union with the deceased person prior to the insured event
+    sh:property [
+        sh:path ff:legalUnionBeforeEvent ;
+        sh:minCount 1 ;
+        sh:in (ff:User) ;
+    ] .

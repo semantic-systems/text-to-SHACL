@@ -1,0 +1,84 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# METADATA
+
+ff:B100019_LB_102716305 a ff:SocialBenefit ;
+    rdfs:label "Übergangsgeld für Menschen mit Behinderung"@de, "Transitional allowance for people with disabilities"@en .
+
+# CONSTRAINTS
+
+ff:TransitionAllowanceForDisabled a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    sh:property [
+        sh:path ff:hasDisabilityType ;
+        sh:minCount 1 ;
+        sh:message "User must have a disability."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasRehabilitationProvider ;
+        sh:hasValue ff:FederalEmploymentAgency ;
+        sh:message "Federal Employment Agency must be the rehabilitation provider."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:participates ;
+        sh:minCount 1 ;
+        sh:or (
+            [ sh:class ff:VocationalTraining ]
+            [ sh:class ff:School ]
+            [ sh:class ff:EntryProcedureAndVocationalTrainingArea ]
+            [ sh:class ff:VocationalTraining ]
+        ) ;
+        sh:message "User must participate in vocational training, school, entry procedure and vocational training area, or vocational training."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:or (
+            [ sh:class ff:DiscontinuationOfBusiness ;
+              sh:property [
+                  sh:path ff:hasDate ;
+                  sh:datatype xsd:dateTime ;
+                  sh:lessThan ff:3YearsAgo ;
+                  sh:message "User must have been socially insured for at least 12 months within the last 3 years."@en ;
+              ]
+            ]
+            [ sh:class ff:hasSocialBenefit ;
+              sh:hasValue ff:UnemploymentBenefitsSVG ;
+              sh:message "User must be eligible for unemployment benefits SVG."@en ;
+            ]
+            [ sh:class ff:hasSocialBenefit ;
+              sh:hasValue ff:B100019_LB_576842 ;
+              sh:message "User must be eligible for unemployment benefits."@en ;
+            ]
+        ) ;
+    ] ;
+    sh:property [
+        sh:path ff:isVocationalReturnee ;
+        sh:datatype xsd:boolean ;
+        sh:message "User is a vocational returnee."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:participates ;
+        sh:qualifiedValueShape [
+            sh:property [
+                sh:path ff:intendedFundingPeriod ;
+                sh:datatype xsd:dateTime ;
+                sh:lessThan ff:1YearAgo ;
+                sh:message "User must have completed a vocational training or equivalent within the last year."@en ;
+            ] ;
+        ] ;
+    ] .
+
+# HELPER PROPERTIES
+
+ff:3YearsAgo a sh:NodeShape ;
+    sh:datatype xsd:dateTime ;
+    sh:maxExclusive "2020-10-01T00:00:00Z"^^xsd:dateTime ;
+    sh:message "Date must be within the last 3 years."@en .
+
+ff:1YearAgo a sh:NodeShape ;
+    sh:datatype xsd:dateTime ;
+    sh:maxExclusive "2022-10-01T00:00:00Z"^^xsd:dateTime ;
+    sh:message "Date must be within the last year."@en .

@@ -1,0 +1,41 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# METADATA
+
+ff:B100019_LB_102799525 a ff:SocialBenefit ;
+    rdfs:label "Gesetzliche Unfallversicherung Rentenabfindung"@de, "Statutory accident insurance pension settlement"@en .
+
+# CONSTRAINTS
+
+ff:GesetzlicheUnfallversicherungRentenabfindung a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:minCount 1 ;
+        sh:hasValue ff:B100019_LB_102719_LB_102716305 ; # Statutory accident insurance transitional allowance
+        sh:message "Does not meet requirement 'User receives statutory accident insurance transitional allowance.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasMaritalStatus ;
+        sh:hasValue ff:Married ;
+        sh:message "Does not meet requirement 'User is married.'"@en ;
+    ] ;
+    sh:or (
+        [
+            sh:property [
+                sh:path ff:hasMaritalStatus ;
+                sh:hasValue ff:Married ;
+                sh:message "Does not meet requirement 'User is married.'"@en ;
+            ]
+        ]
+        [
+            sh:property [
+                sh:path ff:hasMaritalStatus ;
+                sh:hasValue ff:CivilUnion ;
+                sh:message "Does not meet requirement 'User is in a civil union.'"@en ;
+            ]
+        ]
+    ) .

@@ -1,0 +1,48 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# METADATA
+
+ff:B100019_LB_106311931 a ff:SocialBenefit ;
+    rdfs:label "Bürgergeld"@de, "Citizen benefit"@en .
+
+# CONSTRAINTS
+
+ff:Bürgergeld a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_106311931 ;
+    sh:targetNode ff:User ;
+    sh:property [
+        sh:path ff:hasEmploymentStatus ;
+        sh:minCount 1 ;
+        sh:hasValue ff:RegisteredUnemployed ; # Registered unemployed or unemployed
+        sh:message "Is not registered as unemployed or unemployed."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:minInclusive 15 ;
+        sh:maxExclusive 67 ;
+        sh:message "Is either too young or too old to be considered employable."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:employableHoursPerDay ;
+        sh:minInclusive 3 ;
+        sh:message "Is not capable of working at least 3 hours per day."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:countryOfResidence ;
+        sh:hasValue ff:Germany ; # Germany
+        sh:message "Does not reside in Germany."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:canCoverPersonalBasicNeeds ;
+        sh:equals false ;
+        sh:message "Is not in need of assistance to meet their basic needs."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasNoPriorityClaimsOver ;
+        sh:minCount 1 ;
+        sh:hasValue ff:B100019_LB_106311931 ; # Citizen benefit
+        sh:message "Has other benefits that take priority over citizen benefit."@en ;
+    ] .

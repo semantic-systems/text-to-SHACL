@@ -1,0 +1,52 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+
+ff:L100040_LB_8664880 a ff:SocialBenefit ;
+    rdfs:label "Grundsicherung im Alter und bei Erwerbsminderung"@de, "Basic Security in Old Age and Incapacity for Work"@en .
+
+# CONSTRAINTS
+
+ff:GrundsicherungImAlterUndBeiErwerbsminderung a sh:NodeShape ;
+    ff:checksFundingRequirement ff:L100040_LB_8664880 ;
+    sh:targetNode ff:User ;
+    sh:or (
+        [
+            sh:property [
+                sh:path ff:aboveSGBXII41AgeLimit ;
+                sh:hasValue true ;
+                sh:message "Has not reached age limit under § 41 SGB XII"@en ;
+            ]
+        ]
+        [
+            sh:property [
+                sh:path ff:hasDisabilityType ;
+                sh:node ff:ReducedEarningCapacity ;
+                sh:message "Is not dauerhaft voll erwerbsgemindert"@en ;
+            ]
+        ]
+        [
+            sh:property [
+                sh:path ff:participates ;
+                sh:node [
+                    sh:or (
+                        [
+                            sh:property [
+                                sh:path ff:recognizedByLaw ;
+                                sh:hasValue ff:VocationalTrainingAct ;
+                            ]
+                        ]
+                        [
+                            sh:property [
+                                sh:path ff:subjectToContract ;
+                                sh:hasValue ff:VocationalTrainingContract ;
+                            ]
+                        ]
+                    )
+                ] ;
+                sh:message "Does not participate in a suitable training or education program"@en ;
+            ]
+        ]
+    ) .

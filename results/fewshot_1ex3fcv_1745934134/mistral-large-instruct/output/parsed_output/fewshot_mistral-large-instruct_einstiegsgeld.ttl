@@ -1,0 +1,38 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# METADATA
+
+ff:B100019_LB_102713860 a ff:SocialBenefit ;
+    rdfs:label "Einstiegsgeld"@de, "Introductory allowance"@en .
+
+# CONSTRAINTS
+
+ff:Einstiegsgeld a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:minCount 1 ;
+        sh:hasValue ff:B100019_LB_106311931 ; # Citizen benefit
+        sh:message "Does not meet requirement 'User receives citizen benefit.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEmployment ;
+        sh:minCount 1 ;
+        sh:property [
+            sh:path ff:workHoursPerWeek ;
+            sh:minInclusive 15 ;
+            sh:message "The employment does not meet the requirement of at least 15 hours per week."@en ;
+        ] ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:minCount 1 ;
+        sh:property [
+            sh:path ff:hasDate ;
+            sh:lessThan ff:hasDate ;
+            sh:message "The application must be submitted before starting the employment."@en ;
+        ] ;
+    ] .

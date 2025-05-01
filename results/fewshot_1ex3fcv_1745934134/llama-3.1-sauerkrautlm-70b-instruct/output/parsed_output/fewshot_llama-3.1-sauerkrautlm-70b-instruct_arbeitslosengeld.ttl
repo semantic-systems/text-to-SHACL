@@ -1,0 +1,50 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+
+ff:B100019_LB_576842 a ff:SocialBenefit ;
+    rdfs:label "Arbeitslosengeld"@de, "Unemployment benefit"@en .
+
+# CONSTRAINTS
+
+ff:Arbeitslosengeld a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_576842 ;
+    sh:targetNode ff:User ;
+    sh:property [
+        sh:path ff:hasEmploymentStatus ;
+        sh:minCount 1 ;
+        sh:hasValue ff:Unemployed ; # Unemployed
+        sh:message "Does not meet requirement 'User is unemployed.'"@en ;
+    ] .
+    
+ff:Arbeitslosengeld a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_576842 ;
+    sh:targetNode ff:User ;
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:minCount 1 ;
+        sh:nodeKind sh:BlankNode ;
+        sh:property [
+            sh:path ff:hasDate ;
+            sh:minCount 1 ;
+            sh:message "Does not meet requirement 'User has registered as unemployed.'"@en ;
+        ] ;
+        sh:property [
+            sh:path ff:resultsInTreatment ;
+            sh:maxCount 0 ;
+            sh:message "Does not meet requirement 'User's unemployment registration does not result in medical treatment.'"@en ;
+        ] ;
+        sh:message "Does not meet requirement 'User has registered as unemployed.'"@en ;
+    ] .
+    
+ff:Arbeitslosengeld a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_576842 ;
+    sh:targetNode ff:User ;
+    sh:property [
+        sh:path ff:compulsoryInsuranceFor12In30 ;
+        sh:minCount 1 ;
+        sh:hasValue true ; 
+        sh:message "Does not meet requirement 'User has been subject to compulsory insurance for at least 12 months within the last 30 months.'"@en ;
+    ] .

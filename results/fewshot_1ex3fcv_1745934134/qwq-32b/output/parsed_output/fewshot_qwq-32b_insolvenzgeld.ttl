@@ -1,0 +1,97 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# Define the SocialBenefit
+ff:B100019_LB_576848 a ff:SocialBenefit ;
+    rdfs:label "Insolvenzgeld"@de, "Insolvency allowance"@en .
+
+# Main shape for Insolvenzgeld eligibility
+ff:InsolvenzgeldShape a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    sh:property [
+        # Requirement 1: Insolvency event occurred at employer
+        sh:path ( ff:hasEmployment ff:employer ff:hasEvent ) ;
+        sh:minCount 1 ;
+        sh:or (
+            ff:InsolvencyEventShapeA
+            ff:InsolvencyEventShapeB
+            ff:InsolvencyEventShapeC
+        ) ;
+        sh:message "Does not meet requirement 'Insolvency event occurred at employer'."@en ;
+    ] ;
+    sh:property [
+        # Requirement 2: Wage cut within 3 months before event
+        sh:path ( ff:hasEmployment ff:employer ff:hasEvent ff:wageCutOffsetMonths ) ;
+        sh:minCount 1 ;
+        sh:minInclusive -3 ;
+        sh:maxInclusive -1 ;
+        sh:message "Does not meet requirement 'Wage cut within 3 months before event'."@en ;
+    ] ;
+    sh:or (
+        # Requirement 3: Employment location (Germany or abroad with German social security)
+        ff:EmploymentLocationShapeA
+        ff:EmploymentLocationShapeB
+    ) ;
+    sh:property [
+        # Requirement 4: Legal employee status
+        sh:path ff:hasEmploymentStatus ;
+        sh:minCount 1 ;
+        sh:in (ff:Employee) ;
+        sh:message "Does not meet requirement 'Legal employee status'."@en ;
+    ] .
+
+# Insolvency event scenarios
+ff:InsolvencyEventShapeA a sh:NodeShape ;
+    sh:property [
+        sh:path ( ff:hasEmployment ff:employer ff:hasEvent ) ;
+        sh:class ff:InsolvencyProceeding ;
+    ] ;
+    sh:property [
+        sh:path ( ff:hasEmployment ff:employer ff:hasEvent ff:isOpen ) ;
+        sh:minCount 1 ;
+        sh:in (true) ;
+    ] .
+
+ff:InsolvencyEventShapeB a sh:NodeShape ;
+    sh:property [
+        sh:path ( ff:hasEmployment ff:employer ff:hasEvent ) ;
+        sh:class ff:InsolvencyApplication ;
+    ] ;
+    sh:property [
+        sh:path ( ff:hasEmployment ff:employer ff:hasEvent ff:rejectedForLackOfAssets ) ;
+        sh:minCount 1 ;
+        sh:in (true) ;
+    ] .
+
+ff:InsolvencyEventShapeC a sh:NodeShape ;
+    sh:property [
+        sh:path ( ff:hasEmployment ff:employer ff:hasEvent ) ;
+        sh:class ff:DiscontinuationOfBusiness ;
+    ] ;
+    sh:property [
+        sh:path ( ff:hasEmployment ff:employer ff:obviousLackOfAssets ) ;
+        sh:minCount 1 ;
+        sh:in (true) ;
+    ] .
+
+# Employment location constraints
+ff:EmploymentLocationShapeA a sh:NodeShape ;
+    sh:property [
+        sh:path ( ff:hasEmployment ff:countryOfEmployment ) ;
+        sh:minCount 1 ;
+        sh:in (ff:Germany) ;
+    ] .
+
+ff:EmploymentLocationShapeB a sh:NodeShape ;
+    sh:property [
+        sh:path ( ff:hasEmployment ff:countryOfEmployment ) ;
+        sh:minCount 1 ;
+        sh:not [ sh:in (ff:Germany) ] ;
+    ] ;
+    sh:property [
+        sh:path ff:socialSecurityCountry ;
+        sh:minCount 1 ;
+        sh:in (ff:Germany) ;
+    ] .

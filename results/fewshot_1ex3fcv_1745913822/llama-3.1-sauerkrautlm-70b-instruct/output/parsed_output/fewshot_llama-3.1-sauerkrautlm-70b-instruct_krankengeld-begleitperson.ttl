@@ -1,0 +1,62 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+
+ff:B100019_LB_103817036 a ff:SocialBenefit ;
+    rdfs:label "Krankengeld für Begleitperson bei stationärer Behandlung von Menschen mit Behinderung"@de, "Sickness benefit for accompanying persons in the case of inpatient treatment of people with disabilities"@en .
+
+# CONSTRAINTS
+
+ff:BegleitungKrankengeld a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_103817036 ;
+    sh:targetNode ff:User ;
+    sh:property [
+        sh:path ff:hasInsurance ;
+        sh:minCount 1 ;
+        sh:hasValue ff:StatutoryHealthInsurance ; 
+        sh:message "Does not meet requirement 'User has statutory health insurance.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:needsCare ;
+        sh:minCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:property [
+            sh:path ff:fullDayAccompaniment ;
+            sh:hasValue true ;
+            sh:message "Does not meet requirement 'Accompaniment is a full-day accompaniment.'"@en ;
+        ] ;
+        sh:property [
+            sh:path ff:inPatientCoAdmission ;
+            sh:hasValue true ;
+            sh:message "Does not meet requirement 'Accompaniment is an inpatient accompaniment.'"@en ;
+        ] ;
+        sh:property [
+            sh:path ff:caregiverInHousehold ;
+            sh:minCount 1 ;
+            sh:hasValue ff:User ;
+            sh:message "Does not meet requirement 'User is the caregiver.'"@en ;
+        ] ;
+    ] ;
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:maxCount 0 ;
+        sh:hasValue ff:B100019_LB_103817036 ; 
+        sh:message "Does not meet requirement 'User does not receive sickness benefit from the health insurance.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:immediateCircleMember ;
+        sh:minCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:property [
+            sh:path ff:hasDisabilityType ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:property [
+                sh:path ff:reducesWorkProspectsPermanently ;
+                sh:hasValue true ;
+                sh:message "Does not meet requirement 'Disability of the accompanied person reduces their work prospects permanently.'"@en ;
+            ] ;
+        ] ;
+    ] .

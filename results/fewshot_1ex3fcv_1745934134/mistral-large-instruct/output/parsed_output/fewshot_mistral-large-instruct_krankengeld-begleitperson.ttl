@@ -1,0 +1,63 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# METADATA
+
+ff:B100019_LB_103817036 a ff:SocialBenefit ;
+    rdfs:label "Krankengeld für Begleitperson bei stationärer Behandlung von Menschen mit Behinderung"@de, "Sickness benefit for accompanying person during inpatient treatment of people with disabilities"@en .
+
+# CONSTRAINTS
+
+ff:KrankengeldBegleitperson a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    sh:property [
+        sh:path ff:hasInsurance ;
+        sh:hasValue ff:StatutoryHealthInsurance ;
+        sh:message "User does not have statutory health insurance."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:closeRelative ;
+        sh:minCount 1 ;
+        sh:node [
+            sh:class ff:Person ;
+            sh:property [
+                sh:path ff:hasDisability ;
+                sh:hasValue "true"^^xsd:boolean ;
+                sh:message "The accompanied person does not have a disability."@en ;
+            ] ;
+            sh:property [
+                sh:path ff:isInPatient ;
+                sh:hasValue "true"^^xsd:boolean ;
+                sh:message "The accompanied person is not inpatient."@en ;
+            ] ;
+        ] ;
+        sh:message "User is not a close relative or part of the closest circle."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:medicalAccompaniment ;
+        sh:minCount 1 ;
+        sh:node [
+            sh:class ff:MedicalAccompaniment ;
+            sh:property [
+                sh:path ff:fullDayAccompaniment ;
+                sh:hasValue "true"^^xsd:boolean ;
+                sh:message "The accompaniment does not take at least 8 hours."@en ;
+            ] ;
+        ] ;
+        sh:message "User does not have a medical accompaniment."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasIncome ;
+        sh:minCount 1 ;
+        sh:node [
+            sh:class ff:Income ;
+            sh:property [
+                sh:path ff:incomeLoss ;
+                sh:hasValue "true"^^xsd:boolean ;
+                sh:message "User does not have an income loss."@en ;
+            ] ;
+        ] ;
+        sh:message "User does not have an income."@en ;
+    ] .

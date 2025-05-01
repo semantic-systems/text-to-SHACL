@@ -1,0 +1,88 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# METADATA
+ff:B100019_LB_581863 a ff:SocialBenefit ;
+    rdfs:label "Kinderzuschlag"@de, "Child supplement"@en .
+
+# CONSTRAINTS
+ff:KinderzuschlagShape a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    # Must have at least one eligible child
+    sh:property [
+        sh:path ff:receivesChildBenefitFor ;
+        sh:minCount 1 ;
+        sh:qualifiedValueShape ff:ChildShape ;
+        sh:message "No eligible children fulfilling criteria."@en ;
+    ] ;
+    # Income conditions (couple or single parent)
+    sh:or (
+        ff:IncomeShapeA
+        ff:IncomeShapeB
+    ) ;
+    # Income offset must not reduce child supplement to zero
+    sh:property [
+        sh:path (ff:hasIncome ff:reducesChildSupplementTo) ;
+        sh:minExclusive 0 ;
+        sh:message "Child supplement reduced to zero by income."@en ;
+    ] ;
+    # No considerable assets
+    sh:property [
+        sh:path ff:hasConsiderableAssets ;
+        sh:hasValue false ;
+        sh:message "Considerable assets detected."@en ;
+    ] ;
+    # Must cover family needs with combined resources
+    sh:property [
+        sh:path ff:canCoverBasicNeedsOfBenefitUnit ;
+        sh:hasValue true ;
+        sh:message "Inadequate means to cover family needs."@en ;
+    ] .
+
+# Child eligibility criteria
+ff:ChildShape a sh:NodeShape ;
+    # Child must be under 25
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:maxExclusive 25 ;
+    ] ;
+    # Not married or in civil partnership
+    sh:property [
+        sh:path ff:hasMaritalStatus ;
+        sh:not [
+            sh:in (ff:Married ff:CivilUnion) ;
+        ] ;
+    ] ;
+    # Must live in same household as applicant
+    sh:property [
+        sh:path ff:sameHouseholdAs ;
+        sh:hasValue ff:User ;
+    ] ;
+    # No priority claims over child supplement
+    sh:property [
+        sh:path ff:hasNoPriorityClaimsOver ;
+        sh:hasValue ff:B100019_LB_581863 ;
+    ] .
+
+# Income condition for couples
+ff:IncomeShapeA a sh:NodeShape ;
+    sh:property [
+        sh:path ff:isSingleParent ;
+        sh:in (false) ;
+    ] ;
+    sh:property [
+        sh:path (ff:hasIncome ff:familyGrossIncome) ;
+        sh:minInclusive 900 ;
+    ] .
+
+# Income condition for single parents
+ff:IncomeShapeB a sh:NodeShape ;
+    sh:property [
+        sh:path ff:isSingleParent ;
+        sh:in (true) ;
+    ] ;
+    sh:property [
+        sh:path (ff:hasIncome ff:personalGrossIncome) ;
+        sh:minInclusive 600 ;
+    ] .

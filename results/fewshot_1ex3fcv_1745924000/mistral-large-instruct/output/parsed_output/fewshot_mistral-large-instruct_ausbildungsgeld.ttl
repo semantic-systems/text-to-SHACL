@@ -1,0 +1,43 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+
+ff:B100019_LB_574711 a ff:SocialBenefit ;
+    rdfs:label "Ausbildungsgeld"@de, "Training allowance"@en .
+
+# CONSTRAINTS
+
+ff:Ausbildungsgeld a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    sh:property [
+        sh:path ff:hasDisabilityType ;
+        sh:minCount 1 ;
+        sh:class ff:Disability ;
+        sh:message "User must have a disability."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasRehabilitationProvider ;
+        sh:minCount 1 ;
+        sh:hasValue ff:FederalEmploymentAgency ;
+        sh:message "User's rehabilitation provider must be the Federal Employment Agency."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:participates ;
+        sh:minCount 1 ;
+        sh:class ff:Training ;
+        sh:or (
+            [ sh:class ff:VocationalTraining ]
+            [ sh:class ff:Training ]
+            [ sh:class ff:EntryProcedureAndVocationalTrainingArea ]
+            [ sh:class ff:IndividualBetrieblicheQualifizierung ]
+        ) ;
+        sh:message "User must participate in a training program."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:isIneligibleFor ;
+        sh:minCount 1 ;
+        sh:hasValue ff:B100019_LB_102716305 ; # Statutory accident insurance transitional allowance
+        sh:message "User must not be eligible for transitional allowance."@en ;
+    ] .

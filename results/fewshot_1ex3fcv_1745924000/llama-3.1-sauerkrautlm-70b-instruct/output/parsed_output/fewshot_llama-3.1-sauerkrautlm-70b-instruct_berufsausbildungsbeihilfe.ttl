@@ -1,0 +1,89 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+
+ff:B100019_LB_574724 a ff:SocialBenefit ;
+    rdfs:label "Berufsausbildungsbeihilfe"@de, "Vocational training allowance"@en .
+
+# CONSTRAINTS
+
+ff:Berufsausbildungsbeihilfe a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_574724 ;
+    sh:targetNode ff:User ;
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:minInclusive 18 ;
+        sh:message "Does not meet requirement 'User is at least 18 years old.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasMaritalStatus ;
+        sh:in (ff:Married ff:Divorced) ;
+        sh:message "Does not meet requirement 'User is or was married.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasChild ;
+        sh:minCount 1 ;
+        sh:message "Does not meet requirement 'User has at least one child.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:countryOfResidence ;
+        sh:equals ff:Germany ;
+        sh:message "Does not meet requirement 'User resides in Germany.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasResidencePermit ;
+        sh:in (ff:hasAsylumActPermit ff:uninterruptedLegalStayForLessThan15Months) ;
+        sh:message "Does not meet requirement 'User has a residence permit under the Asylum Act or has been in Germany for less than 15 months without interruption.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:canCoverPersonalBasicNeeds ;
+        sh:equals false ;
+        sh:message "Does not meet requirement 'User cannot cover their personal basic needs.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:participates ;
+        sh:class ff:Training ;
+        sh:message "Does not meet requirement 'User participates in a training.'"@en ;
+    ] ;
+    sh:property [
+        sh:path [ ff:participates ff:recognizedByLaw ] ;
+        sh:in (ff:VocationalTrainingAct ff:MaritimeLabourAct ff:CraftsCode ff:NursingProfessionsAct) ;
+        sh:message "Does not meet requirement 'Training is recognized by the Vocational Training Act, Maritime Labour Act, Crafts Code or Nursing Professions Act.'"@en ;
+    ] ;
+    sh:property [
+        sh:path [ ff:participates ff:subjectToContract ] ;
+        sh:equals ff:VocationalTrainingContract ;
+        sh:message "Does not meet requirement 'Training is subject to a vocational training contract.'"@en ;
+    ] ;
+    sh:property [
+        sh:path [ ff:participates ff:isFirstVocationalTraining ] ;
+        sh:equals true ;
+        sh:message "Does not meet requirement 'Training is user's first vocational training.'"@en ;
+    ] ;
+    sh:property [
+        sh:path [ ff:participates ff:monthsTotal ] ;
+        sh:minInclusive 12 ;
+        sh:message "Does not meet requirement 'Training duration is at least 12 months.'"@en ;
+    ] ;
+    sh:property [
+        sh:path [ ff:participates ff:percentAbroad ] ;
+        sh:maxInclusive 50 ;
+        sh:message "Does not meet requirement 'Training takes place abroad for 50% or less.'"@en ;
+    ] ;
+    sh:property [
+        sh:path [ ff:participates ff:commissionedByEmploymentAgency ] ;
+        sh:equals true ;
+        sh:message "Does not meet requirement 'Training was commissioned by the employment agency.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasDisability ;
+        sh:equals true ;
+        sh:message "Does not meet requirement 'User has a disability.'"@en ;
+    ] ;
+    sh:property [
+        sh:path [ ff:participates ff:intendedFundingPeriod ] ;
+        sh:minInclusive 12 ;
+        sh:message "Does not meet requirement 'Training funding period is at least 12 months.'"@en ;
+    ] .

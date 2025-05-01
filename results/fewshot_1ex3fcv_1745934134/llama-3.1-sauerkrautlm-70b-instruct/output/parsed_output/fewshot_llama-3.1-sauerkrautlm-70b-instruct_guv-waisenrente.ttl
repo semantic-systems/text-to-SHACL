@@ -1,0 +1,143 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+
+ff:B100019_LB_582435 a ff:SocialBenefit ;
+    rdfs:label "Gesetzliche Unfallversicherung Waisenrente"@de, "Statutory accident insurance orphan's pension"@en .
+# CONSTRAINTS
+
+ff:GUVWaisenrenteShape a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_582435 ;
+    sh:targetNode ff:User ;
+    # User's parent died
+    sh:or (
+        [ 
+            sh:path ff:naturalChildTo ;
+            sh:qualifiedValueShape ff:DeceasedParentShape ;
+            sh:qualifiedMinCount 1
+        ]
+        [ 
+            sh:path ff:fosterChildTo ;
+            sh:qualifiedValueShape ff:DeceasedParentShape ;
+            sh:qualifiedMinCount 1
+        ]
+        [ 
+            sh:path ff:stepChildTo ;
+            sh:qualifiedValueShape ff:DeceasedParentShape ;
+            sh:qualifiedMinCount 1
+        ]
+    ) ;
+    # User is a grandchild or sibling who lived in the same household as the deceased person
+    sh:or (
+        [ 
+            sh:path ff:sameHouseholdAs ;
+            sh:qualifiedValueShape ff:DeceasedRelativeShape ;
+            sh:qualifiedMinCount 1
+        ]
+    ) ;
+    # The deceased person was mainly responsible for the user's livelihood
+    sh:property [
+        sh:path ff:hasPrimaryCareTaker ;
+        sh:minCount 1 ;
+        sh:in (ff:DeceasedParentShape ff:DeceasedRelativeShape) ;
+        sh:message "Does not meet requirement 'Deceased person was mainly responsible for the user's livelihood'"@en
+    ] .
+
+ff:DeceasedParentShape a sh:NodeShape ;
+    # The deceased parent had statutory accident insurance
+    sh:property [
+        sh:path ff:hasInsurance ;
+        sh:minCount 1 ;
+        sh:hasValue ff:StatutoryAccidentInsurance ;
+        sh:message "Does not meet requirement 'Deceased person has statutory accident insurance'"@en
+    ] ;
+    # Death was caused by an insurance event
+    sh:property [
+        sh:path ff:causeOfDeath ;
+        sh:minCount 1 ;
+        sh:node ff:InsuranceEventShape ;
+        sh:message "Does not meet requirement 'Death was caused by an insurance event'"@en
+    ] .
+
+ff:DeceasedRelativeShape a sh:NodeShape ;
+    # The deceased relative had statutory accident insurance
+    sh:property [
+        sh:path ff:hasInsurance ;
+        sh:minCount 1 ;
+        sh:hasValue ff:StatutoryAccidentInsurance ;
+        sh:message "Does not meet requirement 'Deceased relative has statutory accident insurance'"@en
+    ] ;
+    # Death was caused by an insurance event
+    sh:property [
+        sh:path ff:causeOfDeath ;
+        sh:minCount 1 ;
+        sh:node ff:InsuranceEventShape ;
+        sh:message "Does not meet requirement 'Death was caused by an insurance event'"@en
+    ] ;
+    # The deceased relative is a parent of the user's parent
+    sh:property [
+        sh:path ff:naturalChildTo ;
+        sh:minCount 1 ;
+        sh:in (ff:naturalChildTo ff:fosterChildTo ff:stepChildTo) ;
+        sh:message "Does not meet requirement 'Deceased relative is a parent of the user's parent'"@en
+    ] .
+
+ff:InsuranceEventShape a sh:NodeShape ;
+    # Death was caused by an insurance event
+    sh:or (
+            [sh:class ff:WorkAccident]
+            [sh:class ff:CommutingAccident]
+            [sh:class ff:OccupationalDisease]
+     ) .
+
+# User is eligible if under 18 or under 27 and in education or training, unable to support themselves, or in a transition period
+ff:GUVWaisenrenteShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:maxExlusive 18 ;
+        sh:message "Does not meet requirement 'User is under 18'"@en
+    ] ;
+    sh:or (
+        [ 
+            sh:path ff:hasAge ;
+            sh:minInclusive 18 ;
+            sh:maxExlusive 27 ;
+            sh:node ff:EligibleYoungAdultShape ;
+        ]
+    ) .
+
+ff:EligibleYoungAdultShape a sh:NodeShape ;
+    sh:or (
+        [ # User is in education or training
+            sh:path ff:participates ;
+            sh:minCount 1 ;
+            sh:node ff:EducationOrTrainingShape ;
+        ]
+        [ # User is unable to support themselves
+            sh:path ff:hasDisabilityType ;
+            sh:minCount 1 ;
+            sh:node ff:DisabilityShape ;
+        ]
+        [ # User is in a transition period
+            sh:path ff:isInTransitionalPeriod ;
+            sh:hasValue true ;
+        ]
+    ) .
+
+ff:EducationOrTrainingShape a sh:NodeShape ;
+    sh:or (
+            [sh:class ff:School]
+            [sh:class ff:EntryProcedureAndVocationalTrainingArea]
+            [sh:class ff:VocationalTraining]
+     ) .
+
+ff:DisabilityShape a sh:NodeShape ;
+    # The disability reduces the user's prospects of participating in working life permanently
+    sh:property [
+        sh:path ff:reducesWorkProspectsPermanently ;
+        sh:hasValue true ;
+        sh:message "Does not meet requirement 'Disability reduces the user's prospects of participating in working life permanently'"@en
+    ] .

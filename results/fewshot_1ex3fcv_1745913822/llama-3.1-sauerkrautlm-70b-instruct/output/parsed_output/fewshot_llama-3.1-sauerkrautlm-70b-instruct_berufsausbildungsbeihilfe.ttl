@@ -1,0 +1,119 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# METADATA
+
+ff:B100019_LB_574724 a ff:SocialBenefit ;
+    rdfs:label "Berufsausbildungsbeihilfe"@de, "Vocational training allowance"@en .
+
+# CONSTRAINTS
+
+ff:Berufsausbildungsbeihilfe a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_574724 ;
+    sh:targetNode ff:User ;
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:minInclusive 18 ;
+        sh:message "Age requirement not met."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:sameHouseholdAs ;
+        sh:maxCount 0 ;
+        sh:hasValue [ a ff:Person ; ff:naturalChildTo [] ] ;
+        sh:message "User lives with parents."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasMaritalStatus ;
+        sh:class ff:Married ;
+        sh:message "User is not married."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:isSingleParent ;
+        sh:message "User is a single parent."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasAsylumActPermit ;
+        sh:message "User has asylum act permit."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:uninterruptedLegalStayForLessThan15Months ;
+        sh:message "User has been in Germany for less than 15 months."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:canCoverPersonalBasicNeeds ;
+        sh:message "User cannot cover personal basic needs."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:participates ;
+        sh:minCount 1 ;
+        sh:class ff:VocationalTraining ;
+        sh:message "User does not participate in vocational training."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:participates ;
+        sh:minCount 1 ;
+        sh:property [
+            sh:path ff:recognizedByLaw ;
+            sh:class ff:VocationalTrainingAct ;
+            sh:message "Training is not recognized by law."@en ;
+        ] ;
+    ] ;
+    sh:property [
+        sh:path ff:participates ;
+        sh:minCount 1 ;
+        sh:property [
+            sh:path ff:subjectToContract ;
+            sh:class ff:VocationalTrainingContract ;
+            sh:message "Training is not subject to vocational training contract."@en ;
+        ] ;
+    ] ;
+    sh:property [
+        sh:path ff:participates ;
+        sh:maxCount 1 ;
+        sh:property [
+            sh:path ff:monthsTotal ;
+            sh:minInclusive 12 ;
+            sh:message "Training duration is less than 12 months."@en ;
+        ] ;
+    ] ;
+    sh:property [
+        sh:path ff:participates ;
+        sh:maxCount 1 ;
+        sh:property [
+            sh:path ff:percentAbroad ;
+            sh:maxInclusive 0.5 ;
+            sh:message "Training takes place abroad for more than 50% of the duration."@en ;
+        ] ;
+    ] ;
+    sh:property [
+        sh:path ff:hasDisability ;
+        sh:message "User's disability is not severe enough."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:participates ;
+        sh:minCount 1 ;
+        sh:property [
+            sh:path ff:commissionedByEmploymentAgency ;
+            sh:message "Training is not commissioned by employment agency."@en ;
+        ] ;
+    ] ;
+    sh:property [
+        sh:path ff:participates ;
+        sh:minCount 1 ;
+        sh:property [
+            sh:path ff:monthsAbroad ;
+            sh:maxInclusive 12 ;
+            sh:message "Training takes place abroad for more than 12 months."@en ;
+        ] ;
+    ] ;
+    sh:property [
+        sh:path ff:participates ;
+        sh:minCount 1 ;
+        sh:property [
+            sh:path ff:monthsAbroad ;
+            sh:minInclusive 0 ;
+            sh:message "Training takes place abroad for less than 0 months."@en ;
+        ] ;
+    ] .

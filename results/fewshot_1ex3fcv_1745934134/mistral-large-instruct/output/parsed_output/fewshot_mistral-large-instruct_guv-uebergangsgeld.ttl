@@ -1,0 +1,55 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+
+ff:B100019_LB_582422 a ff:SocialBenefit ;
+    rdfs:label "Gesetzliche Unfallversicherung Übergangsgeld Berufliche Reha"@de, "Statutory accident insurance transitional allowance for vocational rehabilitation"@en .
+
+# CONSTRAINTS
+
+ff:UnfallversicherungRehaShape a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_582422 ;
+    sh:targetNode ff:User ;
+    # User has experienced a work accident, commuting accident, or occupational disease
+    sh:or (
+        ff:WorkAccidentShape
+        ff:CommutingAccidentShape
+        ff:OccupationalDiseaseShape
+    ) ;
+    # User is participating in a vocational rehabilitation program
+    sh:property [
+        sh:path ff:participates ;
+        sh:class ff:OccupationalRehabilitation ;
+        sh:minCount 1 ;
+        sh:message "Does not meet requirement 'User is participating in a vocational rehabilitation program'."@en ;
+    ] .
+
+# User has experienced a work accident
+ff:WorkAccidentShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:class ff:WorkAccident ;
+        sh:minCount 1 ;
+        sh:message "Does not meet requirement 'User has experienced a work accident'."@en ;
+    ] .
+
+# User has experienced a commuting accident
+ff:CommutingAccidentShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:class ff:CommutingAccident ;
+        sh:minCount 1 ;
+        sh:message "Does not meet requirement 'User has experienced a commuting accident'."@en ;
+    ] .
+
+# User has an occupational disease
+ff:OccupationalDiseaseShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:class ff:OccupationalDisease ;
+        sh:minCount 1 ;
+        sh:message "Does not meet requirement 'User has an occupational disease'."@en ;
+    ] .

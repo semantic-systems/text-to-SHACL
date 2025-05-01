@@ -1,0 +1,53 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+
+ff:B100019_LB_103817036 a ff:SocialBenefit ;
+    rdfs:label "Krankengeld für Begleitperson bei stationärer Behandlung von Menschen mit Behinderung"@de, "Sickness benefit for accompanying persons in the case of inpatient treatment of people with disabilities"@en .
+
+# CONSTRAINTS
+
+ff:BegleitpersonKrankengeld a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_103817036 ;
+    sh:targetNode ff:User ;
+    sh:property [
+        sh:path ff:hasInsurance ;
+        sh:minCount 1 ;
+        sh:hasValue ff:StatutoryHealthInsurance ;
+        sh:message "Does not meet requirement 'You and the person with disabilities have statutory health insurance.'"@en ;
+    ] ;
+    sh:property [
+        sh:path [ sh:inversePath ff:needsCare ; sh:path ff:resultsInTreatment ] ;
+        sh:minCount 1 ;
+        sh:message "Does not meet requirement 'The person with disabilities is inpatient.'"@en ;
+    ] ;
+    sh:property [
+        sh:path [ sh:inversePath ff:needsCare ; sh:path ff:resultsInTreatment ; sh:path ff:hasDate ] ;
+        sh:minCount 1 ;
+        sh:message "Does not meet requirement 'The person with disabilities is inpatient.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:fullDayAccompaniment ;
+        sh:minCount 1 ;
+        sh:hasValue true ;
+        sh:message "Does not meet requirement 'The stationäre Mitaufnahme als Begleitperson is medizinisch notwendig.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:isRenumerated ;
+        sh:minCount 1 ;
+        sh:hasValue false ;
+        sh:message "Does not meet requirement 'You have a loss of earnings.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:immediateCircleMember ;
+        sh:minCount 1 ;
+        sh:message "Does not meet requirement 'You are a nahe angehörige Person or Teil des engsten Umfelds.'"@en ;
+    ] ;
+    sh:property [
+        sh:path [ sh:inversePath ff:needsCare ; sh:path ff:recognizedByLaw ] ;
+        sh:minCount 1 ;
+        sh:hasValue ff:CraftsCode ;
+        sh:message "Does not meet requirement 'The person with disabilities receives benefits of the Eingliederungshilfe.'"@en ;
+    ] .

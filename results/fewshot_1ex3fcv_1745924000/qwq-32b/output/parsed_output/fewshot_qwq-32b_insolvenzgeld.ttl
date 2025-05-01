@@ -1,0 +1,74 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+ff:B100019_LB_576848 a ff:SocialBenefit ;
+    rdfs:label "Insolvenzgeld"@de, "Insolvency allowance"@en .
+
+# MAIN SHAPE
+ff:InsolvenzgeldShape a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    # Requirement 1: Insolvency event occurred
+    sh:property [
+        sh:path (ff:hasEmployment ff:employer) ;
+        sh:minCount 1 ;
+        sh:or (
+            ff:EventShapeA
+            ff:EventShapeB
+            ff:EventShapeC
+        ) ;
+        sh:message "Does not meet requirement 'Insolvency event at employer'."@en ;
+    ] ;
+    # Requirement 2: Wage cut within 3 months before event
+    sh:property [
+        sh:path (ff:hasEvent ff:wageCutOffsetMonths) ;
+        sh:minInclusive -3 ;
+        sh:maxInclusive -1 ;
+        sh:message "Does not meet requirement 'Wage cut within 3 months before event'."@en ;
+    ] ;
+    # Requirement 3: Employment location condition
+    sh:or (
+        ff:GermanyEmploymentShape
+        ff:AbroadEmploymentShape
+    ) ;
+    # Requirement 4: Legal employee status
+    sh:property [
+        sh:path ff:hasEmploymentStatus ;
+        sh:in (ff:Employee) ;
+        sh:message "Does not meet requirement 'Legal employee status'."@en ;
+    ] .
+
+# INSOLVENCY EVENT SUB-SHAPES
+ff:EventShapeA a sh:PropertyShape ;
+    sh:path (ff:hasEvent rdf:type) ;
+    sh:class ff:InsolvencyProceeding ;
+    sh:message "Does not meet requirement 'Insolvency proceeding'."@en .
+
+ff:EventShapeB a sh:PropertyShape ;
+    sh:path (ff:hasEvent rdf:type) ;
+    sh:class ff:InsolvencyApplication ;
+    sh:message "Does not meet requirement 'Insolvency application'."@en .
+
+ff:EventShapeC a sh:PropertyShape ;
+    sh:path (ff:hasEvent rdf:type) ;
+    sh:class ff:DiscontinuationOfBusiness ;
+    sh:message "Does not meet requirement 'Business discontinuation'."@en .
+
+# EMPLOYMENT LOCATION SHAPES
+ff:GermanyEmploymentShape a sh:NodeShape ;
+    sh:property [
+        sh:path (ff:hasEmployment ff:countryOfEmployment) ;
+        sh:in (ff:Germany) ;
+    ] .
+
+ff:AbroadEmploymentShape a sh:NodeShape ;
+    sh:property [
+        sh:path (ff:hasEmployment ff:countryOfEmployment) ;
+        sh:not [ sh:in (ff:Germany) ] ;
+    ] ;
+    sh:property [
+        sh:path ff:socialSecurityCountry ;
+        sh:in (ff:Germany) ;
+    ] .

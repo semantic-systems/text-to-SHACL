@@ -1,0 +1,50 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+
+ff:L100040_LB_12280162 a ff:SocialBenefit ;
+    rdfs:label "Bildung und Teilhabe"@de, "Education and Participation"@en .
+
+# CONSTRAINTS
+
+ff:BildungUndTeilhabeShape a sh:NodeShape ;
+    ff:checksFundingRequirement ff:L100040_LB_12280162 ;
+    sh:targetNode ff:User ;
+    # User receives one of the required benefits
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:minCount 1 ;
+        sh:or (
+            [ sh:hasValue ff:B100019_LB_106311931 ]  # Bürgergeld
+            [ sh:hasValue ff:L100040_LB_8665924 ]    # Wohngeld
+            [ sh:hasValue ff:B100019_LB_581863 ]     # Kinderzuschlag
+            [ sh:hasValue ff:SocialAssistance ]      # Sozialhilfe
+            [ sh:hasValue ff:AsylumSeekerBenefits ] # Asylbewerberleistungen
+        ) ;
+        sh:message "Does not meet requirement 'User receives one of the required benefits.'"@en
+    ] ;
+    # User is younger than 25 years
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:minCount 1 ;
+        sh:maxExclusive 25 ;
+        sh:message "Does not meet requirement 'User is younger than 25 years.'"@en
+    ] .
+
+ff:UserShape a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    # User cannot cover the costs for Bildung und Teilhabe
+    sh:property [
+        sh:path ff:canCoverPersonalBasicNeeds ;
+        sh:hasValue false ;
+        sh:message "Does not meet requirement 'User cannot cover the costs for Bildung und Teilhabe.'"@en
+    ] ;
+    # User is younger than 18 years for Teilhabe am sozialen und kulturellen Leben
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:minCount 1 ;
+        sh:maxInclusive 18 ;
+        sh:message "Does not meet requirement 'User is younger than 18 years for Teilhabe am sozialen und kulturellen Leben.'"@en
+    ] .

@@ -1,0 +1,41 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+
+ff:B100019_LB_574711 a ff:SocialBenefit ;
+    rdfs:label "Ausbildungsgeld"@de, "Training allowance"@en .
+
+# CONSTRAINTS
+
+ff:Ausbildungsgeld a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_574711 ;
+    sh:targetNode ff:User ;
+    sh:property [
+        sh:path ff:hasDisabilityType ;
+        sh:minCount 1 ;
+        sh:message "Does not meet requirement 'User has a disability.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasRehabilitationProvider ;
+        sh:minCount 1 ;
+        sh:hasValue ff:FederalEmploymentAgency ;
+        sh:message "Does not meet requirement 'Rehabilitation provider is Federal Employment Agency.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:participates ;
+        sh:minCount 1 ;
+        sh:or (
+            [ sh:hasValue ff:EntryProcedureAndVocationalTrainingArea ]
+            [ sh:hasValue ff:School ]
+            [ sh:hasValue ff:VocationalTraining ]
+        ) ;
+        sh:message "Does not meet requirement 'User participates in one of the required training programs.'"@en ;
+    ] ;
+    sh:property [
+        sh:path [ sh:inverse ff:receivesBenefit ] ;
+        sh:maxCount 0 ;
+        sh:hasValue ff:B100019_LB_102716305 ; # Statutory accident insurance transitional allowance
+        sh:message "Does not meet requirement 'User does not receive statutory accident insurance transitional allowance.'"@en ;
+    ] .

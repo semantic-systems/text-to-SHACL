@@ -1,0 +1,56 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+ff:B100019_LB_582441 a ff:SocialBenefit ;
+    rdfs:label "Gesetzliche Unfallversicherung Witwen- und Witwerrente"@de, "Statutory accident insurance widow's pension"@en .
+
+# CONSTRAINTS
+ff:GUVWitwenrenteShape a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    # Requirement 1: Deceased partner caused by insurance event
+    sh:or (
+        [ 
+            sh:path ff:deceasedCivilPartner ;
+            sh:qualifiedValueShape ff:DeceasedPartnerShape ;
+            sh:qualifiedMinCount 1
+        ]
+        [ 
+            sh:path ff:deceasedSpouse ;
+            sh:qualifiedValueShape ff:DeceasedPartnerShape ;
+            sh:qualifiedMinCount 1
+        ]
+    ) .
+
+ff:DeceasedPartnerShape a sh:NodeShape ;
+    # The deceased partner must have statutory accident insurance
+    sh:property [
+        sh:path ff:hasInsurance ;
+        sh:minCount 1 ;
+        sh:hasValue ff:StatutoryAccidentInsurance ;
+        sh:message "Partner/Partnerin has no statutory accident insurance" ;
+    ] ;
+    # Death must be caused by an insurance event linked to legal union before event
+    sh:property [
+        sh:path ff:causeOfDeath ;
+        sh:minCount 1 ;
+        sh:node ff:InsuranceEventShape ;
+        sh:message "Death not caused by valid insurance event or insufficient union proof" ;
+    ] .
+
+ff:InsuranceEventShape a sh:NodeShape ;
+    # Event must be one of the allowed types
+    sh:or (
+        [ sh:class ff:WorkAccident ]
+        [ sh:class ff:CommutingAccident ]
+        [ sh:class ff:OccupationalDisease ]
+    ) ;
+    # User must have been in legal union with deceased before the event
+    sh:property [
+        sh:path ff:legalUnionBeforeEvent ;
+        sh:minCount 1 ;
+        sh:in (ff:User) ;
+        sh:message "No prior legal union with deceased before the event" ;
+    ] .

@@ -1,0 +1,193 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# METADATA
+
+ff:B100019_LB_576986 a ff:SocialBenefit ;
+    rdfs:label "Kindergeld"@de, "Child allowance"@en . 
+
+# CONSTRAINTS
+
+ff:KindergeldShape a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_576986 ;
+    sh:targetNode ff:User ;
+    # Parent must be fully taxable in Germany or be treated as such
+    sh:or (
+        ff:TaxLiabilityShapeA
+        ff:TaxLiabilityShapeB
+    ) ;
+    # Parent is a recognized refugee or entitled to asylum
+    sh:property [
+        sh:path ff:recognizedRefugee ;
+        sh:or [
+            sh:hasValue true ;
+            sh:property [
+                sh:path ff:entitledToAsylum ;
+                sh:hasValue true ;
+            ] ;
+        ] ;
+    ] ;
+    # Child must have a residence or usual abode in Germany or another EU/EWR state or Switzerland
+    sh:property [
+        sh:path ff:countryOfResidence ;
+        sh:minCount 1 ;
+        sh:in (ff:Germany ff:EEAplusCH) ;
+    ] .
+
+# Parent is an EU/EWR national and has a residence permit for Germany or is considered to be fully taxable
+ff:TaxLiabilityShapeA a sh:NodeShape ;
+    sh:property [
+        sh:path ff:isNationalOf ;
+        sh:minCount 1 ;
+        sh:in (ff:EEAplusCH) ;
+    ] ;
+    sh:or (
+        ff:ResidencePermitShape
+        ff:FullTaxLiabilityShape
+    ) ;
+    # EU/EWR national who moved to Germany after August 2019 must meet the requirements of the Freedom of Movement Act from the 4th month after entry
+    sh:property [
+        sh:path (ff:hasEvent ff:MoveToGermany) ;
+        sh:minCount 1 ;
+        sh:property [
+            sh:path ff:lessThanFourMonthsAgo ;
+            sh:in (false) ;
+            sh:property [
+                sh:path ff:derivesFreedomOfMovementFrom ;
+                sh:minCount 1 ;
+                sh:qualifiedValueShape ff:FreedomOfMovementShape ;
+            ] ;
+        ] ;
+    ] .
+
+# Parent is a national of a non-EU/EWR country and has a residence permit that entitles to employment or is a recognized refugee or entitled to asylum
+ff:TaxLiabilityShapeB a sh:NodeShape ;
+    sh:property [
+        sh:path ff:isNationalOf ;
+        sh:minCount 1 ;
+        sh:not [
+            sh:in (ff:EEAplusCH) ;
+        ]
+    ] ;
+    sh:property [
+        sh:path ff:hasResidencePermit ;
+        sh:minCount 1 ;
+        sh:qualifiedValueShape ff:EntitlementToEmploymentShape ;
+    ] ;
+    sh:property [
+        sh:path ff:recognizedRefugee ;
+        sh:or [
+            sh:hasValue true ;
+            sh:property [
+                sh:path ff:entitledToAsylum ;
+                sh:hasValue true ;
+            ] ;
+        ] ;
+    ] .
+
+# Parent has a residence permit that entitles to employment
+ff:EntitlementToEmploymentShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:entitlesToEmployment ;
+        sh:hasValue true ;
+    ] .
+
+# Parent is fully taxable in Germany
+ff:FullTaxLiabilityShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:incomeTaxLiability ;
+        sh:hasValue ff:UnlimitedTaxLiability ;
+    ] .
+
+# Parent meets the requirements of the Freedom of Movement Act
+ff:FreedomOfMovementShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:derivesFreedomOfMovementFrom ;
+        sh:or (
+            ff:EmployedShape
+            ff:SelfEmployedShape
+            ff:JobSeekerShape
+            ff:FamilyMemberShape
+            ff:SufficientMeansShape
+            ff:PermanentResidenceShape
+        ) ;
+    ] ;
+    sh:property [
+        sh:path ff:sufficientMeansOfSubsistence ;
+        sh:hasValue true ;
+    ] ;
+    sh:property [
+        sh:path ff:adequateHealthInsurance ;
+        sh:hasValue true ;
+    ] .
+
+# Parent is employed or self-employed
+ff:EmployedShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:hasEmploymentStatus ;
+        sh:in (ff:Employee ff:SelfEmployed) ;
+    ] ;
+    sh:property [
+        sh:path ff:inEmployment ;
+        sh:hasValue true ;
+    ] .
+
+# Parent is self-employed
+ff:SelfEmployedShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:hasEmploymentStatus ;
+        sh:hasValue ff:SelfEmployed ;
+    ] ;
+    sh:property [
+        sh:path ff:inEmployment ;
+        sh:hasValue true ;
+    ] .
+
+# Parent is a job-seeker
+ff:JobSeekerShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:availableForPlacement ;
+        sh:hasValue true ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEmploymentStatus ;
+        sh:in (ff:RegisteredUnemployed ff:JobSeeker) ;
+    ] .
+
+# Parent derives freedom of movement from a family member
+ff:FamilyMemberShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:closeRelative ;
+        sh:minCount 1 ;
+        sh:qualifiedValueShape ff:FamilyMemberShapeValue ;
+    ] .
+
+# Parent has sufficient means of subsistence
+ff:SufficientMeansShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:sufficientMeansOfSubsistence ;
+        sh:hasValue true ;
+    ] .
+
+# Parent has a permanent residence permit
+ff:PermanentResidenceShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:permanentRightOfResidence ;
+        sh:hasValue true ;
+    ] .
+
+# Family member from whom freedom of movement is derived
+ff:FamilyMemberShapeValue a sh:NodeShape ;
+    sh:property [
+        sh:path ff:derivesFreedomOfMovementFrom ;
+        sh:hasValue ff:User ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEmploymentStatus ;
+        sh:in (ff:Employee ff:SelfEmployed) ;
+    ] ;
+    sh:property [
+        sh:path ff:inEmployment ;
+        sh:hasValue true ;
+    ] .

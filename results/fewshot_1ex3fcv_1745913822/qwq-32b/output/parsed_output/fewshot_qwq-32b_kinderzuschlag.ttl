@@ -1,0 +1,95 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# METADATA
+ff:B100019_LB_581863 a ff:SocialBenefit ;
+    rdfs:label "Kinderzuschlag"@de, "Child supplement"@en .
+
+# MAIN SHAPE
+ff:ChildSupplementShape a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    sh:property [
+        # User must have at least one child fulfilling criteria
+        sh:path ff:receivesChildBenefitFor ;
+        sh:minCount 1 ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedValueShape ff:EligibleChildShape ;
+        sh:message "User must have at least one eligible child"@en ;
+    ] ;
+    sh:and (
+        # Income after offset must not reduce benefit to zero
+        [ sh:path (ff:hasIncome ff:reducesChildSupplementTo) ;
+          sh:minCount 1 ;
+          sh:minExclusive 0 ;
+          sh:message "Income reduces child supplement to zero"@en ]
+        # No considerable assets
+        [ sh:path ff:hasConsiderableAssets ;
+          sh:minCount 1 ;
+          sh:hasValue false ;
+          sh:message "Considerable assets disqualify"@en ]
+        # Can cover family needs with income + benefits
+        [ sh:path ff:canCoverBasicNeedsOfBenefitUnit ;
+          sh:minCount 1 ;
+          sh:hasValue true ;
+          sh:message "Inadequate income/assets to cover family needs"@en ]
+    ) ;
+    sh:or (
+        # Couple income condition
+        ff:IncomeShapeCouple
+        # Single parent income condition
+        ff:IncomeShapeSingle
+    ) .
+
+# ELIGIBLE CHILD CONSTRAINTS
+ff:EligibleChildShape a sh:NodeShape ;
+    sh:property [
+        # Under 25 years old
+        sh:path ff:hasAge ;
+        sh:maxExclusive 25 ;
+        sh:message "Child must be under 25 years old"@en ;
+    ] ;
+    sh:property [
+        # Not married or in civil union
+        sh:path ff:hasMaritalStatus ;
+        sh:not [
+            sh:in (ff:Married ff:CivilUnion) ;
+        ] ;
+        sh:message "Child must not be married/partnered"@en ;
+    ] ;
+    sh:property [
+        # Lives in same household as user
+        sh:path ff:sameHouseholdAs ;
+        sh:hasValue ff:User ;
+        sh:message "Child must live in user's household"@en ;
+    ] ;
+    sh:property [
+        # No priority claims over this benefit
+        sh:path ff:hasNoPriorityClaimsOver ;
+        sh:hasValue ff:B100019_LB_581863 ;
+        sh:message "Child has priority claims on this benefit"@en ;
+    ] .
+
+# INCOME CONDITIONS FOR COUPLES
+ff:IncomeShapeCouple a sh:NodeShape ;
+    sh:property [
+        sh:path ff:isSingleParent ;
+        sh:hasValue false ;
+    ] ;
+    sh:property [
+        sh:path (ff:hasIncome ff:familyGrossIncome) ;
+        sh:minInclusive 900 ;
+        sh:message "Couple income must be ≥900€/month"@en ;
+    ] .
+
+# INCOME CONDITIONS FOR SINGLE PARENTS
+ff:IncomeShapeSingle a sh:NodeShape ;
+    sh:property [
+        sh:path ff:isSingleParent ;
+        sh:hasValue true ;
+    ] ;
+    sh:property [
+        sh:path (ff:hasIncome ff:personalGrossIncome) ;
+        sh:minInclusive 600 ;
+        sh:message "Single parent income must be ≥600€/month"@en ;
+    ] .

@@ -1,0 +1,54 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+
+ff:B100019_LB_106311931 a ff:SocialBenefit ;
+    rdfs:label "Bürgergeld"@de, "Citizen benefit"@en .
+
+# CONSTRAINTS
+
+ff:Bürgergeld a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_106311931 ;
+    sh:targetNode ff:User ;
+    sh:property [
+        sh:path ff:canCoverPersonalBasicNeeds ;
+        sh:minCount 1 ;
+        sh:hasValue false ;
+        sh:message "Does not meet requirement 'User is in need of assistance.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasNoPriorityClaimsOver ;
+        sh:minCount 1 ;
+        sh:message "Does not meet requirement 'User has no prior claims against other agencies or persons.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:countryOfResidence ;
+        sh:minCount 1 ;
+        sh:hasValue ff:Germany ;
+        sh:message "Does not meet requirement 'User lives in Germany.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEarningCapacity ;
+        sh:minCount 1 ;
+        sh:message "Does not meet requirement 'User has earning capacity.'"@en ;
+        sh:property [
+            sh:path ff:availableForPlacement ;
+            sh:minCount 1 ;
+            sh:hasValue true ;
+            sh:message "Does not meet requirement 'User is available for placement.'"@en ;
+        ] ;
+        sh:property [
+            sh:path ff:isPensionable ;
+            sh:minCount 1 ;
+            sh:hasValue false ;
+            sh:message "Does not meet requirement 'User has not reached retirement age.'"@en ;
+        ] ;
+    ] ;
+    sh:property [
+        sh:path ff:employableHoursPerDay ;
+        sh:minCount 1 ;
+        sh:minInclusive 3 ;
+        sh:message "Does not meet requirement 'User can work at least 3 hours a day.'"@en ;
+    ] .

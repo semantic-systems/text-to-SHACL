@@ -1,0 +1,50 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+
+ff:B100019_LB_582404 a ff:SocialBenefit ;
+    rdfs:label "Gesetzliche Unfallversicherung Rente"@de, "Statutory accident insurance pension"@en .
+
+# CONSTRAINTS
+
+ff:StatutoryAccidentInsurancePension a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_582404 ;
+    sh:targetNode ff:User ;
+    sh:property [
+        sh:path ff:hasInsurance ;
+        sh:minCount 1 ;
+        sh:hasValue ff:StatutoryAccidentInsurance ; # Statutory accident insurance
+        sh:message "Does not meet requirement 'User has statutory accident insurance.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEarningCapacity ;
+        sh:minCount 1 ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedValueShape [
+            sh:property [
+                sh:path ff:reductionInPercent ;
+                sh:minInclusive 20 ;
+                sh:message "Does not meet requirement 'User's earning capacity is reduced by at least 20 percent.'"@en ;
+            ] ;
+            sh:property [
+                sh:path ff:isPermanent ;
+                sh:hasValue true ;
+                sh:message "Does not meet requirement 'User's earning capacity reduction is permanent.'"@en ;
+            ] ;
+            sh:property [
+                sh:path ff:triggeringEvent ;
+                sh:minCount 1 ;
+                sh:qualifiedMinCount 1 ;
+                sh:qualifiedValueShape [
+                    sh:property [
+                        sh:path ff:resultsInTreatment ;
+                        sh:hasValue true ;
+                        sh:message "Does not meet requirement 'User's earning capacity reduction is due to a treatment.'"@en ;
+                    ] ;
+                ] ;
+            ] ;
+        ] ;
+        sh:message "Does not meet requirement 'User's earning capacity is reduced.'"@en ;
+    ] .

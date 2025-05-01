@@ -1,0 +1,103 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# METADATA
+
+ff:B100019_LB_574724 a ff:SocialBenefit ;
+    rdfs:label "Berufsausbildungsbeihilfe"@de, "Vocational training allowance"@en .
+
+# CONSTRAINTS
+
+ff:BerufsausbildungsbeihilfeShape a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:minCount 1 ;
+        sh:minInclusive "18"^^xsd:int ;
+        sh:message "The user must be at least 18 years old."@en ;
+    ] ;
+    sh:or (
+        [
+            sh:property [
+                sh:path ff:hasMaritalStatus ;
+                sh:hasValue ff:Married ;
+            ] ;
+        ]
+        [
+            sh:property [
+                sh:path ff:hasChild ;
+                sh:minCount 1 ;
+            ] ;
+        ]
+    ) ;
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:minCount 0 ;
+        sh:hasValue ff:AsylumSeekerBenefits ;
+        sh:message "The user should not have asylum seeker benefits."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasResidenceStatus ;
+        sh:minCount 0 ;
+        sh:hasValue ff:Tolerated ;
+        sh:message "The user should not be tolerated."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:uninterruptedLegalStayForLessThan15Months ;
+        sh:not [ sh:hasValue true ] ;
+        sh:message "The user should not have stayed in Germany for less than 15 months continuously."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:canCoverPersonalBasicNeeds ;
+        sh:hasValue false ;
+        sh:message "The user should not be able to cover personal basic needs."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:isFirstVocationalTraining ;
+        sh:hasValue true ;
+        sh:message "The training should be the user's first vocational training."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:participates ;
+        sh:class ff:VocationalTraining ;
+        sh:minCount 1 ;
+        sh:message "The user must participate in a vocational training."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:recognizedByLaw ;
+        sh:class ff:LegalCode ;
+        sh:minCount 1 ;
+        sh:message "The training must be recognized by law."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:subjectToContract ;
+        sh:class ff:VocationalTrainingContract ;
+        sh:minCount 1 ;
+        sh:message "The training must be subject to a vocational training contract."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasDisabilityType ;
+        sh:class ff:Disability ;
+        sh:minCount 0 ;
+        sh:message "The user may have a disability."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:participates ;
+        sh:class ff:Training ;
+        sh:property [
+            sh:path ff:monthsAbroad ;
+            sh:maxInclusive "12"^^xsd:int ;
+            sh:message "The training abroad should not last more than 1 year."@en ;
+        ] ;
+    ] ;
+    sh:property [
+        sh:path ff:participates ;
+        sh:class ff:Training ;
+        sh:property [
+            sh:path ff:percentAbroad ;
+            sh:maxInclusive "0.5"^^xsd:decimal ;
+            sh:message "The training abroad should not exceed 50% of the total duration."@en ;
+        ] ;
+    ] .

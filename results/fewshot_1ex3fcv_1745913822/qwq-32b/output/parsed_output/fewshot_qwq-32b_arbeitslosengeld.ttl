@@ -1,0 +1,25 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+ff:B100019_LB_576842 a ff:SocialBenefit ;
+    rdfs:label "Arbeitslosengeld"@de, "Unemployment benefit"@en .
+
+# CONSTRAINTS
+ff:ArbeitslosengeldShape a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    sh:property [
+        # Must have employment status "Unemployed"
+        sh:path ff:hasEmploymentStatus ;
+        sh:minCount 1 ;
+        sh:hasValue ff:Unemployed ;
+        sh:message "User is not unemployed as required."@en ;
+    ] ;
+    sh:property [
+        # Must have compulsory insurance for at least 12 months in last 30
+        sh:path ff:compulsoryInsuranceFor12In30 ;
+        sh:minCount 1 ;
+        sh:hasValue true ;
+        sh:message "Insufficient compulsory insurance period."@en ;
+    ] .

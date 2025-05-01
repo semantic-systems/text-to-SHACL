@@ -1,0 +1,48 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# METADATA
+
+ff:B100019_LB_102799515 a ff:SocialBenefit ;
+    rdfs:label "Gesetzliche Unfallversicherung Kinderverletztengeld"@de, "Statutory accident insurance children's injury allowance"@en .
+
+# CONSTRAINTS
+
+ff:KinderverletztengeldShape a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    # User must have at least one child that they need to care for due to an accident
+    sh:property [
+        sh:path ff:needsCare ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedValueShape ff:CareNeedShape ;
+        sh:message "Does not meet requirement 'User has at least one child that needs care due to an accident.'"@en ;
+    ] ;
+    # User must have had a claim to wages or another monetary benefit before the care need
+    sh:property [
+        sh:path ff:hasEmploymentStatus ;
+        sh:minCount 1 ;
+        sh:in (ff:Employee ff:SelfEmployed) ;
+        sh:message "Does not meet requirement 'User had a claim to wages or another monetary benefit before the care need.'"@en ;
+    ] ;
+    # No other person in the household can provide the care
+    sh:property [
+        sh:path ff:caregiverInHousehold ;
+        sh:minCount 1 ;
+        sh:hasValue ff:User ;
+        sh:message "Does not meet requirement 'No other person in the household can provide the care.'"@en ;
+    ] .
+
+ff:CareNeedShape a sh:NodeShape ;
+    # Child must be younger than 12 years
+    sh:property [
+        sh:path (ff:needsCare ff:hasAge) ;
+        sh:minCount 1 ;
+        sh:maxExclusive 12 ;
+    ] ;
+    # Care need must be due to a school or kindergarten accident
+    sh:property [
+        sh:path (ff:needsCare ff:triggeringEvent) ;
+        sh:minCount 1 ;
+        sh:in (ff:SchoolAccident ff:KindergartenAccident) ;
+    ] .

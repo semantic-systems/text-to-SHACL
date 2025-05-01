@@ -1,0 +1,135 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# METADATA
+
+ff:B100019_LB_576986 a ff:SocialBenefit ;
+    rdfs:label "Kindergeld"@de, "Child allowance"@en . 
+
+# CONSTRAINTS
+
+ff:KindergeldShape a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_576986 ;
+    sh:targetNode ff:User ;
+    sh:or (
+        # User is a German citizen or a citizen of the EU/EEA/Switzerland and is subject to unlimited tax liability in Germany
+        ff:CitizenShape
+        # User is a recognized refugee or tolerated
+        ff:RefugeeShape
+        # User is a non-EU citizen, has a valid residence permit and is entitled to work
+        ff:NonEUShape
+    ) ;
+    # Child must live in the same household as the user or in another EU/EEA/Switzerland country if the user is subject to unlimited tax liability in Germany
+    sh:property [
+        sh:path ff:receivesChildBenefitFor ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedValueShape ff:ChildShape ;
+        sh:message "Does not meet requirement 'User has at least one child that fulfills the criteria.'"@en ;
+    ] .
+
+# Citizen of Germany or the EU/EEA/Switzerland and subject to unlimited tax liability in Germany
+ff:CitizenShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:incomeTaxLiability ;
+        sh:minCount 1 ;
+        sh:hasValue ff:UnlimitedTaxLiability ;
+    ] ;
+    sh:or (
+        ff:GermanCitizenShape
+        ff:EUCitizenShape
+    ) .
+
+# Citizen of Germany
+ff:GermanCitizenShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:isNationalOf ;
+        sh:minCount 1 ;
+        sh:hasValue ff:Germany ;
+    ] .
+
+# Citizen of the EU/EEA/Switzerland
+ff:EUCitizenShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:isNationalOf ;
+        sh:minCount 1 ;
+        sh:in (ff:EEAplusCH) ;
+    ] .
+
+# Recognized refugee or tolerated
+ff:RefugeeShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:recognizedRefugee ;
+        sh:minCount 1 ;
+        sh:in (true) ;
+    ] ;
+    sh:or (
+        ff:RecognizedRefugeeShape
+        ff:ToleratedShape
+    ) .
+
+# Recognized refugee
+ff:RecognizedRefugeeShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:hasAsylumActPermit ;
+        sh:minCount 1 ;
+        sh:in (true) ;
+    ] .
+
+# Tolerated
+ff:ToleratedShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:hasResidenceStatus ;
+        sh:minCount 1 ;
+        sh:hasValue ff:Tolerated ;
+    ] .
+
+# Non-EU citizen, has a valid residence permit and is entitled to work
+ff:NonEUShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:hasResidencePermit ;
+        sh:minCount 1 ;
+        sh:entitlesToEmployment true ;
+    ] ;
+    sh:property [
+        sh:path ff:hasNationality ;
+        sh:minCount 1 ;
+        sh:not [
+            sh:in (ff:EEAplusCH ff:Germany) ;
+        ]
+    ] .
+
+# Child shape
+ff:ChildShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:sameHouseholdAs ;
+        sh:minCount 1 ;
+        sh:hasValue ff:User ;
+    ] ;
+    sh:or (
+        # Child lives in Germany
+        ff:ChildInGermanyShape
+        # Child lives in another EU/EEA/Switzerland country and the user is subject to unlimited tax liability in Germany
+        ff:ChildInEUShape
+    ) .
+
+# Child lives in Germany
+ff:ChildInGermanyShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:countryOfResidence ;
+        sh:minCount 1 ;
+        sh:hasValue ff:Germany ;
+    ] .
+
+# Child lives in another EU/EEA/Switzerland country and the user is subject to unlimited tax liability in Germany
+ff:ChildInEUShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:countryOfResidence ;
+        sh:minCount 1 ;
+        sh:in (ff:EEAplusCH) ;
+    ] ;
+    sh:property [
+        sh:path ff:incomeTaxLiability ;
+        sh:minCount 1 ;
+        sh:hasValue ff:UnlimitedTaxLiability ;
+    ] .

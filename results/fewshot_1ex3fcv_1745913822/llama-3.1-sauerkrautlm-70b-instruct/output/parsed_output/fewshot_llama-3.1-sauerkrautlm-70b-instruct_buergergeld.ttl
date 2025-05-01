@@ -1,0 +1,42 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# METADATA
+
+ff:B100019_LB_106311931 a ff:SocialBenefit ;
+    rdfs:label "Bürgergeld"@de, "Citizen benefit"@en .
+
+# CONSTRAINTS
+
+ff:Bürgergeld a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_106311931 ;
+    sh:targetNode ff:User ;
+    sh:property [
+        sh:path ff:hasEarningCapacity ;
+        sh:minCount 1 ;
+        sh:hasValue ff:FullEarningCapacity ;
+        sh:message "Does not meet requirement 'User has full earning capacity.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:minInclusive 15 ;
+        sh:maxExclusive 67 ;
+        sh:message "Does not meet requirement 'User is at least 15 and below 67 years old.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:canCoverBasicNeedsOfBenefitUnit ;
+        sh:maxInclusive 0 ;
+        sh:message "Does not meet requirement 'User cannot cover the basic needs of themselves and the unemployed individuals in their benefit unit.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasNoPriorityClaimsOver ;
+        sh:minCount 1 ;
+        sh:message "Does not meet requirement 'User has no priority claims over other benefits.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:countryOfResidence ;
+        sh:hasValue ff:Germany ;
+        sh:message "Does not meet requirement 'User lives in Germany.'"@en ;
+    ] .

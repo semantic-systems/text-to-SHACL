@@ -1,0 +1,54 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# METADATA
+
+ff:B100019_LB_102799515 a ff:SocialBenefit ;
+    rdfs:label "Gesetzliche Unfallversicherung Kinderverletztengeld"@de, "Statutory accident insurance child care accident benefit"@en .
+
+# CONSTRAINTS
+
+ff:KinderverletztengeldShape a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_102799515 ;
+    sh:targetNode ff:User ;
+    # User must have at least one child for whom they receive accident insurance care benefits 
+    sh:property [
+        sh:path (ff:receivesBenefit ff:isEligibleFor) ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedValueShape ff:ChildShape ;
+        sh:message "Does not meet requirement 'User has at least one child that fulfills the criteria.'"@en ;
+    ] ;
+    # User must have had a right to remuneration before childcare 
+    sh:property [
+        sh:path ff:wasEntitledToCashBenefitBefore ;
+        sh:minCount 1 ;
+        sh:message "Does not meet requirement 'User must have had a right to remuneration before childcare.'"@en ;
+    ] ;
+    # No other household member can take care of the child 
+    sh:property [
+        sh:path ff:caregiverInHousehold ;
+        sh:minCount 0 ;
+        sh:maxCount 0 ;
+        sh:message "Does not meet requirement 'No other household member can take care of the child.'"@en ;
+    ] .
+
+ff:ChildShape a sh:NodeShape ;
+    # Child must be younger than 12 years
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:minCount 1 ;
+        sh:maxExclusive 12 ;
+    ] ;
+    # Child must have experienced an accident covered by statutory accident insurance
+    sh:property [
+        sh:path (ff:needsCare ff:resultsInTreatment) ;
+        sh:minCount 1 ;
+        sh:message "Does not meet requirement 'Child must have experienced an accident covered by statutory accident insurance.'"@en ;
+    ] ;
+    # Child must live in the same household as the user
+    sh:property [
+        sh:path ff:sameHouseholdAs ;
+        sh:minCount 1 ;
+        sh:hasValue ff:User ;
+    ] .

@@ -1,0 +1,65 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+
+ff:B100019_LB_582422 a ff:SocialBenefit ;
+    rdfs:label "Gesetzliche Unfallversicherung Übergangsgeld Berufliche Reha"@de, "Statutory accident insurance transitional allowance for occupational rehabilitation"@en .
+
+# CONSTRAINTS
+
+ff:B100019_LB_582422Shape a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_582422 ;
+    sh:targetNode ff:User ;
+    # User experienced an accident at work or on their way to/from work, or suffers from an occupational disease
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:minCount 1 ;
+        sh:or (
+            ff:WorkOrCommutingAccidentShape
+            ff:OccupationalDiseaseShape
+        ) ;
+        sh:message "Does not meet requirement 'User experienced an accident at work or on their way to/from work, or suffers from an occupational disease'."@en ;
+    ] ;
+    # User participates in a program for occupational rehabilitation
+    sh:property [
+        sh:path ff:participates ;
+        sh:minCount 1 ;
+        sh:class ff:OccupationalRehabilitation ;
+        sh:message "Does not meet requirement 'User participates in a program for occupational rehabilitation'."@en ;
+    ] .
+
+# User experienced an accident at work or on their way to/from work
+ff:WorkOrCommutingAccidentShape a sh:NodeShape ;
+    sh:or (
+        ff:WorkAccidentShape
+        ff:CommutingAccidentShape
+    ) .
+
+# User experienced an accident at work
+ff:WorkAccidentShape a sh:NodeShape ;
+    sh:property [
+        sh:path ( ff:hasEvent ff:resultsInTreatment ) ;
+        sh:minCount 1 ;
+        sh:in (true) ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:class ff:WorkAccident ;
+    ] .
+
+# User experienced an accident on their way to/from work
+ff:CommutingAccidentShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:class ff:CommutingAccident ;
+    ] .
+
+# User suffers from an occupational disease
+ff:OccupationalDiseaseShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:class ff:OccupationalDisease ;
+    ] .

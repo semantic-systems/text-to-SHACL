@@ -1,0 +1,45 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+
+ff:B100019_LB_102730340 a ff:SocialBenefit ;
+    rdfs:label "Förderung für Maßnahmen zur Aktivierung und beruflichen Eingliederung"@de, "Funding for activation and professional integration measures"@en .
+
+# CONSTRAINTS
+
+ff:AktivierungUndEingliederungShape a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_102730340 ;
+    sh:targetNode ff:User ;
+    # User receives basic income support
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:minCount 1 ;
+        sh:hasValue ff:B100019_LB_102716305 ; # Grundsicherung
+        sh:message "Does not meet requirement 'User receives basic income support'"@en ;
+    ] ;
+    # User has had a meeting with the integration specialist
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:minCount 1 ;
+        sh:nodeKind sh:BlankNode ;
+        sh:property [
+            sh:path ff:resultsInTreatment ;
+            sh:minCount 1 ;
+            sh:hasValue ff:IntegrationAssistance ;
+            sh:message "Does not meet requirement 'User has had a meeting with the integration specialist'"@en ;
+        ] ;
+    ] ;
+    # Participation approved by the Jobcenter
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:minCount 1 ;
+        sh:nodeKind sh:BlankNode ;
+        sh:property [
+            sh:path ff:recognizedByLaw ;
+            sh:minCount 1 ;
+            sh:hasValue ff:VocationalTrainingAct ;
+            sh:message "Does not meet requirement 'Participation approved by the Jobcenter'"@en ;
+        ] ;
+    ] .

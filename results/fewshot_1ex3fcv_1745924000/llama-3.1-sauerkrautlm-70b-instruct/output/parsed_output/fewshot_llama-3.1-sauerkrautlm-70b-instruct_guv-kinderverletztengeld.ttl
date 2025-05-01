@@ -1,0 +1,38 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# METADATA
+
+ff:B100019_LB_102799515 a ff:SocialBenefit ;
+    rdfs:label "Gesetzliche Unfallversicherung Kinderverletztengeld"@de, "Statutory accident insurance child injury benefit"@en . 
+
+# CONSTRAINTS
+
+ff:KinderverletztengeldShape a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_102799515 ;
+    sh:targetNode ff:User ;
+    # User must have at least one child for whom they receive child benefit
+    sh:property [
+        sh:path ff:receivesChildBenefitFor ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedValueShape ff:ChildShape ;
+        sh:message "Does not meet requirement 'User has at least one child that fulfills the criteria.'"@en ;
+    ] ;
+    # Child must be younger than 12 years
+    sh:property [
+        sh:path (ff:receivesChildBenefitFor ff:hasAge) ;
+        sh:minCount 1 ;
+        sh:maxExclusive 12 ;
+    ] ;
+    # Before caring for the child, the user must have been entitled to work income or another monetary benefit
+    sh:property [
+        sh:path ff:wasEntitledToCashBenefitBefore ;
+        sh:minCount 1 ;
+    ] ;
+    # No other household member can care for the child
+    sh:property [
+        sh:path (ff:sameHouseholdAs ff:canCoverBasicNeedsOfBenefitUnit) ;
+        sh:minCount 1 ;
+        sh:hasValue false ;
+    ] .

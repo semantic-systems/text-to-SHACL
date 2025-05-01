@@ -1,0 +1,41 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# METADATA
+
+ff:B100019_LB_576842 a ff:SocialBenefit ;
+    rdfs:label "Arbeitslosengeld"@de, "Unemployment benefit"@en .
+
+# CONSTRAINTS
+
+ff:UnemploymentBenefit a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    sh:property [
+        sh:path ff:hasEmploymentStatus ;
+        sh:hasValue ff:Unemployed ;
+        sh:message "User must be unemployed."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEmployment ;
+        sh:qualifiedMaxCount 0 ;
+        sh:qualifiedValueShape [
+            sh:property [
+                sh:path ff:workHoursPerWeek ;
+                sh:maxInclusive 14.999 ;
+                sh:message "User must not have an employment of 15 hours or more per week."@en ;
+            ] ;
+        ] ;
+        sh:message "User must not have any employment."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:availableForPlacement ;
+        sh:hasValue true ;
+        sh:message "User must be available for placement efforts."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:compulsoryInsuranceFor12In30 ;
+        sh:hasValue true ;
+        sh:message "User must have been subject to compulsory insurance for at least 12 months within the last 30 months."@en ;
+    ] .

@@ -1,0 +1,40 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# METADATA
+
+ff:B100019_LB_576842 a ff:SocialBenefit ;
+    rdfs:label "Arbeitslosengeld"@de, "Unemployment benefit"@en .
+
+# CONSTRAINTS
+
+ff:Arbeitslosengeld a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_576842 ;
+    sh:targetNode ff:User ;
+    sh:property [
+        sh:path ff:hasEmploymentStatus ;
+        sh:minCount 1 ;
+        sh:hasValue ff:RegisteredUnemployed ; # Registered unemployed
+        sh:message "Does not meet requirement 'User is registered as unemployed.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEmploymentStatus ;
+        sh:minCount 1 ;
+        sh:hasValue ff:Unemployed ; # Unemployed
+        sh:message "Does not meet requirement 'User is unemployed.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEmploymentStatus ;
+        sh:maxCount 0 ;
+        sh:hasValue ff:Employee ; # Employee
+        sh:message "Does not meet requirement 'User is not employed.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:compulsoryInsuranceFor12In30 ;
+        sh:minCount 1 ;
+        sh:datatype xsd:boolean ;
+        sh:minInclusive true ;
+        sh:message "Does not meet requirement 'User was subject to compulsory insurance for at least 12 months within the last 30 months.'"@en ;
+    ] .

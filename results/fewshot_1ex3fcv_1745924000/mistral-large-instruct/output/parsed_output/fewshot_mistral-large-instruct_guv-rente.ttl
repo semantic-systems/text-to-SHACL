@@ -1,0 +1,41 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+
+ff:B100019_LB_582404 a ff:SocialBenefit ;
+    rdfs:label "Gesetzliche Unfallversicherung Rente"@de, "Statutory accident insurance pension"@en .
+
+# CONSTRAINTS
+
+ff:StatutoryAccidentInsurancePension a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    sh:property [
+        sh:path ff:hasInsurance ;
+        sh:minCount 1 ;
+        sh:hasValue ff:StatutoryAccidentInsurance ;
+        sh:message "User must have statutory accident insurance."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEarningCapacity ;
+        sh:minCount 1 ;
+        sh:class ff:ReducedEarningCapacity ;
+        sh:message "User's earning capacity must be reduced."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:minCount 1 ;
+        sh:class ff:Event ;
+        sh:message "User must have experienced an insurance event."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:reductionInPercent ;
+        sh:minInclusive 20 ;
+        sh:message "User's earning capacity must be reduced by at least 20 percent."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:reductionDurationInWeeks ;
+        sh:minInclusive 26 ;
+        sh:message "User's earning capacity must be reduced for more than 26 weeks."@en ;
+    ] .

@@ -1,0 +1,41 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+ff:B100019_LB_574711 a ff:SocialBenefit ;
+    rdfs:label "Ausbildungsgeld"@de, "Training Allowance"@en .
+
+# CONSTRAINTS
+ff:AusbildungsgeldShape a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    sh:property [
+        # The user must have a disability
+        sh:path ff:hasDisability ;
+        sh:minCount 1 ;
+        sh:hasValue true ;
+        sh:message "User does not have a disability."@en ;
+    ] ;
+    sh:property [
+        # The user's rehabilitation provider must be FederalEmploymentAgency
+        sh:path ff:hasRehabilitationProvider ;
+        sh:minCount 1 ;
+        sh:hasValue ff:FederalEmploymentAgency ;
+        sh:message "Rehabilitation provider is not the Federal Employment Agency."@en ;
+    ] ;
+    sh:property [
+        # The user must participate in one of the allowed training types
+        sh:path ff:participates ;
+        sh:minCount 1 ;
+        sh:class [
+            sh:or ( ff:VocationalTraining ff:EntryProcedureAndVocationalTrainingArea )
+        ] ;
+        sh:message "Not participating in required training program."@en ;
+    ] ;
+    sh:property [
+        # The user must not be eligible for transitional allowance
+        sh:path ff:isEligibleFor ;
+        sh:maxCount 0 ;
+        sh:hasValue ff:B100019_LB_102716305 ; # Übergangsgeld
+        sh:message "Eligible for transitional allowance, which is prohibited."@en ;
+    ] .

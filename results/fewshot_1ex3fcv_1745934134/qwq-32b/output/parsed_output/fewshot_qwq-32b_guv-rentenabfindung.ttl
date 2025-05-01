@@ -1,0 +1,35 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+ff:B100019_LB_102799525 a ff:SocialBenefit ;
+    rdfs:label "Gesetzliche Unfallversicherung Rentenabfindung"@de, "Statutory accident insurance retirement settlement"@en .
+
+# CONSTRAINTS
+ff:GesetzlicheUnfallversicherungRentenabfindung a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    
+    # Condition 1: Must have a deceased spouse/civil partner
+    sh:property [
+        sh:or (
+            [ sh:path ff:deceasedSpouse ; sh:minCount 1 ]
+            [ sh:path ff:deceasedCivilPartner ; sh:minCount 1 ]
+        ) ;
+        sh:message "No deceased spouse/civil partner detected."@en ;
+    ] ;
+    
+    # Condition 2: Must have new union after widowhood
+    sh:property [
+        sh:path ff:hasMaritalStatus ;
+        sh:minCount 1 ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedValueShapes [
+            sh:property [
+                sh:path ff:newUnionAfterWidowhood ;
+                sh:hasValue true ;
+            ] ;
+            sh:class [ sh:in ( ff:Married ff:CivilUnion ) ] ;
+        ] ;
+        sh:message "No valid marital status with post-widowhood union detected."@en ;
+    ] .

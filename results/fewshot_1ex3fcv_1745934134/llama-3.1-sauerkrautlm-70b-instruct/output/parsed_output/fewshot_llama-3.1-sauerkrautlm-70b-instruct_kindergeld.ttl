@@ -1,0 +1,136 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# METADATA
+
+ff:B100019_LB_576986 a ff:SocialBenefit ;
+    rdfs:label "Kindergeld"@de, "Child allowance"@en . 
+
+# CONSTRAINTS
+
+ff:KindergeldShape a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_576986 ;
+    sh:targetNode ff:User ;
+    sh:or (
+        ff:EUAndEEACitizenShape
+        ff:NonEUAndEEACitizenShape
+        ff:RecognizedRefugeeShape
+    ) ;
+    # Child must have a residence or usual abode in Germany, the EU, the EEA or Switzerland
+    sh:property [
+        sh:path (ff:receivesChildBenefitFor ff:countryOfResidence) ;
+        sh:minCount 1 ;
+        sh:in (ff:Germany ff:EEAplusCH) ;
+    ] ;
+    # Alternatively, the child can live in the EU, the EEA or Switzerland if at least one parent is resident in Germany and has unlimited tax liability
+    sh:property [
+        sh:path (ff:receivesChildBenefitFor ff:sameHouseholdAs) ;
+        sh:minCount 1 ;
+        sh:property [
+            sh:path ff:incomeTaxLiability ;
+            sh:minCount 1 ;
+            sh:hasValue ff:UnlimitedTaxLiability ;
+        ] ;
+    ] .
+
+ff:EUAndEEACitizenShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:isNationalOf ;
+        sh:minCount 1 ;
+        sh:in (ff:EEAplusCH) ;
+    ] ;
+    sh:property [
+        sh:path ff:incomeTaxLiability ;
+        sh:minCount 1 ;
+        sh:in (ff:UnlimitedTaxLiability ff:LimitedTaxLiability) ;
+    ] ;
+    sh:or (
+        ff:FreelyMobileShape
+        ff:FourMonthsRuleShape
+    ) .
+
+ff:FreelyMobileShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:derivesFreedomOfMovementFrom ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ff:hasMaritalStatus ;
+        sh:minCount 1 ;
+    ] ;
+    sh:or (
+        ff:EmployedShape
+        ff:UnemployedShape
+        ff:SufficientResourcesShape
+        ff:PermanentRightOfResidenceShape
+    ) .
+
+ff:FourMonthsRuleShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:uninterruptedLegalStayForLessThan15Months ;
+        sh:minCount 1 ;
+        sh:in (false) ;
+    ] ;
+    sh:or (
+        ff:EmployedShape
+        ff:UnemployedShape
+        ff:SufficientResourcesShape
+        ff:PermanentRightOfResidenceShape
+    ) .
+
+ff:EmployedShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:inEmployment ;
+        sh:minCount 1 ;
+        sh:in (true) ;
+    ] .
+
+ff:UnemployedShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:inEmployment ;
+        sh:minCount 1 ;
+        sh:in (false) ;
+    ] ;
+    sh:property [
+        sh:path ff:availableForPlacement ;
+        sh:minCount 1 ;
+        sh:in (true) ;
+    ] .
+
+ff:SufficientResourcesShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:sufficientMeansOfSubsistence ;
+        sh:minCount 1 ;
+        sh:in (true) ;
+    ] ;
+    sh:property [
+        sh:path ff:adequateHealthInsurance ;
+        sh:minCount 1 ;
+        sh:in (true) ;
+    ] .
+
+ff:PermanentRightOfResidenceShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:permanentRightOfResidence ;
+        sh:minCount 1 ;
+        sh:in (true) ;
+    ] .
+
+ff:NonEUAndEEACitizenShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:hasResidencePermit ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path (ff:hasResidencePermit ff:entitlesToEmployment) ;
+        sh:minCount 1 ;
+        sh:in (true) ;
+    ] .
+
+ff:RecognizedRefugeeShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:recognizedRefugee ;
+        sh:minCount 1 ;
+        sh:in (true) ;
+    ] .

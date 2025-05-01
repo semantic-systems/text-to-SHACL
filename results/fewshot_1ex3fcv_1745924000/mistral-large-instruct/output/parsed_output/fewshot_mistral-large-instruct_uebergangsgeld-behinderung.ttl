@@ -1,0 +1,63 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+
+ff:B100019_LB_102716305 a ff:SocialBenefit ;
+    rdfs:label "Übergangsgeld für Menschen mit Behinderung"@de, "Transitional allowance for people with disabilities"@en .
+
+# CONSTRAINTS
+
+ff:TransitionalAllowanceShape a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    sh:property [
+        sh:path ff:hasDisabilityType ;
+        sh:minCount 1 ;
+        sh:message "User must have a disability."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasRehabilitationProvider ;
+        sh:hasValue ff:FederalEmploymentAgency ;
+        sh:message "The Federal Employment Agency must be the rehabilitation provider."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:participates ;
+        sh:minCount 1 ;
+        sh:class ff:Training ;
+        sh:message "User must participate in a training program."@en ;
+    ] ;
+    sh:or (
+        [
+            sh:property [
+                sh:path ff:hasEmployment ;
+                sh:property [
+                    sh:path ff:socialSecurityDuration ;
+                    sh:property [
+                        sh:path ff:monthsWithinLast3Years ;
+                        sh:minInclusive 12 ;
+                        sh:message "User must have been socially insured for at least 12 months in the last 3 years."@en ;
+                    ]
+                ]
+            ]
+        ]
+        [
+            sh:property [
+                sh:path ff:receivesBenefit ;
+                sh:hasValue ff:B100019_LB_576842 ; # Unemployment benefit
+                sh:message "User must currently receive unemployment benefit."@en ;
+            ]
+        ]
+        [
+            sh:property [
+                sh:path ff:eligibleWithinLast3Years ;
+                sh:hasValue ff:UnemploymentBenefitsSVG ;
+                sh:message "User must be eligible for unemployment benefits under the Soldatenversorgungsgesetz (SVG)."@en ;
+            ]
+        ]
+    ) ;
+    sh:property [
+        sh:path ff:isVocationalReturnee ;
+        sh:not [ sh:hasValue true ] ;
+        sh:message "User must not be a vocational returnee."@en ;
+    ] .

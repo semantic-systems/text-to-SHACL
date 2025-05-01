@@ -1,0 +1,43 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# METADATA
+
+ff:B100019_LB_102713860 a ff:SocialBenefit ;
+    rdfs:label "Einstiegsgeld"@de, "Introductory allowance"@en .
+
+# CONSTRAINTS
+
+ff:Einstiegsgeld a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:minCount 1 ;
+        sh:hasValue ff:B100019_LB_106311931 ; # Citizen benefit
+        sh:message "Does not meet requirement 'User receives citizen benefit.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:employableHoursPerDay ;
+        sh:minCount 1 ;
+        sh:minInclusive 15 ;
+        sh:message "Does not meet requirement 'Employment must be at least 15 hours per week.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEmploymentStatus ;
+        sh:minCount 1 ;
+        sh:in ( ff:Employee ff:SelfEmployed ff:Unemployed ff:JobSeeker ) ;
+        sh:message "Does not meet requirement 'User must have a valid employment status.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:participates ;
+        sh:minCount 1 ;
+        sh:message "Does not meet requirement 'User must be participating in a training or program.'"@en ;
+    ] ;
+    sh:property [
+        sh:path ff:isEligibleFor ;
+        sh:minCount 1 ;
+        sh:hasValue ff:B100019_LB_102713860 ;
+        sh:message "Does not meet requirement 'User must be eligible for the introductory allowance.'"@en ;
+    ] .

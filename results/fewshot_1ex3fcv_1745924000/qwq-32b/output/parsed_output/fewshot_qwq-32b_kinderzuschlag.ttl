@@ -1,0 +1,89 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# METADATA
+ff:B100019_LB_581863 a ff:SocialBenefit ;
+    rdfs:label "Kinderzuschlag"@de, "Child supplement"@en .
+
+# MAIN SHAPE
+ff:KinderzuschlagShape a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    sh:property [
+        # At least one eligible child
+        sh:path ff:receivesChildBenefitFor ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedValueShape ff:ChildShape ;
+        sh:message "No eligible child found meeting all requirements."@en
+    ] ;
+    sh:or (
+        ff:IncomeShapeCouple
+        ff:IncomeShapeSingle
+    ) ;
+    # Income reduction must not nullify supplement
+    sh:property [
+        sh:path (ff:hasIncome ff:reducesChildSupplementTo) ;
+        sh:minExclusive 0 ;
+        sh:message "Child supplement would be reduced to zero."@en
+    ] ;
+    # No considerable assets
+    sh:property [
+        sh:path ff:hasConsiderableAssets ;
+        sh:hasValue false ;
+        sh:message "Considerable assets disqualify eligibility."@en
+    ] ;
+    # Can cover family needs with combined income/benefits
+    sh:property [
+        sh:path ff:canCoverBasicNeedsOfBenefitUnit ;
+        sh:hasValue true ;
+        sh:message "Incomes do not cover family basic needs."@en
+    ] .
+
+# CHILD SHAPE
+ff:ChildShape a sh:NodeShape ;
+    sh:property [
+        # Under 25 years old
+        sh:path ff:hasAge ;
+        sh:maxExclusive 25 ;
+    ] ;
+    sh:property [
+        # Not married/civil union
+        sh:path ff:hasMaritalStatus ;
+        sh:not [
+            sh:in (ff:Married ff:CivilUnion) ;
+        ]
+    ] ;
+    sh:property [
+        # Same household as user
+        sh:path ff:sameHouseholdAs ;
+        sh:hasValue ff:User ;
+    ] ;
+    sh:property [
+        # No priority claims over this benefit
+        sh:path ff:hasNoPriorityClaimsOver ;
+        sh:hasValue ff:B100019_LB_581863 ;
+    ] .
+
+# INCOME SHAPE FOR COUPLES
+ff:IncomeShapeCouple a sh:NodeShape ;
+    sh:property [
+        sh:path ff:isSingleParent ;
+        sh:in (false) ;
+    ] ;
+    sh:property [
+        sh:path (ff:hasIncome ff:familyGrossIncome) ;
+        sh:minInclusive 900 ;
+        sh:message "Family gross income below required threshold."@en
+    ] .
+
+# INCOME SHAPE FOR SINGLE PARENTS
+ff:IncomeShapeSingle a sh:NodeShape ;
+    sh:property [
+        sh:path ff:isSingleParent ;
+        sh:in (true) ;
+    ] ;
+    sh:property [
+        sh:path (ff:hasIncome ff:personalGrossIncome) ;
+        sh:minInclusive 600 ;
+        sh:message "Personal gross income below required threshold."@en
+    ] .

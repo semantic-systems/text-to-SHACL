@@ -1,0 +1,100 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# METADATA
+
+ff:B100019_LB_581863 a ff:SocialBenefit ;
+    rdfs:label "Kinderzuschlag"@de, "Child supplement"@en . 
+
+# CONSTRAINTS
+
+ff:KinderzuschlagShape a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_581863 ;
+    sh:targetNode ff:User ;
+    # User must have at least one child for whom they receive child benefit
+    sh:property [
+        sh:path ff:receivesChildBenefitFor ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedValueShape ff:ChildShape ;
+        sh:message "Does not meet requirement 'User has at least one child that fulfills the criteria.'"@en ;
+    ] ;
+    sh:or (
+        ff:IncomeShapeA
+        ff:IncomeShapeB
+    ) ;
+    # User income that will be offset against child supplement may not reduce it to zero
+    sh:property [
+        sh:path (ff:hasIncome ff:reducesChildSupplementTo);
+        sh:minCount 1 ;
+        sh:minExclusive 0 ;
+        sh:message "Does not meet requirement 'User income that will be offset against child supplement may not reduce it to zero.'"@en ;
+    ] ;
+    # User has no considerable assets
+    sh:property[
+        sh:path ff:hasConsiderableAssets ;
+        sh:minCount 1 ;
+        sh:hasValue false ;
+        sh:message "Does not meet requirement 'User has no considerable assets.'"@en ;
+    ] ;
+    # User can cover the basic needs of themselves and the unemployed individuals in their benefit unit with their income, assets, and priority benefits.
+    sh:property [
+        sh:path ff:canCoverBasicNeedsOfBenefitUnit ;
+        sh:minCount 1 ;
+        sh:hasValue true ;
+        sh:message "Does not meet requirement 'User can cover the basic needs of themselves and the unemployed individuals in their benefit unit with their income, assets, and priority benefits.'"@en ;
+    ] .
+
+ff:ChildShape a sh:NodeShape ;
+    # Child must be younger than 25 years
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:minCount 1 ;
+        sh:maxExclusive 25 ;
+    ] ;
+    # Child may not be married or in a registered partnership
+    sh:property [
+        sh:path ff:hasMaritalStatus ;
+        sh:minCount 1 ;
+        sh:not [
+            sh:in (ff:Married ff:CivilUnion) ;
+        ]
+    ] ;
+    # Child must live in the same household as the user
+    sh:property [
+        sh:path ff:sameHouseholdAs ;
+        sh:minCount 1 ;
+        sh:hasValue ff:User ;
+    ] ;
+    # Child may not be eligible for other benefits with priority over child supplement 
+    sh:property [
+        sh:path ff:hasNoPriorityClaimsOver ;
+        sh:minCount 1 ;
+		sh:hasValue ff:B100019_LB_581863 ; # Child supplement
+    ] .
+
+# As a couple, shared gross income must be at least 900€/Month
+ff:IncomeShapeA a sh:NodeShape ;
+    sh:property [
+        sh:path ff:isSingleParent ;
+        sh:minCount 1 ;
+        sh:in (false) ;
+    ] ;
+    sh:property [
+        sh:path (ff:hasIncome ff:familyGrossIncome) ;
+        sh:minCount 1 ;
+        sh:minInclusive 900 ;
+    ] .
+
+# As a single parent, gross income must be at least 600€/Month
+ff:IncomeShapeB a sh:NodeShape ;
+    sh:property [
+        sh:path ff:isSingleParent ;
+        sh:minCount 1 ;
+        sh:in (true) ;
+    ] ;
+    sh:property [
+        sh:path (ff:hasIncome ff:personalGrossIncome) ;
+        sh:minCount 1 ;
+        sh:minInclusive 600 ;
+    ] .

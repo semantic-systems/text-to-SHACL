@@ -1,0 +1,42 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# METADATA
+
+ff:L100040_LB_8664880 a ff:SocialBenefit ;
+    rdfs:label "Grundsicherung im Alter und bei Erwerbsminderung"@de, "Basic Security in Old Age and Reduced Earning Capacity"@en ;
+    rdfs:comment "Last resort government support for individuals in need who cannot support themselves with income and assets."@en .
+
+# CONSTRAINTS
+
+ff:GrundsicherungImAlterUndBeiErwerbsminderung a sh:NodeShape ;
+    ff:checksFundingRequirement ff:L100040_LB_8664880 ;
+    sh:targetNode ff:User ;
+    sh:or (
+        [
+            sh:property [
+                sh:path ff:aboveSGBXII41AgeLimit ;
+                sh:hasValue true ;
+                sh:message "User has not reached the age limit under § 41 SGB XII."@en ;
+            ]
+        ] [
+            sh:property [
+                sh:path ff:hasDisabilityType ;
+                sh:node ff:ReducedEarningCapacity ;
+                sh:message "User is not severely disabled."@en ;
+            ]
+        ] [
+            sh:property [
+                sh:path ff:participates ;
+                sh:node ff:EntryProcedureAndVocationalTrainingArea ;
+                sh:message "User is not in entry procedure and vocational training in a workshop for people with disabilities."@en ;
+            ]
+        ]
+    ) ;
+    sh:property [
+        sh:path ff:hasNoPriorityClaimsOver ;
+        sh:minCount 1 ;
+        sh:message "User has priority claims over other social benefits."@en ;
+    ] .

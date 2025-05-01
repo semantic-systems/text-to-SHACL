@@ -1,0 +1,122 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+
+ff:B100019_LB_582435 a ff:SocialBenefit ;
+    rdfs:label "Gesetzliche Unfallversicherung Waisenrente"@de, "Statutory accident insurance orphan's pension"@en .
+# CONSTRAINTS
+
+ff:GUVWaisenrenteShape a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_582435 ;
+    sh:targetNode ff:User ;
+    sh:or (
+        [ 
+            # User is a natural child of the deceased person
+            sh:path ff:naturalChildTo ;
+            sh:qualifiedValueShape ff:DeceasedPersonShape ;
+            sh:qualifiedMinCount 1
+        ]
+        [ 
+            # User is a foster child of the deceased person
+            sh:path ff:fosterChildTo ;
+            sh:qualifiedValueShape ff:DeceasedPersonShape ;
+            sh:qualifiedMinCount 1 ;
+            sh:property [
+                sh:path ff:sameHouseholdAs ;
+                sh:minCount 1 ;
+                sh:node ff:DeceasedPersonNode ;
+            ]
+        ]
+        [ 
+            # User is a step child of the deceased person
+            sh:path ff:stepChildTo ;
+            sh:qualifiedValueShape ff:DeceasedPersonShape ;
+            sh:qualifiedMinCount 1 ;
+            sh:property [
+                sh:path ff:sameHouseholdAs ;
+                sh:minCount 1 ;
+                sh:node ff:DeceasedPersonNode ;
+            ]
+        ]
+        [ 
+            # User is a grandchild or sibling of the deceased person
+            sh:property [
+                sh:path ff:closeRelative ;
+                sh:qualifiedValueShape ff:DeceasedPersonShape ;
+                sh:qualifiedMinCount 1 ;
+                sh:property [
+                    sh:path ff:sameHouseholdAs ;
+                    sh:minCount 1 ;
+                    sh:node ff:DeceasedPersonNode ;
+                ]
+            ]
+        ]
+        [ 
+            # The deceased person was predominantly responsible for the user's maintenance
+            sh:property [
+                sh:path ff:hasPrimaryCareTaker ;
+                sh:qualifiedValueShape ff:DeceasedPersonShape ;
+                sh:qualifiedMinCount 1
+            ]
+        ]
+    ) .
+
+ff:DeceasedPersonShape a sh:NodeShape ;
+    # The deceased person died due to an insured event
+    sh:property [
+        sh:path ff:causeOfDeath ;
+        sh:minCount 1 ;
+        sh:node ff:InsuranceEventShape ;
+    ] .
+
+ff:DeceasedPersonNode a sh:NodeShape ;
+    sh:inversePath ff:deceasedSpouse, ff:deceasedCivilPartner ;
+    sh:minCount 1 ;
+    sh:maxCount 1 .
+
+ff:InsuranceEventShape a sh:NodeShape ;
+    # Death was caused by an insurance event
+    sh:or (
+        [sh:class ff:WorkAccident]
+        [sh:class ff:CommutingAccident]
+        [sh:class ff:OccupationalDisease]
+    ) ;
+    # User is under 27 years old
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:minInclusive 18 ;
+        sh:maxInclusive 26 ;
+    ] ;
+    sh:or (
+        [ 
+            # User is in school or vocational training
+            sh:property [
+                sh:path ff:participates ;
+                sh:minCount 1 ;
+                sh:node ff:TrainingNode ;
+            ]
+        ]
+        [ 
+            # User is unable to support themselves due to a disability
+            sh:property [
+                sh:path ff:hasDisabilityType ;
+                sh:minCount 1 ;
+            ]
+        ]
+        [ 
+            # User is in a transitional period
+            sh:property [
+                sh:path ff:isInTransitionalPeriod ;
+                sh:value true ;
+            ]
+        ]
+    ) .
+
+ff:TrainingNode a sh:NodeShape ;
+    sh:or (
+        [sh:class ff:School]
+        [sh:class ff:VocationalTraining]
+    ) .
