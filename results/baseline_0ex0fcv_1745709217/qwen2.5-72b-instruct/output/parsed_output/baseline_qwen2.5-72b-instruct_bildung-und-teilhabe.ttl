@@ -1,0 +1,54 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:UserShape a sh:NodeShape ;
+    sh:targetClass ff:User ;
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:minInclusive 0 ;
+        sh:maxInclusive 25 ;
+        sh:datatype xsd:int ;
+    ] ;
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:minInclusive 0 ;
+        sh:maxInclusive 18 ;
+        sh:datatype xsd:int ;
+        sh:condition [
+            sh:and (
+                [ sh:path ff:isEligibleFor ; sh:hasValue ff:L100040_LB_12280162 ]
+            )
+        ]
+    ] ;
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:in (ff:B100019_LB_106311931 ff:L100040_LB_8665924 ff:B100019_LB_581863 ff:AsylumSeekerBenefits) ;
+        sh:optional true ;
+    ] ;
+    sh:property [
+        sh:path ff:canCoverBasicNeedsOfBenefitUnit ;
+        sh:equals "false"^^xsd:boolean ;
+        sh:optional true ;
+    ] ;
+    sh:property [
+        sh:path ff:hasIncome ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:property [
+            sh:path ff:personalGrossIncome ;
+            sh:lessThan 1500 ; # Assuming a low-income threshold of 1500 EUR
+            sh:datatype xsd:decimal ;
+        ] ;
+        sh:optional true ;
+    ] ;
+    sh:property [
+        sh:path ff:isEligibleFor ;
+        sh:hasValue ff:L100040_LB_12280162 ;
+        sh:condition [
+            sh:or (
+                [ sh:path ff:receivesBenefit ; sh:in (ff:B100019_LB_106311931 ff:L100040_LB_8665924 ff:B100019_LB_581863 ff:AsylumSeekerBenefits) ]
+                [ sh:path ff:canCoverBasicNeedsOfBenefitUnit ; sh:equals "false"^^xsd:boolean ]
+                [ sh:path ff:hasIncome ; sh:property [ sh:path ff:personalGrossIncome ; sh:lessThan 1500 ; sh:datatype xsd:decimal ] ]
+            )
+        ]
+    ] .

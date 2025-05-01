@@ -1,0 +1,28 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:User
+  a sh:NodeShape ;
+  sh:targetClass ff:User ;
+  sh:property [
+    sh:path ff:hasAge ;
+    sh:minInclusive 65 ;
+    sh:datatype xsd:int ;
+  ] ;
+  sh:or (
+    [ sh:path ff:hasDisability ; sh:datatype xsd:boolean ; sh:equals true ]
+    [ sh:path ff:hasDisabilityType ; sh:class ff:Disability ]
+  ) ;
+  sh:property [
+    sh:path ff:canCoverBasicNeedsOfBenefitUnit ;
+    sh:datatype xsd:boolean ;
+    sh:equals false ;
+  ] ;
+  sh:property [
+    sh:path ff:canCoverPersonalBasicNeeds ;
+    sh:datatype xsd:boolean ;
+    sh:equals false ;
+  ] .

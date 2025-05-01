@@ -1,0 +1,37 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+ff:UnemploymentBenefitEligibilityShape
+    a sh:NodeShape ;
+    sh:targetClass ff:Person ;
+    sh:property [
+        sh:path ff:inEmployment ;
+        sh:maxCount 1 ;
+        sh:hasValue false ;
+        sh:severity sh:Violation ;
+        sh:message "Person must not be in employment."
+    ] , [
+        sh:path ff:workHoursPerWeek ;
+        sh:maxCount 1 ;
+        sh:lessThanOrEqual 15 ;
+        sh:severity sh:Violation ;
+        sh:message "Person must work less than 15 hours per week."
+    ] , [
+        sh:path ff:availableForPlacement ;
+        sh:maxCount 1 ;
+        sh:hasValue true ;
+        sh:severity sh:Violation ;
+        sh:message "Person must be available for placement."
+    ] , [
+        sh:path ff:isRegisteredUnemployed ;
+        sh:maxCount 1 ;
+        sh:hasValue true ;
+        sh:severity sh:Violation ;
+        sh:message "Person must be registered as unemployed."
+    ] , [
+        sh:path ff:compulsoryInsuranceFor12In30 ;
+        sh:maxCount 1 ;
+        sh:hasValue true ;
+        sh:severity sh:Violation ;
+        sh:message "Person must have been insured for at least 12 months within the last 30 months."
+    ] .

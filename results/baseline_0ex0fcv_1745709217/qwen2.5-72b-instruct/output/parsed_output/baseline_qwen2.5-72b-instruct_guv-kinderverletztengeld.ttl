@@ -1,0 +1,57 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+ff:UserShape a sh:NodeShape ;
+  sh:targetClass ff:User ;
+  sh:property [
+    sh:path ff:needsCare ;
+    sh:qualifiedMinCount 1 ;
+    sh:qualifiedValueShape [
+      sh:class ff:CareNeed ;
+      sh:property [
+        sh:path ff:causedBy ;
+        sh:hasValue ff:SchoolAccident , ff:KindergartenAccident ;
+      ] ;
+      sh:property [
+        sh:path ff:caregiverInHousehold ;
+        sh:hasValue ff:User ;
+      ] ;
+    ]
+  ] ;
+  sh:property [
+    sh:path ff:hasChild ;
+    sh:qualifiedMinCount 1 ;
+    sh:qualifiedValueShape [
+      sh:class ff:Person ;
+      sh:property [
+        sh:path ff:hasAge ;
+        sh:maxInclusive 12 ;
+      ] ;
+    ]
+  ] ;
+  sh:property [
+    sh:path ff:wasEntitledToCashBenefitBefore ;
+    sh:qualifiedMinCount 1 ;
+    sh:qualifiedValueShape [
+      sh:class ff:Event ;
+      sh:property [
+        sh:path ff:causesLossOfEarnings ;
+        sh:hasValue true ;
+      ] ;
+    ]
+  ] ;
+  sh:property [
+    sh:path ff:sameHouseholdAs ;
+    sh:qualifiedMaxCount 0 ;
+    sh:qualifiedValueShape [
+      sh:class ff:Person ;
+      sh:property [
+        sh:path ff:hasChild ;
+        sh:hasValue ff:User ;
+      ] ;
+      sh:property [
+        sh:path ff:canCoverPersonalBasicNeeds ;
+        sh:hasValue true ;
+      ] ;
+    ]
+  ] .

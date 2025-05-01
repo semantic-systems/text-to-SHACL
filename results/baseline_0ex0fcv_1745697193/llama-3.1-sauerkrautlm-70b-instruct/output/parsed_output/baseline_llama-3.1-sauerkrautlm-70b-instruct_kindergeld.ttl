@@ -1,0 +1,81 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:UserEligibilityForChildBenefit
+    a sh:NodeShape ;
+    sh:targetClass ff:User ;
+    sh:property [
+        sh:path ff:incomeTaxLiability ;
+        sh:datatype xsd:boolean ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:hasValue ff:UnlimitedTaxLiability ;
+    ] ;
+    sh:or (
+        [
+            sh:property [
+                sh:path ff:isNationalOf ;
+                sh:datatype ff:EEAplusCH ;
+                sh:minCount 1 ;
+            ] ;
+        ]
+        [
+            sh:property [
+                sh:path ff:hasResidencePermit ;
+                sh:property [
+                    sh:path ff:entitlesToEmployment ;
+                    sh:datatype xsd:boolean ;
+                    sh:minCount 1 ;
+                    sh:maxCount 1 ;
+                    sh:hasValue true ;
+                ] ;
+            ] ;
+        ]
+        [
+            sh:property [
+                sh:path ff:recognizedRefugee ;
+                sh:datatype xsd:boolean ;
+                sh:minCount 1 ;
+                sh:maxCount 1 ;
+                sh:hasValue true ;
+            ] ;
+        ]
+    ) ;
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:class ff:B100019_LB_576986 ;
+        sh:maxCount 0 ;
+    ] ;
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:property [
+            sh:path ff:receivedWithinLast3Years ;
+            sh:datatype xsd:boolean ;
+            sh:minCount 0 ;
+            sh:maxCount 0 ;
+            sh:hasValue true ;
+        ] ;
+        sh:maxCount 0 ;
+    ] ;
+    sh:property [
+        sh:path ff:hasChild ;
+        sh:property [
+            sh:path ff:countryOfResidence ;
+            sh:datatype ff:EEAplusCH ;
+            sh:minCount 1 ;
+        ] ;
+    ] ;
+    sh:property [
+        sh:path ff:hasChild ;
+        sh:property [
+            sh:path ff:sameHouseholdAs ;
+            sh:datatype ff:User ;
+            sh:minCount 0 ;
+        ] ;
+        sh:property [
+            sh:path ff:incomeTaxLiability ;
+            sh:datatype ff:UnlimitedTaxLiability ;
+            sh:minCount 1 ;
+        ] ;
+    ] .

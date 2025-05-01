@@ -1,0 +1,26 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:WidowerPensionShape
+    a sh:NodeShape ;
+    sh:targetClass ff:User ;
+    sh:property [
+        sh:path ff:hasSpouse ;
+        sh:minCount 1 ;
+        sh:message "You must have been married." ;
+        sh:property [
+            sh:path ff:causeOfDeath ;
+            sh:minCount 1 ;
+            sh:message "Your partner must have died." ;
+            sh:property [
+                sh:path ff:resultsInTreatment ;
+                sh:minCount 1 ;
+                sh:message "The event that caused your partner's death must have been a work accident, commuting accident or occupational disease." ;
+                sh:nodeKind sh:BlankNodeOrIRI ;
+                sh:class [
+                    sh:in ( ff:WorkAccident ff:CommutingAccident ff:OccupationalDisease )
+                ] ;
+            ] ;
+        ] ;
+    ] .

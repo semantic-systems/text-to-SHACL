@@ -1,0 +1,91 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:ArbeitslosengeldShape a sh:NodeShape ;
+    sh:targetClass ff:Person ;
+    sh:property [
+        sh:path ff:hasEmploymentStatus ;
+        sh:node ff:UnemployedShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:node ff:NoOtherBenefitsShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ff:hasNoPriorityClaimsOver ;
+        sh:node ff:NoPriorityBenefitsShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ff:compulsoryInsuranceFor12In30 ;
+        sh:datatype xsd:boolean ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:value "true"^^xsd:boolean ;
+    ] .
+
+ff:UnemployedShape a sh:NodeShape ;
+    sh:targetClass ff:EmploymentStatus ;
+    sh:hasValue ff:Unemployed .
+
+ff:NoOtherBenefitsShape a sh:NodeShape ;
+    sh:targetClass ff:SocialBenefit ;
+    sh:hasValue ff:B100019_LB_576842 .
+
+ff:NoPriorityBenefitsShape a sh:NodeShape ;
+    sh:targetClass ff:SocialBenefit ;
+    sh:hasValue ff:B100019_LB_576842 .
+
+ff:RegisterdAsUnemployedShape a sh:NodeShape ;
+    sh:targetClass ff:Event ;
+    sh:property [
+        sh:path ff:hasDate ;
+        sh:datatype xsd:dateTime ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ff:resultsInTreatment ;
+        sh:node ff:RegisterdAsUnemployedTreatmentShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ] .
+
+ff:RegisterdAsUnemployedTreatmentShape a sh:NodeShape ;
+    sh:targetClass ff:OccupationalRehabilitation ;
+    sh:property [
+        sh:path ff:triggeringEvent ;
+        sh:node ff:RegisterdAsUnemployedEventShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ] .
+
+ff:RegisterdAsUnemployedEventShape a sh:NodeShape ;
+    sh:targetClass ff:Event ;
+    sh:property [
+        sh:path ff:causesLossOfEarnings ;
+        sh:datatype xsd:boolean ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:value "true"^^xsd:boolean ;
+    ] ;
+    sh:property [
+        sh:path ff:lessThanFourMonthsAgo ;
+        sh:datatype xsd:boolean ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:value "true"^^xsd:boolean ;
+    ] ;
+    sh:property [
+        sh:path ff:isRenumerated ;
+        sh:datatype xsd:boolean ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:value "false"^^xsd:boolean ;
+    ] .

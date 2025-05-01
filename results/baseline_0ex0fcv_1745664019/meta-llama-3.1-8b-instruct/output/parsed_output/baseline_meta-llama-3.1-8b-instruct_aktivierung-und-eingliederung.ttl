@@ -1,0 +1,160 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Shapes for the benefit
+<https://foerderfunke.org/default#B100019_LB_102730340>
+  a sh:NodeShape ;
+  sh:property [
+    sh:path ff:receivesBenefit ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:boolean
+  ] ;
+  sh:property [
+    sh:path ff:hasAge ;
+    sh:nodeKind sh:Literal ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:int
+  ] ;
+  sh:property [
+    sh:path ff:hasDisability ;
+    sh:nodeKind sh:Literal ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:boolean
+  ] ;
+  sh:property [
+    sh:path ff:compulsoryInsuranceFor12In30 ;
+    sh:nodeKind sh:Literal ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:boolean
+  ] ;
+  sh:property [
+    sh:path ff:hasIncome ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype ff:Income
+  ] ;
+  sh:property [
+    sh:path ff:reducesChildSupplementTo ;
+    sh:nodeKind sh:Literal ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:decimal
+  ] ;
+  sh:property [
+    sh:path ff:hasEmployment ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype ff:Employment
+  ] ;
+  sh:property [
+    sh:path ff:hasEmploymentStatus ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype ff:EmploymentStatus
+  ] .
+
+# Shapes for the prerequisite of receiving benefits of the Grundsicherung
+<https://foerderfunke.org/default#Grundsicherung>
+  a sh:NodeShape ;
+  sh:property [
+    sh:path ff:receivesBenefit ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype ff:SocialBenefit
+  ] .
+
+# Shapes for the prerequisite of a valid application
+<https://foerderfunke.org/default#ValidApplication>
+  a sh:NodeShape ;
+  sh:property [
+    sh:path ff:hasEmployment ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype ff:Employment
+  ] ;
+  sh:property [
+    sh:path ff:hasEmploymentStatus ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype ff:EmploymentStatus
+  ] ;
+  sh:property [
+    sh:path ff:hasAge ;
+    sh:nodeKind sh:Literal ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:int
+  ] ;
+  sh:property [
+    sh:path ff:hasDisability ;
+    sh:nodeKind sh:Literal ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:boolean
+  ] ;
+  sh:property [
+    sh:path ff:compulsoryInsuranceFor12In30 ;
+    sh:nodeKind sh:Literal ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:boolean
+  ] ;
+  sh:property [
+    sh:path ff:hasIncome ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype ff:Income
+  ] .
+
+# Shapes for the prerequisite of a valid application for the benefit
+<https://foerderfunke.org/default#ValidApplicationBenefit>
+  a sh:NodeShape ;
+  sh:property [
+    sh:path ff:hasAge ;
+    sh:nodeKind sh:Literal ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:int
+  ] ;
+  sh:property [
+    sh:path ff:hasDisability ;
+    sh:nodeKind sh:Literal ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:boolean
+  ] ;
+  sh:property [
+    sh:path ff:compulsoryInsuranceFor12In30 ;
+    sh:nodeKind sh:Literal ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:boolean
+  ] ;
+  sh:property [
+    sh:path ff:hasIncome ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype ff:Income
+  ] ;
+  sh:property [
+    sh:path ff:receivesBenefit ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype ff:SocialBenefit
+  ] .

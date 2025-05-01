@@ -1,0 +1,463 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<> a sh:NodeShape ;
+    sh:targetClass ff:User ;
+    
+    sh:property [
+        sh:path ff:hasInsurance ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:True ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasDisability ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:True ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasConsiderableAssets ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:False ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasDisabilityType ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:True ;
+        sh:minCount 1 ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:Boolean ;
+        sh:minCount 1 ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasDisability ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:Boolean ;
+        sh:minCount 1 ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasDisabilityType ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:Boolean ;
+        sh:minCount 1 ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasAsylumActPermit ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:False ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasDisability ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:Boolean ;
+        sh:minCount 1 ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasConsiderableAssets ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:False ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasDisabilityType ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:Boolean ;
+        sh:minCount 1 ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:Boolean ;
+        sh:minCount 1 ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasDisability ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:Boolean ;
+        sh:minCount 1 ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasConsiderableAssets ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:False ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasDisabilityType ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:Boolean ;
+        sh:minCount 1 ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:Boolean ;
+        sh:minCount 1 ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasDisability ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:Boolean ;
+        sh:minCount 1 ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasConsiderableAssets ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:False ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasDisabilityType ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:Boolean ;
+        sh:minCount 1 ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:Boolean ;
+        sh:minCount 1 ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasDisability ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:Boolean ;
+        sh:minCount 1 ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasConsiderableAssets ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:False ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasDisabilityType ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:Boolean ;
+        sh:minCount 1 ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:Boolean ;
+        sh:minCount 1 ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasDisability ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:Boolean ;
+        sh:minCount 1 ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasConsiderableAssets ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:False ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasDisabilityType ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:Boolean ;
+        sh:minCount 1 ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:Boolean ;
+        sh:minCount 1 ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasDisability ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:Boolean ;
+        sh:minCount 1 ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasConsiderableAssets ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:False ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasDisabilityType ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:Boolean ;
+        sh:minCount 1 ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:Boolean ;
+        sh:minCount 1 ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasDisability ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:Boolean ;
+        sh:minCount 1 ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasConsiderableAssets ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:False ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasDisabilityType ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:Boolean ;
+        sh:minCount 1 ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:Boolean ;
+        sh:minCount 1 ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasDisability ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:Boolean ;
+        sh:minCount 1 ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasConsiderableAssets ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:False ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasDisabilityType ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:Boolean ;
+        sh:minCount 1 ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:Boolean ;
+        sh:minCount 1 ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasDisability ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:Boolean ;
+        sh:minCount 1 ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasConsiderableAssets ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:False ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasDisabilityType ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:Boolean ;
+        sh:minCount 1 ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:Boolean ;
+        sh:minCount 1 ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasDisability ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:Boolean ;
+        sh:minCount 1 ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasConsiderableAssets ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:False ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasDisabilityType ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:Boolean ;
+        sh:minCount 1 ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:Boolean ;
+        sh:minCount 1 ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasDisability ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:Boolean ;
+        sh:minCount 1 ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasConsiderableAssets ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:False ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasDisabilityType ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:Boolean ;
+        sh:minCount 1 ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:Boolean ;
+        sh:minCount 1 ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasDisability ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:Boolean ;
+        sh:minCount 1 ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasConsiderableAssets ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:False ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasDisabilityType ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:Boolean ;
+        sh:minCount 1 ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:Boolean ;
+        sh:minCount 1 ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasDisability ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:Boolean ;
+        sh:minCount 1 ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasConsiderableAssets ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:False ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasDisabilityType ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:Boolean ;
+        sh:minCount 1 ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:Boolean ;
+        sh:minCount 1 ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasDisability ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:Boolean ;
+        sh:minCount 1 ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasConsiderableAssets ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:False ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasDisabilityType ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:Boolean ;
+        sh:minCount 1 ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:Boolean ;
+        sh:minCount 1 ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasDisability ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:Boolean ;
+        sh:minCount 1 ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasConsiderableAssets ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:False ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasDisabilityType ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:Boolean ;
+        sh:minCount 1 ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:nodeKind sh:NodeTest ;
+        sh:datatype sh:Boolean ;
+        sh:minCount 1 ;
+    ] .

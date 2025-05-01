@@ -1,0 +1,30 @@
+@prefix dash: <http://datashapes.org/dash#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:userShape
+    a sh:NodeShape ;
+    sh:targetClass ff:User ;
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:class ff:Event ;
+        sh:or (
+            [ sh:class ff:WorkAccident ]
+            [ sh:class ff:CommutingAccident ]
+            [ sh:class ff:OccupationalDisease ]
+        ) ;
+    ] ;
+    sh:property [
+        sh:path ff:participates ;
+        sh:class ff:Training ;
+        sh:node [
+            sh:property [
+                sh:path ff:recognizedByLaw ;
+                sh:class ff:LegalCode ;
+                sh:hasValue ff:VocationalTrainingAct ;
+            ] ;
+        ] ;
+    ] .

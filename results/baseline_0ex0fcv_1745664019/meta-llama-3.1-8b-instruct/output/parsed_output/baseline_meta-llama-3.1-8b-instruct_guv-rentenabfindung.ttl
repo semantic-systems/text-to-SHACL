@@ -1,0 +1,47 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+<http://example.org/shapes>
+    a sh:NodeShape ;
+    sh:property [
+        sh:path ff:receivedBenefit ;
+        sh:class ff:SocialBenefit ;
+        sh:value [
+            sh:datatype xsd:boolean ;
+            sh:nodeKind sh:Literal ;
+            sh:value true ;
+            sh:lang "en"
+        ]
+    ] ;
+    sh:property [
+        sh:path ff:hasDisability ;
+        sh:class ff:Disability ;
+        sh:value [
+            sh:datatype xsd:boolean ;
+            sh:nodeKind sh:Literal ;
+            sh:value true ;
+            sh:lang "en"
+        ]
+    ] ;
+    sh:property [
+        sh:path ff:newUnionAfterWidowhood ;
+        sh:class ff:MaritalStatus ;
+        sh:value [
+            sh:datatype xsd:boolean ;
+            sh:nodeKind sh:Literal ;
+            sh:value true ;
+            sh:lang "en"
+        ]
+    ] ;
+    sh:property [
+        sh:path ff:isSingleParent ;
+        sh:class ff:Person ;
+        sh:value [
+            sh:datatype xsd:boolean ;
+            sh:nodeKind sh:Literal ;
+            sh:value false ;
+            sh:lang "en"
+        ]
+    ] .

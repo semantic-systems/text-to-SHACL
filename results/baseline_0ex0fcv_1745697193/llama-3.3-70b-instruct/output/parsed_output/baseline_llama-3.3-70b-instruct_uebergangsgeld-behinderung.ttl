@@ -1,0 +1,46 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:User
+  a sh:NodeShape ;
+  sh:targetClass ff:User ;
+  sh:property [
+      sh:path ff:hasDisability ;
+      sh:minCount 1 ;
+      sh:maxCount 1 ;
+      sh:datatype xsd:boolean ;
+      sh:hasValue "true" ;
+    ] ;
+  sh:property [
+      sh:path ff:hasRehabilitationProvider ;
+      sh:minCount 1 ;
+      sh:maxCount 1 ;
+      sh:class ff:RehabilitationProvider ;
+      sh:hasValue ff:FederalEmploymentAgency ;
+    ] ;
+  sh:property [
+      sh:path ff:participates ;
+      sh:minCount 1 ;
+      sh:maxCount 1 ;
+      sh:class [ sh:or ( ff:VocationalTraining ff:Berufsvorbereitung ff:UnterstützteBeschäftigung ff:EingangsverfahrenUndBerufsbildungsbereich ff:BeruflicheWeiterbildung ) ] ;
+    ] ;
+  sh:property [
+      sh:path ff:compulsoryInsuranceFor12In30 ;
+      sh:minCount 1 ;
+      sh:maxCount 1 ;
+      sh:datatype xsd:boolean ;
+      sh:hasValue "true" ;
+    ] ;
+  sh:property [
+      sh:path ff:receivesBenefit ;
+      sh:minCount 1 ;
+      sh:maxCount 1 ;
+      sh:class ff:B100019_LB_576842 ;
+    ] ;
+  sh:property [
+      sh:path ff:wasEligibleFor ;
+      sh:minCount 1 ;
+      sh:maxCount 1 ;
+      sh:class ff:UnemploymentBenefitsSVG ;
+    ] .

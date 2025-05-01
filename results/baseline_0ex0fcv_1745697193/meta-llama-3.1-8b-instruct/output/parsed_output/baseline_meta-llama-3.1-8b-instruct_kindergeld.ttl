@@ -1,0 +1,38 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ex: <http://example.org/> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+<https://foerderfunke.org/default#Kindergeld> a sh:NodeShape ;
+    sh:targetClass <https://foerderfunke.org/default#User> ;
+    sh:property [
+        sh:path <https://foerderfunke.org/default#hasCountryOfResidence> ;
+        sh:minCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:class <https://foerderfunke.org/default#Germany>
+    ] ;
+    sh:property [
+        sh:path <https://foerderfunke.org/default#hasMaritalStatus> ;
+        sh:minCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:class <https://foerderfunke.org/default#Married>
+    ] ;
+    sh:property [
+        sh:path <https://foerderfunke.org/default#hasChild> ;
+        sh:minCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:class <https://foerderfunke.org/default#Person>
+    ] ;
+    sh:property [
+        sh:path <https://foerderfunke.org/default#hasEmploymentStatus> ;
+        sh:minCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:class <https://foerderfunke.org/default#Employee>
+    ] .
+
+ex:User a <https://foerderfunke.org/default#User> ;
+    <https://foerderfunke.org/default#hasCountryOfResidence> <https://foerderfunke.org/default#Germany> ;
+    <https://foerderfunke.org/default#hasMaritalStatus> <https://foerderfunke.org/default#Married> ;
+    <https://foerderfunke.org/default#hasChild> <https://foerderfunke.org/default#Person> ;
+    <https://foerderfunke.org/default#hasEmploymentStatus> <https://foerderfunke.org/default#Employee> .

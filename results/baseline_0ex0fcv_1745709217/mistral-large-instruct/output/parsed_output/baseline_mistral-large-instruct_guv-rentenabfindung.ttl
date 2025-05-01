@@ -1,0 +1,19 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+ff:UserShape
+  a sh:NodeShape ;
+  sh:targetClass ff:User ;
+  sh:property [
+    sh:path ff:hasMaritalStatus ;
+    sh:hasValue ff:Married ;
+    sh:message "User must be married or in a civil partnership." ;
+  ] ;
+  sh:property [
+    sh:path ff:newUnionAfterWidowhood ;
+    sh:hasValue "true"^^xsd:boolean ;
+    sh:message "User must have remarried or entered a new civil union after widowhood." ;
+  ] .

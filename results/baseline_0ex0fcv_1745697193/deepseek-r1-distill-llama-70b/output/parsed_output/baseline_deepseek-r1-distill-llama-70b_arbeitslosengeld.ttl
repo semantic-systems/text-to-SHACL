@@ -1,0 +1,31 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+ff:UnemploymentBenefitEligibilityShape a sh:NodeShape ;
+    sh:targetClass ff:User ;
+    sh:property [
+        sh:path ff:inEmployment ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:equals false ;
+    ] , [
+        sh:path ff:workHoursPerWeek ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:lessThan 15 ;
+    ] , [
+        sh:path ff:availableForPlacement ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:equals true ;
+    ] , [
+        sh:path ff:hasEmploymentStatus ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:equals ff:RegisteredUnemployed ;
+    ] , [
+        sh:path ff:compulsoryInsuranceFor12In30 ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:equals true ;
+    ] .

@@ -1,0 +1,47 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+ff:User
+  a sh:NodeShape ;
+  sh:targetClass ff:User ;
+  sh:property [
+    sh:path ff:incomeTaxLiability ;
+    sh:hasValue ff:UnlimitedTaxLiability ;
+  ] , [
+    sh:path ff:isNationalOf ;
+    sh:in ( ff:EEAplusCH ) ;
+  ] , [
+    sh:path ff:hasResidencePermit ;
+    sh:in ( ff:ResidencePermit ) ;
+    sh:property [
+      sh:path ff:entitlesToEmployment ;
+      sh:hasValue true ;
+    ] ;
+  ] , [
+    sh:path ff:recognizedRefugee ;
+    sh:hasValue true ;
+  ] , [
+    sh:path ff:receivesBenefit ;
+    sh:in ( ff:AsylumSeekerBenefits ) ;
+  ] .
+
+ff:Person
+  a sh:NodeShape ;
+  sh:targetClass ff:Person ;
+  sh:property [
+    sh:path ff:needsCare ;
+    sh:maxCount 0 ;
+  ] .
+
+ff:Child
+  a sh:NodeShape ;
+  sh:targetClass ff:Person ;
+  sh:property [
+    sh:path ff:countryOfResidence ;
+    sh:in ( ff:EEAplusCH ff:Germany ) ;
+  ] , [
+    sh:path ff:sameHouseholdAs ;
+    sh:node ff:User ;
+  ] .

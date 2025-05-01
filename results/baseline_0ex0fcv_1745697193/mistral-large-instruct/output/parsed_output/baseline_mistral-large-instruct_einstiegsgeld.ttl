@@ -1,0 +1,41 @@
+@prefix dash: <http://datashapes.org/dash#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+ff:UserShape
+    a sh:NodeShape ;
+    sh:targetClass ff:User ;
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:hasValue ff:B100019_LB_106311931 ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEmploymentStatus ;
+        sh:or (
+            [ sh:hasValue ff:RegisteredUnemployed ]
+            [ sh:hasValue ff:Unemployed ]
+        ) ;
+    ] ;
+    sh:property [
+        sh:path ff:needsCare ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEarningCapacity ;
+        sh:hasValue ff:FullEarningCapacity ;
+    ] ;
+    sh:property [
+        sh:path ff:employableHoursPerDay ;
+        sh:minInclusive 15 ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEmployment ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ff:hasIncome ;
+        sh:minCount 1 ;
+    ] .

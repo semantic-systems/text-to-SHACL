@@ -1,0 +1,25 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+<https://foerderfunke.org/default#B100019_LB_582441>
+  a sh:NodeShape ;
+  sh:targetClass <https://foerderfunke.org/default#Person> ;
+  sh:property [
+    sh:path <https://foerderfunke.org/default#causeOfDeath> ;
+    sh:maxCount 1 ;
+    sh:nodeConstraints ([
+      sh:class <https://foerderfunke.org/default#WorkAccident> ;
+      sh:class <https://foerderfunke.org/default#CommutingAccident> ;
+      sh:class <https://foerderfunke.org/default#OccupationalDisease>
+    ])
+  ] ;
+  sh:property [
+    sh:path <https://foerderfunke.org/default#hasMaritalStatus> ;
+    sh:minCount 1 ;
+    sh:nodeConstraints ([
+      sh:class <https://foerderfunke.org/default#Married> ;
+      sh:class <https://foerderfunke.org/default#CivilUnion>
+    ])
+  ] .

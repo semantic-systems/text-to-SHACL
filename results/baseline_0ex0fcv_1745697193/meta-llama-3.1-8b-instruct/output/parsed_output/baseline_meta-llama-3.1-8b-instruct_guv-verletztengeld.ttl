@@ -1,0 +1,63 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+<http://example.org/shapes>
+  a sh:SHACLShape ;
+  sh:targetClass <https://foerderfunke.org/default#User> ;
+  sh:property [
+    sh:path <https://foerderfunke.org/default#isUnfitForWork> ;
+    sh:datatype xsd:boolean ;
+    sh:minCount 1 ;
+    sh:maxCount 1
+  ] ;
+  sh:property [
+    sh:path <https://foerderfunke.org/default#hasDisability> ;
+    sh:nodeKind sh:Literal ;
+    sh:datatype xsd:boolean ;
+    sh:minCount 1 ;
+    sh:maxCount 1
+  ] ;
+  sh:property [
+    sh:path <https://foerderfunke.org/default#hasEmploymentStatus> ;
+    sh:nodeKind sh:Resource ;
+    sh:datatype rdfs:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1
+  ] ;
+  sh:property [
+    sh:path <https://foerderfunke.org/default#hasEmployment> ;
+    sh:nodeKind sh:Resource ;
+    sh:datatype rdfs:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1
+  ] ;
+  sh:property [
+    sh:path <https://foerderfunke.org/default#hasResidenceStatus> ;
+    sh:nodeKind sh:Resource ;
+    sh:datatype rdfs:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1
+  ] ;
+  sh:property [
+    sh:path <https://foerderfunke.org/default#hasInsurance> ;
+    sh:nodeKind sh:Resource ;
+    sh:datatype rdfs:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1
+  ] ;
+  sh:property [
+    sh:path <https://foerderfunke.org/default#hasIncome> ;
+    sh:nodeKind sh:Resource ;
+    sh:datatype rdfs:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1
+  ] ;
+  sh:property [
+    sh:path <https://foerderfunke.org/default#hasEarningCapacity> ;
+    sh:nodeKind sh:Resource ;
+    sh:datatype rdfs:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1
+  ] .

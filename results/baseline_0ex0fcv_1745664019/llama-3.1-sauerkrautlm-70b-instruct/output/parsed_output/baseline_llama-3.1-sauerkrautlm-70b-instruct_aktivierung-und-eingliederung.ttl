@@ -1,0 +1,37 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:B100019_LB_102730340Shape a sh:NodeShape ;
+    sh:targetNode ff:B100019_LB_102730340 ;
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:minCount 1 ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:class ff:B100019_LB_102716305, ff:L100040_LB_8665924, ff:B100019_LB_106311931 ;
+    ] ;
+    sh:property [
+        sh:path ff:hasNoPriorityClaimsOver ;
+        sh:minCount 1 ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:class ff:B100019_LB_102730340 ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:minCount 1 ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:class ff:IntegrationsfachkraftConsulation ;
+        sh:property [
+            sh:path ff:triggeringEvent ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:class ff:MaßnahmeBeginn ;
+        ] ;
+    ] ;
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:minCount 1 ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:class ff:JobcenterGenehmigung ;
+    ] .

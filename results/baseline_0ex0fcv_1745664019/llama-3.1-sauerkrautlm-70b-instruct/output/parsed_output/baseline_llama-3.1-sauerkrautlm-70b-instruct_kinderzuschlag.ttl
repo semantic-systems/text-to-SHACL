@@ -1,0 +1,55 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Create a shape for the application of Kinderzuschlag
+ff:KinderzuschlagApplicationShape
+    a sh:NodeShape ;
+    sh:targetClass ff:Person ;
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:minCount 1 ;
+        sh:hasValue ff:B100019_LB_581863 ;
+    ] ;
+
+    sh:property [
+        sh:path ff:receivesChildBenefitFor ;
+        sh:minCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:datatype xsd:boolean ;
+        sh:minInclusive 0 ;
+        sh:maxInclusive 24 ;
+        sh:property [
+            sh:path ff:hasAge ;
+            sh:minInclusive 0 ;
+            sh:maxInclusive 24 ;
+        ] ;
+    ] ;
+
+    sh:property [
+        sh:path ff:hasIncome ;
+        sh:minCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:datatype xsd:decimal ;
+        sh:minInclusive 900 ;
+        sh:maxInclusive 2500 ;
+    ] ;
+    sh:property [
+        sh:path ff:hasNoPriorityClaimsOver ;
+        sh:minCount 1 ;
+        sh:hasValue ff:B100019_LB_581863 ;
+    ] ;
+
+    sh:property [
+        sh:path ff:hasConsiderableAssets ;
+        sh:datatype xsd:boolean ;
+        sh:equals false ;
+    ] ;
+
+    sh:property [
+        sh:path ff:canCoverBasicNeedsOfBenefitUnit ;
+        sh:datatype xsd:boolean ;
+        sh:equals true ;
+    ] .

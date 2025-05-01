@@ -1,0 +1,25 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+ff:BuergergeldEligibilityShape
+  a sh:Shape ;
+  sh:targetClass ff:User ;
+  sh:property [
+      sh:path ff:employableHoursPerDay ;
+      sh:min 3 ;
+  ] , [
+      sh:path ff:hasAge ;
+      sh:min 15 ;
+  ] , [
+      sh:path ff:isPensionable ;
+      sh:equals false ;
+  ] , [
+      sh:path ff:canCoverBasicNeedsOfBenefitUnit ;
+      sh:equals false ;
+  ] , [
+      sh:path ff:hasNoPriorityClaimsOver ;
+      sh:hasValue ff:B100019_LB_106311931 ;
+  ] , [
+      sh:path ff:countryOfResidence ;
+      sh:hasValue ff:Germany ;
+  ] .

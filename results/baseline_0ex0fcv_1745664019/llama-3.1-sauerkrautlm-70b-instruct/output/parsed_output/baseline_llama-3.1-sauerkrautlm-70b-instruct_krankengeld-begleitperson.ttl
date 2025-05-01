@@ -1,0 +1,72 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:B100019_LB_103817036
+  a sh:NodeShape ;
+  sh:targetClass ff:Person ;
+  sh:property [
+    sh:path ff:hasInsurance ;
+    sh:nodeKind sh:IRI ;
+    sh:datatype ff:StatutoryHealthInsurance ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+  ] ;
+  sh:property [
+    sh:path ff:needsCare ;
+    sh:nodeKind sh:IRI ;
+    sh:property [
+      sh:path ff:caregiverInHousehold ;
+      sh:nodeKind sh:IRI ;
+      sh:equivalentClass [
+        a sh:NodeShape ;
+        sh:targetClass ff:Person ;
+        sh:property [
+          sh:path ff:hasInsurance ;
+          sh:nodeKind sh:IRI ;
+          sh:datatype ff:StatutoryHealthInsurance ;
+          sh:minCount 1 ;
+          sh:maxCount 1 ;
+        ] ;
+        sh:property [
+          sh:path ff:fullDayAccompaniment ;
+          sh:datatype xsd:boolean ;
+          sh:hasValue true ;
+        ] ;
+      ] ;
+    ] ;
+    sh:property [
+      sh:path ff:resultsInTreatment ;
+      sh:datatype xsd:boolean ;
+      sh:hasValue true ;
+    ] ;
+  ] ;
+  sh:property [
+    sh:path ff:immediateCircleMember ;
+    sh:nodeKind sh:IRI ;
+    sh:datatype ff:Person ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+  ] ;
+  sh:property [
+    sh:path ff:hasEvent ;
+    sh:nodeKind sh:IRI ;
+    sh:property [
+      sh:path ff:resultsInTreatment ;
+      sh:datatype xsd:boolean ;
+      sh:hasValue true ;
+    ] ;
+    sh:property [
+      sh:path ff:causesLossOfEarnings ;
+      sh:datatype xsd:boolean ;
+      sh:hasValue true ;
+    ] ;
+  ] ;
+  sh:property [
+    sh:path ff:receivesBenefit ;
+    sh:nodeKind sh:IRI ;
+    sh:datatype ff:IntegrationAssistance ;
+    sh:minCount 0 ;
+    sh:maxCount 1 ;
+  ] .

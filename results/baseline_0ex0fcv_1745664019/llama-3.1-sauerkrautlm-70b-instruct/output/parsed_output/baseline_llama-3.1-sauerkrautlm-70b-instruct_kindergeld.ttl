@@ -1,0 +1,75 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:KindergeldShape a sh:NodeShape ;
+    sh:targetClass ff:Person ;
+    sh:property [
+        sh:path ff:incomeTaxLiability ;
+        sh:shape [
+            sh:nodeKind sh:Literal ;
+            sh:datatype xsd:string ;
+            sh:equals "ff:UnlimitedTaxLiability" ;
+        ] ;
+    ] ;
+    sh:property [
+        sh:path ff:isNationalOf ;
+        sh:shape [
+            sh:nodeKind sh:Literal ;
+            sh:datatype xsd:string ;
+            sh:in (ff:Germany ff:EEAplusCH) ;
+        ] ;
+    ] ;
+    sh:or (
+        [
+            sh:property [
+                sh:path ff:hasResidencePermit ;
+                sh:shape [
+                    sh:nodeKind sh:Literal ;
+                    sh:datatype xsd:string ;
+                    sh:equals ff:Germany ;
+                ] ;
+            ] ;
+        ]
+        [
+            sh:property [
+                sh:path ff:derivesFreedomOfMovementFrom ;
+                sh:shape [
+                    sh:nodeKind sh:Literal ;
+                    sh:datatype xsd:string ;
+                    sh:equals ff:EEAplusCH ;
+                ] ;
+            ] ;
+        ]
+    ) ;
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:shape [
+            sh:nodeKind sh:Literal ;
+            sh:datatype xsd:string ;
+            sh:in (ff:B100019_LB_102716305 ff:B100019_LB_106311931) ;
+        ] ;
+    ] ;
+    sh:property [
+        sh:path ff:hasNoPriorityClaimsOver ;
+        sh:shape [
+            sh:nodeKind sh:Literal ;
+            sh:datatype xsd:string ;
+            sh:equals ff:B100019_LB_576986 ;
+        ] ;
+    ] ;
+    sh:property [
+        sh:path ff:hasChild ;
+        sh:shape [
+            sh:nodeKind sh:Literal ;
+            sh:datatype xsd:string ;
+            sh:property [
+                sh:path ff:countryOfResidence ;
+                sh:shape [
+                    sh:nodeKind sh:Literal ;
+                    sh:datatype xsd:string ;
+                    sh:in (ff:Germany ff:EEAplusCH) ;
+                ] ;
+            ] ;
+        ] ;
+    ] .

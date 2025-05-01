@@ -1,0 +1,52 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:UserShape
+    a sh:NodeShape ;
+    sh:targetClass ff:User ;
+    sh:property [
+        sh:path ff:needsCare ;
+        sh:class ff:CareNeed ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ff:caregiverInHousehold ;
+        sh:class ff:Person ;
+        sh:maxCount 0 ;
+    ] ;
+    sh:property [
+        sh:path ff:hasChild ;
+        sh:class ff:Person ;
+        sh:minCount 1 ;
+        sh:node [
+            sh:property [
+                sh:path ff:hasAge ;
+                sh:datatype xsd:int ;
+                sh:maxInclusive 11 ;
+            ] ;
+        ] ;
+    ] ;
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:class ff:SocialBenefit ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ff:inEmployment ;
+        sh:datatype xsd:boolean ;
+        sh:or (
+            [ sh:hasValue false ]
+            [ sh:hasValue true ]
+        ) ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEmployment ;
+        sh:class ff:Employment ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:class ff:SocialBenefit ;
+        sh:minCount 1 ;
+    ] .

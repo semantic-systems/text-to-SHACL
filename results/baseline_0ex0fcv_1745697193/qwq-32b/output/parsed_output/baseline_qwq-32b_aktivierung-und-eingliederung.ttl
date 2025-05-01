@@ -1,0 +1,27 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+ff:EligibilityShape
+    a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    sh:property [
+        # Condition 1: User must receive Integration Assistance (Grundsicherung)
+        sh:path ff:receivesBenefit ;
+        sh:minCount 1 ;
+        sh:hasValue ff:IntegrationAssistance ;
+    ] ;
+    sh:property [
+        # Condition 3: Participation in a training approved by Jobcenter
+        sh:path ff:participates ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedValueShape [
+            a sh:NodeShape ;
+            sh:property [
+                sh:path ff:commissionedByEmploymentAgency ;
+                sh:hasValue true ;
+            ] ;
+        ] ;
+    ] .

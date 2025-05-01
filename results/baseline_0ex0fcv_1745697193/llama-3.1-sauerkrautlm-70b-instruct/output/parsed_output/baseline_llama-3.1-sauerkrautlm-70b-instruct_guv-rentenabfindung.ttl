@@ -1,0 +1,21 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+ff:GesetzlicheUnfallversicherungRentenabfindungShape
+    a sh:NodeShape ;
+    sh:targetClass ff:User ;
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:datatype ff:B100019_LB_102799525 ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:description "Must receive benefit for survivor's pension from statutory accident insurance."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasMaritalStatus ;
+        sh:datatype ff:Married ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:description "Must be married or in civil union."@en ;
+    ] ;
+    sh:description "Shape for the social benefit 'Gesetzliche Unfallversicherung Rentenabfindung' with IDLB B100019_LB_102799525."@en .

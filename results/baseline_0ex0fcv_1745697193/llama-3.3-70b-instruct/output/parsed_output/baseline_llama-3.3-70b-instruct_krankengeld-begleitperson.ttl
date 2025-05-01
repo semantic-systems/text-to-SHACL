@@ -1,0 +1,51 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:User
+  a sh:NodeShape ;
+  sh:targetClass ff:User ;
+  sh:property [
+    sh:path ff:hasInsurance ;
+    sh:minCount 1 ;
+    sh:hasValue ff:StatutoryHealthInsurance ;
+  ] ;
+  sh:property [
+    sh:path ff:immediateCircleMember ;
+    sh:minCount 1 ;
+    sh:property [
+      sh:path ff:hasDisability ;
+      sh:hasValue true ;
+    ] ;
+    sh:property [
+      sh:path ff:needsCare ;
+      sh:minCount 1 ;
+    ] ;
+  ] ;
+  sh:property [
+    sh:path ff:receivesBenefit ;
+    sh:minCount 1 ;
+    sh:hasValue ff:IntegrationAssistance ;
+  ] ;
+  sh:property [
+    sh:path ff:hasEvent ;
+    sh:minCount 1 ;
+    sh:property [
+      sh:path rdf:type ;
+      sh:hasValue ff:MedicalAccompaniment ;
+    ] ;
+    sh:property [
+      sh:path ff:fullDayAccompaniment ;
+      sh:hasValue true ;
+    ] ;
+  ] ;
+  sh:property [
+    sh:path ff:hasIncome ;
+    sh:maxCount 1 ;
+    sh:property [
+      sh:path ff:reducesChildSupplementTo ;
+      sh:maxValue 0 ;
+    ] ;
+  ] .

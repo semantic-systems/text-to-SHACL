@@ -1,0 +1,55 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix das: <http://datashapes.org/dash#> .
+
+ff:WaisenrenteShape
+    a sh:NodeShape ;
+    sh:targetClass ff:Person ;
+    sh:property [
+        sh:path ff:causeOfDeath ;
+        sh:class ff:Event ;
+        sh:or (
+            [ sh:path ff:hasEvent ; sh:class ff:WorkAccident ]
+            [ sh:path ff:hasEvent ; sh:class ff:CommutingAccident ]
+            [ sh:path ff:hasEvent ; sh:class ff:OccupationalDisease ]
+        ) ;
+    ] ;
+    sh:property [
+        sh:path ff:naturalChildTo ;
+        sh:class ff:Person ;
+    ] ;
+    sh:property [
+        sh:path ff:stepChildTo ;
+        sh:class ff:Person ;
+    ] ;
+    sh:property [
+        sh:path ff:fosterChildTo ;
+        sh:class ff:Person ;
+    ] ;
+    sh:property [
+        sh:path ff:hasChild ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ff:sameHouseholdAs ;
+        sh:class ff:Person ;
+    ] ;
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:minInclusive 18 ;
+        sh:maxInclusive 26 ;
+    ] ;
+    sh:property [
+        sh:path ff:participates ;
+        sh:class ff:Training ;
+    ] ;
+    sh:property [
+        sh:path ff:hasDisabilityType ;
+        sh:class ff:Disability ;
+    ] ;
+    sh:property [
+        sh:path ff:isInTransitionalPeriod ;
+        sh:hasValue true ;
+    ] .

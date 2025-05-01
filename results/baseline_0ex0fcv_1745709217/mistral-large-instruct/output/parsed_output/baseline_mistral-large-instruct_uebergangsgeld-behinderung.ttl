@@ -1,0 +1,54 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:UserShape
+    a sh:NodeShape ;
+    sh:targetClass ff:User ;
+    sh:property [
+        sh:path ff:hasDisability ;
+        sh:datatype xsd:boolean ;
+        sh:hasValue true ;
+    ] ;
+    sh:property [
+        sh:path ff:hasRehabilitationProvider ;
+        sh:class ff:FederalEmploymentAgency ;
+    ] ;
+    sh:property [
+        sh:path ff:participates ;
+        sh:or (
+            [ sh:class ff:VocationalTraining ; ]
+            [ sh:class ff:School ; ]
+            [ sh:class ff:EntryProcedureAndVocationalTrainingArea ; ]
+            [ sh:class ff:Training ; ]
+        ) ;
+    ] ;
+    sh:property [
+        sh:path ff:compulsoryInsuranceFor12In30 ;
+        sh:datatype xsd:boolean ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEmploymentStatus ;
+        sh:class ff:RegisteredUnemployed ;
+    ] ;
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:class ff:UnemploymentBenefitsSVG ;
+    ] ;
+    sh:property [
+        sh:path ff:isVocationalReturnee ;
+        sh:datatype xsd:boolean ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:class ff:Event ;
+        sh:qualifiedValueShape [
+            sh:property [
+                sh:path ff:hasDate ;
+                sh:lessThanOrEquals [
+                    sh:path ff:hasDate ;
+                    sh:value "now() - P1Y"^^xsd:dateTime ;
+                ]
+            ]
+        ]
+    ] .

@@ -1,0 +1,65 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:EligibilityShape
+    a sh:NodeShape ;
+    sh:targetClass ff:User ;
+    sh:property [
+        sh:path ff:incomeTaxLiability ;
+        sh:hasValue ff:UnlimitedTaxLiability ;
+    ] ;
+    sh:or (
+        [
+            sh:class ff:Person ;
+            sh:property [
+                sh:path ff:isNationalOf ;
+                sh:class ff:EEAplusCH ;
+            ] ;
+        ]
+        [
+            sh:class ff:Person ;
+            sh:property [
+                sh:path ff:hasResidencePermit ;
+                sh:property [
+                    sh:path ff:entitlesToEmployment ;
+                    sh:hasValue "true"^^xsd:boolean ;
+                ] ;
+            ] ;
+        ]
+        [
+            sh:class ff:Person ;
+            sh:property [
+                sh:path ff:recognizedRefugee ;
+                sh:hasValue "true"^^xsd:boolean ;
+            ] ;
+        ]
+    ) ;
+    sh:property [
+        sh:path ff:hasChild ;
+        sh:class ff:Person ;
+        sh:or (
+            [
+                sh:property [
+                    sh:path ff:countryOfResidence ;
+                    sh:class ff:EEAplusCH ;
+                ] ;
+            ]
+            [
+                sh:property [
+                    sh:path ff:countryOfResidence ;
+                    sh:class ff:Germany ;
+                ] ;
+                sh:property [
+                    sh:path ff:sameHouseholdAs ;
+                    sh:class ff:Person ;
+                    sh:property [
+                        sh:path ff:incomeTaxLiability ;
+                        sh:hasValue ff:UnlimitedTaxLiability ;
+                    ] ;
+                ] ;
+            ]
+        ) ;
+    ] .

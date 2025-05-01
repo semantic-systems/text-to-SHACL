@@ -1,0 +1,49 @@
+@prefix dash: <http://datashapes.org/dash#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+ff:UserShape
+  a sh:NodeShape ;
+  sh:targetClass ff:User ;
+  sh:property [
+    sh:path ff:hasDisabilityType ;
+    sh:class ff:Disability ;
+  ] ;
+  sh:property [
+    sh:path ff:hasEmployment ;
+    sh:class ff:Employment ;
+  ] ;
+  sh:property [
+    sh:path ff:hasEvent ;
+    sh:class ff:Event ;
+    sh:or (
+      [ sh:class ff:WorkAccident ]
+      [ sh:class ff:CommutingAccident ]
+      [ sh:class ff:OccupationalDisease ]
+    ) ;
+  ] ;
+  sh:property [
+    sh:path ff:hasEarningCapacity ;
+    sh:class ff:EarningCapacity ;
+  ] ;
+  sh:property [
+    sh:path ff:receivesBenefit ;
+    sh:class ff:SocialBenefit ;
+    sh:hasValue ff:B100019_LB_582429 ;
+  ] ;
+  sh:property [
+    sh:path ff:hasInsurance ;
+    sh:class ff:Insurance ;
+    sh:hasValue ff:StatutoryAccidentInsurance ;
+  ] ;
+  sh:property [
+    sh:path ff:causesLossOfEarnings ;
+    sh:datatype xsd:boolean ;
+    sh:hasValue "true"^^xsd:boolean ;
+  ] ;
+  sh:property [
+    sh:path ff:unfitForWork ;
+    sh:datatype xsd:boolean ;
+    sh:hasValue "true"^^xsd:boolean ;
+  ] .

@@ -1,0 +1,38 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+ff:UserShape
+  a sh:NodeShape ;
+  sh:targetClass ff:User ;
+  sh:property [
+    sh:path [ sh:zeroOrMorePath ff:receivesBenefit ] ;
+    sh:hasValue ff:B100019_LB_102716305 ;
+    sh:or [
+      sh:path [ sh:zeroOrMorePath ff:receivesBenefit ] ;
+      sh:hasValue ff:L100040_LB_8665924 ;
+    ] ;
+    sh:or [
+      sh:path [ sh:zeroOrMorePath ff:receivesBenefit ] ;
+      sh:hasValue ff:SocialAssistance ;
+    ] ;
+    sh:or [
+      sh:path [ sh:zeroOrMorePath ff:receivesBenefit ] ;
+      sh:hasValue ff:AsylumSeekerBenefits ;
+    ] ;
+    sh:or [
+      sh:path ff:canCoverPersonalBasicNeeds ;
+      sh:equals false ;
+    ] ;
+  ] ;
+  sh:property [
+    sh:path ff:hasAge ;
+    sh:max 25 ;
+  ] ;
+  sh:property [
+    sh:path ff:hasAge ;
+    sh:max 18 ;
+    sh:or [
+      sh:path ff:canCoverPersonalBasicNeeds ;
+      sh:equals false ;
+    ] ;
+  ] .

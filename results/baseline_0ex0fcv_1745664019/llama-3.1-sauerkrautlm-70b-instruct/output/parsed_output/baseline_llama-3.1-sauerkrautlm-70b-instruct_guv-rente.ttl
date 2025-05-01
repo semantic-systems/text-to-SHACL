@@ -1,0 +1,38 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:B100019_LB_582404 
+  a sh:NodeShape ;
+  sh:targetClass ff:Person ;
+  sh:property [
+    sh:path ff:hasEarningCapacity ;
+    sh:node ff:EarningCapacityShape ;
+  ] .
+
+ff:EarningCapacityShape 
+  a sh:NodeShape ;
+  sh:targetClass ff:EarningCapacity ;
+  sh:property [
+    sh:path ff:reductionInPercent ;
+    sh:minInclusive 20 ;
+    sh:datatype xsd:decimal ;
+  ] ;
+  sh:property [
+    sh:path ff:reductionDurationInWeeks ;
+    sh:minInclusive 26 ;
+    sh:datatype xsd:int ;
+  ] ;
+  sh:property [
+    sh:path ff:triggeringEvent ;
+    sh:node ff:TriggeringEventShape ;
+  ] .
+
+ff:TriggeringEventShape 
+  a sh:NodeShape ;
+  sh:targetClass ff:Event ;
+  sh:property [
+    sh:path ff:causesLossOfEarnings ;
+    sh:hasValue true ;
+    sh:datatype xsd:boolean ;
+  ] .

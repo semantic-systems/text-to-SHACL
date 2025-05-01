@@ -1,0 +1,29 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+ff:B100019_LB_102717659 
+  a sh:NodeShape ;
+  sh:targetClass ff:Person ;
+  sh:property [
+    sh:path ff:hasDisabilityType ;
+    sh:minCount 1 ;
+    sh:hasValue ff:VisualImpairment, ff:HearingImpairment ;
+    sh:description "Eine hochgradige Seh- oder Hörbehinderung oder eine solche droht."@de ;
+  ] ;
+  sh:property [
+    sh:path ff:hasRehabilitationProvider ;
+    sh:minCount 1 ;
+    sh:hasValue ff:FederalEmploymentAgency ;
+    sh:description "Der zuständige Rehabilitationsträger ist die Bundesagentur für Arbeit."@de ;
+  ] ;
+  sh:property [
+    sh:path ff:workforceIntegrationProblemBecause ;
+    sh:minCount 1 ;
+    sh:nodeKind sh:IRI ;
+    sh:description "Ihre Aussichten am Arbeitsleben teilzuhaben oder wieder teilzuhaben sind wegen Art und Schwere Ihrer Behinderung nicht nur vorübergehend wesentlich gemindert und Sie brauchen deshalb Hilfen zur Teilhabe am Arbeitsleben."@de ;
+  ] ;
+  sh:property [
+    sh:path ff:participates ;
+    sh:minCount 1 ;
+    sh:description "Sie sind bereit, sich beruflich bilden oder auf andere Weise beruflich eingliedern zu lassen."@de ;
+  ] .

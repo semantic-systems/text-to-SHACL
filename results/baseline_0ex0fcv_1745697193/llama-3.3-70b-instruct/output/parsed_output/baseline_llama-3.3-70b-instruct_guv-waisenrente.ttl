@@ -1,0 +1,66 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:User
+  a sh:NodeShape ;
+  sh:targetClass ff:User ;
+  sh:property [
+    sh:path ff:hasChild ;
+    sh:minCount 1 ;
+    sh:node [
+      sh:property [
+        sh:path ff:naturalChildTo ;
+        sh:minCount 1 ;
+        sh:node [
+          sh:property [
+            sh:path ff:deceasedSpouse ;
+            sh:minCount 1 ;
+            sh:node [
+              sh:property [
+                sh:path ff:triggeringEvent ;
+                sh:minCount 1 ;
+                sh:node [
+                  sh:property [
+                    sh:path rdf:type ;
+                    sh:in (ff:WorkAccident ff:KindergartenAccident ff:SchoolAccident ff:CommutingAccident ff:OccupationalDisease) ;
+                  ] ;
+                ] ;
+              ] ;
+            ] ;
+          ] ;
+        ] ;
+      ] ;
+    ] ;
+  ] ;
+  sh:property [
+    sh:path ff:hasAge ;
+    sh:minCount 1 ;
+    sh:datatype xsd:int ;
+    sh:minInclusive 18 ;
+    sh:maxExclusive 27 ;
+  ] ;
+  sh:property [
+    sh:path ff:participates ;
+    sh:minCount 1 ;
+    sh:node [
+      sh:property [
+        sh:path rdf:type ;
+        sh:in (ff:School ff:VocationalTraining) ;
+      ] ;
+    ] ;
+  ] ;
+  sh:property [
+    sh:path ff:isInTransitionalPeriod ;
+    sh:minCount 1 ;
+    sh:datatype xsd:boolean ;
+    sh:minCount 1 ;
+  ] ;
+  sh:property [
+    sh:path ff:hasDisability ;
+    sh:minCount 1 ;
+    sh:datatype xsd:boolean ;
+  ] ;
+.

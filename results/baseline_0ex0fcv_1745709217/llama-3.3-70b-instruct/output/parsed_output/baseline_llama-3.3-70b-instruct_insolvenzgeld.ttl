@@ -1,0 +1,34 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:InsolvenzgeldShape a sh:NodeShape ;
+    sh:targetClass ff:User ;
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:description "Insolvenzereignis" ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEmployment ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:description "Beschäftigung in Deutschland oder vorübergehende Entsendung ins Ausland" ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEmploymentStatus ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:description "Rechtlicher Status als Arbeitnehmer" ;
+    ] ;
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:minCount 0 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:description "Kein Arbeitsentgelt innerhalb von 3 Monaten vor dem Insolvenzereignis" ;
+    ] .

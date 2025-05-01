@@ -1,0 +1,55 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+ff:UserShape
+    a sh:Shape ;
+    sh:targetClass ff:User ;
+    sh:property [
+        sh:path [sh:inverse ff:closeRelative] ;
+        sh:or (
+            [sh:path ff:hasChild]
+            [sh:path ff:stepChildTo]
+            [sh:path ff:fosterChildTo]
+            [sh:path ff:naturalChildTo]
+            [sh:path [sh:inverse ff:immediateCircleMember]]
+        )
+    ] ;
+    sh:property [
+        sh:path ff:sameHouseholdAs ;
+        sh:hasValue [sh:inverse ff:deceasedSpouse] ;
+    ] ;
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:max 18 ;
+    ] ;
+    sh:property [
+        sh:path ff:isInTransitionalPeriod ;
+        sh:max 4 ;
+    ] ;
+    sh:property [
+        sh:path ff:participates ;
+        sh:or (
+            [sh:path ff:VocationalTraining]
+            [sh:path ff:School]
+        )
+    ] ;
+    sh:property [
+        sh:path ff:hasDisability ;
+        sh:equals true ;
+    ] ;
+    sh:property [
+        sh:path ff:severeDisability ;
+        sh:equals true ;
+    ] ;
+    sh:property [
+        sh:path ff:hasPrimaryCareTaker ;
+        sh:equals [sh:inverse ff:deceasedSpouse]
+    ] ;
+    sh:property [
+        sh:path [sh:inverse ff:resultsInTreatment] ;
+        sh:or (
+            [sh:path ff:WorkAccident]
+            [sh:path ff:CommutingAccident]
+            [sh:path ff:OccupationalDisease]
+        )
+    ] .

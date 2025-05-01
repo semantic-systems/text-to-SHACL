@@ -1,0 +1,28 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:ValidationShapeForBasicTrainingForVisionOrHearingImpaired a sh:NodeShape ;
+    sh:targetClass ff:User ;
+    sh:property [
+        sh:path ff:hasDisabilityType ;
+        sh:class ff:VisualImpairment ;
+        sh:or (
+            [ sh:path ff:hasDisabilityType ; sh:class ff:HearingImpairment ]
+            [ sh:path ff:atRiskOfDisabilityType ; sh:class ff:VisualImpairment ]
+            [ sh:path ff:atRiskOfDisabilityType ; sh:class ff:HearingImpairment ]
+        ) ;
+    ] ;
+    sh:property [
+        sh:path ff:hasRehabilitationProvider ;
+        sh:hasValue ff:FederalEmploymentAgency ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEarningCapacity ;
+        sh:hasValue ff:ReducedEarningCapacity ;
+    ] ;
+    sh:property [
+        sh:path ff:availableForPlacement ;
+        sh:hasValue "true"^^xsd:boolean ;
+    ] .

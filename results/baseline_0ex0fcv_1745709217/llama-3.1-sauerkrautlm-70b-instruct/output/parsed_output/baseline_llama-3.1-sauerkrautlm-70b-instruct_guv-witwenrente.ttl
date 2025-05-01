@@ -1,0 +1,50 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:B100019_LB_582441Shape
+  a sh:NodeShape ;
+  sh:targetClass ff:User ;
+  sh:property [
+    sh:path ff:closeRelative ;
+    sh:node ff:closeRelativeShape ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+  ] .
+
+ff:closeRelativeShape
+  a sh:NodeShape ;
+  sh:targetClass ff:Person ;
+  sh:property [
+    sh:path ff:causeOfDeath ;
+    sh:node ff:causeOfDeathShape ;
+  ] ;
+  sh:property [
+    sh:path ff:hasMaritalStatus ;
+    sh:node ff:hasMaritalStatusShape ;
+  ] .
+
+ff:causeOfDeathShape
+  a sh:NodeShape ;
+  sh:or (
+    [ sh:class ff:WorkAccident ]
+    [ sh:class ff:CommutingAccident ]
+    [ sh:class ff:OccupationalDisease ]
+  ) .
+
+ff:hasMaritalStatusShape
+  a sh:NodeShape ;
+  sh:nodeKind sh:Literal ;
+  sh:datatype xsd:boolean ;
+  sh:minInclusive true ;
+  sh:maxInclusive true ;
+  sh:lessThan [
+    sh:path ff:hasDate ;
+    sh:node ff:hasDateShape ;
+  ] .
+
+ff:hasDateShape
+  a sh:NodeShape ;
+  sh:nodeKind sh:Literal ;
+  sh:datatype xsd:dateTime ;
+  sh:minInclusive "P1Y"^^xsd:duration .

@@ -1,0 +1,53 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Target node
+ff:User a sh:NodeShape .
+
+# Rule 1: 
+# Eligible for Verletztengeld if ff:isEligibleFor 'Gesetzlichen Unfallversicherung Verletztengeld'
+ff:User sh:property [
+  sh:path ff:isEligibleFor ;
+  sh:class ff:B100019_LB_582429 ;
+  sh:datatype xsd:boolean
+] .
+
+# Rule 2: 
+# Eligible for Verletztengeld if ff:unfitForWork is true
+ff:User sh:property [
+  sh:path ff:unfitForWork ;
+  sh:datatype xsd:boolean
+] .
+
+# Rule 3: 
+# Eligible for Verletztengeld if ff:causesLossOfEarnings is true
+ff:User sh:property [
+  sh:path ff:causesLossOfEarnings ;
+  sh:datatype xsd:boolean
+] .
+
+# Rule 4: 
+# Eligible for Verletztengeld if ff:isEligibleFor 'Arbeitsunfall' is true
+ff:User sh:property [
+  sh:path ff:isEligibleFor ;
+  sh:class ff:WorkAccident ;
+  sh:datatype xsd:boolean
+] .
+
+# Rule 5: 
+# Eligible for Verletztengeld if ff:isEligibleFor 'Wegeunfall' is true
+ff:User sh:property [
+  sh:path ff:isEligibleFor ;
+  sh:class ff:CommutingAccident ;
+  sh:datatype xsd:boolean
+] .
+
+# Rule 6: 
+# Eligible for Verletztengeld if ff:isEligibleFor 'Berufskrankheit' is true
+ff:User sh:property [
+  sh:path ff:isEligibleFor ;
+  sh:class ff:OccupationalDisease ;
+  sh:datatype xsd:boolean
+] .

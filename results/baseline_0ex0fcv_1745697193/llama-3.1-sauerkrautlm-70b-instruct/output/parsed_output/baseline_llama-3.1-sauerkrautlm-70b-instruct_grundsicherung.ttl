@@ -1,0 +1,110 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:UserShape
+    a sh:NodeShape ;
+    sh:targetClass ff:User ;
+    sh:property [
+        sh:path ff:aboveSGBXII41AgeLimit ;
+        sh:datatype xsd:boolean ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:datatype xsd:int ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:minInclusive 18 ;
+    ] ;
+    sh:property [
+        sh:path ff:hasDisability ;
+        sh:datatype xsd:boolean ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEarningCapacity ;
+        sh:node ff:EarningCapacityShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ff:needsCare ;
+        sh:node ff:CareNeedShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ff:hasNoPriorityClaimsOver ;
+        sh:node ff:L100040_LB_8664880Shape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ] .
+
+ff:EarningCapacityShape
+    a sh:NodeShape ;
+    sh:targetClass ff:EarningCapacity ;
+    sh:property [
+        sh:path ff:isPermanent ;
+        sh:datatype xsd:boolean ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ff:unfitForWork ;
+        sh:datatype xsd:boolean ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ff:reductionDurationInWeeks ;
+        sh:datatype xsd:int ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ff:reductionInPercent ;
+        sh:datatype xsd:decimal ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:minInclusive 50 ;
+    ] .
+
+ff:CareNeedShape
+    a sh:NodeShape ;
+    sh:targetClass ff:CareNeed ;
+    sh:property [
+        sh:path ff:caregiverInHousehold ;
+        sh:node ff:PersonShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ] .
+
+ff:PersonShape
+    a sh:NodeShape ;
+    sh:targetClass ff:Person ;
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:datatype xsd:int ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:minInclusive 18 ;
+    ] .
+
+ff:L100040_LB_8664880Shape
+    a sh:NodeShape ;
+    sh:targetNode ff:L100040_LB_8664880 ;
+    sh:property [
+        sh:path ff:eligibleWithinLast3Years ;
+        sh:datatype xsd:boolean ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ff:receivedWithinLast3Years ;
+        sh:datatype xsd:boolean ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ] .

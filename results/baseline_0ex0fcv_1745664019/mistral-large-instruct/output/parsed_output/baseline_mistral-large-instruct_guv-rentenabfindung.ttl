@@ -1,0 +1,70 @@
+@prefix dash: <http://datashapes.org/dash#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+ff:SocialBenefitShape
+    a sh:NodeShape ;
+    sh:targetClass ff:SocialBenefit ;
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:class ff:Person ;
+    ] .
+
+ff:PersonShape
+    a sh:NodeShape ;
+    sh:targetClass ff:Person ;
+    sh:property [
+        sh:path ff:hasMaritalStatus ;
+        sh:class ff:MaritalStatus ;
+        sh:hasValue ff:Married ;
+    ] ;
+    sh:property [
+        sh:path ff:deceasedSpouse ;
+        sh:class ff:Person ;
+    ] ;
+    sh:property [
+        sh:path ff:hasResidencePermit ;
+        sh:class ff:ResidencePermit ;
+    ] ;
+    sh:property [
+        sh:path ff:hasIncome ;
+        sh:class ff:Income ;
+        sh:maxCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:class ff:SocialBenefit ;
+        sh:hasValue ff:B100019_LB_102799525 ;
+    ] ;
+    sh:property [
+        sh:path ff:newUnionAfterWidowhood ;
+        sh:class ff:MaritalStatus ;
+        sh:hasValue "true"^^xsd:boolean ;
+    ] .
+
+ff:MaritalStatusShape
+    a sh:NodeShape ;
+    sh:targetClass ff:MaritalStatus ;
+    sh:property [
+        sh:path rdfs:label ;
+        sh:minCount 1 ;
+    ] .
+
+ff:ResidencePermitShape
+    a sh:NodeShape ;
+    sh:targetClass ff:ResidencePermit ;
+    sh:property [
+        sh:path ff:entitlesToEmployment ;
+        sh:datatype xsd:boolean ;
+    ] .
+
+ff:IncomeShape
+    a sh:NodeShape ;
+    sh:targetClass ff:Income ;
+    sh:property [
+        sh:path ff:personalGrossIncome ;
+        sh:datatype xsd:int ;
+    ] .

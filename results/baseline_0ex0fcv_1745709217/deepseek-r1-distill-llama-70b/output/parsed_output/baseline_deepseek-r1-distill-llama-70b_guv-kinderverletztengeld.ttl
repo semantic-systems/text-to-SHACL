@@ -1,0 +1,29 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:EligibilityShape_Kinderverletztengeld
+    a sh:NodeShape ;
+    sh:targetClass ff:User ;
+    sh:property [
+        sh:path ff:hasChild ;
+        sh:hasValue ff:SchoolAccident, ff:KindergartenAccident ;
+    ] , [
+        sh:path ff:hasChild ;
+        sh:max -1 ;
+        sh:condition [
+            sh:path ff:hasAge ;
+            sh:max 11 ;
+            sh:datatype xsd:int ;
+        ] ;
+    ] , [
+        sh:path ff:hasEmploymentStatus ;
+        sh:in (ff:Employee ff:JobSeeker) ;
+    ] , [
+        sh:path ff:sameHouseholdAs ;
+        sh:maxCount 0 ;
+        sh:condition [
+            sh:path ff:canCoverPersonalBasicNeeds ;
+            sh:equals true ;
+        ] ;
+    ] .

@@ -1,0 +1,43 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:UserShape
+    a sh:NodeShape ;
+    sh:targetClass ff:User ;
+    sh:property [
+        sh:path ff:closeRelative ;
+        sh:minCount 1 ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:property [
+            sh:path ff:causeOfDeath ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:property [
+                sh:path rdf:type ;
+                sh:hasValue ff:WorkAccident, ff:CommutingAccident, ff:OccupationalDisease ;
+            ] ;
+        ] ;
+    ] ;
+    sh:property [
+        sh:path rdf:type ;
+        sh:hasValue ff:Person ;
+    ] ;
+    sh:or (
+        [ sh:path ff:naturalChildTo ; sh:minCount 1 ; sh:nodeKind sh:BlankNodeOrIRI ; sh:property [ sh:path ff:deceasedSpouse ; sh:minCount 1 ; sh:nodeKind sh:BlankNodeOrIRI ; ] ; ]
+        [ sh:path ff:stepChildTo ; sh:minCount 1 ; sh:nodeKind sh:BlankNodeOrIRI ; sh:property [ sh:path ff:deceasedSpouse ; sh:minCount 1 ; sh:nodeKind sh:BlankNodeOrIRI ; ] ; ]
+        [ sh:path ff:hasAge ; sh:minInclusive 18 ; sh:maxExclusive 27 ; ]
+        [ sh:path ff:hasDisability ; sh:hasValue true ; ]
+        [ sh:path ff:isInTransitionalPeriod ; sh:hasValue true ; ]
+    ) ;
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:minCount 1 ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:property [
+            sh:path rdf:type ;
+            sh:hasValue ff:B100019_LB_582435 ;
+        ] ;
+    ] ;
+.

@@ -1,0 +1,32 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+ff:User
+  a sh:NodeShape ;
+  sh:targetClass ff:User ;
+  sh:property [
+    sh:path ff:hasEvent ;
+    sh:minCount 1 ;
+    sh:node [
+      a sh:NodeShape ;
+      sh:targetClass ff:Event ;
+      sh:property [
+        sh:path rdf:type ;
+        sh:in (ff:WorkAccident ff:CommutingAccident ff:OccupationalDisease) ;
+      ] ;
+    ] ;
+  ] ;
+  sh:property [
+    sh:path ff:participates ;
+    sh:minCount 1 ;
+    sh:node [
+      a sh:NodeShape ;
+      sh:targetClass ff:Training ;
+      sh:property [
+        sh:path rdf:type ;
+        sh:in (ff:EntryProcedureAndVocationalTrainingArea ff:VocationalTraining) ;
+      ] ;
+    ] ;
+  ] .

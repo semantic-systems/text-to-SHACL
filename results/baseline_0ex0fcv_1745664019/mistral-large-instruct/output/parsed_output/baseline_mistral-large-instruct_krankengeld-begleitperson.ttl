@@ -1,0 +1,48 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Shape for the social benefit 'Krankengeld für Begleitperson bei stationärer Behandlung von Menschen mit Behinderung'
+ff:KrankengeldShape
+    a sh:NodeShape ;
+    sh:targetClass ff:Person ;
+    sh:property [
+        sh:path ff:hasInsurance ;
+        sh:hasValue ff:StatutoryHealthInsurance ;
+    ] ;
+    sh:property [
+        sh:path ff:hasDisabilityType ;
+        sh:class ff:Disability ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:class ff:MedicalAccompaniment ;
+        sh:property [
+            sh:path ff:inPatientCoAdmission ;
+            sh:hasValue "true"^^xsd:boolean ;
+        ] ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:class ff:MedicalAccompaniment ;
+        sh:property [
+            sh:path ff:fullDayAccompaniment ;
+            sh:hasValue "true"^^xsd:boolean ;
+        ] ;
+    ] ;
+    sh:property [
+        sh:path ff:hasIncome ;
+        sh:class ff:Income ;
+        sh:property [
+            sh:path ff:personalGrossIncome ;
+            sh:lessThanOrEquals 0 ;
+        ] ;
+    ] ;
+    sh:property [
+        sh:path ff:closeRelative ;
+        sh:class ff:Person ;
+    ] ;
+    sh:property [
+        sh:path ff:hasRehabilitationProvider ;
+        sh:class ff:RehabilitationProvider ;
+    ] .

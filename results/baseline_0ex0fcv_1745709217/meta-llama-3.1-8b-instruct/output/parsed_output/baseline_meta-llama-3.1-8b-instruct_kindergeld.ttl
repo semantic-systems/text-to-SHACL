@@ -1,0 +1,207 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+<http://www.w3.org/ns/shacl#GraphShape>
+    sh:targetClass <https://foerderfunke.org/default#User> ;
+    sh:property [
+        sh:path <https://foerderfunke.org/default#isInEEAplusCH> ;
+        sh:datatype <http://www.w3.org/2001/XMLSchema#boolean> ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:description "Must be in the EEA plus CH"
+    ] ;
+    sh:node [
+        sh:property [
+            sh:path <https://foerderfunke.org/default#inEmployment> ;
+            sh:datatype <http://www.w3.org/2001/XMLSchema#boolean> ;
+            sh:minCount 0 ;
+            sh:maxCount 1 ;
+            sh:description "Must be in employment"
+        ] ;
+        sh:property [
+            sh:path <https://foerderfunke.org/default#inPatientCoAdmission> ;
+            sh:datatype <http://www.w3.org/2001/XMLSchema#boolean> ;
+            sh:minCount 0 ;
+            sh:maxCount 1 ;
+            sh:description "Must be in-patient co-admission"
+        ] ;
+        sh:property [
+            sh:path <https://foerderfunke.org/default#isSingleParent> ;
+            sh:datatype <http://www.w3.org/2001/XMLSchema#boolean> ;
+            sh:minCount 0 ;
+            sh:maxCount 1 ;
+            sh:description "Must be a single parent"
+        ] ;
+        sh:property [
+            sh:path <https://foerderfunke.org/default#isEligibleFor> ;
+            sh:datatype <http://www.w3.org/2001/XMLSchema#boolean> ;
+            sh:minCount 1 ;
+            sh:maxCount 1 ;
+            sh:description "Must be eligible for the benefit"
+        ] ;
+        sh:property [
+            sh:path <https://foerderfunke.org/default#hasDate> ;
+            sh:datatype <http://www.w3.org/2001/XMLSchema#dateTime> ;
+            sh:minCount 0 ;
+            sh:maxCount 1 ;
+            sh:description "Must have a date"
+        ] ;
+        sh:property [
+            sh:path <https://foerderfunke.org/default#hasDisability> ;
+            sh:datatype <http://www.w3.org/2001/XMLSchema#boolean> ;
+            sh:minCount 0 ;
+            sh:maxCount 1 ;
+            sh:description "Must have a disability"
+        ] ;
+        sh:property [
+            sh:path <https://foerderfunke.org/default#hasAge> ;
+            sh:datatype <http://www.w3.org/2001/XMLSchema#int> ;
+            sh:minCount 0 ;
+            sh:maxCount 1 ;
+            sh:description "Must have an age"
+        ] ;
+        sh:property [
+            sh:path <https://foerderfunke.org/default#isPensionable> ;
+            sh:datatype <http://www.w3.org/2001/XMLSchema#boolean> ;
+            sh:minCount 0 ;
+            sh:maxCount 1 ;
+            sh:description "Must be pensionable"
+        ] ;
+        sh:property [
+            sh:path <https://foerderfunke.org/default#hasEmploymentStatus> ;
+            sh:datatype <http://www.w3.org/2001/XMLSchema#string> ;
+            sh:minCount 0 ;
+            sh:maxCount 1 ;
+            sh:description "Must have an employment status"
+        ] ;
+        sh:property [
+            sh:path <https://foerderfunke.org/default#hasEmployment> ;
+            sh:datatype <http://www.w3.org/2001/XMLSchema#string> ;
+            sh:minCount 0 ;
+            sh:maxCount 1 ;
+            sh:description "Must have an employment"
+        ] ;
+        sh:property [
+            sh:path <https://foerderfunke.org/default#hasMaritalStatus> ;
+            sh:datatype <http://www.w3.org/2001/XMLSchema#string> ;
+            sh:minCount 0 ;
+            sh:maxCount 1 ;
+            sh:description "Must have a marital status"
+        ] ;
+        sh:property [
+            sh:path <https://foerderfunke.org/default#hasResidenceStatus> ;
+            sh:datatype <http://www.w3.org/2001/XMLSchema#string> ;
+            sh:minCount 0 ;
+            sh:maxCount 1 ;
+            sh:description "Must have a residence status"
+        ] ;
+        sh:property [
+            sh:path <https://foerderfunke.org/default#hasDisabilityType> ;
+            sh:datatype <http://www.w3.org/2001/XMLSchema#string> ;
+            sh:minCount 0 ;
+            sh:maxCount 1 ;
+            sh:description "Must have a disability type"
+        ] ;
+        sh:property [
+            sh:path <https://foerderfunke.org/default#hasIncome> ;
+            sh:datatype <http://www.w3.org/2001/XMLSchema#int> ;
+            sh:minCount 0 ;
+            sh:maxCount 1 ;
+            sh:description "Must have an income"
+        ] ;
+        sh:property [
+            sh:path <https://foerderfunke.org/default#hasInsurance> ;
+            sh:datatype <http://www.w3.org/2001/XMLSchema#string> ;
+            sh:minCount 0 ;
+            sh:maxCount 1 ;
+            sh:description "Must have an insurance"
+        ] ;
+        sh:property [
+            sh:path <https://foerderfunke.org/default#hasEmployer> ;
+            sh:datatype <http://www.w3.org/2001/XMLSchema#string> ;
+            sh:minCount 0 ;
+            sh:maxCount 1 ;
+            sh:description "Must have an employer"
+        ] ;
+        sh:property [
+            sh:path <https://foerderfunke.org/default#hasEarningCapacity> ;
+            sh:datatype <http://www.w3.org/2001/XMLSchema#string> ;
+            sh:minCount 0 ;
+            sh:maxCount 1 ;
+            sh:description "Must have an earning capacity"
+        ] ;
+        sh:property [
+            sh:path <https://foerderfunke.org/default#hasWorkProspects> ;
+            sh:datatype <http://www.w3.org/2001/XMLSchema#boolean> ;
+            sh:minCount 0 ;
+            sh:maxCount 1 ;
+            sh:description "Must have work prospects"
+        ] ;
+        sh:property [
+            sh:path <https://foerderfunke.org/default#hasRehabilitationProvider> ;
+            sh:datatype <http://www.w3.org/2001/XMLSchema#string> ;
+            sh:minCount 0 ;
+            sh:maxCount 1 ;
+            sh:description "Must have a rehabilitation provider"
+        ] ;
+        sh:property [
+            sh:path <https://foerderfunke.org/default#hasDisability> ;
+            sh:datatype <http://www.w3.org/2001/XMLSchema#boolean> ;
+            sh:minCount 0 ;
+            sh:maxCount 1 ;
+            sh:description "Must have a disability"
+        ] ;
+        sh:property [
+            sh:path <https://foerderfunke.org/default#hasHasDisability> ;
+            sh:datatype <http://www.w3.org/2001/XMLSchema#boolean> ;
+            sh:minCount 0 ;
+            sh:maxCount 1 ;
+            sh:description "Must have a disability"
+        ] ;
+        sh:property [
+            sh:path <https://foerderfunke.org/default#hasHasResidencePermit> ;
+            sh:datatype <http://www.w3.org/2001/XMLSchema#boolean> ;
+            sh:minCount 0 ;
+            sh:maxCount 1 ;
+            sh:description "Must have a residence permit"
+        ] ;
+        sh:property [
+            sh:path <https://foerderfunke.org/default#hasHasInsurance> ;
+            sh:datatype <http://www.w3.org/2001/XMLSchema#boolean> ;
+            sh:minCount 0 ;
+            sh:maxCount 1 ;
+            sh:description "Must have an insurance"
+        ] ;
+        sh:property [
+            sh:path <https://foerderfunke.org/default#hasHasEarningCapacity> ;
+            sh:datatype <http://www.w3.org/2001/XMLSchema#boolean> ;
+            sh:minCount 0 ;
+            sh:maxCount 1 ;
+            sh:description "Must have an earning capacity"
+        ] ;
+        sh:property [
+            sh:path <https://foerderfunke.org/default#hasHasDisabilityType> ;
+            sh:datatype <http://www.w3.org/2001/XMLSchema#boolean> ;
+            sh:minCount 0 ;
+            sh:maxCount 1 ;
+            sh:description "Must have a disability type"
+        ] ;
+        sh:property [
+            sh:path <https://foerderfunke.org/default#hasHasInsurance> ;
+            sh:datatype <http://www.w3.org/2001/XMLSchema#boolean> ;
+            sh:minCount 0 ;
+            sh:maxCount 1 ;
+            sh:description "Must have an insurance"
+        ] ;
+        sh:property [
+            sh:path <https://foerderfunke.org/default#hasHasRehabilitationProvider> ;
+            sh:datatype <http://www.w3.org/2001/XMLSchema#boolean> ;
+            sh:minCount 0 ;
+            sh:maxCount 1 ;
+            sh:description "Must have a rehabilitation provider"
+        ] ;
+    ] ;
+.

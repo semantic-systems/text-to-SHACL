@@ -1,0 +1,48 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:GrundsicherungAlterErwerbsminderungShape
+    a sh:NodeShape ;
+    sh:targetClass ff:Person ;
+    sh:property [
+        sh:path ff:aboveSGBXII41AgeLimit ;
+        sh:datatype xsd:boolean ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:equals true ;
+    ] , [
+        sh:path [ sh:inverse ff:hasEarningCapacity ] ;
+        sh:nodeKind sh:BlankNode ;
+        sh:property [
+            sh:path ff:reductionInPercent ;
+            sh:datatype xsd:decimal ;
+            sh:minCount 1 ;
+            sh:maxCount 1 ;
+            sh:equals 1.0 ;
+        ] , [
+            sh:path ff:isPermanent ;
+            sh:datatype xsd:boolean ;
+            sh:minCount 1 ;
+            sh:maxCount 1 ;
+            sh:equals true ;
+        ] ;
+    ] , [
+        sh:path ff:participates ;
+        sh:node [
+            sh:targetClass ff:EntryProcedureAndVocationalTrainingArea ;
+        ] ;
+    ] ;
+    sh:and (
+        [
+            sh:path ff:canCoverBasicNeedsOfBenefitUnit ;
+            sh:datatype xsd:boolean ;
+            sh:minCount 1 ;
+            sh:maxCount 1 ;
+            sh:equals false ;
+        ]
+        [
+            sh:path ff:hasNoPriorityClaimsOver ;
+            sh:node ff:L100040_LB_8664880 ;
+        ]
+    ) .

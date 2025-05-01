@@ -1,0 +1,83 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+ff:UserShape
+  a sh:NodeShape ;
+  sh:targetClass ff:User ;
+  sh:property [
+    sh:path ff:hasChild ;
+    sh:minCount 1 ;
+    sh:node ff:ChildShape ;
+  ] ;
+  sh:property [
+    sh:path ff:receivesBenefit ;
+    sh:minCount 1 ;
+    sh:hasValue ff:B100019_LB_576986 ;
+  ] ;
+  sh:property [
+    sh:path ff:hasIncome ;
+    sh:minCount 1 ;
+    sh:node ff:IncomeShape ;
+  ] ;
+  sh:property [
+    sh:path ff:hasConsiderableAssets ;
+    sh:maxCount 0 ;
+    sh:hasValue true ;
+  ] ;
+  sh:property [
+    sh:path ff:canCoverBasicNeedsOfBenefitUnit ;
+    sh:minCount 1 ;
+    sh:hasValue true ;
+  ] ;
+  sh:property [
+    sh:path ff:hasNoPriorityClaimsOver ;
+    sh:minCount 1 ;
+    sh:hasValue ff:B100019_LB_581863 ;
+  ] ;
+  sh:property [
+    sh:path ff:hasMaritalStatus ;
+    sh:or (
+      [ sh:hasValue ff:Widowed ]
+      [ sh:hasValue ff:Divorced ]
+      [ sh:hasValue ff:Single ]
+    ) ;
+  ] .
+
+ff:ChildShape
+  a sh:NodeShape ;
+  sh:targetSubjectsOf ff:hasChild ;
+  sh:property [
+    sh:path ff:hasAge ;
+    sh:lessThan 25 ;
+  ] ;
+  sh:property [
+    sh:path ff:hasMaritalStatus ;
+    sh:or (
+      [ sh:hasValue ff:Single ]
+      [ sh:hasValue ff:Widowed ]
+      [ sh:hasValue ff:Divorced ]
+    ) ;
+  ] ;
+  sh:property [
+    sh:path ff:sameHouseholdAs ;
+    sh:hasValue ff:User ;
+  ] .
+
+ff:IncomeShape
+  a sh:NodeShape ;
+  sh:targetObjectsOf ff:hasIncome ;
+  sh:property [
+    sh:path ff:personalGrossIncome ;
+    sh:or (
+      [ sh:minInclusive 600.0 ; sh:and [ sh:path ff:isSingleParent ; sh:hasValue true ] ]
+      [ sh:minInclusive 900.0 ; sh:and [ sh:path ff:hasMaritalStatus ; sh:not [ sh:hasValue ff:Single ] ] ]
+    ) ;
+  ] ;
+  sh:property [
+    sh:path ff:familyGrossIncome ;
+    sh:minInclusive 900.0 ;
+  ] ;
+  sh:property [
+    sh:path ff:reducesChildSupplementTo ;
+    sh:minExclusive 0 ;
+  ] .

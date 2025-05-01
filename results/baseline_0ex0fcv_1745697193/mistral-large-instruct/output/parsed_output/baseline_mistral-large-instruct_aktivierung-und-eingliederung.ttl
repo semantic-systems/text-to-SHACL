@@ -1,0 +1,41 @@
+@prefix dash: <http://datashapes.org/dash#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:UserShape
+    a sh:NodeShape ;
+    sh:targetClass ff:User ;
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:class ff:B100019_LB_102730340 ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:class ff:Event ;
+        sh:property [
+            sh:path ff:isInTransitionalPeriod ;
+            sh:datatype xsd:boolean ;
+            sh:minCount 1 ;
+        ] ;
+    ] ;
+    sh:property [
+        sh:path ff:hasIncome ;
+        sh:class ff:Income ;
+        sh:property [
+            sh:path ff:canCoverPersonalBasicNeeds ;
+            sh:datatype xsd:boolean ;
+            sh:minCount 1 ;
+        ] ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEmploymentStatus ;
+        sh:class ff:EmploymentStatus ;
+    ] ;
+    sh:property [
+        sh:path ff:hasDisabilityType ;
+        sh:class ff:Disability ;
+    ] .
+
+ff:B100019_LB_102730340
+    a ff:SocialBenefit .

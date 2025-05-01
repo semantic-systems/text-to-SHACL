@@ -1,0 +1,65 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:User
+  a sh:NodeShape ;
+  sh:targetClass ff:User ;
+  sh:property [
+    sh:path ff:hasDisabilityType ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:hasValue ff:Disability ;
+    sh:message "You must have a disability to be eligible for Übergangsgeld." ;
+  ] ;
+  sh:property [
+    sh:path ff:hasRehabilitationProvider ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:hasValue ff:FederalEmploymentAgency ;
+    sh:message "The Federal Employment Agency must be your rehabilitation provider to be eligible for Übergangsgeld." ;
+  ] ;
+  sh:property [
+    sh:path ff:participates ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:nodeKind sh:IRI ;
+    sh:or (
+      [ sh:targetClass ff:VocationalTraining ]
+      [ sh:targetClass ff:EntryProcedureAndVocationalTrainingArea ]
+      [ sh:targetClass ff:Berufsvorbereitung ]
+      [ sh:targetClass ff:UnterstützteBeschäftigung ]
+      [ sh:targetClass ff:BeruflicheWeiterbildung ]
+    ) ;
+    sh:message "You must participate in one of the eligible training programs to be eligible for Übergangsgeld." ;
+  ] ;
+  sh:property [
+    sh:path [
+      sh:or (
+        [ sh:path ff:compulsoryInsuranceFor12In30 ; sh:datatype xsd:boolean ]
+        [ sh:path ff:receivesBenefit ; sh:hasValue ff:B100019_LB_576842 ; sh:datatype xsd:boolean ]
+        [ sh:path ff:hasNoPriorityClaimsOver ; sh:hasValue ff:UnemploymentBenefitsSVG ; sh:datatype xsd:boolean ]
+      )
+    ] ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:message "You must meet one of the three conditions for the 3-year period to be eligible for Übergangsgeld." ;
+  ] ;
+  sh:property [
+    sh:path ff:isVocationalReturnee ;
+    sh:datatype xsd:boolean ;
+    sh:minCount 0 ;
+    sh:maxCount 1 ;
+    sh:message "If you are a vocational returnee, the 3-year period is waived." ;
+  ] ;
+  sh:property [
+    sh:path [
+      sh:or (
+        [ sh:path ff:participates ; sh:hasValue ff:SchuleBerufsbildende ; sh:datatype xsd:boolean ]
+        [ sh:path ff:participates ; sh:hasValue ff:Prüfungszeugnis ; sh:datatype xsd:boolean ]
+      )
+    ] ;
+    sh:minCount 0 ;
+    sh:maxCount 1 ;
+    sh:message "If you have completed a training program in the last year, the 3-year period is waived." ;
+  ] .

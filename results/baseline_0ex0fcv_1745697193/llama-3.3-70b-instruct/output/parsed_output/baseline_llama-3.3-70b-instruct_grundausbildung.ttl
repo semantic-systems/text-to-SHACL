@@ -1,0 +1,49 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:User
+  a sh:NodeShape ;
+  sh:targetClass ff:User ;
+  sh:property [
+    sh:path ff:hasDisabilityType ;
+    sh:datatype xsd:boolean ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:hasValue ff:VisualImpairment, ff:HearingImpairment ;
+  ] ;
+  sh:property [
+    sh:path ff:hasRehabilitationProvider ;
+    sh:datatype xsd:boolean ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:hasValue ff:FederalEmploymentAgency ;
+  ] ;
+  sh:property [
+    sh:path ff:hasDisability ;
+    sh:datatype xsd:boolean ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:hasValue true ;
+  ] ;
+  sh:property [
+    sh:path ff:severeDisability ;
+    sh:datatype xsd:boolean ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:hasValue true ;
+  ] ;
+  sh:property [
+    sh:path ff:reducesWorkProspectsPermanently ;
+    sh:datatype xsd:boolean ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:hasValue true ;
+  ] ;
+  sh:property [
+    sh:path ff:isVocationalReturnee ;
+    sh:datatype xsd:boolean ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:hasValue true ;
+  ] .

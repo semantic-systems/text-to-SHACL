@@ -1,0 +1,39 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+ff:BildungUndTeilhabe
+  a sh:NodeShape ;
+  sh:targetClass ff:User ;
+  sh:property [
+    sh:path ff:receivesBenefit ;
+    sh:or (
+      [ sh:class ff:B100019_LB_106311931 ]
+      [ sh:class ff:L100040_LB_8665924 ; sh:property [ sh:path ff:reducesChildSupplementTo ; sh:minCount 1 ] ]
+      [ sh:class ff:B100019_LB_581863 ; sh:property [ sh:path ff:reducesChildSupplementTo ; sh:minCount 1 ] ]
+      [ sh:class ff:SocialAssistance ]
+      [ sh:class ff:AsylumSeekerBenefits ]
+    )
+  ] ;
+  sh:property [
+    sh:path ff:familyGrossIncome ;
+    sh:lessThan [
+      sh:node ff:LowIncomeThreshold ;
+      sh:property [
+        sh:path ff:personalGrossIncome ;
+        sh:sum [
+          [ sh:inversePath ff:naturalChildTo ]
+          [ sh:inversePath ff:fosterChildTo ]
+        ]
+      ]
+    ]
+  ] ;
+  sh:property [
+    sh:path ff:hasAge ;
+    sh:maxInclusive 25 ;
+    sh:description "Leistungsanspruch gilt für Kinder und junge Menschen bis zur Vollendung des 25. Lebensjahres."@de
+  ] ;
+  sh:property [
+    sh:path ff:hasAge ;
+    sh:maxInclusive 18 ;
+    sh:description "Leistungen zur Teilhabe am sozialen und kulturellen Leben in der Gemeinschaft werden bis zur Vollendung des 18. Lebensjahres bezuschusst."@de
+  ] .

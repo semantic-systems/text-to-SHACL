@@ -1,0 +1,34 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Define the shape for the 'Grundausbildung für Menschen mit Seh- oder Hörbehinderung' social benefit.
+ff:GrundausbildungShape
+  a sh:NodeShape ;
+  sh:targetClass ff:Person ;
+  sh:property [
+    sh:path ff:hasDisabilityType ;
+    sh:class ff:Disability ;
+    sh:or (
+      [ sh:hasValue ff:VisualImpairment ]
+      [ sh:hasValue ff:HearingImpairment ]
+    ) ;
+    sh:message "The person must have or be at risk of a severe visual or hearing impairment."
+  ] ;
+  sh:property [
+    sh:path ff:hasRehabilitationProvider ;
+    sh:hasValue ff:FederalEmploymentAgency ;
+    sh:message "The responsible provider must be the Federal Employment Agency."
+  ] ;
+  sh:property [
+    sh:path ff:workforceIntegrationProblemBecause ;
+    sh:class ff:Disability ;
+    sh:message "The person must have a significant and long-term reduction in their prospects of participating in working life due to the nature and severity of their disability."
+  ] ;
+  sh:property [
+    sh:path ff:availableForPlacement ;
+    sh:hasValue "true"^^xsd:boolean ;
+    sh:message "The person must be willing to undergo vocational training or other forms of vocational integration."
+  ] .

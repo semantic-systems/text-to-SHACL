@@ -1,0 +1,26 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+ff:UserShape
+  a sh:NodeShape ;
+  sh:targetClass ff:User ;
+  sh:property [
+    sh:path ff:receivesBenefit ;
+    sh:hasValue ff:SocialAssistance ;
+  ] ;
+  sh:property [
+    sh:path ff:hasPrimaryCareTaker ;
+    sh:qualifiedMinCount 1 ;
+    sh:qualifiedValueShape [
+      sh:path ff:hasRehabilitationProvider ;
+      sh:hasValue ff:FederalEmploymentAgency ;
+    ] ;
+  ] ;
+  sh:property [
+    sh:path ff:participates ;
+    sh:qualifiedMinCount 1 ;
+    sh:qualifiedValueShape [
+      sh:path ff:commissionedByEmploymentAgency ;
+      sh:hasValue true ;
+    ] ;
+  ] .

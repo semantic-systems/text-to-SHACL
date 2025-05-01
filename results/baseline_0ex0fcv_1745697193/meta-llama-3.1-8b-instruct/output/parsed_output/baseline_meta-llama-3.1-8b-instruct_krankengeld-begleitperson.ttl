@@ -1,0 +1,48 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+<http://example.org/shape>
+    a sh:NodeShape ;
+    sh:targetClass ff:User ;
+    sh:property [
+        sh:path ff:hasInsurance ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:datatype xsd:boolean ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:description "Die zu begleitende Person wird stationär im Krankenhaus behandelt."
+    ] ;
+    sh:property [
+        sh:path ff:hasMedicalAccompaniment ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:datatype xsd:boolean ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:description "Die stationäre Mitaufnahme als Begleitperson ist medizinisch notwendig."
+    ] ;
+    sh:property [
+        sh:path ff:hasEmployment ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:datatype xsd:boolean ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:description "Sie haben einen Verdienstausfall."
+    ] ;
+    sh:property [
+        sh:path ff:isNaheAngehörige ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:datatype xsd:boolean ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:description "Sie sind eine nahe angehörige Person oder Teil des engsten Umfelds."
+    ] ;
+    sh:property [
+        sh:path ff:hasCareNeed ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:datatype xsd:boolean ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:description "Die zu begleitende Person bezieht Leistungen der Eingliederungshilfe."
+    ] .

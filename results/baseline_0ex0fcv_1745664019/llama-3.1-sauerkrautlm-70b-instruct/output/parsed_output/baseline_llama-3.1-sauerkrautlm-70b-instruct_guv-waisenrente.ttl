@@ -1,0 +1,74 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+ff:B100019_LB_582435 a sh:NodeShape ;
+    sh:targetClass ff:Person ;
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:inversePath ff:isEligibleFor ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:hasValue ff:B100019_LB_582435 ;
+    ] ;
+    sh:property [
+        sh:path [ sh:inversePath ff:deceasedSpouse ;
+                  sh:inversePath ff:deceasedCivilPartner ;
+        ] ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:property [
+            sh:path ff:causeOfDeath ;
+            sh:minCount 1 ;
+            sh:maxCount 1 ;
+            sh:node [
+                sh:or (
+                    [ sh:instance ff:WorkAccident ]
+                    [ sh:instance ff:CommutingAccident ]
+                    [ sh:instance ff:OccupationalDisease ]
+                )
+            ]
+        ]
+    ] ;
+    sh:property [
+        sh:path ff:naturalChildTo ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:node [
+            sh:or (
+                [ sh:property [ sh:path ff:hasChild ; sh:minCount 1 ; sh:maxCount 1 ] ]
+                [
+                    sh:property [ sh:path ff:stepChildTo ; sh:minCount 1 ; sh:maxCount 1 ] ;
+                    sh:property [ sh:path ff:sameHouseholdAs ; sh:minCount 1 ; sh:maxCount 1 ]
+                ]
+                [
+                    sh:property [ sh:path ff:fosterChildTo ; sh:minCount 1 ; sh:maxCount 1 ] ;
+                    sh:property [ sh:path ff:sameHouseholdAs ; sh:minCount 1 ; sh:maxCount 1 ]
+                ]
+                [
+                    sh:property [ sh:path ff:hasPrimaryCareTaker ; sh:minCount 1 ; sh:maxCount 1 ] ;
+                    sh:property [ sh:path ff:sameHouseholdAs ; sh:minCount 1 ; sh:maxCount 1 ]
+                ]
+            )
+        ]
+    ] ;
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:lessThanOrEquals 27 ;
+        sh:node [
+            sh:or (
+                [
+                    sh:property [ sh:path ff:participates ; sh:minCount 1 ; sh:maxCount 1 ] ;
+                    sh:property [ sh:path ff:isInTransitionalPeriod ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:boolean ; sh:hasValue true ]
+                ]
+                [
+                    sh:property [ sh:path ff:hasDisability ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:boolean ; sh:hasValue true ] ;
+                    sh:property [ sh:path ff:hasDisabilityType ; sh:minCount 1 ; sh:maxCount 1 ] ;
+                    sh:property [ sh:path ff:reducesWorkProspectsPermanently ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:boolean ; sh:hasValue true ]
+                ]
+            )
+        ]
+    ] .

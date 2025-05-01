@@ -1,0 +1,45 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:B100019_LB_582429_EligibilityShape
+    rdf:type sh:NodeShape ;
+    sh:targetClass ff:User ;
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:datatype ff:B100019_LB_582429 ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ff:unfitForWork ;
+        sh:datatype xsd:boolean ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:hasValue true ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:class ff:Event ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:property [
+            sh:path ff:causesLossOfEarnings ;
+            sh:datatype xsd:boolean ;
+            sh:minCount 1 ;
+            sh:maxCount 1 ;
+            sh:hasValue true ;
+        ] ;
+        sh:property [
+            sh:or (
+                [ sh:path ff:resultsInTreatment ; sh:class ff:OccupationalRehabilitation ]
+                [ sh:class ff:WorkAccident ]
+                [ sh:class ff:CommutingAccident ]
+                [ sh:class ff:KindergartenAccident ]
+                [ sh:class ff:SchoolAccident ]
+                [ sh:class ff:OccupationalDisease ]
+            )
+        ] ;
+    ] ;
+.

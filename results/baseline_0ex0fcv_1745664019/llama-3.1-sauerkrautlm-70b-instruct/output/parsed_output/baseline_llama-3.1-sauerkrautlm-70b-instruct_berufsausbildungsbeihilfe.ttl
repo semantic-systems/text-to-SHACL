@@ -1,0 +1,75 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:B100019_LB_574724
+    a sh:NodeShape ;
+    sh:targetClass ff:Person ;
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:minInclusive 18 ;
+        sh:datatype xsd:int ;
+    ] ;
+    sh:property [
+        sh:path ff:hasMaritalStatus ;
+        sh:in (ff:Married ff:Divorced) ;
+    ] ;
+    sh:property [
+        sh:path ff:hasChild ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ff:hasResidenceStatus ;
+        sh:notIn (ff:Tolerated) ;
+    ] ;
+    sh:property [
+        sh:path ff:uninterruptedLegalStayForLessThan15Months ;
+        sh:notIn (true) ;
+    ] ;
+    sh:property [
+        sh:path ff:isNationalOf ;
+        sh:in (ff:Germany) ;
+    ] ;
+    sh:property [
+        sh:path ff:canCoverPersonalBasicNeeds ;
+        sh:notIn (true) ;
+    ] ;
+    sh:property [
+        sh:path ff:participates ;
+        sh:nodeKind sh:IRI ;
+        sh:property [
+            sh:path ff:recognizedByLaw ;
+            sh:in (ff:Berufsbildungsgesetz ff:Handwerksordnung ff:Seearbeitsgesetz ff:Teil2DesPflegeberufegesetzes) ;
+        ] ;
+        sh:property [
+            sh:path ff:subjectToContract ;
+            sh:in (ff:Berufsausbildungsvertrag) ;
+        ] ;
+        sh:property [
+            sh:path ff:monthsAbroad ;
+            sh:maxInclusive 12 ;
+            sh:datatype xsd:int ;
+        ] ;
+    ] ;
+    sh:property [
+        sh:path ff:hasDisability ;
+        sh:or (
+            [
+                sh:property [
+                    sh:path ff:hasDisabilityType ;
+                    sh:nodeKind sh:IRI ;
+                ] ;
+            ]
+            [
+                sh:property [
+                    sh:path ff:participates ;
+                    sh:nodeKind sh:IRI ;
+                    sh:property [
+                        sh:path ff:ruleExemptionBecause ;
+                        sh:nodeKind sh:IRI ;
+                    ] ;
+                ] ;
+            ]
+        ) ;
+    ] .

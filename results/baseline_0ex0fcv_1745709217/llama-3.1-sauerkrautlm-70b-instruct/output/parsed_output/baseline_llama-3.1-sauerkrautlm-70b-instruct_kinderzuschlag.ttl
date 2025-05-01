@@ -1,0 +1,91 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:KinderzuschlagShape
+    a sh:NodeShape ;
+    sh:targetClass ff:User ;
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:hasValue ff:B100019_LB_581863 ;
+    ] ;
+    sh:property [
+        sh:path ff:receivesChildBenefitFor ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:node ff:ChildUnderAge25NotMarried ;
+    ] ;
+    sh:property [
+        sh:path [ sh:inverse ff:receivesBenefit ] ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:hasValue ff:B100019_LB_581863 ;
+    ] ;
+    sh:property [
+        sh:path ff:hasNoPriorityClaimsOver ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:hasValue ff:B100019_LB_581863 ;
+    ] ;
+    sh:property [
+        sh:path ff:hasIncome ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:node ff:IncomeWithEffectOnKinderzuschlag ;
+    ] ;
+    sh:property [
+        sh:path ff:hasConsiderableAssets ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:boolean ;
+        sh:equals false ;
+    ] ;
+    sh:property [
+        sh:path ff:canCoverBasicNeedsOfBenefitUnit ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:boolean ;
+        sh:equals true ;
+    ] .
+
+ff:ChildUnderAge25NotMarried
+    a sh:NodeShape ;
+    sh:targetClass ff:Person ;
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:lessThan 25 ;
+    ] ;
+    sh:property [
+        sh:path ff:hasMaritalStatus ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:hasValue ff:None ;
+    ] ;
+    sh:property [
+        sh:path ff:sameHouseholdAs ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:node ff:User ;
+    ] .
+
+ff:IncomeWithEffectOnKinderzuschlag
+    a sh:NodeShape ;
+    sh:targetClass ff:Income ;
+    sh:property [
+        sh:path ff:familyGrossIncome ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:minInclusive 900 ;
+        sh:maxInclusive 900 ;
+    ] ;
+    sh:property [
+        sh:path ff:personalGrossIncome ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:minInclusive 600 ;
+        sh:maxInclusive 600 ;
+    ] .

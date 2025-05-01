@@ -1,0 +1,67 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:B100019_LB_102799515
+    a sh:NodeShape ;
+    sh:targetClass ff:Person ;
+    sh:property [
+        sh:path ff:caregiverInHousehold ;
+        sh:hasValue ff:User ;
+    ] ;
+    sh:property [
+        sh:path ff:hasChild ;
+        sh:class ff:Person ;
+        sh:or (
+            [
+                sh:property [
+                    sh:path ff:hasEvent ;
+                    sh:class ff:SchoolAccident ;
+                ] ;
+            ]
+            [
+                sh:property [
+                    sh:path ff:hasEvent ;
+                    sh:class ff:KindergartenAccident ;
+                ] ;
+            ]
+        ) ;
+    ] ;
+    sh:property [
+        sh:path ff:hasChild ;
+        sh:class ff:Person ;
+        sh:property [
+            sh:path ff:hasAge ;
+            sh:lessThan 12 ;
+        ] ;
+    ] ;
+    sh:property [
+        sh:path ff:hasIncome ;
+        sh:class ff:Income ;
+        sh:property [
+            sh:path ff:personalGrossIncome ;
+            sh:minExclusive 0 ;
+        ] ;
+    ] ;
+    sh:not [
+        sh:property [
+            sh:path ff:sameHouseholdAs ;
+            sh:class ff:Person ;
+            sh:property [
+                sh:path ff:caregiverInHousehold ;
+                sh:class ff:CareNeed ;
+            ] ;
+        ] ;
+    ] ;
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:class ff:SocialBenefit ;
+        sh:or (
+            [
+                sh:hasValue ff:B100019_LB_576842 ;
+            ]
+            [
+                sh:hasValue ff:B100019_LB_576986 ;
+            ]
+        ) ;
+    ] .

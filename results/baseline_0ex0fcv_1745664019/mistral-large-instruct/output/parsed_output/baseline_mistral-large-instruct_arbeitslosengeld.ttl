@@ -1,0 +1,47 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:UnemploymentBenefitShape
+    a sh:NodeShape ;
+    sh:targetClass ff:Person ;
+    sh:property [
+        sh:path ff:hasEmploymentStatus ;
+        sh:hasValue ff:Unemployed ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEmployment ;
+        sh:maxCount 0 ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEmployment ;
+        sh:class ff:Employment ;
+        sh:property [
+            sh:path ff:workHoursPerWeek ;
+            sh:lessThan 15 ;
+        ] ;
+    ] ;
+    sh:property [
+        sh:path ff:availableForPlacement ;
+        sh:hasValue "true"^^xsd:boolean ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEmploymentStatus ;
+        sh:hasValue ff:RegisteredUnemployed ;
+    ] ;
+    sh:property [
+        sh:path ff:compulsoryInsuranceFor12In30 ;
+        sh:hasValue "true"^^xsd:boolean ;
+    ] ;
+    sh:property [
+        sh:path ff:hasResidenceStatus ;
+        sh:class ff:ResidenceStatus ;
+    ] ;
+    sh:property [
+        sh:path ff:hasResidencePermit ;
+        sh:class ff:ResidencePermit ;
+        sh:property [
+            sh:path ff:entitlesToEmployment ;
+            sh:hasValue "true"^^xsd:boolean ;
+        ] ;
+    ] .

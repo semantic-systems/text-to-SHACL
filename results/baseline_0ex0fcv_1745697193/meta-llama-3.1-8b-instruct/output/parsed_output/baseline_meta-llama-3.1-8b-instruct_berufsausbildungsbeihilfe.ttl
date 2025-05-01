@@ -1,0 +1,108 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+[] a sh:NodeConstraint ;
+    sh:targetNode ff:User ;
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:datatype xsd:int ;
+        sh:minInclusive "18"^^xsd:int
+    ] ;
+    sh:property [
+        sh:path ff:isFirstVocationalTraining ;
+        sh:datatype xsd:boolean ;
+        sh:value true
+    ] ;
+    sh:property [
+        sh:path ff:isInTransitionalPeriod ;
+        sh:datatype xsd:boolean ;
+        sh:value false
+    ] ;
+    sh:property [
+        sh:path ff:isPensionable ;
+        sh:datatype xsd:boolean ;
+        sh:value false
+    ] ;
+    sh:property [
+        sh:path ff:isVocationalReturnee ;
+        sh:datatype xsd:boolean ;
+        sh:value false
+    ] ;
+    sh:property [
+        sh:path ff:hasDisability ;
+        sh:datatype xsd:boolean ;
+        sh:value false
+    ] ;
+    sh:property [
+        sh:path ff:hasConsiderableAssets ;
+        sh:datatype xsd:boolean ;
+        sh:value false
+    ] ;
+    sh:property [
+        sh:path ff:sufficientMeansOfSubsistence ;
+        sh:datatype xsd:boolean ;
+        sh:value false
+    ] ;
+    sh:property [
+        sh:path ff:hasEntitledToAsylum ;
+        sh:datatype xsd:boolean ;
+        sh:value false
+    ] ;
+    sh:property [
+        sh:path ff:permanentRightOfResidence ;
+        sh:datatype xsd:boolean ;
+        sh:value false
+    ] ;
+    sh:property [
+        sh:path ff:hasEmployableHoursPerDay ;
+        sh:datatype xsd:decimal ;
+        sh:minInclusive "20"^^xsd:decimal
+    ] ;
+    sh:property [
+        sh:path ff:inEmployment ;
+        sh:datatype xsd:boolean ;
+        sh:value false
+    ] ;
+    sh:property [
+        sh:path ff:hasWorkHoursPerWeek ;
+        sh:datatype xsd:decimal ;
+        sh:minInclusive "15"^^xsd:decimal
+    ] ;
+    sh:property [
+        sh:path ff:entitledToEmployment ;
+        sh:datatype xsd:boolean ;
+        sh:value false
+    ] ;
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:datatype xsd:int ;
+        sh:minInclusive "18"^^xsd:int
+    ] ;
+    sh:property [
+        sh:path ff:hasDate ;
+        sh:datatype xsd:dateTime ;
+        sh:minInclusive "2020-01-01T00:00:00"^^xsd:dateTime
+    ] ;
+    sh:property [
+        sh:path ff:hasEarningCapacity ;
+        sh:datatype xsd:boolean ;
+        sh:value true
+    ] ;
+    sh:property [
+        sh:path ff:isEligibleFor ;
+        sh:node ff:B100019_LB_574724 ;
+        sh:class ff:SocialBenefit
+    ] ;
+    sh:property [
+        sh:path ff:hasDisabilityType ;
+        sh:node ff:HearingImpairment ;
+        sh:datatype ff:HearingImpairment
+    ] ;
+    sh:property [
+        sh:path ff:hasDisability ;
+        sh:node ff:HearingImpairment ;
+        sh:datatype ff:HearingImpairment
+    ] .

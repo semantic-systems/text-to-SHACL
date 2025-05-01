@@ -1,0 +1,99 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:User
+  a sh:Shape ;
+  sh:targetClass ff:User ;
+  sh:property [
+      sh:path ff:hasInsurance ;
+      sh:datatype ff:StatutoryHealthInsurance ;
+      sh:minCount 1 ;
+    ] , [
+      sh:path ff:needsCare ;
+      sh:datatype ff:MedicalAccompaniment ;
+      sh:minCount 1 ;
+      sh:zeroOrMorePath ff:inPatientCoAdmission ;
+    ] , [
+      sh:path ff:hasEvent ;
+      sh:datatype ff:MedicalAccompaniment ;
+      sh:minCount 1 ;
+      sh:property [
+          sh:path ff:fullDayAccompaniment ;
+          sh:datatype xsd:boolean ;
+          sh:minCount 1 ;
+        ] ;
+    ] , [
+      sh:path ff:hasEvent ;
+      sh:datatype ff:Event ;
+      sh:minCount 1 ;
+      sh:property [
+          sh:path ff:causesLossOfEarnings ;
+          sh:datatype xsd:boolean ;
+          sh:minCount 1 ;
+        ] ;
+    ] , [
+      sh:path ff:immediateCircleMember ;
+      sh:datatype ff:Person ;
+      sh:minCount 1 ;
+    ] , [
+      sh:path ff:receivesBenefit ;
+      sh:datatype ff:EntryProcedureAndVocationalTrainingArea ;
+      sh:minCount 1 ;
+    ] ;
+  sh:logicalAnd (
+    [
+      sh:property [
+        sh:path ff:hasInsurance ;
+        sh:datatype ff:StatutoryHealthInsurance ;
+        sh:minCount 1 ;
+      ]
+    ]
+    [
+      sh:property [
+        sh:path ff:needsCare ;
+        sh:datatype ff:MedicalAccompaniment ;
+        sh:minCount 1 ;
+        sh:zeroOrMorePath ff:inPatientCoAdmission ;
+      ]
+    ]
+    [
+      sh:property [
+        sh:path ff:hasEvent ;
+        sh:datatype ff:MedicalAccompaniment ;
+        sh:minCount 1 ;
+        sh:property [
+          sh:path ff:fullDayAccompaniment ;
+          sh:datatype xsd:boolean ;
+          sh:minCount 1 ;
+        ]
+      ]
+    ]
+    [
+      sh:property [
+        sh:path ff:hasEvent ;
+        sh:datatype ff:Event ;
+        sh:minCount 1 ;
+        sh:property [
+          sh:path ff:causesLossOfEarnings ;
+          sh:datatype xsd:boolean ;
+          sh:minCount 1 ;
+        ]
+      ]
+    ]
+    [
+      sh:property [
+        sh:path ff:immediateCircleMember ;
+        sh:datatype ff:Person ;
+        sh:minCount 1 ;
+      ]
+    ]
+    [
+      sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:datatype ff:EntryProcedureAndVocationalTrainingArea ;
+        sh:minCount 1 ;
+      ]
+    ]
+  ) ;
+.

@@ -1,0 +1,63 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+<https://foerderfunke.org/default#/idlbB100019_LB_582429>
+  a sh:NodeShape ;
+  sh:targetClass <https://foerderfunke.org/default#/SocialBenefit> ;
+  sh:property [
+    sh:targetClass <https://foerderfunke.org/default#/Event> ;
+    sh:path ff:hasEvent ;
+    sh:invalidReport [
+      sh:expression "a ff:WorkAccident || a ff:CommutingAccident || a ff:OccupationalDisease"
+    ]
+  ] ;
+  sh:property [
+    sh:path ff:hasEarningCapacity ;
+    sh:validReport [
+      sh:expression "a ff:UnfitForWork || a ff:FullEarningCapacity"
+    ]
+  ] ;
+  sh:property [
+    sh:path ff:hasEmploymentStatus ;
+    sh:validReport [
+      sh:node ff:Unemployed
+    ]
+  ] ;
+  sh:property [
+    sh:path ff:hasIncome ;
+    sh:validReport [
+      sh:expression "a ff:Income && !a ff:NotApplicable"
+    ]
+  ] ;
+  sh:property [
+    sh:path ff:hasInsurance ;
+    sh:validReport [
+      sh:node ff:StatutoryAccidentInsurance
+    ]
+  ] ;
+  sh:property [
+    sh:path ff:hasDisability ;
+    sh:validReport [
+      sh:expression "a ff:HearingImpairment || a ff:VisualImpairment || a ff:SevereDisability"
+    ]
+  ] ;
+  sh:property [
+    sh:path ff:hasResidencePermit ;
+    sh:validReport [
+      sh:node ff:Tolerated
+    ]
+  ] ;
+  sh:property [
+    sh:path ff:countryOfEmployment ;
+    sh:validReport [
+      sh:node ff:Germany
+    ]
+  ] ;
+  sh:property [
+    sh:path ff:countryOfResidence ;
+    sh:validReport [
+      sh:node ff:Germany
+    ]
+  ] .

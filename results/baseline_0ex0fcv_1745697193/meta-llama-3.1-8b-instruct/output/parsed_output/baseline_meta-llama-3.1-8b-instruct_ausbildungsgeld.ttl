@@ -1,0 +1,76 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+<http://example.org/shapes> a sh:NodeShape ;
+    sh:targetClass ff:User ;
+    sh:property [
+        sh:path ff:hasDisability ;
+        sh:nodeKind sh:NodeShape ;
+        sh:property [
+            sh:path ff:hasDisabilityType ;
+            sh:datatype xsd:string ;
+            sh:in ( "HearingImpairment" "VisualImpairment" ) ;
+            sh:minCount 1
+        ]
+    ] ;
+    sh:property [
+        sh:path ff:hasRehabilitationProvider ;
+        sh:nodeKind sh:NodeShape ;
+        sh:property [
+            sh:path ff:derivesFreedomOfMovementFrom ;
+            sh:nodeKind sh:NodeShape ;
+            sh:targetClass ff:User
+        ]
+    ] ;
+    sh:property [
+        sh:path ff:hasEmployment ;
+        sh:nodeKind sh:NodeShape ;
+        sh:property [
+            sh:path ff:hasEmploymentStatus ;
+            sh:nodeKind sh:NodeShape ;
+            sh:targetClass ff:EmploymentStatus
+        ]
+    ] ;
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:nodeKind sh:NodeShape ;
+        sh:property [
+            sh:path ff:triggeringEvent ;
+            sh:nodeKind sh:NodeShape ;
+            sh:targetClass ff:Event
+        ]
+    ] ;
+    sh:property [
+        sh:path ff:hasIncome ;
+        sh:nodeKind sh:NodeShape ;
+        sh:property [
+            sh:path ff:personalGrossIncome ;
+            sh:datatype xsd:int ;
+            sh:minInclusive 0
+        ]
+    ] ;
+    sh:property [
+        sh:path ff:hasEmployment ;
+        sh:nodeKind sh:NodeShape ;
+        sh:property [
+            sh:path ff:workHoursPerWeek ;
+            sh:datatype xsd:decimal ;
+            sh:minInclusive 0 ;
+            sh:maxInclusive 40
+        ]
+    ] ;
+    sh:property [
+        sh:path ff:hasEmployment ;
+        sh:nodeKind sh:NodeShape ;
+        sh:property [
+            sh:path ff:hasIncome ;
+            sh:nodeKind sh:NodeShape ;
+            sh:property [
+                sh:path ff:reducesChildSupplementTo ;
+                sh:datatype xsd:decimal ;
+                sh:minInclusive 0
+            ]
+        ]
+    ] .

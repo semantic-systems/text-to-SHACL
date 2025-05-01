@@ -1,0 +1,397 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+[] a sh:NodeShape ;
+  sh:targetClass ff:Person ;
+  sh:property [
+    sh:path ff:hasEarningCapacity ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:boolean
+  ] ;
+  sh:property [
+    sh:path ff:hasDisability ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:boolean
+  ] ;
+  sh:property [
+    sh:path ff:hasEmploymentStatus ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype ff:EmploymentStatus
+  ] ;
+  sh:property [
+    sh:path ff:hasAge ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:integer
+  ] ;
+  sh:property [
+    sh:path ff:hasDisabilityType ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype ff:Disability
+  ] ;
+  sh:property [
+    sh:path ff:hasResidenceStatus ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype ff:ResidenceStatus
+  ] ;
+  sh:property [
+    sh:path ff:hasResidencePermit ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype ff:ResidencePermit
+  ] ;
+  sh:property [
+    sh:path ff:hasEmployment ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype ff:Employment
+  ] ;
+  sh:property [
+    sh:path ff:hasIncome ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype ff:Income
+  ] ;
+  sh:property [
+    sh:path ff:hasInsurance ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype ff:Insurance
+  ] ;
+  sh:property [
+    sh:path ff:hasMaritalStatus ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype ff:MaritalStatus
+  ] ;
+  sh:property [
+    sh:path ff:hasNoPriorityClaimsOver ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype ff:SocialBenefit
+  ] ;
+  sh:property [
+    sh:path ff:hasPrimaryCareTaker ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype ff:Person
+  ] ;
+  sh:property [
+    sh:path ff:hasRehabilitationProvider ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype ff:RehabilitationProvider
+  ] ;
+  sh:property [
+    sh:path ff:hasResidencePermit ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype ff:ResidencePermit
+  ] ;
+  sh:property [
+    sh:path ff:hasEmploymentStatus ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype ff:EmploymentStatus
+  ] ;
+  sh:property [
+    sh:path ff:hasIncome ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype ff:Income
+  ] ;
+  sh:property [
+    sh:path ff:hasInsurance ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype ff:Insurance
+  ] ;
+  sh:property [
+    sh:path ff:hasMaritalStatus ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype ff:MaritalStatus
+  ] ;
+  sh:property [
+    sh:path ff:receivesChildBenefitFor ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype ff:Person
+  ] ;
+  sh:property [
+    sh:path ff:hasIncome ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype ff:Income
+  ] ;
+  sh:property [
+    sh:path ff:hasInsurance ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype ff:Insurance
+  ] .
+
+[] a sh:NodeShape ;
+  sh:targetClass ff:Person ;
+  sh:property [
+    sh:path ff:cannotSupportThemselvesBecause ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype ff:Disability
+  ] ;
+  sh:property [
+    sh:path ff:hasDisability ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:boolean
+  ] ;
+  sh:property [
+    sh:path ff:hasDisabilityType ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype ff:Disability
+  ] ;
+  sh:property [
+    sh:path ff:hasAge ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:integer
+  ] .
+
+[] a sh:NodeShape ;
+  sh:targetClass ff:Person ;
+  sh:property [
+    sh:path ff:hasMaritalStatus ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype ff:MaritalStatus
+  ] ;
+  sh:property [
+    sh:path ff:hasIncome ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype ff:Income
+  ] ;
+  sh:property [
+    sh:path ff:hasInsurance ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype ff:Insurance
+  ] ;
+  sh:property [
+    sh:path ff:hasEmploymentStatus ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype ff:EmploymentStatus
+  ] ;
+  sh:property [
+    sh:path ff:hasResidenceStatus ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype ff:ResidenceStatus
+  ] ;
+  sh:property [
+    sh:path ff:hasResidencePermit ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype ff:ResidencePermit
+  ] ;
+  sh:property [
+    sh:path ff:hasDisability ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:boolean
+  ] ;
+  sh:property [
+    sh:path ff:hasDisabilityType ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype ff:Disability
+  ] ;
+  sh:property [
+    sh:path ff:hasAge ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:integer
+  ] .
+
+[] a sh:NodeShape ;
+  sh:targetClass ff:Person ;
+  sh:property [
+    sh:path ff:hasDisability ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:boolean
+  ] ;
+  sh:property [
+    sh:path ff:hasDisabilityType ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype ff:Disability
+  ] ;
+  sh:property [
+    sh:path ff:hasAge ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:integer
+  ] ;
+  sh:property [
+    sh:path ff:hasDisability ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:boolean
+  ] ;
+  sh:property [
+    sh:path ff:hasAge ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:integer
+  ] .
+
+[] a sh:NodeShape ;
+  sh:targetClass ff:Person ;
+  sh:property [
+    sh:path ff:hasDisability ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:boolean
+  ] ;
+  sh:property [
+    sh:path ff:hasDisabilityType ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype ff:Disability
+  ] ;
+  sh:property [
+    sh:path ff:hasAge ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:integer
+  ] ;
+  sh:property [
+    sh:path ff:hasDisability ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:boolean
+  ] .
+
+[] a sh:NodeShape ;
+  sh:targetClass ff:Person ;
+  sh:property [
+    sh:path ff:hasDisability ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:boolean
+  ] ;
+  sh:property [
+    sh:path ff:hasDisabilityType ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype ff:Disability
+  ] ;
+  sh:property [
+    sh:path ff:hasAge ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:integer
+  ] ;
+  sh:property [
+    sh:path ff:hasDisability ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:boolean
+  ] ;
+  sh:property [
+    sh:path ff:hasAge ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:integer
+  ] .
+
+[] a sh:NodeShape ;
+  sh:targetClass ff:Person ;
+  sh:property [
+    sh:path ff:hasDisability ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:boolean
+  ] ;
+  sh:property [
+    sh:path ff:hasDisabilityType ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype ff:Disability
+  ] ;
+  sh:property [
+    sh:path ff:hasAge ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:integer
+  ] ;
+  sh:property [
+    sh:path ff:hasDisability ;
+    sh:nodeKind sh:Resource ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:boolean
+  ] .

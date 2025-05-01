@@ -1,0 +1,26 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+ff:UserShape
+  a sh:NodeShape ;
+  sh:targetClass ff:User ;
+  sh:property [
+    sh:path ff:hasEvent ;
+    sh:hasValue [ sh:nodeKind sh:BlankNodeOrIRI ; sh:class ff:WorkAccident ] ;
+    sh:minCount 1 ;
+  ] ;
+  sh:property [
+    sh:path ff:hasEvent ;
+    sh:hasValue [ sh:nodeKind sh:BlankNodeOrIRI ; sh:class ff:CommutingAccident ] ;
+    sh:minCount 1 ;
+  ] ;
+  sh:property [
+    sh:path ff:hasEvent ;
+    sh:hasValue [ sh:nodeKind sh:BlankNodeOrIRI ; sh:class ff:OccupationalDisease ] ;
+    sh:minCount 1 ;
+  ] ;
+  sh:property [
+    sh:path ff:participates ;
+    sh:class ff:OccupationalRehabilitation ;
+    sh:minCount 1 ;
+  ] .

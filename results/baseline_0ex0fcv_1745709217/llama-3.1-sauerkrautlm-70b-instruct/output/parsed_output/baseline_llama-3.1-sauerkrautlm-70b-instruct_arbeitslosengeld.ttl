@@ -1,0 +1,91 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:UserShape
+    a sh:NodeShape ;
+    sh:targetClass ff:User ;
+    sh:property [
+        sh:path ff:hasEmploymentStatus ;
+        sh:datatype ff:Unemployed ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:in (<https://foerderfunke.org/default#B100019_LB_576842>) ;
+        sh:minCount 0 ;
+        sh:maxCount 0 ;
+    ] ;
+    sh:property [
+        sh:path ff:receivedBenefit ;
+        sh:in (<https://foerderfunke.org/default#B100019_LB_576842>) ;
+        sh:minCount 0 ;
+        sh:maxCount 0 ;
+    ] ;
+    sh:property [
+        sh:path ff:wasEligibleFor ;
+        sh:in (<https://foerderfunke.org/default#B100019_LB_576842>) ;
+        sh:minCount 0 ;
+        sh:maxCount 0 ;
+    ] ;
+    sh:property [
+        sh:path ff:isEligibleFor ;
+        sh:in (<https://foerderfunke.org/default#B100019_LB_576842>) ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:property [
+            sh:path ff:hasDate ;
+            sh:datatype xsd:dateTime ;
+            sh:minCount 1 ;
+            sh:maxCount 1 ;
+        ] ;
+        sh:property [
+            sh:path rdf:type ;
+            sh:hasValue ff:MoveToGermany ;
+            sh:minCount 0 ;
+            sh:maxCount 1 ;
+        ] ;
+        sh:property [
+            sh:path ff:resultsInTreatment ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:minCount 0 ;
+            sh:maxCount 0 ;
+        ] ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ff:compulsoryInsuranceFor12In30 ;
+        sh:datatype xsd:boolean ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:value "true"^^xsd:boolean ;
+    ] ;
+    sh:property [
+        sh:path ff:inEmployment ;
+        sh:datatype xsd:boolean ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:value "false"^^xsd:boolean ;
+    ] ;
+    sh:property [
+        sh:path ff:workHoursPerWeek ;
+        sh:datatype xsd:decimal ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:minInclusive 0 ;
+        sh:maxInclusive 15 ;
+    ] ;
+    sh:property [
+        sh:path ff:availableForPlacement ;
+        sh:datatype xsd:boolean ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:value "true"^^xsd:boolean ;
+    ] .

@@ -1,0 +1,62 @@
+@prefix dash: <http://datashapes.org/dash#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:SocialBenefit_B100019_LB_103817036 a sh:NodeShape ;
+    sh:targetClass ff:User ;
+    sh:property [
+        sh:path ff:hasInsurance ;
+        sh:hasValue ff:StatutoryHealthInsurance ;
+    ] ;
+    sh:property [
+        sh:path ff:closeRelative ;
+        sh:class ff:Person ;
+        sh:property [
+            sh:path ff:hasDisability ;
+            sh:datatype xsd:boolean ;
+            sh:hasValue "true"^^xsd:boolean ;
+        ] ;
+        sh:property [
+            sh:path ff:needsCare ;
+            sh:class ff:CareNeed ;
+            sh:property [
+                sh:path ff:caregiverInHousehold ;
+                sh:hasValue ff:User ;
+            ] ;
+        ] ;
+        sh:property [
+            sh:path ff:receivesBenefit ;
+            sh:class ff:SocialBenefit ;
+            sh:hasValue ff:IntegrationAssistance ;
+        ] ;
+    ] ;
+    sh:property [
+        sh:path ff:causesLossOfEarnings ;
+        sh:datatype xsd:boolean ;
+        sh:hasValue "true"^^xsd:boolean ;
+    ] ;
+    sh:property [
+        sh:path ff:isSingleParent ;
+        sh:datatype xsd:boolean ;
+        sh:hasValue "true"^^xsd:boolean ;
+    ] ;
+    sh:property [
+        sh:path ff:immediateCircleMember ;
+        sh:class ff:Person ;
+        sh:property [
+            sh:path ff:hasDisability ;
+            sh:datatype xsd:boolean ;
+            sh:hasValue "true"^^xsd:boolean ;
+        ] ;
+    ] ;
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:class ff:SocialBenefit ;
+        sh:hasValue ff:IntegrationAssistance ;
+    ] ;
+    sh:property [
+        sh:path ff:hasMaritalStatus ;
+        sh:class ff:MaritalStatus ;
+        sh:in ( ff:Married ff:CivilUnion ) ;
+    ] .

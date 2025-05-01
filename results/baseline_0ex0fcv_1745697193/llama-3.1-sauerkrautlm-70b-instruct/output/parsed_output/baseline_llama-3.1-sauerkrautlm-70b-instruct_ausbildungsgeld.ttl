@@ -1,0 +1,34 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+ff:AusbildungsgeldShape
+  a sh:NodeShape ;
+  sh:targetClass ff:User ;
+  sh:property [
+    sh:path ff:hasDisabilityType ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:hasValue ff:HearingImpairment ;
+  ] ;
+  sh:property [
+    sh:path ff:hasRehabilitationProvider ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:hasValue ff:FederalEmploymentAgency ;
+  ] ;
+  sh:property [
+    sh:path ff:participates ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:or (
+      [ sh:class ff:VocationalTraining ]
+      [ sh:class ff:EntryProcedureAndVocationalTrainingArea ]
+    ) ;
+  ] ;
+  sh:property [
+    sh:path ff:isEligibleFor ;
+    sh:minCount 0 ;
+    sh:maxCount 0 ;
+    sh:hasValue ff:B100019_LB_102716305 ;
+  ] ;
+.

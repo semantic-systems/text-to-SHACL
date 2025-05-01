@@ -1,0 +1,166 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:BerufsausbildungsbeihilfeShape
+  a sh:NodeShape ;
+  sh:targetClass ff:User ;
+  sh:property [
+    sh:path ff:receivesBenefit ;
+    sh:minCount 0 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:boolean ;
+    sh:hasValue false ;
+  ] ;
+  sh:property [
+    sh:path ff:wantsToMoveTo ;
+    sh:minCount 0 ;
+    sh:maxCount 1 ;
+    sh:node ff:GermanyShape ;
+  ] ;
+  sh:property [
+    sh:path ff:countryOfResidence ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:node ff:GermanyShape ;
+  ] ;
+  sh:property [
+    sh:path ff:hasNoPriorityClaimsOver ;
+    sh:minCount 0 ;
+    sh:maxCount 1 ;
+    sh:hasValue ff:B100019_LB_574724 ;
+  ] ;
+  sh:property [
+    sh:path ff:canCoverPersonalBasicNeeds ;
+    sh:minCount 0 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:boolean ;
+    sh:hasValue false ;
+  ] ;
+  sh:property [
+    sh:path ff:participates ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:node ff:VocationalTrainingShape ;
+  ] ;
+  sh:property [
+    sh:path ff:ageInYears ;
+    sh:minCount 0 ;
+    sh:maxCount 1 ;
+    sh:minInclusive 18 ;
+    sh:datatype xsd:int ;
+  ] ;
+  sh:or (
+    [
+      sh:path ff:hasChild ;
+      sh:minCount 1 ;
+    ]
+    [
+      sh:path ff:wasMarried ;
+      sh:minCount 1 ;
+    ]
+  ) ;
+  sh:or (
+    [
+      sh:path ff:hasResidencePermit ;
+      sh:minCount 1 ;
+      sh:node ff:ResidencePermitShape ;
+    ]
+    [
+      sh:path ff:isNationalOf ;
+      sh:minCount 1 ;
+      sh:node ff:GermanyShape ;
+    ]
+  ) ;
+  sh:not [
+    sh:path ff:hasAsylumActPermit ;
+    sh:minCount 1 ;
+    sh:datatype xsd:boolean ;
+    sh:hasValue true ;
+  ] ;
+  sh:not [
+    sh:path ff:uninterruptedLegalStayForLessThan15Months ;
+    sh:minCount 1 ;
+    sh:datatype xsd:boolean ;
+    sh:hasValue true ;
+  ] .
+
+ff:GermanyShape
+  a sh:NodeShape ;
+  sh:targetNode ff:Germany ;
+  sh:severity sh:Info .
+
+ff:ResidencePermitShape
+  a sh:NodeShape ;
+  sh:property [
+    sh:path ff:entitlesToEmployment ;
+    sh:minCount 1 ;
+    sh:datatype xsd:boolean ;
+    sh:hasValue true ;
+  ] .
+
+ff:VocationalTrainingShape
+  a sh:NodeShape ;
+  sh:targetClass ff:VocationalTraining ;
+  sh:property [
+    sh:path ff:recognizedByLaw ;
+    sh:minCount 1 ;
+    sh:node ff:VocationalTrainingLawShape ;
+  ] ;
+  sh:or (
+    [
+      sh:path ff:isFirstVocationalTraining ;
+      sh:minCount 1 ;
+      sh:datatype xsd:boolean ;
+      sh:hasValue true ;
+    ]
+    [
+      sh:path ff:workforceIntegrationProblemBecause ;
+      sh:minCount 1 ;
+    ]
+  ) ;
+  sh:or (
+    [
+      sh:path ff:subjectToContract ;
+      sh:minCount 1 ;
+      sh:node ff:VocationalTrainingContractShape ;
+    ]
+    [
+      sh:path ff:ruleExemptionBecause ;
+      sh:minCount 1 ;
+    ]
+  ) ;
+  sh:not [
+    sh:path ff:commissionedByEmploymentAgency ;
+    sh:minCount 1 ;
+    sh:datatype xsd:boolean ;
+    sh:hasValue true ;
+  ] ;
+  sh:not [
+    sh:path ff:monthsAbroad ;
+    sh:minCount 1 ;
+    sh:lessThan 12 ;
+    sh:datatype xsd:int ;
+  ] ;
+  sh:not [
+    sh:path ff:monthsTotal ;
+    sh:minCount 1 ;
+    sh:lessThan 12 ;
+    sh:datatype xsd:int ;
+  ] ;
+  sh:not [
+    sh:path ff:percentAbroad ;
+    sh:minCount 1 ;
+    sh:lessThan 0.5 ;
+    sh:datatype xsd:decimal ;
+  ] .
+
+ff:VocationalTrainingLawShape
+  a sh:NodeShape ;
+  sh:targetNode ff:Berufsbildungsgesetz ;
+  sh:severity sh:Info .
+
+ff:VocationalTrainingContractShape
+  a sh:NodeShape ;
+  sh:targetNode ff:Berufsausbildungsvertrag ;
+  sh:severity sh:Info .

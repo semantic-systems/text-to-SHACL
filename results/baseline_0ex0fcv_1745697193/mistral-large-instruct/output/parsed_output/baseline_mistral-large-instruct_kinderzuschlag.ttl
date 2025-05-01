@@ -1,0 +1,57 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:UserShape
+  a sh:NodeShape ;
+  sh:targetClass ff:User ;
+  sh:property [
+    sh:path ff:hasChild ;
+    sh:class ff:Person ;
+    sh:minCount 1 ;
+    sh:node [
+      sh:property [
+        sh:path ff:hasAge ;
+        sh:maxInclusive 24 ;
+      ] ;
+      sh:property [
+        sh:path ff:hasMaritalStatus ;
+        sh:in (ff:Married ff:CivilUnion) ;
+        sh:maxCount 0 ;
+      ] ;
+      sh:property [
+        sh:path ff:sameHouseholdAs ;
+        sh:hasValue ff:User ;
+      ] ;
+      sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:hasValue ff:B100019_LB_576986 ;
+      ] ;
+    ] ;
+  ] ;
+  sh:property [
+    sh:path ff:hasIncome ;
+    sh:class ff:Income ;
+    sh:minCount 1 ;
+    sh:node [
+      sh:property [
+        sh:path ff:personalGrossIncome ;
+        sh:or [
+          sh:minInclusive 900.00 ;
+          sh:minInclusive 600.00 ;
+        ] ;
+      ] ;
+    ] ;
+  ] ;
+  sh:property [
+    sh:path ff:hasConsiderableAssets ;
+    sh:hasValue "false"^^xsd:boolean ;
+  ] ;
+  sh:property [
+    sh:path ff:canCoverBasicNeedsOfBenefitUnit ;
+    sh:hasValue "true"^^xsd:boolean ;
+  ] ;
+  sh:property [
+    sh:path ff:receivesBenefit ;
+    sh:hasValue ff:B100019_LB_581863 ;
+  ] .

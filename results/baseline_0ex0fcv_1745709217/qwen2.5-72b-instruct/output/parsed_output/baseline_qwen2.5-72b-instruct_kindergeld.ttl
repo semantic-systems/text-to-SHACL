@@ -1,0 +1,95 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+ff:UserShape
+  a sh:NodeShape ;
+  sh:targetClass ff:User ;
+  sh:property [
+    sh:path ff:incomeTaxCountry ;
+    sh:hasValue ff:Germany ;
+    sh:minCount 1 ;
+  ] ;
+  sh:property [
+    sh:path ff:incomeTaxLiability ;
+    sh:hasValue ff:UnlimitedTaxLiability ;
+    sh:minCount 1 ;
+  ] ;
+  sh:property [
+    sh:path ff:isNationalOf ;
+    sh:or (
+      [ sh:hasValue ff:Germany ]
+      [ sh:hasValue ff:EEAplusCH ]
+    ) ;
+    sh:minCount 1 ;
+  ] ;
+  sh:property [
+    sh:path ff:hasResidencePermit ;
+    sh:or (
+      [ sh:hasValue ff:PermanentResidencePermit ]
+      [ sh:hasValue ff:ResidencePermitForEmployment ]
+    ) ;
+    sh:minCount 1 ;
+    sh:condition ff:nonEEACitizenCondition ;
+  ] ;
+  sh:property [
+    sh:path ff:recognizedRefugee ;
+    sh:hasValue true ;
+    sh:minCount 1 ;
+    sh:condition ff:nonEEACitizenCondition ;
+  ] ;
+  sh:property [
+    sh:path ff:entitledToAsylum ;
+    sh:hasValue true ;
+    sh:minCount 1 ;
+    sh:condition ff:nonEEACitizenCondition ;
+  ] ;
+  sh:and (
+    [ sh:property [
+        sh:path ff:hasChild ;
+        sh:minCount 1 ;
+        sh:node ff:ChildShape ;
+      ]
+    ]
+  ) .
+
+ff:nonEEACitizenCondition
+  a sh:NodeShape ;
+  sh:targetSubjectsOf ff:isNationalOf ;
+  sh:not [
+    sh:or (
+      [ sh:hasValue ff:Germany ]
+      [ sh:hasValue ff:EEAplusCH ]
+    )
+  ] .
+
+ff:ChildShape
+  a sh:NodeShape ;
+  sh:targetClass ff:Person ;
+  sh:property [
+    sh:path ff:countryOfResidence ;
+    sh:hasValue ff:Germany ;
+    sh:minCount 1 ;
+    sh:or (
+      [ sh:hasValue ff:EEAplusCH ]
+    ) ;
+  ] ;
+  sh:property [
+    sh:path ff:sameHouseholdAs ;
+    sh:hasValue ff:User ;
+    sh:minCount 1 ;
+    sh:condition ff:childEUResidencyCondition ;
+  ] .
+
+ff:childEUResidencyCondition
+  a sh:NodeShape ;
+  sh:targetObjectsOf ff:sameHouseholdAs ;
+  sh:property [
+    sh:path ff:countryOfResidence ;
+    sh:hasValue ff:EEAplusCH ;
+    sh:minCount 1 ;
+  ] ;
+  sh:property [
+    sh:path ff:incomeTaxCountry ;
+    sh:hasValue ff:Germany ;
+    sh:minCount 1 ;
+  ] .

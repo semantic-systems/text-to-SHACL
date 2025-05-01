@@ -1,0 +1,43 @@
+@prefix shacl: <http://www.w3.org/ns/shacl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+<http://example.org/eligibility-requirements> a shacl:NodeShape ;
+    shacl:targetNode <http://example.org/user> ;
+    shacl:property [
+        shacl:targetProperty <http://example.org/hasDisability> ;
+        shacl:minCount 1 ;
+        shacl:maxCount 1 ;
+        shacl:datatype <http://www.w3.org/2001/XMLSchema#boolean> ;
+        shacl:hasValue true ;
+        shacl:in <http://example.org/disability-types> ;
+        shacl:in <http://example.org/severe-disability>
+    ] ;
+    shacl:property [
+        shacl:targetProperty <http://example.org/hasRehabilitationProvider> ;
+        shacl:minCount 1 ;
+        shacl:maxCount 1 ;
+        shacl:datatype <http://www.w3.org/2001/XMLSchema#boolean> ;
+        shacl:hasValue true ;
+        shacl:in <http://example.org/rehabilitation-providers> ;
+        shacl:in <http://example.org/bundesagentur-fuer-arbeit>
+    ] ;
+    shacl:property [
+        shacl:targetProperty <http://example.org/hasEarningCapacity> ;
+        shacl:minCount 1 ;
+        shacl:maxCount 1 ;
+        shacl:datatype <http://www.w3.org/2001/XMLSchema#boolean> ;
+        shacl:hasValue false ;
+        shacl:in <http://example.org/earning-capacity-values> ;
+        shacl:in <http://example.org/unfit-for-work>
+    ] ;
+    shacl:property [
+        shacl:targetProperty <http://example.org/hasEmploymentStatus> ;
+        shacl:minCount 1 ;
+        shacl:maxCount 1 ;
+        shacl:datatype <http://www.w3.org/2001/XMLSchema#boolean> ;
+        shacl:hasValue true ;
+        shacl:in <http://example.org/employment-status-values> ;
+        shacl:in <http://example.org/available-for-placement>
+    ] .

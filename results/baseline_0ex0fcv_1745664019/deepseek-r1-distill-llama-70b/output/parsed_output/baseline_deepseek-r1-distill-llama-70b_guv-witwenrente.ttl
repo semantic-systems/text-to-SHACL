@@ -1,0 +1,28 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+ff:WidowOrWidowerEligibilityShape
+  a sh:Shape ;
+  sh:targetClass ff:Person ;
+  sh:property [
+    sh:path ff:deceasedSpouse ;
+    sh:minCount 1 ;
+    sh:or (
+      [
+        sh:path [sh:zeroOrMorePath ff:causeOfDeath] ;
+        sh:hasValue ff:WorkAccident ;
+      ]
+      [
+        sh:path [sh:zeroOrMorePath ff:causeOfDeath] ;
+        sh:hasValue ff:CommutingAccident ;
+      ]
+      [
+        sh:path [sh:zeroOrMorePath ff:causeOfDeath] ;
+        sh:hasValue ff:OccupationalDisease ;
+      ]
+    )
+  ] ;
+  sh:property [
+    sh:path ff:legalUnionBeforeEvent ;
+    sh:minCount 1 ;
+  ] .

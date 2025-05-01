@@ -1,0 +1,27 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+ff:UserShape
+    a sh:NodeShape ;
+    sh:targetClass ff:User ;
+    sh:property [
+        sh:property ff:receivesBenefit ;
+        sh:maxCount 1 ;
+        sh:hasValue ff:B100019_LB_576842 ;
+        sh:message "Must receive Verletztengeld from statutory accident insurance."
+    ] , [
+        sh:property ff:hasEvent ;
+        sh:minCount 1 ;
+        sh:class [
+            sh:or (
+                ff:WorkAccident
+                ff:CommutingAccident
+                ff:OccupationalDisease
+            )
+        ] ;
+        sh:message "Must have an insurance event causing work disability."
+    ] , [
+        sh:property ff:unfitForWork ;
+        sh:hasValue true ;
+        sh:message "Must be unfit for work due to the insurance event."
+    ] .

@@ -1,0 +1,44 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:B100019_LB_582404_EligibilityShape
+    a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    sh:property [
+        sh:path ff:hasEarningCapacity ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:datatype ff:EarningCapacity ;
+        sh:property [
+            sh:path ff:reductionInPercent ;
+            sh:minCount 1 ;
+            sh:maxCount 1 ;
+            sh:datatype xsd:decimal ;
+            sh:minInclusive 20 ;
+            sh:minExclusive 0 ;
+        ] ;
+        sh:property [
+            sh:path ff:triggeringEvent ;
+            sh:minCount 1 ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:datatype ff:Event ;
+            sh:property [
+                sh:path ff:causesLossOfEarnings ;
+                sh:minCount 1 ;
+                sh:maxCount 1 ;
+                sh:datatype xsd:boolean ;
+                sh:hasValue true ;
+            ] ;
+        ] ;
+        sh:property [
+            sh:path ff:isPermanent ;
+            sh:minCount 1 ;
+            sh:maxCount 1 ;
+            sh:datatype xsd:boolean ;
+            sh:hasValue true ;
+        ] ;
+    ] .

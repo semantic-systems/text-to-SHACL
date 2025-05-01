@@ -1,0 +1,31 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+ff:Person
+  a sh:Shape ;
+  sh:property [
+      sh:path ff:hasDisabilityType ;
+      sh:or (
+        [ sh:path ff:hasDisabilityType ; sh:hasValue ff:VisualImpairment ]
+        [ sh:path ff:hasDisabilityType ; sh:hasValue ff:HearingImpairment ]
+      ) ;
+      sh:or (
+        [ sh:path ff:hasDisabilityType ; sh:hasValue ff:VisualImpairment ]
+        [ sh:path ff:hasDisabilityType ; sh:hasValue ff:HearingImpairment ]
+      )
+    ] ;
+  sh:property [
+      sh:path ff:hasRehabilitationProvider ;
+      sh:hasValue ff:FederalEmploymentAgency ;
+    ] ;
+  sh:property [
+      sh:path ff:hasDisabilityType ;
+      sh:property [
+          sh:path ff:reducesWorkProspectsPermanently ;
+          sh:hasValue "true" ;
+        ]
+    ] ;
+  sh:property [
+      sh:path ff:isVocationalReturnee ;
+      sh:hasValue "true" ;
+    ] .

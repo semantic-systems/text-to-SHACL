@@ -1,0 +1,14 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+ff:UserShape
+  a sh:Shape ;
+  sh:targetClass ff:User ;
+  sh:property [
+    sh:path ff:hasEvent ;
+    sh:hasValue ff:WorkAccident, ff:CommutingAccident, ff:OccupationalDisease ;
+  ] ;
+  sh:property [
+    sh:path ff:unfitForWork ;
+    sh:hasValue true ;
+  ] .

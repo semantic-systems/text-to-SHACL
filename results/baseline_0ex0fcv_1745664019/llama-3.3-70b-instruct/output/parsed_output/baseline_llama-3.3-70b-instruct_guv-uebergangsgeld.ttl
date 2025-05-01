@@ -1,0 +1,16 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:B100019_LB_582422
+  a ff:SocialBenefit ;
+  sh:property [
+    sh:predicate ff:hasEvent ;
+    sh:class ff:WorkAccident, ff:CommutingAccident, ff:OccupationalDisease ;
+    sh:minCount 1 ;
+  ] ;
+  sh:property [
+    sh:predicate ff:participates ;
+    sh:class ff:EntryProcedureAndVocationalTrainingArea ;
+    sh:minCount 1 ;
+  ] .

@@ -1,0 +1,67 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+<http://example.org/shacl> a sh:SHAACL ;
+  sh:targetNode <http://example.org/user> ;
+
+  sh:property [
+    sh:path ff:hasEvent ;
+    sh:datatype xsd:boolean ;
+    sh:minCount 1 ;
+    sh:nodeKind sh:NODE ;
+    sh:property [ 
+      sh:path ff:isWorkAccident ;
+      sh:nodeKind sh:LITERAL ;
+    ] ;
+  ] ;
+
+  sh:property [
+    sh:path ff:hasEvent ;
+    sh:datatype xsd:boolean ;
+    sh:minCount 1 ;
+    sh:nodeKind sh:NODE ;
+    sh:property [ 
+      sh:path ff:isCommutingAccident ;
+      sh:nodeKind sh:LITERAL ;
+    ] ;
+  ] ;
+
+  sh:property [
+    sh:path ff:hasEvent ;
+    sh:datatype xsd:boolean ;
+    sh:minCount 1 ;
+    sh:nodeKind sh:NODE ;
+    sh:property [ 
+      sh:path ff:isOccupationalDisease ;
+      sh:nodeKind sh:LITERAL ;
+    ] ;
+  ] ;
+
+  sh:property [
+    sh:path ff:hasMaritalStatus ;
+    sh:datatype ff:MaritalStatus ;
+    sh:minCount 1 ;
+    sh:nodeKind sh:NODE ;
+    sh:nodeConstraint [
+      sh:class ff:MaritalStatus ;
+      sh:values ( ff:Married ff:CivilUnion ) ;
+    ] ;
+  ] ;
+
+  sh:property [
+    sh:path ff:hasDisability ;
+    sh:datatype xsd:boolean ;
+    sh:minCount 1 ;
+    sh:nodeKind sh:NODE ;
+    sh:property [ 
+      sh:path ff:hasDisabilityType ;
+      sh:nodeKind sh:NODE ;
+      sh:nodeConstraint [
+        sh:class ff:Disability ;
+        sh:values ( ff:HearingImpairment ff:VisualImpairment ff:OtherDisability ) ;
+      ] ;
+    ] ;
+  ] ;
+.

@@ -1,0 +1,27 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:UserShape
+    a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    sh:property [
+        # User must currently receive Bürgergeld
+        sh:path ff:receivesBenefit ;
+        sh:hasValue ff:B100019_LB_106311931 ;
+        sh:minCount 1 ;
+    ],
+    [
+        # User's employment must have at least 15 hours per week
+        sh:path ff:hasEmployment ;
+        sh:node [
+            a sh:NodeShape ;
+            sh:property [
+                sh:path ff:workHoursPerWeek ;
+                sh:minInclusive "15"^^xsd:decimal ;
+            ]
+        ] ;
+        sh:minCount 1
+    ] .

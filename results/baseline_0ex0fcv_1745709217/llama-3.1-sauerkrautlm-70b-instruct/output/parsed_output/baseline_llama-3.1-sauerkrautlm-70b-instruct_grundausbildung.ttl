@@ -1,0 +1,50 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+ff:User
+  a sh:NodeShape ;
+  sh:targetClass ff:User ;
+  sh:property [
+    sh:path ff:hasDisabilityType ;
+    sh:minCount 1 ;
+    sh:nodeKind sh:IRI ;
+    sh:in ( ff:VisualImpairment ff:HearingImpairment ) ;
+    sh:description "Hochgradige Seh- oder Hörbehinderung" ;
+  ] ;
+  sh:property [
+    sh:path ff:atRiskOfDisabilityType ;
+    sh:minCount 1 ;
+    sh:nodeKind sh:IRI ;
+    sh:in ( ff:VisualImpairment ff:HearingImpairment ) ;
+    sh:description "Hohe Wahrscheinlichkeit, eine Seh- oder Hörbehinderung zu entwickeln" ;
+  ] ;
+  sh:property [
+    sh:path ff:hasRehabilitationProvider ;
+    sh:minCount 1 ;
+    sh:nodeKind sh:IRI ;
+    sh:in ( ff:FederalEmploymentAgency ) ;
+    sh:description "Zuständiger Rehabilitationsträger ist die Bundesagentur für Arbeit" ;
+  ] ;
+  sh:property [
+    sh:path ff:canCoverPersonalBasicNeeds ;
+    sh:minCount 1 ;
+    sh:datatype xsd:boolean ;
+    sh:maxInclusive 0 ;
+    sh:description "Keine ausreichenden Mittel zur Deckung des persönlichen Grundbedarfs" ;
+  ] ;
+  sh:property [
+    sh:path ff:hasNoPriorityClaimsOver ;
+    sh:minCount 1 ;
+    sh:nodeKind sh:IRI ;
+    sh:in ( ff:B100019_LB_102717659 ) ;
+    sh:description "Keine Ansprüche auf andere Leistungen mit Vorrang vor der Grundausbildung für Menschen mit Seh- oder Hörbehinderung" ;
+  ] ;
+  sh:property [
+    sh:path ff:availableForPlacement ;
+    sh:minCount 1 ;
+    sh:datatype xsd:boolean ;
+    sh:minInclusive 1 ;
+    sh:description "Bereitschaft zur beruflichen Bildung oder Eingliederung" ;
+  ] .

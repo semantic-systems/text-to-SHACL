@@ -1,0 +1,105 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+<http://example.org/Insolvenzgeld>
+    a sh:NodeShape ;
+    sh:targetClass ff:Person ;
+    sh:property [
+        sh:path ff:hasEmployment ;
+        sh:node ff:Employment ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:or (
+            [
+                sh:path ff:countryOfEmployment ;
+                sh:node ff:Country ;
+                sh:datatype xsd:string ;
+                sh:in (
+                    "Germany"^^xsd:string
+                )
+            ]
+            [
+                sh:path ff:countryOfEmployment ;
+                sh:node ff:Country ;
+                sh:datatype xsd:string ;
+                sh:not (
+                    sh:in (
+                        "Germany"^^xsd:string
+                    )
+                )
+            ]
+        )
+    ] ;
+    sh:property [
+        sh:path ff:hasEmploymentStatus ;
+        sh:node ff:EmploymentStatus ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:or (
+            [
+                sh:path rdf:type ;
+                sh:node ff:Employee ;
+                sh:datatype xsd:string ;
+                sh:in (
+                    "Employee"^^xsd:string
+                )
+            ]
+            [
+                sh:path rdf:type ;
+                sh:node ff:SelfEmployed ;
+                sh:datatype xsd:string ;
+                sh:not (
+                    sh:in (
+                        "Employee"^^xsd:string
+                    )
+                )
+            ]
+        )
+    ] ;
+    sh:property [
+        sh:path ff:hasIncome ;
+        sh:node ff:Income ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:or (
+            [
+                sh:path ff:personalGrossIncome ;
+                sh:datatype xsd:integer ;
+                sh:greaterThan 0 ;
+                sh:lessThan 100000
+            ]
+            [
+                sh:path ff:familyGrossIncome ;
+                sh:datatype xsd:integer ;
+                sh:greaterThan 0 ;
+                sh:lessThan 150000
+            ]
+        )
+    ] ;
+    sh:property [
+        sh:path ff:hasNoPriorityClaimsOver ;
+        sh:node ff:SocialBenefit ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:node ff:B100019_LB_576848
+    ] ;
+    sh:property [
+        sh:path ff:hasDate ;
+        sh:node ff:Event ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:lessThan (
+            "2022-12-31T23:59:59Z"^^xsd:dateTime
+        )
+    ] ;
+    sh:property [
+        sh:path ff:hasDate ;
+        sh:node ff:Event ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:greaterThan (
+            "2022-01-01T00:00:00Z"^^xsd:dateTime
+        )
+    ] .

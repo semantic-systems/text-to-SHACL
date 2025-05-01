@@ -1,0 +1,73 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:EinstiegsgeldShape a sh:NodeShape ;
+    sh:targetClass ff:User ;
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:hasValue ff:B100019_LB_102716305 ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEmploymentStatus ;
+        sh:hasValue ff:RegisteredUnemployed ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEmployment ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:property [
+            sh:path ff:workHoursPerWeek ;
+            sh:minInclusive 15 ;
+            sh:datatype xsd:decimal ;
+        ] ;
+    ] ;
+    sh:property [
+        sh:path ff:participates ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:property [
+            sh:path ff:intendedFundingPeriod ;
+            sh:minCount 1 ;
+            sh:maxCount 1 ;
+        ] ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:property [
+            sh:path ff:hasDate ;
+            sh:minCount 1 ;
+            sh:maxCount 1 ;
+        ] ;
+    ] .
+
+ff:SelfEmploymentShape a sh:NodeShape ;
+    sh:targetClass ff:User ;
+    sh:property [
+        sh:path ff:hasEmployment ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:property [
+            sh:path ff:subjectToContract ;
+            sh:hasValue ff:VocationalTrainingContract ;
+            sh:minCount 1 ;
+            sh:maxCount 1 ;
+        ] ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:property [
+            sh:path ff:recognizedByLaw ;
+            sh:hasValue ff:VocationalTrainingAct ;
+            sh:minCount 1 ;
+            sh:maxCount 1 ;
+        ] ;
+    ] .

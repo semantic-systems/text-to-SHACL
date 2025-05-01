@@ -1,0 +1,41 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:User
+  a sh:NodeShape ;
+  sh:targetClass ff:User ;
+  sh:property [
+    sh:path ff:receivesBenefit ;
+    sh:hasValue ff:B100019_LB_106311931 ; # Bürgergeld
+    sh:or [
+      sh:path ff:receivesBenefit ;
+      sh:hasValue ff:L100040_LB_8665924 ; # Wohngeld
+    ] ;
+    sh:or [
+      sh:path ff:receivesBenefit ;
+      sh:hasValue ff:SocialAssistance ; # Sozialhilfe
+    ] ;
+    sh:or [
+      sh:path ff:receivesBenefit ;
+      sh:hasValue ff:AsylumSeekerBenefits ; # Asylbewerberleistungen
+    ] ;
+    sh:or [
+      sh:path ff:hasIncome ;
+      sh:maxExclusive 1500 ; # Familien mit geringem Einkommen
+    ] ;
+  ] ;
+  sh:property [
+    sh:path ff:hasAge ;
+    sh:maxInclusive 25 ;
+  ] ;
+  sh:property [
+    sh:path ff:hasAge ;
+    sh:minInclusive 0 ;
+    sh:maxInclusive 18 ;
+    sh:or [
+      sh:path ff:hasAge ;
+      sh:minInclusive 0 ;
+      sh:maxInclusive 25 ;
+    ] ;
+  ] .

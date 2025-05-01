@@ -1,0 +1,72 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:KinderzuschlagEligibilityShape a sh:NodeShape ;
+    sh:targetClass ff:User ;
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:datatype xsd:boolean ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:hasValue ff:B100019_LB_581863 ;
+    ] ;
+    sh:property [
+        sh:path ff:receivesChildBenefitFor ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:property [
+            sh:path ff:hasAge ;
+            sh:datatype xsd:int ;
+            sh:minInclusive 0 ;
+            sh:maxExclusive 25 ;
+        ] ;
+        sh:property [
+            sh:path ff:hasMaritalStatus ;
+            sh:hasValue ff:Unmarried ;
+        ] ;
+        sh:property [
+            sh:path ff:sameHouseholdAs ;
+            sh:hasValue ff:User ;
+        ] ;
+    ] ;
+    sh:property [
+        sh:path ff:hasIncome ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:property [
+            sh:path ff:reducesChildSupplementTo ;
+            sh:datatype xsd:decimal ;
+            sh:minInclusive 0 ;
+        ] ;
+    ] ;
+    sh:property [
+        sh:path ff:canCoverPersonalBasicNeeds ;
+        sh:datatype xsd:boolean ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:hasValue true ;
+    ] ;
+    sh:property [
+        sh:path ff:canCoverBasicNeedsOfBenefitUnit ;
+        sh:datatype xsd:boolean ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:hasValue true ;
+    ] ;
+    sh:property [
+        sh:path ff:hasConsiderableAssets ;
+        sh:datatype xsd:boolean ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:hasValue false ;
+    ] ;
+    sh:property [
+        sh:path ff:hasNoPriorityClaimsOver ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:hasValue ff:B100019_LB_581863 ;
+    ] .

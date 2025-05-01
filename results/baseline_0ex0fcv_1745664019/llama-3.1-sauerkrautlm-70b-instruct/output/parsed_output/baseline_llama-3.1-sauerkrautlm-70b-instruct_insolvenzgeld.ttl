@@ -1,0 +1,81 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:B100019_LB_576848
+  a sh:NodeShape ;
+  sh:targetClass ff:Person ;
+  sh:property [
+    sh:path ff:hasEvent ;
+    sh:nodeKind sh:BlankNodeOrIRI ;
+    sh:property [
+      sh:path rdf:type ;
+      sh:in (ff:InsolvencyProceeding ff:InsolvencyApplication ff:DiscontinuationOfBusiness) ;
+    ] ;
+    sh:property [
+      sh:path ff:hasDate ;
+      sh:datatype xsd:dateTime ;
+    ] ;
+    sh:property [
+      sh:path ff:causesLossOfEarnings ;
+      sh:datatype xsd:boolean ;
+      sh:hasValue true ;
+    ] ;
+  ] ;
+  sh:property [
+    sh:path ff:hasEmployment ;
+    sh:nodeKind sh:BlankNodeOrIRI ;
+    sh:property [
+      sh:path ff:countryOfEmployment ;
+      sh:hasValue ff:Germany ;
+    ] ;
+  ] ;
+  sh:property [
+    sh:path ff:hasIncome ;
+    sh:nodeKind sh:BlankNodeOrIRI ;
+    sh:property [
+      sh:path ff:personalGrossIncome ;
+      sh:datatype xsd:int ;
+      sh:minInclusive 0 ;
+    ] ;
+    sh:property [
+      sh:path ff:receivedWithinLast3Years ;
+      sh:datatype xsd:boolean ;
+      sh:hasValue false ;
+    ] ;
+  ] ;
+  sh:property [
+    sh:path ff:receivesBenefit ;
+    sh:nodeKind sh:BlankNodeOrIRI ;
+    sh:property [
+      sh:path rdf:type ;
+      sh:in (ff:B100019_LB_576842) ;
+      sh:minCount 0 ;
+      sh:maxCount 0 ;
+    ] ;
+  ] ;
+  sh:property [
+    sh:path ff:isEligibleFor ;
+    sh:nodeKind sh:BlankNodeOrIRI ;
+    sh:property [
+      sh:path rdf:type ;
+      sh:in (ff:B100019_LB_576848) ;
+    ] ;
+  ] ;
+  sh:property [
+    sh:path ff:hasEmploymentStatus ;
+    sh:nodeKind sh:BlankNodeOrIRI ;
+    sh:property [
+      sh:path rdf:type ;
+      sh:in (ff:Employee ff:RegisteredUnemployed) ;
+    ] ;
+  ] ;
+  sh:property [
+    sh:path ff:hasNoPriorityClaimsOver ;
+    sh:nodeKind sh:BlankNodeOrIRI ;
+    sh:property [
+      sh:path rdf:type ;
+      sh:in (ff:B100019_LB_576848) ;
+    ] ;
+  ] .

@@ -1,0 +1,60 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:User
+  a sh:NodeShape ;
+  sh:targetClass ff:User ;
+  sh:property [
+    sh:path ff:hasChild ;
+    sh:minCount 1 ;
+    sh:node [
+      sh:path ff:hasAge ;
+      sh:max 12 ;
+    ] ;
+  ] ;
+  sh:property [
+    sh:path ff:hasEmployment ;
+    sh:minCount 1 ;
+    sh:node [
+      sh:path ff:workHoursPerWeek ;
+      sh:minInclusive 15 ;
+    ] ;
+  ] ;
+  sh:property [
+    sh:path ff:receivesBenefit ;
+    sh:minCount 1 ;
+    sh:node [
+      sh:path ff:isPensionable ;
+      sh:max 0 ;
+    ] ;
+  ] ;
+  sh:property [
+    sh:path ff:sameHouseholdAs ;
+    sh:maxCount 1 ;
+    sh:node [
+      sh:path ff:canCoverBasicNeedsOfBenefitUnit ;
+      sh:minCount 0 ;
+    ] ;
+  ] ;
+  sh:property [
+    sh:path ff:hasEvent ;
+    sh:minCount 1 ;
+    sh:node [
+      sh:path ff:resultsInTreatment ;
+      sh:minCount 1 ;
+      sh:node [
+        sh:path ff:isNationalOf ;
+        sh:minCount 1 ;
+      ] ;
+    ] ;
+  ] ;
+  sh:property [
+    sh:path ff:hasIncome ;
+    sh:minCount 1 ;
+    sh:node [
+      sh:path ff:personalGrossIncome ;
+      sh:minInclusive 0 ;
+    ] ;
+  ] ;
+.

@@ -1,0 +1,56 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:B100019_LB_582435
+  a ff:SocialBenefit ;
+  sh:property [
+    sh:predicate ff:hasEvent ;
+    sh:class ff:WorkAccident ;
+    sh:severity sh:Warning ;
+    sh:message "The person must have died due to a work accident or occupational disease." ;
+  ] ;
+  sh:property [
+    sh:predicate ff:naturalChildTo ;
+    sh:class ff:Person ;
+    sh:severity sh:Warning ;
+    sh:message "The applicant must be the natural child of the deceased person." ;
+  ] ;
+  sh:property [
+    sh:predicate ff:stepChildTo ;
+    sh:class ff:Person ;
+    sh:severity sh:Warning ;
+    sh:message "The applicant must be the stepchild of the deceased person and lived in the same household." ;
+  ] ;
+  sh:property [
+    sh:predicate ff:sameHouseholdAs ;
+    sh:class ff:Person ;
+    sh:severity sh:Warning ;
+    sh:message "The applicant must have lived in the same household as the deceased person." ;
+  ] ;
+  sh:property [
+    sh:predicate ff:hasAge ;
+    sh:datatype xsd:int ;
+    sh:minInclusive 18 ;
+    sh:maxExclusive 27 ;
+    sh:severity sh:Warning ;
+    sh:message "The applicant must be between 18 and 27 years old." ;
+  ] ;
+  sh:property [
+    sh:predicate ff:participates ;
+    sh:class ff:Training ;
+    sh:severity sh:Warning ;
+    sh:message "The applicant must be in school or vocational training." ;
+  ] ;
+  sh:property [
+    sh:predicate ff:hasDisability ;
+    sh:datatype xsd:boolean ;
+    sh:severity sh:Warning ;
+    sh:message "The applicant must have a disability that prevents them from supporting themselves." ;
+  ] ;
+  sh:property [
+    sh:predicate ff:isInTransitionalPeriod ;
+    sh:datatype xsd:boolean ;
+    sh:severity sh:Warning ;
+    sh:message "The applicant must be in a transitional period of up to 4 months." ;
+  ] .

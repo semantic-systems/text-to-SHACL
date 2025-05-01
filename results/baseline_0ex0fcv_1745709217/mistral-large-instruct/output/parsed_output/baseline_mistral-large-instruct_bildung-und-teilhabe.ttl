@@ -1,0 +1,42 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:BildungUndTeilhabeShape
+    a sh:NodeShape ;
+    sh:targetClass ff:User ;
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:or (
+            [ sh:hasValue ff:B100019_LB_106311931 ]
+            [ sh:hasValue ff:L100040_LB_8665924 ]
+            [ sh:hasValue ff:B100019_LB_581863 ]
+            [ sh:hasValue ff:SocialAssistance ]
+            [ sh:hasValue ff:AsylumSeekerBenefits ]
+            [ sh:hasValue ff:IntegrationAssistance ]
+        ) ;
+    ] ;
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:lessThanOrEquals 25 ;
+    ] ;
+    sh:property [
+        sh:path ff:hasIncome ;
+        sh:property [
+            sh:path ff:familyGrossIncome ;
+            sh:lessThanOrEquals 1000 ; # Assuming a threshold for low income
+        ] ;
+    ] .
+
+ff:TeilhabeBis18Shape
+    a sh:NodeShape ;
+    sh:targetClass ff:User ;
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:lessThanOrEquals 18 ;
+    ] ;
+    sh:property [
+        sh:path ff:isEligibleFor ;
+        sh:hasValue ff:BildungUndTeilhabeShape ;
+    ] .

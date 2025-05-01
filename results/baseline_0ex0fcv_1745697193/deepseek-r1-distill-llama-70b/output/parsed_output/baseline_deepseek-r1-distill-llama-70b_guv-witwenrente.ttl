@@ -1,0 +1,24 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+ff:User
+  a sh:Shape ;
+  sh:property [
+      sh:path ff:deceasedSpouse ;
+      sh:class ff:Person ;
+    ] , [
+      sh:path ff:deceasedCivilPartner ;
+      sh:class ff:Person ;
+    ] , [
+      sh:path ff:causeOfDeath ;
+      sh:class [
+        sh:or (
+          ff:WorkAccident
+          ff:CommutingAccident
+          ff:OccupationalDisease
+        )
+      ] ;
+    ] , [
+      sh:path ff:legalUnionBeforeEvent ;
+      sh:class ff:Person ;
+    ] .

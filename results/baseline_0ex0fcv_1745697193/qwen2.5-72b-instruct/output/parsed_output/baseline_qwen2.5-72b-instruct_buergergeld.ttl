@@ -1,0 +1,36 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+ff:UserShape a sh:NodeShape ;
+    sh:targetClass ff:User ;
+    sh:property [
+        sh:path ff:hasEarningCapacity ;
+        sh:hasValue ff:FullEarningCapacity ;
+        sh:name "Earning Capacity" ;
+        sh:description "The user must have full earning capacity, meaning they can work at least 3 hours daily." ;
+    ] ;
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:minInclusive 15 ;
+        sh:maxExclusive 67 ;
+        sh:name "Age Requirement" ;
+        sh:description "The user must be at least 15 years old and not have reached the legal retirement age of 67 years. For those born before 1964, the exact retirement age can be found in § 7a SGB II." ;
+    ] ;
+    sh:property [
+        sh:path ff:canCoverBasicNeedsOfBenefitUnit ;
+        sh:hasValue false ;
+        sh:name "Need for Assistance" ;
+        sh:description "The user must not be able to cover the necessary living expenses of themselves and the unemployed members of their benefit unit through their own resources and efforts or with the help of other benefits." ;
+    ] ;
+    sh:property [
+        sh:path ff:hasNoPriorityClaimsOver ;
+        sh:hasValue ff:B100019_LB_106311931 ;
+        sh:name "No Priority Claims" ;
+        sh:description "The user must not have priority claims against other benefit providers, such as divorced spouses or the parents of their children." ;
+    ] ;
+    sh:property [
+        sh:path ff:countryOfResidence ;
+        sh:hasValue ff:Germany ;
+        sh:name "Residence in Germany" ;
+        sh:description "The user must reside in the Federal Republic of Germany." ;
+    ] .

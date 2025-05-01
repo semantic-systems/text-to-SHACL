@@ -1,0 +1,52 @@
+@prefix dash: <http://datashapes.org/dash#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:UserShape
+    a sh:NodeShape ;
+    sh:targetClass ff:User ;
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:class ff:Event ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEarningCapacity ;
+        sh:class ff:EarningCapacity ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ff:hasInsurance ;
+        sh:class ff:StatutoryAccidentInsurance ;
+        sh:minCount 1 ;
+    ] .
+
+ff:EarningCapacityShape
+    a sh:NodeShape ;
+    sh:targetClass ff:EarningCapacity ;
+    sh:property [
+        sh:path ff:triggeringEvent ;
+        sh:class ff:Event ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ff:reductionDurationInWeeks ;
+        sh:datatype xsd:int ;
+        sh:minInclusive "26"^^xsd:int ;
+    ] ;
+    sh:property [
+        sh:path ff:reductionInPercent ;
+        sh:datatype xsd:decimal ;
+        sh:minInclusive "20.0"^^xsd:decimal ;
+    ] .
+
+ff:EventShape
+    a sh:NodeShape ;
+    sh:targetClass ff:Event ;
+    sh:property [
+        sh:path ff:hasDate ;
+        sh:datatype xsd:dateTime ;
+        sh:minCount 1 ;
+    ] .

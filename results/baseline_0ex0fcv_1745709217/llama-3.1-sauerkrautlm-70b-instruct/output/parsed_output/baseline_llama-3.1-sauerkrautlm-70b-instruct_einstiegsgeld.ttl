@@ -1,0 +1,55 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:EinstiegsgeldShape
+    rdf:type sh:NodeShape ;
+    sh:targetNode ff:User ;
+    sh:property [
+        rdf:type sh:PropertyShape ;
+        sh:path ff:receivesBenefit ;
+        sh:hasValue ff:B100019_LB_102716305 ;
+    ] ;
+    sh:property [
+        rdf:type sh:PropertyShape ;
+        sh:path ff:hasEmploymentStatus ;
+        sh:in (ff:RegisteredUnemployed ff:JobSeeker) ;
+    ] ;
+    sh:property [
+        rdf:type sh:PropertyShape ;
+        sh:path ff:hasEmployment ;
+        sh:property [
+            rdf:type sh:PropertyShape ;
+            sh:path ff:workHoursPerWeek ;
+            sh:minInclusive 15 ;
+        ] ;
+    ] ;
+    sh:or (
+        [
+            rdf:type sh:NodeShape ;
+            sh:property [
+                rdf:type sh:PropertyShape ;
+                sh:path ff:hasEmployment ;
+                sh:minCount 1 ;
+                sh:property [
+                    rdf:type sh:PropertyShape ;
+                    sh:path ff:employer ;
+                    sh:nodeKind sh:BlankNodeOrIRI ;
+                ] ;
+            ] ;
+        ]
+        [
+            rdf:type sh:NodeShape ;
+            sh:property [
+                rdf:type sh:PropertyShape ;
+                sh:path ff:hasEmployment ;
+                sh:minCount 1 ;
+                sh:property [
+                    rdf:type sh:PropertyShape ;
+                    sh:path ff:recognizedByLaw ;
+                    sh:nodeKind sh:BlankNodeOrIRI ;
+                ] ;
+            ] ;
+        ]
+    ) .

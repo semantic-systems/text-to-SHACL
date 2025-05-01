@@ -1,0 +1,78 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:UserShape
+    a sh:NodeShape ;
+    sh:targetClass ff:User ;
+    sh:property [
+        sh:path ff:hasEmployment ;
+        sh:node [
+            sh:property [
+                sh:path ff:employer ;
+                sh:node [
+                    sh:property [
+                        sh:path ff:hasEvent ;
+                        sh:or (
+                            [
+                                sh:class ff:InsolvencyProceeding ;
+                                sh:property [
+                                    sh:path ff:isOpen ;
+                                    sh:hasValue true ;
+                                ]
+                            ]
+                            [
+                                sh:class ff:InsolvencyApplication ;
+                                sh:property [
+                                    sh:path ff:rejectedForLackOfAssets ;
+                                    sh:hasValue true ;
+                                ]
+                            ]
+                            [
+                                sh:class ff:DiscontinuationOfBusiness ;
+                                sh:property [
+                                    sh:path ff:obviousLackOfAssets ;
+                                    sh:hasValue true ;
+                                ]
+                            ]
+                        )
+                    ]
+                ]
+            ] ;
+            sh:property [
+                sh:path ff:hasEvent ;
+                sh:node [
+                    sh:property [
+                        sh:path ff:hasDate ;
+                        sh:datatype xsd:dateTime ;
+                        sh:maxCount 1 ;
+                    ] ;
+                    sh:property [
+                        sh:path ff:wageCutOffsetMonths ;
+                        sh:maxInclusive -3 ;
+                        sh:minInclusive -3 ;
+                    ]
+                ]
+            ]
+        ]
+    ] ;
+    sh:property [
+        sh:path ff:countryOfEmployment ;
+        sh:or (
+            [ sh:hasValue ff:Germany ]
+            [ sh:hasValue ff:EEAplusCH ]
+        )
+    ] ;
+    sh:property [
+        sh:path ff:hasEmploymentStatus ;
+        sh:hasValue ff:Employee ;
+    ] ;
+    sh:property [
+        sh:path ff:hasResidencePermit ;
+        sh:node [
+            sh:property [
+                sh:path ff:entitlesToEmployment ;
+                sh:hasValue true ;
+            ]
+        ]
+    ] .

@@ -1,0 +1,43 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:KindergeldShape a sh:NodeShape ;
+    sh:targetClass ff:Person ;
+    sh:property [
+        sh:path ff:isNationalOf ;
+        sh:minCount 1 ;
+        sh:hasValue ff:Germany ;
+    ] ;
+    sh:property [
+        sh:path ff:incomeTaxLiability ;
+        sh:minCount 1 ;
+        sh:hasValue ff:UnlimitedTaxLiability ;
+    ] ;
+    sh:property [
+        sh:path ff:hasResidencePermit ;
+        sh:minCount 1 ;
+        sh:class ff:ResidencePermit ;
+        sh:property [
+            sh:path ff:entitlesToEmployment ;
+            sh:minCount 1 ;
+            sh:datatype xsd:boolean ;
+            sh:minInclusive true ;
+        ] ;
+    ] ;
+    sh:property [
+        sh:path ff:hasChild ;
+        sh:minCount 1 ;
+        sh:class ff:Person ;
+        sh:property [
+            sh:path ff:countryOfResidence ;
+            sh:minCount 1 ;
+            sh:hasValue ff:Germany ;
+        ] ;
+    ] ;
+    sh:property [
+        sh:path ff:recognizedRefugee ;
+        sh:minCount 1 ;
+        sh:datatype xsd:boolean ;
+        sh:minInclusive true ;
+    ] .

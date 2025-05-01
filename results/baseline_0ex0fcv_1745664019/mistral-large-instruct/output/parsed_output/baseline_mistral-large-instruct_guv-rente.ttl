@@ -1,0 +1,41 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:StatutoryAccidentInsurancePensionShape
+    a sh:NodeShape ;
+    sh:targetClass ff:Person ;
+    sh:property [
+        sh:path ff:hasIncome ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ff:hasInsurance ;
+        sh:hasValue ff:StatutoryAccidentInsurance ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEarningCapacity ;
+        sh:minCount 1 ;
+        sh:node [
+            sh:property [
+                sh:path ff:reductionInPercent ;
+                sh:minInclusive 20 ;
+            ] ;
+            sh:property [
+                sh:path ff:reductionDurationInWeeks ;
+                sh:minInclusive 26 ;
+            ] ;
+            sh:property [
+                sh:path ff:triggeringEvent ;
+                sh:minCount 1 ;
+            ] ;
+        ] ;
+    ] .
+
+ff:TriggeringEventShape
+    a sh:NodeShape ;
+    sh:targetClass ff:Event ;
+    sh:property [
+        sh:path ff:hasDate ;
+        sh:minCount 1 ;
+    ] .

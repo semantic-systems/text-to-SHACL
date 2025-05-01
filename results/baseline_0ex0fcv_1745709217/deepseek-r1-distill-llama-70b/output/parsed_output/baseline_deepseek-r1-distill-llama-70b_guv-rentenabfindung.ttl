@@ -1,0 +1,17 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:User
+  sh:shapes (
+    [
+      sh:property ff:isEligibleFor ;
+      sh:hasValue ff:B100019_LB_102799525 ;
+      sh:message "Must be eligible for survivors' benefits from statutory accident insurance" ;
+    ]
+    [
+      sh:property ff:hasMaritalStatus ;
+      sh:hasValue ff:Married ;
+      sh:message "Must have remarried or entered into a new civil partnership" ;
+    ]
+  ) .

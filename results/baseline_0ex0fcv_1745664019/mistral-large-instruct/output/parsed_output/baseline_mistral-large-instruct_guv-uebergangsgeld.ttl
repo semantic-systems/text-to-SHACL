@@ -1,0 +1,42 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+ff:PersonShape
+    a sh:NodeShape ;
+    sh:targetClass ff:Person ;
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:class ff:WorkAccident ;
+        sh:minCount 1 ;
+    ], [
+        sh:path ff:hasEvent ;
+        sh:class ff:CommutingAccident ;
+        sh:minCount 1 ;
+    ], [
+        sh:path ff:hasEvent ;
+        sh:class ff:OccupationalDisease ;
+        sh:minCount 1 ;
+    ], [
+        sh:path ff:participates ;
+        sh:class ff:OccupationalRehabilitation ;
+        sh:minCount 1 ;
+    ] .
+
+ff:WorkAccidentShape
+    a sh:NodeShape ;
+    sh:targetClass ff:WorkAccident .
+
+ff:CommutingAccidentShape
+    a sh:NodeShape ;
+    sh:targetClass ff:CommutingAccident .
+
+ff:OccupationalDiseaseShape
+    a sh:NodeShape ;
+    sh:targetClass ff:OccupationalDisease .
+
+ff:OccupationalRehabilitationShape
+    a sh:NodeShape ;
+    sh:targetClass ff:OccupationalRehabilitation .

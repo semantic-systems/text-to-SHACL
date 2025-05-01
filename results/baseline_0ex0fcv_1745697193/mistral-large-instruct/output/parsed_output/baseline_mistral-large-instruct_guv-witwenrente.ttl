@@ -1,0 +1,24 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:UserShape a sh:NodeShape ;
+    sh:targetClass ff:User ;
+    sh:property [
+        sh:path ff:deceasedSpouse ;
+        sh:minCount 1 ;
+        sh:or (
+            [ sh:path ff:causeOfDeath ;
+              sh:in (ff:WorkAccident ff:CommutingAccident ff:OccupationalDisease) ]
+        ) ;
+    ] ;
+    sh:property [
+        sh:path ff:hasMaritalStatus ;
+        sh:in (ff:Married ff:CivilUnion) ;
+    ] ;
+    sh:not [
+        sh:property [
+            sh:path ff:lessThanFourMonthsAgo ;
+            sh:hasValue "true"^^xsd:boolean ;
+        ] ;
+    ] .

@@ -1,0 +1,54 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+ff:UserShape a sh:NodeShape ;
+    sh:targetClass ff:User ;
+    sh:property [
+        sh:path ff:hasDisability ;
+        sh:datatype xsd:boolean ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:value true ;
+    ] ;
+    sh:property [
+        sh:path ff:hasRehabilitationProvider ;
+        sh:class ff:FederalEmploymentAgency ;
+    ] ;
+    sh:property [
+        sh:path ff:participates ;
+        sh:or (
+            [ sh:class ff:VocationalTraining ]
+            [ sh:class ff:EntryProcedureAndVocationalTrainingArea ]
+            [ sh:class ff:School ]
+            [ sh:class ff:Training ]
+        ) ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEmploymentStatus ;
+        sh:or (
+            [ sh:class ff:Employee ]
+            [ sh:class ff:Unemployed ]
+        ) ;
+    ] ;
+    sh:property [
+        sh:path ff:compulsoryInsuranceFor12In30 ;
+        sh:datatype xsd:boolean ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:class ff:B100019_LB_576842 ;
+    ] ;
+    sh:property [
+        sh:path ff:isEligibleFor ;
+        sh:class ff:UnemploymentBenefitsSVG ;
+    ] ;
+    sh:property [
+        sh:path ff:isVocationalReturnee ;
+        sh:datatype xsd:boolean ;
+    ] .

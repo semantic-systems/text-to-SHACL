@@ -1,0 +1,41 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+ff:UserShape a sh:NodeShape ;
+  sh:targetClass ff:User ;
+  sh:property [
+    sh:path ff:hasEarningCapacity ;
+    sh:nodeKind sh:BlankNodeOrIRI ;
+    sh:class ff:FullEarningCapacity ;
+    sh:or (
+      [ sh:property [
+          sh:path ff:employableHoursPerDay ;
+          sh:minInclusive 3 ;
+          sh:maxInclusive 8 ; # Assuming 8 as the maximum workable hours per day
+        ]
+      ]
+    )
+  ] ;
+  sh:property [
+    sh:path ff:hasAge ;
+    sh:minInclusive 15 ;
+    sh:maxExclusive 67 ; # For those born after 1963
+  ] ;
+  sh:property [
+    sh:path ff:aboveSGBXII41AgeLimit ;
+    sh:hasValue false ;
+  ] ;
+  sh:property [
+    sh:path ff:canCoverBasicNeedsOfBenefitUnit ;
+    sh:hasValue false ;
+  ] ;
+  sh:property [
+    sh:path ff:hasNoPriorityClaimsOver ;
+    sh:minCount 1 ;
+    sh:nodeKind sh:BlankNodeOrIRI ;
+    sh:class ff:SocialBenefit ;
+  ] ;
+  sh:property [
+    sh:path ff:countryOfResidence ;
+    sh:hasValue ff:Germany ;
+  ] .

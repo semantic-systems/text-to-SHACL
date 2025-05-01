@@ -1,0 +1,42 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:User
+  a sh:NodeShape ;
+  sh:property [
+    sh:path ff:hasEmploymentStatus ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:hasValue ff:Unemployed ;
+  ] ;
+  sh:property [
+    sh:path ff:receivesBenefit ;
+    sh:minCount 0 ;
+    sh:maxCount 0 ;
+  ] ;
+  sh:property [
+    sh:path ff:hasEvent ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:property [
+      sh:path ff:hasDate ;
+      sh:minCount 1 ;
+      sh:maxCount 1 ;
+    ] ;
+    sh:node [
+      sh:property [
+        sh:path ff:lessThanFourMonthsAgo ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:hasValue true ;
+      ] ;
+    ] ;
+  ] ;
+  sh:property [
+    sh:path ff:compulsoryInsuranceFor12In30 ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:hasValue true ;
+  ] .

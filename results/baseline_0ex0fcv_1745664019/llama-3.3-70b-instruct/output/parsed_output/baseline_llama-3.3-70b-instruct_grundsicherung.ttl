@@ -1,0 +1,48 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:GrundsicherungImAlterUndBeiErwerbsminderung
+  a sh:NodeShape ;
+  sh:targetClass ff:Person ;
+  sh:property [
+    sh:predicate ff:hasAge ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:int ;
+    sh:minInclusive 65 ;
+  ] ;
+  sh:or (
+    [ sh:property [
+      sh:predicate ff:hasDisability ;
+      sh:minCount 1 ;
+      sh:maxCount 1 ;
+      sh:datatype xsd:boolean ;
+      sh:value true ;
+    ] ]
+    [ sh:property [
+      sh:predicate ff:hasEmploymentStatus ;
+      sh:minCount 1 ;
+      sh:maxCount 1 ;
+      sh:in ( ff:Unemployed ff:RegisteredUnemployed ) ;
+    ] ]
+    [ sh:property [
+      sh:predicate ff:participates ;
+      sh:minCount 1 ;
+      sh:maxCount 1 ;
+      sh:in ( ff:EntryProcedureAndVocationalTrainingArea ff:VocationalTraining ) ;
+    ] ]
+  ) ;
+  sh:property [
+    sh:predicate ff:canCoverPersonalBasicNeeds ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:boolean ;
+    sh:value false ;
+  ] ;
+  sh:property [
+    sh:predicate ff:hasNoPriorityClaimsOver ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:in ( ff:AsylumSeekerBenefits ff:SocialAssistance ) ;
+  ] .

@@ -1,0 +1,82 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+ff:UserShape
+  a sh:NodeShape ;
+  sh:targetClass ff:User ;
+  sh:property [
+    sh:path ff:deceasedSpouse ;
+    sh:minCount 1 ;
+    sh:or (
+      [ sh:path ff:hasChild ; ]
+      [ sh:path ff:stepChildTo ; sh:and ( [ sh:path ff:sameHouseholdAs ] [ sh:path ff:hasPrimaryCareTaker ] ) ]
+      [ sh:path ff:closeRelative ; sh:and ( [ sh:path ff:sameHouseholdAs ] [ sh:path ff:hasPrimaryCareTaker ] ) ]
+    )
+  ] ;
+  sh:property [
+    sh:path ff:deceasedCivilPartner ;
+    sh:minCount 1 ;
+    sh:or (
+      [ sh:path ff:hasChild ; ]
+      [ sh:path ff:stepChildTo ; sh:and ( [ sh:path ff:sameHouseholdAs ] [ sh:path ff:hasPrimaryCareTaker ] ) ]
+      [ sh:path ff:closeRelative ; sh:and ( [ sh:path ff:sameHouseholdAs ] [ sh:path ff:hasPrimaryCareTaker ] ) ]
+    )
+  ] ;
+  sh:property [
+    sh:path ff:hasAge ;
+    sh:minInclusive 18 ;
+    sh:maxExclusive 27 ;
+    sh:condition [
+      sh:or (
+        [ sh:path ff:participates ; sh:class ff:School ; ]
+        [ sh:path ff:participates ; sh:class ff:VocationalTraining ; ]
+        [ sh:path ff:cannotSupportThemselvesBecause ; sh:class ff:Disability ; ]
+        [ sh:path ff:isInTransitionalPeriod ; sh:hasValue true ; ]
+      )
+    ]
+  ] ;
+  sh:property [
+    sh:path ff:hasPrimaryCareTaker ;
+    sh:minCount 1 ;
+    sh:condition [
+      sh:path ff:deceasedSpouse ;
+      sh:minCount 1 ;
+    ]
+  ] ;
+  sh:property [
+    sh:path ff:hasPrimaryCareTaker ;
+    sh:minCount 1 ;
+    sh:condition [
+      sh:path ff:deceasedCivilPartner ;
+      sh:minCount 1 ;
+    ]
+  ] ;
+  sh:property [
+    sh:path ff:hasEvent ;
+    sh:minCount 1 ;
+    sh:or (
+      [ sh:path ff:causeOfDeath ; sh:class ff:WorkAccident ; ]
+      [ sh:path ff:causeOfDeath ; sh:class ff:CommutingAccident ; ]
+      [ sh:path ff:causeOfDeath ; sh:class ff:OccupationalDisease ; ]
+    )
+  ] ;
+  sh:property [
+    sh:path ff:isInTransitionalPeriod ;
+    sh:hasValue true ;
+    sh:condition [
+      sh:or (
+        [ sh:path ff:participates ; sh:class ff:School ; ]
+        [ sh:path ff:participates ; sh:class ff:VocationalTraining ; ]
+        [ sh:path ff:wasEntitledToCashBenefitBefore ; sh:hasValue true ; ]
+      )
+    ]
+  ] ;
+  sh:property [
+    sh:path ff:cannotSupportThemselvesBecause ;
+    sh:class ff:Disability ;
+    sh:condition [
+      sh:path ff:hasAge ;
+      sh:minInclusive 18 ;
+      sh:maxExclusive 27 ;
+    ]
+  ] .

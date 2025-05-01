@@ -1,0 +1,110 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+<#KrankengeldBegleitpersonBehinderung>
+    a sh:NodeShape ;
+    sh:targetClass ff:Person ;
+    sh:property [
+        sh:path ff:hasInsurance ;
+        sh:nodeKind sh:Literal ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:boolean ;
+        sh:defaultValue "true" ] ;
+    sh:property [
+        sh:path ff:hasEmployment ;
+        sh:nodeKind sh:Resource ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ] ;
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:nodeKind sh:Resource ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:qualifiedValueShape [
+            sh:property [
+                sh:path ff:hasDate ;
+                sh:nodeKind sh:Literal ;
+                sh:minCount 1 ;
+                sh:maxCount 1 ;
+                sh:datatype xsd:dateTime ] ;
+            sh:property [
+                sh:path ff:fullDayAccompaniment ;
+                sh:nodeKind sh:Literal ;
+                sh:minCount 1 ;
+                sh:maxCount 1 ;
+                sh:datatype xsd:boolean ] ] ] ;
+    sh:property [
+        sh:path ff:isSingleParent ;
+        sh:nodeKind sh:Literal ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:boolean ] ;
+    sh:property [
+        sh:path ff:hasDisability ;
+        sh:nodeKind sh:Literal ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:boolean ] ;
+    sh:property [
+        sh:path ff:hasDisabilityType ;
+        sh:nodeKind sh:Resource ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:qualifiedValueShape [
+            sh:values ff:HearingImpairment ;
+            sh:values ff:VisualImpairment ] ] ;
+    sh:property [
+        sh:path ff:hasMaritalStatus ;
+        sh:nodeKind sh:Resource ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:qualifiedValueShape [
+            sh:values ff:CivilUnion ;
+            sh:values ff:Married ;
+            sh:values ff:Divorced ;
+            sh:values ff:Widowed ] ] ;
+    sh:property [
+        sh:path ff:hasEmploymentStatus ;
+        sh:nodeKind sh:Resource ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:qualifiedValueShape [
+            sh:values ff:Employee ;
+            sh:values ff:JobSeeker ;
+            sh:values ff:Unemployed ;
+            sh:values ff:SelfEmployed ] ] ;
+    sh:property [
+        sh:path ff:hasResidencePermit ;
+        sh:nodeKind sh:Resource ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:qualifiedValueShape [
+            sh:values ff:Tolerated ] ] ;
+    sh:property [
+        sh:path ff:hasResidenceStatus ;
+        sh:nodeKind sh:Resource ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:qualifiedValueShape [
+            sh:values ff:Tolerated ] ] ;
+    sh:property [
+        sh:path ff:hasIncome ;
+        sh:nodeKind sh:Resource ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:qualifiedValueShape [
+            sh:property [
+                sh:path ff:personalGrossIncome ;
+                sh:nodeKind sh:Literal ;
+                sh:minCount 1 ;
+                sh:maxCount 1 ;
+                sh:datatype xsd:decimal ] ;
+            sh:property [
+                sh:path ff:familyGrossIncome ;
+                sh:nodeKind sh:Literal ;
+                sh:minCount 1 ;
+                sh:maxCount 1 ;
+                sh:datatype xsd:decimal ] ] ] .

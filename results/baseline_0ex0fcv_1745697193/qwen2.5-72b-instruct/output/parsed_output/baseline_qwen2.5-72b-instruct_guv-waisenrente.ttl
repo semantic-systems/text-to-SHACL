@@ -1,0 +1,97 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:UserShape
+  a sh:NodeShape ;
+  sh:targetClass ff:User ;
+  sh:property [
+    sh:path ff:causeOfDeath ;
+    sh:minCount 1 ;
+    sh:class ff:Event ;
+    sh:or (
+      [ sh:hasValue ff:WorkAccident ]
+      [ sh:hasValue ff:CommutingAccident ]
+      [ sh:hasValue ff:OccupationalDisease ]
+    )
+  ] ;
+  sh:property [
+    sh:path ff:closeRelative ;
+    sh:minCount 1 ;
+    sh:class ff:Person ;
+    sh:or (
+      [ sh:hasValue ff:User ]
+      [ sh:and (
+        [ sh:path ff:sameHouseholdAs ; sh:hasValue ff:User ]
+        [ sh:path ff:hasPrimaryCareTaker ; sh:hasValue ff:User ]
+      ) ]
+    )
+  ] ;
+  sh:property [
+    sh:path ff:hasAge ;
+    sh:minInclusive 18 ;
+    sh:maxExclusive 27 ;
+    sh:datatype xsd:int ;
+    sh:condition [
+      sh:and (
+        [ sh:path ff:participates ; sh:class ff:Training ]
+        [ sh:or (
+          [ sh:path ff:hasDisability ; sh:datatype xsd:boolean ; sh:hasValue true ]
+          [ sh:path ff:isInTransitionalPeriod ; sh:datatype xsd:boolean ; sh:hasValue true ]
+        ) ]
+      )
+    ]
+  ] ;
+  sh:property [
+    sh:path ff:hasPrimaryCareTaker ;
+    sh:minCount 1 ;
+    sh:class ff:Person ;
+    sh:hasValue ff:User
+  ] ;
+  sh:property [
+    sh:path ff:isInTransitionalPeriod ;
+    sh:datatype xsd:boolean ;
+    sh:hasValue true ;
+    sh:condition [
+      sh:and (
+        [ sh:path ff:hasAge ; sh:minInclusive 18 ; sh:maxExclusive 27 ; sh:datatype xsd:int ]
+        [ sh:or (
+          [ sh:path ff:participates ; sh:class ff:Training ]
+          [ sh:path ff:wasEntitledToCashBenefitBefore ; sh:hasValue true ]
+          [ sh:path ff:hasDisability ; sh:hasValue true ]
+        ) ]
+      )
+    ]
+  ] ;
+  sh:property [
+    sh:path ff:hasDisability ;
+    sh:datatype xsd:boolean ;
+    sh:hasValue true ;
+    sh:condition [
+      sh:and (
+        [ sh:path ff:hasAge ; sh:minInclusive 18 ; sh:maxExclusive 27 ; sh:datatype xsd:int ]
+        [ sh:path ff:cannotSupportThemselvesBecause ; sh:hasValue true ]
+      )
+    ]
+  ] ;
+  sh:property [
+    sh:path ff:wasEntitledToCashBenefitBefore ;
+    sh:hasValue true ;
+    sh:condition [
+      sh:and (
+        [ sh:path ff:hasAge ; sh:minInclusive 18 ; sh:maxExclusive 27 ; sh:datatype xsd:int ]
+        [ sh:path ff:isInTransitionalPeriod ; sh:hasValue true ]
+      )
+    ]
+  ] ;
+  sh:property [
+    sh:path ff:participates ;
+    sh:minCount 1 ;
+    sh:class ff:Training ;
+    sh:condition [
+      sh:and (
+        [ sh:path ff:hasAge ; sh:minInclusive 18 ; sh:maxExclusive 27 ; sh:datatype xsd:int ]
+        [ sh:path ff:isInTransitionalPeriod ; sh:hasValue true ]
+      )
+    ]
+  ] .

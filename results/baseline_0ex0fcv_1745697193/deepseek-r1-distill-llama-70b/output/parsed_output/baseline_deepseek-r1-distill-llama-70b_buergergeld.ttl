@@ -1,0 +1,27 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:BürgergeldEligibilityShape
+  a sh:Shape ;
+  sh:targetClass ff:User ;
+  sh:property [
+      sh:path ff:hasEarningCapacity ;
+      sh:minCount 1 ;
+    ] , [
+      sh:path ff:employableHoursPerDay ;
+      sh:minInclusive 3 ;
+    ] , [
+      sh:path ff:hasAge ;
+      sh:minInclusive 15 ;
+      sh:maxExclusive 67 ;
+    ] , [
+      sh:path ff:canCoverPersonalBasicNeeds ;
+      sh:equals false ;
+    ] , [
+      sh:path ff:countryOfResidence ;
+      sh:equals ff:Germany ;
+    ] , [
+      sh:path ff:hasNoPriorityClaimsOver ;
+      sh:minCount 1 ;
+    ] .

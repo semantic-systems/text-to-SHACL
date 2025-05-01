@@ -1,0 +1,102 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:UserShape a sh:NodeShape ;
+  sh:targetClass ff:User ;
+  sh:property [
+    sh:path ff:hasEmploymentStatus ;
+    sh:or (
+      [ sh:hasValue ff:Unemployed ]
+      [ sh:hasValue ff:RegisteredUnemployed ; sh:and ( [ sh:path ff:workHoursPerWeek ; sh:maxInclusive 15 ] ) ]
+    )
+  ] ;
+  sh:property [
+    sh:path ff:availableForPlacement ;
+    sh:datatype xsd:boolean ;
+    sh:hasValue true
+  ] ;
+  sh:property [
+    sh:path ff:compulsoryInsuranceFor12In30 ;
+    sh:datatype xsd:boolean ;
+    sh:hasValue true
+  ] ;
+  sh:property [
+    sh:path ff:hasEvent ;
+    sh:minCount 1 ;
+    sh:node ff:EventShape
+  ] .
+
+ff:EventShape a sh:NodeShape ;
+  sh:property [
+    sh:path ff:hasDate ;
+    sh:datatype xsd:dateTime ;
+    sh:order 1
+  ] ;
+  sh:property [
+    sh:path ff:causesLossOfEarnings ;
+    sh:datatype xsd:boolean ;
+    sh:hasValue true ;
+    sh:order 2
+  ] ;
+  sh:property [
+    sh:path ff:wageCutOffsetMonths ;
+    sh:minInclusive 0 ;
+    sh:maxInclusive 30 ;
+    sh:order 3
+  ] ;
+  sh:property [
+    sh:path ff:wasEntitledToCashBenefitBefore ;
+    sh:minCount 0 ;
+    sh:maxCount 1 ;
+    sh:order 4
+  ] ;
+  sh:property [
+    sh:path ff:causeOfDeath ;
+    sh:minCount 0 ;
+    sh:maxCount 1 ;
+    sh:order 5
+  ] ;
+  sh:property [
+    sh:path ff:hasConsiderableAssets ;
+    sh:datatype xsd:boolean ;
+    sh:hasValue false ;
+    sh:order 6
+  ] ;
+  sh:property [
+    sh:path ff:hasAge ;
+    sh:datatype xsd:int ;
+    sh:minInclusive 0 ;
+    sh:maxInclusive 65 ;
+    sh:order 7
+  ] ;
+  sh:property [
+    sh:path ff:hasDisabilityType ;
+    sh:minCount 0 ;
+    sh:maxCount 1 ;
+    sh:order 8
+  ] ;
+  sh:property [
+    sh:path ff:hasEarningCapacity ;
+    sh:minCount 0 ;
+    sh:maxCount 1 ;
+    sh:order 9
+  ] ;
+  sh:property [
+    sh:path ff:hasResidenceStatus ;
+    sh:minCount 0 ;
+    sh:maxCount 1 ;
+    sh:order 10
+  ] ;
+  sh:property [
+    sh:path ff:hasMaritalStatus ;
+    sh:minCount 0 ;
+    sh:maxCount 1 ;
+    sh:order 11
+  ] ;
+  sh:property [
+    sh:path ff:hasInsurance ;
+    sh:minCount 0 ;
+    sh:maxCount 1 ;
+    sh:order 12
+  ] .

@@ -1,0 +1,56 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+ff:MaßnahmenAktivierungGenehmigungShape
+    a sh:NodeShape ;
+    sh:targetClass ff:User ;
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:datatype ff:B100019_LB_102716305 ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ] ;
+    sh:property [
+        sh:path [ sh:inverse ff:hasNoPriorityClaimsOver ] ;
+        sh:datatype ff:B100019_LB_102730340 ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEmploymentStatus ;
+        sh:datatype ff:RegisteredUnemployed ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ff:participates ;
+        sh:nodeKind sh:IRI ;
+        sh:datatype ff:EntryProcedureAndVocationalTrainingArea ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:property [
+            sh:path ff:subjectToContract ;
+            sh:datatype ff:VocationalTrainingContract ;
+            sh:minCount 1 ;
+            sh:maxCount 1 ;
+        ] ;
+        sh:property [
+            sh:path ff:commissionedByEmploymentAgency ;
+            sh:value true ;
+            sh:minCount 1 ;
+            sh:maxCount 1 ;
+        ] ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:nodeKind sh:IRI ;
+        sh:datatype ff:IntegrationAssistance ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:property [
+            sh:path ff:recognizedByLaw ;
+            sh:datatype ff:VocationalTrainingAct ;
+            sh:minCount 1 ;
+            sh:maxCount 1 ;
+        ] ;
+    ] .

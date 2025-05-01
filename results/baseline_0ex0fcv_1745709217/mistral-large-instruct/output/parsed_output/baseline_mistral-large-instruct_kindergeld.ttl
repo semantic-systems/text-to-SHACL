@@ -1,0 +1,53 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:EligibilityShape a sh:NodeShape ;
+    sh:targetClass ff:User ;
+    sh:property [
+        sh:path ff:incomeTaxLiability ;
+        sh:hasValue ff:UnlimitedTaxLiability ;
+    ] ;
+    sh:or (
+        [
+            sh:property [
+                sh:path ff:isNationalOf ;
+                sh:hasValue ff:EEAplusCH ;
+            ] ;
+        ]
+        [
+            sh:property [
+                sh:path ff:hasResidencePermit ;
+                sh:property [
+                    sh:path ff:entitlesToEmployment ;
+                    sh:hasValue "true"^^xsd:boolean ;
+                ] ;
+            ] ;
+        ]
+        [
+            sh:property [
+                sh:path ff:recognizedRefugee ;
+                sh:hasValue "true"^^xsd:boolean ;
+            ] ;
+        ]
+    ) ;
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:minInclusive 18 ;
+    ] .
+
+ff:ChildEligibilityShape a sh:NodeShape ;
+    sh:targetClass ff:Person ;
+    sh:property [
+        sh:path ff:countryOfResidence ;
+        sh:in ( ff:Germany ff:EEAplusCH ) ;
+    ] ;
+    sh:property [
+        sh:path ff:parentalAdress ;
+        sh:property [
+            sh:path ff:tooFarFromTrainingCompany ;
+            sh:hasValue "false"^^xsd:boolean ;
+        ] ;
+    ] .

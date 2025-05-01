@@ -1,0 +1,76 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix foerder: <https://foerderfunke.org/default#> .
+
+[ a sh:NodeShape ;
+  sh:path foerder:hasEmploymentStatus ;
+  sh:class foerder:Employee ;
+  sh:minCount 1 ;
+  sh:description "Must be employed." ].
+
+[ a sh:NodeShape ;
+  sh:path foerder:hasEmploymentStatus ;
+  sh:class foerder:JobSeeker ;
+  sh:description "Must be job seeker." ].
+
+[ a sh:NodeShape ;
+  sh:path foerder:hasEmploymentStatus ;
+  sh:class foerder:RegisteredUnemployed ;
+  sh:description "Must be registered unemployed." ].
+
+[ a sh:NodeShape ;
+  sh:path foerder:hasEmploymentStatus ;
+  sh:class foerder:SelfEmployed ;
+  sh:description "Must be self-employed." ].
+
+[ a sh:NodeShape ;
+  sh:path foerder:hasEmploymentStatus ;
+  sh:class foerder:Unemployed ;
+  sh:description "Must be unemployed." ].
+
+[ a sh:NodeShape ;
+  sh:path foerder:hasDate ;
+  sh:minCount 1 ;
+  sh:description "Must have an employment start date." ].
+
+[ a sh:NodeShape ;
+  sh:path foerder:hasDisability ;
+  sh:minCount 1 ;
+  sh:description "Must have a disability." ].
+
+[ a sh:NodeShape ;
+  sh:path foerder:hasDisability ;
+  sh:class foerder:HearingImpairment ;
+  sh:description "Must have a hearing impairment." ].
+
+[ a sh:NodeShape ;
+  sh:path foerder:hasDisability ;
+  sh:class foerder:VisualImpairment ;
+  sh:description "Must have a visual impairment." ].
+
+[ a sh:NodeShape ;
+  sh:path foerder:hasDisability ;
+  sh:minCount 1 ;
+  sh:description "Must have a severe disability." ].
+
+[ a sh:NodeShape ;
+  sh:path foerder:hasAge ;
+  sh:minCount 1 ;
+  sh:description "Must be at least 18 years old." ].
+
+[ a sh:NodeShape ;
+  sh:path foerder:hasAge ;
+  sh:maxCount 1 ;
+  sh:description "Must be younger than 65 years." ].
+
+[ a sh:NodeShape ;
+  sh:path foerder:hasIncome ;
+  sh:minCount 1 ;
+  sh:description "Must have income." ].
+
+[ a sh:NodeShape ;
+  sh:path foerder:hasIncome ;
+  sh:minCount 1 ;
+  sh:description "Must have sufficient means of subsistence." ].

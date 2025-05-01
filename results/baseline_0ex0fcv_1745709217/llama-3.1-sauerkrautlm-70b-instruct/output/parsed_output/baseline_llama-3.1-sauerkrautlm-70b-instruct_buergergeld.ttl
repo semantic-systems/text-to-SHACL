@@ -1,0 +1,49 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+ff:BürgergeldEligibilityShape a sh:NodeShape;
+    sh:targetClass ff:User;
+    sh:property [
+        sh:path ff:hasEarningCapacity;
+        sh:minCount 1;
+        sh:maxCount 1;
+        sh:hasValue ff:FullEarningCapacity;
+        sh:message "User must have full earning capacity.";
+    ];
+    sh:property [
+        sh:path ff:hasAge;
+        sh:minCount 1;
+        sh:maxCount 1;
+        sh:minInclusive 15;
+        sh:maxExclusive 67;
+        sh:message "User must be at least 15 years old and not have reached the age limit for statutory pension insurance.";
+    ];
+    sh:property [
+        sh:path ff:canCoverPersonalBasicNeeds;
+        sh:minCount 1;
+        sh:maxCount 1;
+        sh:hasValue false;
+        sh:message "User cannot cover their personal basic needs.";
+    ];
+    sh:property [
+        sh:path ff:hasNoPriorityClaimsOver;
+        sh:minCount 1;
+        sh:maxCount 1;
+        sh:hasValue ff:B100019_LB_106311931;
+        sh:message "User has no priority claims over Bürgergeld.";
+    ];
+    sh:property [
+        sh:path ff:hasResidencePermit;
+        sh:minCount 1;
+        sh:maxCount 1;
+        sh:message "User must have a residence permit.";
+    ];
+    sh:property [
+        sh:path ff:countryOfResidence;
+        sh:minCount 1;
+        sh:maxCount 1;
+        sh:hasValue ff:Germany;
+        sh:message "User must live in Germany.";
+    ].

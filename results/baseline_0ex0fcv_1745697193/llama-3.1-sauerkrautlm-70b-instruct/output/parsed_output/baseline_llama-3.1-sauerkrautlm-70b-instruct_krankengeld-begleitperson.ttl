@@ -1,0 +1,103 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+ff:B100019_LB_103817036Shape
+    a sh:NodeShape ;
+    sh:targetClass ff:User ;
+    sh:property [
+        sh:path ff:hasInsurance ;
+        sh:minCount 1 ;
+        sh:message "You are not statutorily health insured." ;
+        sh:datatype ff:StatutoryHealthInsurance ;
+    ] ;
+    sh:property [
+        sh:path [ sh:inverse ff:caregiverInHousehold ] ;
+        sh:minCount 1 ;
+        sh:message "You are not a caregiver to the person with disability." ;
+        sh:property [
+            sh:path ff:needsCare ;
+            sh:minCount 1 ;
+            sh:message "The person with disability does not need care." ;
+            sh:property [
+                sh:path ff:resultsInTreatment ;
+                sh:minCount 1 ;
+                sh:message "The care need does not result in medical treatment." ;
+                sh:property [
+                    sh:path ff:hasEvent ;
+                    sh:minCount 1 ;
+                    sh:message "There is no medical treatment event." ;
+                    sh:property [
+                        sh:path ff:hasDate ;
+                        sh:minCount 1 ;
+                        sh:message "There is no treatment date." ;
+                    ] ;
+                    sh:property [
+                        sh:path [ sh:inverse ff:legalUnionBeforeEvent ] ;
+                        sh:minCount 1 ;
+                        sh:message "You are not married or in a civil union to the person with disability." ;
+                        sh:property [
+                            sh:path ff:hasResidencePermit ;
+                            sh:minCount 1 ;
+                            sh:message "The person with disability has no residence permit." ;
+                            sh:property [
+                                sh:path ff:entitlesToEmployment ;
+                                sh:minCount 1 ;
+                                sh:message "The residence permit does not entitle to employment." ;
+                            ] ;
+                        ] ;
+                    ] ;
+                ] ;
+            ] ;
+        ] ;
+    ] ;
+    sh:property [
+        sh:path [ sh:inverse ff:caregiverInHousehold ] ;
+        sh:minCount 1 ;
+        sh:message "You are not a caregiver to the person with disability." ;
+        sh:property [
+            sh:path ff:needsCare ;
+            sh:minCount 1 ;
+            sh:message "The person with disability does not need care." ;
+            sh:property [
+                sh:path ff:resultsInTreatment ;
+                sh:minCount 1 ;
+                sh:message "The care need does not result in medical treatment." ;
+                sh:property [
+                    sh:path ff:fullDayAccompaniment ;
+                    sh:minCount 1 ;
+                    sh:message "The treatment does not require full day accompaniment." ;
+                ] ;
+            ] ;
+        ] ;
+    ] ;
+    sh:property [
+        sh:path ff:hasIncome ;
+        sh:minCount 1 ;
+        sh:message "You have no income." ;
+        sh:property [
+            sh:path ff:reducesChildSupplementTo ;
+            sh:minCount 0 ;
+            sh:maxCount 1 ;
+            sh:message "Your income reduces child supplement." ;
+        ] ;
+    ] ;
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:minCount 0 ;
+        sh:maxCount 1 ;
+        sh:message "You receive another social benefit." ;
+        sh:property [
+            sh:path ff:hasNoPriorityClaimsOver ;
+            sh:minCount 0 ;
+            sh:maxCount 1 ;
+            sh:message "You have no priority claims over another benefit." ;
+        ] ;
+    ] ;
+    sh:property [
+        sh:path ff:immediateCircleMember ;
+        sh:minCount 1 ;
+        sh:message "You are not an immediate family member." ;
+    ] .

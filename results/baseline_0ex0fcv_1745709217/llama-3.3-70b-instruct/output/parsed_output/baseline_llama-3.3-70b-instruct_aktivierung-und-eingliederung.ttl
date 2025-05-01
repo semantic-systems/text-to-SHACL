@@ -1,0 +1,32 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+ff:User
+  a sh:NodeShape ;
+  sh:targetClass ff:User ;
+  sh:property [
+      sh:path ff:receivesBenefit ;
+      sh:hasValue ff:B100019_LB_102716305 ;
+    ] ;
+  sh:property [
+      sh:path ff:hasEmploymentStatus ;
+      sh:hasValue ff:RegisteredUnemployed ;
+    ] ;
+  sh:property [
+      sh:path ff:needsCare ;
+      sh:node ff:CareNeed ;
+      sh:property [
+          sh:path ff:caregiverInHousehold ;
+          sh:hasValue ff:IntegrationAssistance ;
+        ] ;
+    ] ;
+  sh:property [
+      sh:path ff:hasEvent ;
+      sh:node ff:Event ;
+      sh:property [
+          sh:path ff:triggeringEvent ;
+          sh:hasValue ff:MoveToGermany ;
+        ] ;
+    ] .

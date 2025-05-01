@@ -1,0 +1,30 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:B100019_LB_582422_EligibilityShape
+  a sh:NodeShape ;
+  sh:targetClass ff:Person ;
+  sh:property [
+    sh:path ff:hasEvent ;
+    sh:minCount 1 ;
+    sh:nodeKind sh:BlankNodeOrIRI ;
+    sh:property [
+      sh:path rdf:type ;
+      sh:hasValue ff:WorkAccident, ff:CommutingAccident, ff:OccupationalDisease ;
+    ] ;
+  ] ;
+  sh:property [
+    sh:path ff:participates ;
+    sh:minCount 1 ;
+    sh:nodeKind sh:BlankNodeOrIRI ;
+    sh:property [
+      sh:path rdf:type ;
+      sh:hasValue ff:OccupationalRehabilitation ;
+    ] ;
+    sh:property [
+      sh:path ff:recognizedByLaw ;
+      sh:hasValue ff:VocationalTrainingAct ;
+    ] ;
+  ] .

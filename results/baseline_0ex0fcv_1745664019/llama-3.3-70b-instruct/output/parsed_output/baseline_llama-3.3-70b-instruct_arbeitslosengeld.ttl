@@ -1,0 +1,38 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:B100019_LB_576842
+  a ff:SocialBenefit ;
+  sh:property [
+    sh:predicate ff:hasEmploymentStatus ;
+    sh:class ff:Unemployed ;
+  ] ;
+  sh:property [
+    sh:predicate ff:inEmployment ;
+    sh:datatype xsd:boolean ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:equals false ;
+  ] ;
+  sh:property [
+    sh:predicate ff:workHoursPerWeek ;
+    sh:datatype xsd:decimal ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:lessThan 15 ;
+  ] ;
+  sh:property [
+    sh:predicate ff:availableForPlacement ;
+    sh:datatype xsd:boolean ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:equals true ;
+  ] ;
+  sh:property [
+    sh:predicate ff:compulsoryInsuranceFor12In30 ;
+    sh:datatype xsd:boolean ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:equals true ;
+  ] .

@@ -1,0 +1,29 @@
+@prefix dash: <http://datashapes.org/dash#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:EinstiegsgeldShape
+    a sh:NodeShape ;
+    sh:targetClass ff:User ;
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:hasValue ff:B100019_LB_106311931 ;
+    ] ;
+    sh:property [
+        sh:path ff:receivedBenefit ;
+        sh:hasValue ff:B100019_LB_102713860 ;
+    ] ;
+    sh:property [
+        sh:path ff:workHoursPerWeek ;
+        sh:minInclusive 15 ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEmploymentStatus ;
+        sh:or (
+            [ sh:hasValue ff:Employee ]
+            [ sh:hasValue ff:SelfEmployed ]
+        ) ;
+    ] .

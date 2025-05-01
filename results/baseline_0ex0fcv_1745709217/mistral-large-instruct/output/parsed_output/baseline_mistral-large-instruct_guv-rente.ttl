@@ -1,0 +1,37 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:UserShape
+    a sh:NodeShape ;
+    sh:targetClass ff:User ;
+    sh:property [
+        sh:path ff:hasEarningCapacity ;
+        sh:class ff:ReducedEarningCapacity ;
+        sh:minCount 1 ;
+        sh:message "Die Erwerbsfähigkeit muss gemindert sein."
+    ] ;
+    sh:property [
+        sh:path ff:hasDisabilityType ;
+        sh:class ff:Disability ;
+        sh:minCount 1 ;
+        sh:message "Es muss mindestens eine Versicherungsfall vorliegen."
+    ] ;
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:class ff:Event ;
+        sh:minCount 1 ;
+        sh:message "Es muss mindestens ein Versicherungsfall vorliegen."
+    ] ;
+    sh:property [
+        sh:path ff:reductionDurationInWeeks ;
+        sh:datatype xsd:int ;
+        sh:minInclusive 26 ;
+        sh:message "Die Erwerbsfähigkeit muss über die 26. Woche nach dem Versicherungsfall hinaus gemindert sein."
+    ] ;
+    sh:property [
+        sh:path ff:reductionInPercent ;
+        sh:datatype xsd:decimal ;
+        sh:minInclusive 20 ;
+        sh:message "Die Erwerbsfähigkeit muss um mindestens 20 Prozent gemindert sein."
+    ] .

@@ -1,0 +1,56 @@
+@prefix dash: <http://datashapes.org/dash#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+ff:UserShape a sh:NodeShape ;
+    sh:targetClass ff:User ;
+    sh:property [
+        sh:path ff:hasDisabilityType ;
+        sh:class ff:Disability ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ff:hasRehabilitationProvider ;
+        sh:hasValue ff:FederalEmploymentAgency ;
+    ] ;
+    sh:property [
+        sh:path ff:participates ;
+        sh:class ff:Training ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ff:isIneligibleFor ;
+        sh:hasValue ff:B100019_LB_102716305 ;  # Statutory accident insurance transitional allowance
+    ] .
+
+ff:TrainingShape a sh:NodeShape ;
+    sh:targetClass ff:Training ;
+    sh:or (
+        [
+            sh:class ff:VocationalTraining ;
+            sh:property [
+                sh:path ff:isFirstVocationalTraining ;
+                sh:hasValue true ;
+            ] ;
+        ]
+        [
+            sh:class ff:EntryProcedureAndVocationalTrainingArea ;
+        ]
+        [
+            sh:class ff:Training ;
+            sh:property [
+                sh:path rdfs:label ;
+                sh:hasValue "berufsvorbereitende Bildungsmaßnahme einschließlich einer Grundausbildung" ;
+            ] ;
+        ]
+        [
+            sh:class ff:Training ;
+            sh:property [
+                sh:path rdfs:label ;
+                sh:hasValue "individuelle betriebliche Qualifizierung im Rahmen der Unterstützten Beschäftigung" ;
+            ] ;
+        ]
+    ) .

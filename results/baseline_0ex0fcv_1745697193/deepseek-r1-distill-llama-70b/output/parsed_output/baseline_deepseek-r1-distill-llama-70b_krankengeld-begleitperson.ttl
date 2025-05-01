@@ -1,0 +1,37 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:User
+  a sh:Shape ;
+  sh:targetClass ff:User ;
+  sh:property [
+      sh:path ff:hasInsurance ;
+      sh:class ff:Insurance ;
+      sh:minCount 1 ;
+    ] , [
+      sh:path ff:inPatientCoAdmission ;
+      sh:hasValue true ;
+    ] , [
+      sh:path ff:fullDayAccompaniment ;
+      sh:hasValue true ;
+    ] , [
+      sh:path ff:resultsInTreatment ;
+      sh:class ff:OccupationalRehabilitation ;
+      sh:minCount 1 ;
+    ] , [
+      sh:path ff:causesLossOfEarnings ;
+      sh:hasValue true ;
+    ] , [
+      sh:path ff:immediateCircleMember ;
+      sh:class ff:Person ;
+      sh:minCount 1 ;
+    ] , [
+      sh:path ff:hasEvent ;
+      sh:class ff:EntryProcedureAndVocationalTrainingArea ;
+      sh:minCount 1 ;
+    ] , [
+      sh:path ff:receivesBenefit ;
+      sh:hasValue ff:B100019_LB_103817036 ;
+      sh:minCount 1 ;
+    ] .

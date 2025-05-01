@@ -1,0 +1,24 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+ff:B100019_LB_102799525_SHAPE
+  a sh:NodeShape ;
+  sh:target [ sh:nodeKind sh:BlankNodeOrIRI ] ;
+  sh:property [
+    sh:path ff:isEligibleFor ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:hasValue ff:B100019_LB_102799525 ;
+  ] ;
+  sh:property [
+    sh:path ff:receivesBenefit ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:hasValue ff:B100019_LB_102716305 ;
+  ] ;
+  sh:property [
+    sh:path ff:hasMaritalStatus ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:in ( ff:Married ff:CivilUnion ) ;
+  ] .

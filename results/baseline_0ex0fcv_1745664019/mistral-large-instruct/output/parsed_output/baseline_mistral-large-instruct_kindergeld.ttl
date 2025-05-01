@@ -1,0 +1,58 @@
+@prefix dash: <http://datashapes.org/dash#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+ff:KindergeldShape
+    a sh:NodeShape ;
+    sh:targetClass ff:Person ;
+    sh:property [
+        sh:path ff:incomeTaxLiability ;
+        sh:hasValue ff:UnlimitedTaxLiability ;
+    ] ;
+    sh:or (
+        [
+            sh:property [
+                sh:path ff:isNationalOf ;
+                sh:class ff:EEAplusCH ;
+            ] ;
+        ]
+        [
+            sh:property [
+                sh:path ff:hasResidencePermit ;
+                sh:class ff:ResidencePermit ;
+                sh:property [
+                    sh:path ff:entitlesToEmployment ;
+                    sh:hasValue "true"^^xsd:boolean ;
+                ] ;
+            ] ;
+        ]
+        [
+            sh:property [
+                sh:path ff:hasResidenceStatus ;
+                sh:hasValue ff:Tolerated ;
+            ] ;
+        ]
+    ) ;
+    sh:property [
+        sh:path ff:hasChild ;
+        sh:class ff:Person ;
+        sh:or (
+            [
+                sh:property [
+                    sh:path ff:countryOfResidence ;
+                    sh:class ff:EEAplusCH ;
+                ] ;
+            ]
+            [
+                sh:property [
+                    sh:path ff:sameHouseholdAs ;
+                    sh:class ff:Person ;
+                    sh:property [
+                        sh:path ff:incomeTaxCountry ;
+                        sh:hasValue ff:Germany ;
+                    ] ;
+                ] ;
+            ]
+        ) ;
+    ] .

@@ -1,0 +1,36 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Target node
+<https://foerderfunke.org/default#User> a sh:NodeShape ;
+  sh:targetClass ff:User .
+
+# Eligibility requirement 1: Severe visual or hearing impairment
+<https://foerderfunke.org/default#SevereImpairment> a sh:Constraint;
+  sh:property <https://foerderfunke.org/default#hasDisability>;
+  sh:minCount 1 ;
+  sh:datatype <http://www.w3.org/2001/XMLSchema#boolean> ;
+  sh:filter "data(?s) = true and ?d/sh:property/ff:severeDisability/data = true" .
+
+# Eligibility requirement 2: Rehabilitation provider is the Federal Employment Agency
+<https://foerderfunke.org/default#RehabilitationProvider> a sh:Constraint;
+  sh:property <https://foerderfunke.org/default#hasRehabilitationProvider>;
+  sh:minCount 1 ;
+  sh:class <https://foerderfunke.org/default#FederalEmploymentAgency> .
+
+# Eligibility requirement 3: Reduced earning capacity due to disability
+<https://foerderfunke.org/default#ReducedEarningCapacity> a sh:Constraint;
+  sh:property <https://foerderfunke.org/default#hasEarningCapacity>;
+  sh:minCount 1 ;
+  sh:datatype <http://www.w3.org/2001/XMLSchema#boolean> ;
+  sh:filter "data(?s) = true and ?e/sh:property/ff:reducesChildSupplementTo/data > 0 and ?e/sh:property/ff:unfitForWork/data = true" .
+
+# Eligibility requirement 4: Willingness to participate in vocational training
+<https://foerderfunke.org/default#WillToTrain> a sh:Constraint;
+  sh:property <https://foerderfunke.org/default#hasEvent>;
+  sh:minCount 1 ;
+  sh:datatype <http://www.w3.org/2001/XMLSchema#boolean> ;
+  sh:filter "data(?s) = true and ?e/sh:property/ff:isFirstVocationalTraining/data = true" .

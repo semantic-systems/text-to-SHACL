@@ -1,0 +1,137 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+<http://example.org/shaclGraph> a sh:Shape ;
+    sh:targetClass ff:User ;
+    sh:property [
+        sh:path ff:hasEmployment ;
+        sh:minCount 1 ;
+        sh:description "The user must have an employment"
+    ] ;
+    sh:property [
+        sh:path ff:hasEmploymentStatus ;
+        sh:minCount 1 ;
+        sh:description "The user must have a valid employment status"
+    ] ;
+    sh:property [
+        sh:path ff:hasIncome ;
+        sh:minCount 1 ;
+        sh:description "The user must have an income"
+    ] ;
+    sh:property [
+        sh:path ff:hasResidencePermit ;
+        sh:minCount 1 ;
+        sh:description "The user must have a valid residence permit"
+    ] ;
+    sh:property [
+        sh:path ff:hasResidenceStatus ;
+        sh:minCount 1 ;
+        sh:description "The user must have a valid residence status"
+    ] ;
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:minCount 1 ;
+        sh:description "The user must have an age"
+    ] ;
+    sh:property [
+        sh:path ff:hasInsurance ;
+        sh:minCount 1 ;
+        sh:description "The user must have health insurance"
+    ] ;
+    sh:property [
+        sh:path ff:hasDisability ;
+        sh:minCount 0 ;
+        sh:description "The user must not have a disability"
+    ] ;
+    sh:property [
+        sh:path ff:unfitForWork ;
+        sh:minCount 0 ;
+        sh:description "The user must not be unfit for work"
+    ] ;
+    sh:property [
+        sh:path ff:hasDisabilityType ;
+        sh:minCount 0 ;
+        sh:description "The user must not have a disability type"
+    ] ;
+    sh:property [
+        sh:path ff:hasEarningCapacity ;
+        sh:minCount 1 ;
+        sh:description "The user must have an earning capacity"
+    ] ;
+    sh:property [
+        sh:path ff:hasEmploymentStatus ;
+        sh:minCount 1 ;
+        sh:description "The user must have a valid employment status"
+    ] ;
+    sh:property [
+        sh:path ff:hasIncome ;
+        sh:minCount 1 ;
+        sh:description "The user must have an income"
+    ] ;
+    sh:property [
+        sh:path ff:hasResidencePermit ;
+        sh:minCount 1 ;
+        sh:description "The user must have a valid residence permit"
+    ] ;
+    sh:property [
+        sh:path ff:hasResidenceStatus ;
+        sh:minCount 1 ;
+        sh:description "The user must have a valid residence status"
+    ] ;
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:minCount 1 ;
+        sh:description "The user must have an age"
+    ] ;
+    sh:property [
+        sh:path ff:hasInsurance ;
+        sh:minCount 1 ;
+        sh:description "The user must have health insurance"
+    ] ;
+    sh:property [
+        sh:path ff:hasDisability ;
+        sh:minCount 0 ;
+        sh:description "The user must not have a disability"
+    ] ;
+    sh:property [
+        sh:path ff:unfitForWork ;
+        sh:minCount 0 ;
+        sh:description "The user must not be unfit for work"
+    ] ;
+    sh:property [
+        sh:path ff:hasDisabilityType ;
+        sh:minCount 0 ;
+        sh:description "The user must not have a disability type"
+    ] ;
+    sh:property [
+        sh:path ff:hasEmploymentStatus ;
+        sh:minCount 1 ;
+        sh:description "The user must have a valid employment status"
+    ] ;
+    sh:property [
+        sh:path ff:hasIncome ;
+        sh:minCount 1 ;
+        sh:description "The user must have an income"
+    ] ;
+    sh:property [
+        sh:path ff:hasResidencePermit ;
+        sh:minCount 1 ;
+        sh:description "The user must have a valid residence permit"
+    ] ;
+    sh:property [
+        sh:path ff:hasResidenceStatus ;
+        sh:minCount 1 ;
+        sh:description "The user must have a valid residence status"
+    ] ;
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:minCount 1 ;
+        sh:description "The user must have an age"
+    ] ;
+    sh:property [
+        sh:path ff:hasInsurance ;
+        sh:minCount 1 ;
+        sh:description "The user must have health insurance"
+    ] .

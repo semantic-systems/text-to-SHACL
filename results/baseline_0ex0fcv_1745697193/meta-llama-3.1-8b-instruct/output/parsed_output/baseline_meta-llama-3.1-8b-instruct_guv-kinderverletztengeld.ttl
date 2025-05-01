@@ -1,0 +1,98 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+<http://example.org/shapes>
+    a sh:NodeShape ;
+    sh:targetClass ff:User ;
+    sh:property [
+        sh:path ff:hasChild ;
+        sh:nodeKind sh:Node;
+        sh:datatype xsd:boolean ;
+        sh:minCount 1 ;
+        sh:equals true
+    ] ;
+    sh:property [
+        sh:path ff:hasDisability ;
+        sh:nodeKind sh:Node;
+        sh:datatype xsd:boolean ;
+        sh:minCount 1 ;
+        sh:equals true
+    ] ;
+    sh:property [
+        sh:path ff:hasEmployment ;
+        sh:nodeKind sh:Node;
+        sh:datatype xsd:boolean ;
+        sh:minCount 1 ;
+        sh:equals true
+    ] ;
+    sh:property [
+        sh:path ff:hasMaritalStatus ;
+        sh:nodeKind sh:Node;
+        sh:datatype rdfs:Literal ;
+        sh:minCount 1 ;
+        sh:equals ff:Married
+    ] ;
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:nodeKind sh:Node;
+        sh:datatype xsd:integer ;
+        sh:minCount 1 ;
+        sh:greaterThan 18
+    ] ;
+    sh:property [
+        sh:path ff:hasDisabilityType ;
+        sh:nodeKind sh:Node;
+        sh:datatype rdfs:Literal ;
+        sh:minCount 1 ;
+        sh:disjoint [
+            sh:path ff:hasDisability ;
+            sh:nodeKind sh:Node;
+            sh:datatype xsd:boolean ;
+            sh:minCount 1 ;
+            sh:equals true
+        ]
+    ] ;
+    sh:property [
+        sh:path ff:hasEmploymentStatus ;
+        sh:nodeKind sh:Node;
+        sh:datatype rdfs:Literal ;
+        sh:minCount 1 ;
+        sh:disjoint [
+            sh:path ff:hasEmployment ;
+            sh:nodeKind sh:Node;
+            sh:datatype xsd:boolean ;
+            sh:minCount 1 ;
+            sh:equals true
+        ]
+    ] ;
+    sh:property [
+        sh:path ff:hasInsurance ;
+        sh:nodeKind sh:Node;
+        sh:datatype rdfs:Literal ;
+        sh:minCount 1 ;
+        sh:equals ff:StatutoryHealthInsurance
+    ] ;
+    sh:property [
+        sh:path ff:hasResidencePermit ;
+        sh:nodeKind sh:Node;
+        sh:datatype rdfs:Literal ;
+        sh:minCount 1 ;
+        sh:equals ff:Tolerated
+    ] ;
+    sh:property [
+        sh:path ff:hasIncome ;
+        sh:nodeKind sh:Node;
+        sh:datatype rdfs:Literal ;
+        sh:minCount 1 ;
+        sh:greaterThan 0
+    ] ;
+    sh:property [
+        sh:path ff:hasEmployment ;
+        sh:nodeKind sh:Node;
+        sh:datatype rdfs:Literal ;
+        sh:minCount 1 ;
+        sh:greaterThan 0
+    ] .

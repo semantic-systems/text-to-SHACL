@@ -1,0 +1,33 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+ff:B100019_LB_574711 a sh:NodeShape ;
+    sh:targetClass ff:Person ;
+    sh:property [
+        sh:path ff:hasDisability ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ff:hasRehabilitationProvider ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:hasValue ff:FederalEmploymentAgency ;
+    ] ;
+    sh:property [
+        sh:path ff:participates ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:or (
+            [ sh:path ff:recognizedByLaw ; sh:hasValue ff:VocationalTrainingAct ]
+            [ sh:path ff:recognizedByLaw ; sh:hasValue ff:EntryProcedureAndVocationalTrainingArea ]
+        ) ;
+    ] ;
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:minCount 0 ;
+        sh:maxCount 0 ;
+        sh:hasValue ff:B100019_LB_102716305 ;
+    ] .

@@ -1,0 +1,38 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:User
+    a sh:NodeShape ;
+    sh:property [
+        sh:path ff:hasEarningCapacity ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:node [
+            sh:property [
+                sh:path ff:reductionInPercent ;
+                sh:minInclusive 20 ;
+                sh:datatype xsd:decimal ;
+            ] ;
+            sh:property [
+                sh:path ff:isPermanent ;
+                sh:hasValue true ;
+            ] ;
+            sh:property [
+                sh:path ff:triggeringEvent ;
+                sh:minCount 1 ;
+                sh:maxCount 1 ;
+                sh:node [
+                    sh:property [
+                        sh:path ff:isRenumerated ;
+                        sh:hasValue false ;
+                    ] ;
+                    sh:property [
+                        sh:path ff:causesLossOfEarnings ;
+                        sh:hasValue true ;
+                    ] ;
+                ] ;
+            ] ;
+        ] ;
+    ] .

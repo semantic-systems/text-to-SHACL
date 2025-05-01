@@ -1,0 +1,31 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:User
+  sh:targetClass ff:User ;
+  sh:shape [
+    sh:path ff:isEligibleFor ;
+    sh:inversePath ff:recognizesEligibilityOf ;
+    sh:property [
+      sh:path ff:receivedBenefit ;
+      sh:inversePath ff:wasReceivedBy ;
+      sh:minCount 1 ;
+      sh:maxCount 1 ;
+      sh:datatype ff:B100019_LB_102799525 ;
+    ] ;
+    sh:property [
+      sh:path ff:hasMaritalStatus ;
+      sh:inversePath ff:hasMaritalStatusOf ;
+      sh:minCount 1 ;
+      sh:maxCount 1 ;
+      sh:nodeKind sh:Literal ;
+      sh:datatype ff:Married ;
+    ] ;
+    sh:property [
+      sh:path ff:deceasedSpouse ;
+      sh:inversePath ff:wasSpouseOf ;
+      sh:minCount 1 ;
+      sh:maxCount 1 ;
+    ] ;
+  ] .

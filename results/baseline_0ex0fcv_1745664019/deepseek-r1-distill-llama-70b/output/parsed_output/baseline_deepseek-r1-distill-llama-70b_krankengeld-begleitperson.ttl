@@ -1,0 +1,31 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+ff:KrankengeldBegleitpersonShape
+  a sh:Shape ;
+  sh:targetClass ff:Person ;
+  sh:property [
+      sh:path ff:hasInsurance ;
+      sh:hasValue ff:StatutoryHealthInsurance ;
+      sh:minCount 1 ;
+    ] , [
+      sh:path ff:inPatientCoAdmission ;
+      sh:hasValue "true" ;
+      sh:minCount 1 ;
+    ] , [
+      sh:path ff:fullDayAccompaniment ;
+      sh:hasValue "true" ;
+      sh:minCount 1 ;
+    ] , [
+      sh:path ff:causesLossOfEarnings ;
+      sh:hasValue "true" ;
+      sh:minCount 1 ;
+    ] , [
+      sh:path ff:immediateCircleMember ;
+      sh:hasValue [] ;
+      sh:minCount 1 ;
+    ] , [
+      sh:path ff:receivesBenefit ;
+      sh:hasValue ff:IntegrationAssistance ;
+      sh:minCount 1 ;
+    ] .

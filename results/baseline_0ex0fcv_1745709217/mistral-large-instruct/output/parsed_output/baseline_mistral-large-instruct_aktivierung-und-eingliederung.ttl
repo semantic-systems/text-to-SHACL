@@ -1,0 +1,25 @@
+@prefix dash: <http://datashapes.org/dash#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:UserShape a sh:NodeShape ;
+    sh:targetClass ff:User ;
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:hasValue ff:B100019_LB_102716305 ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:class ff:Event ;
+        sh:message "The user must have an event indicating the necessity of support services." ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEmploymentStatus ;
+        sh:hasValue ff:RegisteredUnemployed ;
+        sh:message "The user must be registered as unemployed." ;
+    ] .

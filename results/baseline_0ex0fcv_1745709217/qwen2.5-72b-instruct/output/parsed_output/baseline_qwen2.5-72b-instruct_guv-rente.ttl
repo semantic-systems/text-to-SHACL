@@ -1,0 +1,44 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+ff:UserShape
+  a sh:NodeShape ;
+  sh:targetClass ff:User ;
+  sh:property [
+    sh:path ff:hasInsurance ;
+    sh:hasValue ff:StatutoryAccidentInsurance ;
+  ] ;
+  sh:property [
+    sh:path ff:hasEarningCapacity ;
+    sh:node ff:EarningCapacityShape ;
+  ] ;
+  sh:property [
+    sh:path ff:hasEvent ;
+    sh:minCount 1 ;
+    sh:node ff:EventShape ;
+  ] ;
+.
+
+ff:EarningCapacityShape
+  a sh:NodeShape ;
+  sh:property [
+    sh:path ff:reductionDurationInWeeks ;
+    sh:minInclusive 26 ;
+  ] ;
+  sh:property [
+    sh:path ff:reductionInPercent ;
+    sh:minInclusive 20 ;
+  ] ;
+  sh:property [
+    sh:path ff:triggeringEvent ;
+    sh:class ff:Event ;
+  ] ;
+.
+
+ff:EventShape
+  a sh:NodeShape ;
+  sh:property [
+    sh:path ff:causesLossOfEarnings ;
+    sh:hasValue true ;
+  ] ;
+.

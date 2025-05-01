@@ -1,0 +1,24 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:UnemploymentEligibilityShape
+    a sh:Shape ;
+    sh:targetClass ff:User ;
+    sh:property [
+        sh:predicate ff:inEmployment ;
+        sh:defaultValue false ;
+        sh:equals false ;
+    ] , [
+        sh:predicate ff:workHoursPerWeek ;
+        sh:max 14 ;
+    ] , [
+        sh:predicate ff:availableForPlacement ;
+        sh:equals true ;
+    ] , [
+        sh:predicate ff:compulsoryInsuranceFor12In30 ;
+        sh:equals true ;
+    ] , [
+        sh:predicate ff:isEligibleFor ;
+        sh:object ff:B100019_LB_576842 ;
+    ] .

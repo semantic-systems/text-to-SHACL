@@ -1,0 +1,40 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:UserShape
+    a sh:NodeShape ;
+    sh:targetClass ff:User ;
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:or (
+            [
+                sh:path ff:aboveSGBXII41AgeLimit ;
+                sh:hasValue true ;
+            ]
+            [
+                sh:path ff:hasEarningCapacity ;
+                sh:hasValue ff:UnfitForWork ;
+            ]
+        ) ;
+    ] ;
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:minInclusive 18 ;
+    ] ;
+    sh:property [
+        sh:path ff:participates ;
+        sh:class ff:EntryProcedureAndVocationalTrainingArea ;
+    ] ;
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:hasValue ff:TrainingBudget ;
+    ] ;
+    sh:property [
+        sh:path ff:canCoverPersonalBasicNeeds ;
+        sh:hasValue false ;
+    ] ;
+    sh:property [
+        sh:path ff:hasNoPriorityClaimsOver ;
+        sh:hasValue ff:Sozialhilfe ;
+    ] .

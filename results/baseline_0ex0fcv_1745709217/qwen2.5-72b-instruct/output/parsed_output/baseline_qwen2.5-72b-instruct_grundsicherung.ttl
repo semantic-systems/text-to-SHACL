@@ -1,0 +1,75 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+ff:UserShape a sh:NodeShape ;
+  sh:targetClass ff:User ;
+  sh:and (
+    [ sh:property [
+      sh:path ff:hasAge ;
+      sh:minInclusive 18 ;
+      sh:maxInclusive 100 ;
+    ] ]
+    [ sh:or (
+      [ sh:property [
+        sh:path ff:aboveSGBXII41AgeLimit ;
+        sh:hasValue true ;
+      ] ]
+      [ sh:and (
+        [ sh:property [
+          sh:path ff:hasAge ;
+          sh:minInclusive 18 ;
+        ] ]
+        [ sh:property [
+          sh:path ff:hasEarningCapacity ;
+          sh:hasValue ff:UnfitForWork ;
+          sh:property [
+            sh:path ff:reductionDurationInWeeks ;
+            sh:minInclusive 1 ;
+          ] ;
+        ] ]
+      ) ]
+      [ sh:and (
+        [ sh:property [
+          sh:path ff:hasAge ;
+          sh:minInclusive 18 ;
+        ] ]
+        [ sh:property [
+          sh:path ff:participates ;
+          sh:hasValue ff:EntryProcedureAndVocationalTrainingArea ;
+        ] ]
+        [ sh:property [
+          sh:path ff:isEligibleFor ;
+          sh:hasValue ff:TrainingBudget ;
+        ] ]
+      ) ]
+    ) ]
+    [ sh:property [
+      sh:path ff:canCoverPersonalBasicNeeds ;
+      sh:hasValue false ;
+    ] ]
+  ) ;
+  sh:property [
+    sh:path ff:hasNoPriorityClaimsOver ;
+    sh:hasValue ff:SocialAssistance ;
+  ] ;
+  sh:property [
+    sh:path ff:hasIncome ;
+    sh:qualifiedMinCount 1 ;
+    sh:qualifiedValueShape [
+      sh:and (
+        [ sh:property [
+          sh:path ff:personalGrossIncome ;
+          sh:maxInclusive 0 ;
+        ] ]
+        [ sh:property [
+          sh:path ff:familyGrossIncome ;
+          sh:maxInclusive 0 ;
+        ] ]
+      )
+    ] ;
+    sh:qualifiedValueShapesDisjoint true ;
+  ] ;
+  sh:property [
+    sh:path ff:hasResidenceStatus ;
+    sh:hasValue ff:Unemployed ;
+  ] .

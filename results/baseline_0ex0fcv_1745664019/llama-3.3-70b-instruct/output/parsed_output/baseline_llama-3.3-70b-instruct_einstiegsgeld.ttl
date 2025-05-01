@@ -1,0 +1,66 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:EinstiegsgeldShape a sh:NodeShape ;
+    sh:targetClass ff:Person ;
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:hasValue ff:B100019_LB_102716305 ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEmploymentStatus ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:hasValue ff:JobSeeker ;
+    ] ;
+    sh:property [
+        sh:path ff:workHoursPerWeek ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:decimal ;
+        sh:minInclusive 15 ;
+    ] ;
+    sh:property [
+        sh:path ff:hasApplication ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:property [
+            sh:path ff:hasDate ;
+            sh:minCount 1 ;
+            sh:maxCount 1 ;
+            sh:datatype xsd:dateTime ;
+        ] ;
+    ] ;
+    sh:property [
+        sh:path ff:hasNewSelfEmployment ;
+        sh:minCount 0 ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:property [
+            sh:path ff:positiveJobcenterEvaluation ;
+            sh:minCount 1 ;
+            sh:maxCount 1 ;
+            sh:datatype xsd:boolean ;
+            sh:equals true ;
+        ] ;
+        sh:property [
+            sh:path ff:personalSuitability ;
+            sh:minCount 1 ;
+            sh:maxCount 1 ;
+            sh:datatype xsd:boolean ;
+            sh:equals true ;
+        ] ;
+        sh:property [
+            sh:path ff:economicViability ;
+            sh:minCount 1 ;
+            sh:maxCount 1 ;
+            sh:datatype xsd:boolean ;
+            sh:equals true ;
+        ] ;
+    ] .

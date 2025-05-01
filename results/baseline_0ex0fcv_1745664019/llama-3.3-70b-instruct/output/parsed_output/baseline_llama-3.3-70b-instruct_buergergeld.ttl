@@ -1,0 +1,40 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:B100019_LB_106311931
+  a ff:SocialBenefit ;
+  sh:property [
+    sh:predicate ff:hasEarningCapacity ;
+    sh:datatype xsd:boolean ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:hasValue ff:FullEarningCapacity
+  ] ;
+  sh:property [
+    sh:predicate ff:hasAge ;
+    sh:datatype xsd:int ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:minInclusive 15 ;
+    sh:maxExclusive 67
+  ] ;
+  sh:property [
+    sh:predicate ff:canCoverPersonalBasicNeeds ;
+    sh:datatype xsd:boolean ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:hasValue false
+  ] ;
+  sh:property [
+    sh:predicate ff:hasNoPriorityClaimsOver ;
+    sh:object ff:B100019_LB_576842 ;
+    sh:minCount 1 ;
+    sh:maxCount 1
+  ] ;
+  sh:property [
+    sh:predicate ff:countryOfResidence ;
+    sh:object ff:Germany ;
+    sh:minCount 1 ;
+    sh:maxCount 1
+  ] .

@@ -1,0 +1,77 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:SickPayForPeopleWithDisabilities
+    a sh:Shape ;
+    sh:targetNode ff:User ;
+    sh:property [
+        sh:path ff:hasInsurance ;
+        sh:datatype ff:StatutoryHealthInsurance ;
+        sh:minCount 1 ;
+        sh:severity sh:Violation ;
+        sh:message "The user must have statutory health insurance." ;
+    ] ;
+    sh:property [
+        sh:path ff:needsCare ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:minCount 1 ;
+        sh:severity sh:Violation ;
+        sh:message "The user must be linked to a care need." ;
+    ] ;
+    sh:property [
+        sh:path [ sh:path ff:needsCare ; sh:inverse ff:caregiverInHousehold ] ;
+        sh:datatype ff:Person ;
+        sh:minCount 1 ;
+        sh:severity sh:Violation ;
+        sh:message "The user must be linked to a caregiver." ;
+    ] ;
+    sh:property [
+        sh:path [ sh:path ff:needsCare ; sh:inverse ff:caregiverInHousehold ; sh:path ff:hasEvent ] ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:minCount 1 ;
+        sh:severity sh:Violation ;
+        sh:message "The caregiver must be linked to a medical event." ;
+    ] ;
+    sh:property [
+        sh:path [ sh:path ff:needsCare ; sh:inverse ff:caregiverInHousehold ; sh:path ff:hasEvent ; sh:path ff:hasDate ] ;
+        sh:datatype xsd:dateTime ;
+        sh:minCount 1 ;
+        sh:severity sh:Violation ;
+        sh:message "The medical event must have a date." ;
+    ] ;
+    sh:property [
+        sh:path [ sh:path ff:needsCare ; sh:inverse ff:caregiverInHousehold ; sh:path ff:hasEvent ; sh:path ff:resultsInTreatment ] ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:minCount 1 ;
+        sh:severity sh:Violation ;
+        sh:message "The medical event must result in a medical treatment." ;
+    ] ;
+    sh:property [
+        sh:path [ sh:path ff:needsCare ; sh:inverse ff:caregiverInHousehold ; sh:path ff:hasEvent ; sh:path ff:inPatientCoAdmission ] ;
+        sh:datatype xsd:boolean ;
+        sh:minCount 1 ;
+        sh:severity sh:Violation ;
+        sh:message "The medical event must require hospitalization." ;
+    ] ;
+    sh:property [
+        sh:path [ sh:path ff:needsCare ; sh:inverse ff:caregiverInHousehold ; sh:path ff:hasEvent ; sh:path ff:fullDayAccompaniment ] ;
+        sh:datatype xsd:boolean ;
+        sh:minCount 1 ;
+        sh:severity sh:Violation ;
+        sh:message "The medical event must require a full-day accompaniment." ;
+    ] ;
+    sh:property [
+        sh:path ff:canCoverPersonalBasicNeeds ;
+        sh:datatype xsd:boolean ;
+        sh:minCount 1 ;
+        sh:severity sh:Violation ;
+        sh:message "The user must have a loss of earnings." ;
+    ] ;
+    sh:property [
+        sh:path ff:immediateCircleMember ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:minCount 1 ;
+        sh:severity sh:Violation ;
+        sh:message "The user must be a member of the immediate circle." ;
+    ] .

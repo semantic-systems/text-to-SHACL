@@ -1,0 +1,106 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+ff:InsolvencyBenefitShape
+    a sh:NodeShape ;
+    sh:targetClass ff:User ;
+    sh:property [
+        sh:path ff:hasEmployment ;
+        sh:minCount 1 ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:property [
+            sh:path ff:employer ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:property [
+                sh:path ff:hasEvent ;
+                sh:minCount 1 ;
+                sh:nodeKind sh:BlankNodeOrIRI ;
+                sh:or (
+                    [ sh:path ff:resultsInTreatment ;
+                      sh:hasValue ff:InsolvencyProceeding ;
+                      sh:minCount 1 ;
+                      sh:maxCount 1 ;
+                      sh:nodeKind sh:BlankNodeOrIRI ;
+                      sh:property [
+                        sh:path ff:isOpen ;
+                        sh:hasValue false ;
+                        sh:minCount 1 ;
+                        sh:maxCount 1 ;
+                        sh:nodeKind sh:Literal ;
+                        sh:datatype xsd:boolean ;
+                      ]
+                    ]
+                    [ sh:path ff:causesLossOfEarnings ;
+                      sh:hasValue true ;
+                      sh:minCount 1 ;
+                      sh:maxCount 1 ;
+                      sh:nodeKind sh:Literal ;
+                      sh:datatype xsd:boolean ;
+                      sh:property [
+                        sh:path ff:hasDate ;
+                        sh:minCount 1 ;
+                        sh:maxCount 1 ;
+                        sh:nodeKind sh:Literal ;
+                        sh:datatype xsd:dateTime ;
+                        sh:lessThan [
+                          sh:path ff:hasDate ;
+                          sh:nodeKind sh:Literal ;
+                          sh:datatype xsd:dateTime ;
+                        ]
+                      ]
+                    ]
+                    [ sh:path ff:rejectedForLackOfAssets ;
+                      sh:hasValue true ;
+                      sh:minCount 1 ;
+                      sh:maxCount 1 ;
+                      sh:nodeKind sh:Literal ;
+                      sh:datatype xsd:boolean ;
+                    ]
+                )
+            ]
+        ] ;
+        sh:property [
+            sh:path ff:countryOfEmployment ;
+            sh:hasValue ff:Germany ;
+            sh:minCount 1 ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+        ] ;
+        sh:property [
+            sh:path ff:workHoursPerWeek ;
+            sh:minCount 1 ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:datatype xsd:decimal ;
+            sh:lessThanOrEquals [
+              sh:path ff:workHoursPerWeek ;
+              sh:nodeKind sh:Literal ;
+              sh:datatype xsd:decimal ;
+              sh:value 15 ;
+            ]
+        ] ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEmploymentStatus ;
+        sh:hasValue ff:Unemployed ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:IRI ;
+    ] ;
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:notIn [
+            sh:values ( ff:B100019_LB_576848 )
+        ]
+    ] ;
+    sh:property [
+        sh:path ff:hasNoPriorityClaimsOver ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:notIn [
+            sh:values ( ff:B100019_LB_576848 )
+        ]
+    ] .
