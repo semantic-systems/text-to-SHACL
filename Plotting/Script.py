@@ -14,8 +14,13 @@ from resources.schemata.method_schema import avg_syntax_metrics, avg_all_metrics
 
 # IBM Design colorblind-safe palette
 ibm_palette = [
-    "#648FFF", "#FFB000", "#785EF0", "#FE6100",
-    "#DC267F", "#009E73", "#C0C0C0",
+    "#648FFF", # blue
+    "#FFB000", # yellow
+    "#785EF0", # purple
+    "#FE6100", # orange
+    "#DC267F",
+    "#009E73", 
+    "#C0C0C0",
 ]
 
 
