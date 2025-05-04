@@ -49,7 +49,7 @@ class ModelHandler:
                             'qwen2.5-72b-instruct',
                             ]
         self.default_configs = {
-            "timeout": 90, # seconds
+            "timeout": 180, # seconds
             "max_retries": 2
         }
         
