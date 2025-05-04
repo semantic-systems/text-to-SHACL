@@ -277,7 +277,7 @@ def evaluate_experiment(experiment: str,
     :return: List of dictionaries with average metrics for the experiment.
     """
     start_time_total = time.time()
-    logger = setup_logger(__name__, f"logs/{experiment}_eval.log")
+    logger = setup_logger(module_name=__name__, log_file=f"logs/{experiment}_eval.log")
     experiment_dir = os.path.join(results_dir, experiment)
 
     for model_name in os.listdir(experiment_dir):
