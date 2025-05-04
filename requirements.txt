@@ -1,0 +1,23 @@
+Jinja2==3.1.4
+Requests==2.32.3
+beautifulsoup4==4.12.3
+bert_score==0.3.13
+graphkit_learn==0.2.1.post20240206154638
+html2text==2024.2.26
+langchain_chroma==0.2.3
+langchain_core==0.3.54
+langchain_huggingface==0.1.2
+langchain_openai==0.2.11
+matplotlib==3.9.2
+networkx==3.4.2
+numpy==2.1.2
+openai==1.54.1
+pandas==2.2.3
+pyshacl==0.29.1
+python == 3.12.3
+python-dotenv==1.0.1
+rdflib==7.1.1
+scikit_learn==1.6.0
+scipy==1.14.1
+seaborn==0.13.2
+tqdm==4.66.6
