@@ -1,7 +1,11 @@
 """ 
 RunEvaluation.py
 
-Compute evaluation metrics for a given experiment.
+Compute evaluation metrics for a given experiment, including 
+    - metrics per generated output ("per run")
+    - average metrics over all outputs for a given experiment run    
+    - average metrics over all experiment runs for a given
+        model-mode configuration ("config-level)
 """
 
 import argparse
@@ -58,10 +62,12 @@ def shacl_syntax_compliant(shacl_path: str, logger: logging.Logger) -> Optional[
 
 
 def compute_average_metrics(metrics_per_run: List[Dict[str, Any]]) -> Dict[str, Any]:
-    """Computes average performance metrics for each run.
+    """Computes two types of average performance metrics across all runs:
+    - avg_all: Mean over all runs
+    - avg_valid: Mean only over runs where valid SHACL was generated
 
     :param metrics_per_run: Performance metrics for each run.
-    :return: Dictionary with average metrics.
+    :return: Dictionary with avg_all and avg_valid.
     """
     df = pd.DataFrame(metrics_per_run)
     df = df.drop(columns=["run_key"], errors="ignore")
@@ -103,7 +109,6 @@ def compute_average_metadata(results: List[Dict[str, Any]]) -> Dict[str, Any]:
             "runtime (sec)": metadata["runtime (sec)"],
             "completion_tokens": token_usage["completion_tokens"],
             "prompt_tokens": token_usage["prompt_tokens"],
-            "total_tokens": token_usage["total_tokens"]
         })
     
     # Average the results
@@ -113,78 +118,14 @@ def compute_average_metadata(results: List[Dict[str, Any]]) -> Dict[str, Any]:
     return avg_metadata
 
 
-def compute_average_performance(metrics_dir: str, 
-                                results: List[Dict[str,Any]],
-                                metrics_per_run: List[Dict[str,Any]], 
-                                model_name: str, 
-                                experiment: str,
-                                logger: logging.Logger) -> Dict[str, Any]:
-    """
-    Computes two types of average metrics across test files:
-    - avg_all: Mean over all test files
-    - avg_valid: Mean only over files for which valid SHACL was generated
-
-    :param metrics_dir: Directory where metrics will be saved.
-    :param results: List of dictionaries containing raw model outputs.
-    :param metrics_per_run: List of dictionaries containing metrics for each run.
-    :param model_name: Name of the model used in the experiment.
-    :param experiment: Name of the experiment.
-    :param logger: Logger instance.
-    
-    :return: Dictionary containing avg_all and avg_valid.
-    """
-    # Compute average metrics
-    average_performance = {
-        "experiment": experiment,
-        "model": model_name,
-        **compute_average_metrics(metrics_per_run),
-        **compute_average_metadata(results)
-    }
-    
-    # Save detailed experiment summary
-    average_performance_path = os.path.join(metrics_dir, "average_performance.json")
-    save_dict_to_json(average_performance, average_performance_path)
-    logger.info(f"Saved average results to {average_performance_path}")
-
-    return average_performance
-
-
-def append_to_evaluation_summary(average_performance: Dict[str, Any], metrics_by_experiment_path: str, logger: logging.Logger):
-    """
-    Appends average metrics for an experiment to a summary CSV file.
-
-    :param average_performance: Dictionary of average metrics for the experiment.
-    :param metrics_by_experiment_path: Path to the CSV file storing overall summaries.
-    :param logger: Logger instance.
-    """
-    # Select information to include in the summary
-    main_items = [
-        'experiment', 'model', 'valid_turtle_all', 'valid_shacl_all', 'graph_edit_distance_all',
-        'gbert_f1_all', 'triple_f1_all', 'validation_f1_all', 'graph_edit_distance_valid_only',
-        'gbert_f1_valid_only', 'triple_f1_valid_only', 
-        'validation_f1_valid_only', 'ged_timeout_all', 'runtime (sec)'
-    ]
-    
-    average_df = pd.DataFrame([{
-        **{k: v for k, v in average_performance.items() if k in main_items}
-    }])
-    
-    # Append to overall summary, if it exists, or create new file otherwise
-    if os.path.exists(metrics_by_experiment_path):
-        existing_results = pd.read_csv(metrics_by_experiment_path)
-        average_df = pd.concat([existing_results, average_df], ignore_index=True)
-    
-    average_df.to_csv(metrics_by_experiment_path, index=False)
-    logger.info(f"Saved metrics by experiment to {metrics_by_experiment_path}")
-
-
 def compute_metrics_per_run(metrics_dir:str,
                             results: List[Dict[str, Any]],
                             shacl_gold_dir: str, 
                             profiles_dir: str,
                             logger: logging.Logger) -> List[Dict[str, Any]]:
     """
-    Computes preformance metrics for each file in the output directory.
+    Computes performance metrics for each file in the output directory.
+    Saves the results to a JSON file.
     
     :param metrics_dir: Directory where metrics will be saved.
     :param results: List of dictionaries containing raw model outputs.
@@ -262,6 +203,93 @@ def compute_metrics_per_run(metrics_dir:str,
     logger.info(f"Skipped {skipped_runs} runs without response.")
     return metrics_per_run
 
+
+def compute_experiment_run_avg(metrics_dir: str,
+                               results: List[Dict[str,Any]],
+                               metrics_per_run: List[Dict[str,Any]],
+                               model_name: str,
+                               experiment: str,
+                               avg_by_experiment_run_path: str,
+                               logger: logging.Logger) -> Dict[str, Any]:
+    """
+    Computes average performance metics and metadata for a given experiment.
+    Appends the results to a CSV file.
+
+    :param metrics_dir: Directory where metrics will be saved.
+    :param results: List of dictionaries containing raw model outputs.
+    :param metrics_per_run: List of dictionaries with metrics for each run.
+    :param model_name: Name of the model used in the experiment.
+    :param experiment: Name of the experiment.
+    :param avg_by_experiment_run_path: Path to CSV file with average metrics
+        by experiment run.
+    :param logger: Logger instance.
+    
+    :return: Dictionary containing the average metrics.
+    """
+    # Compute average metrics
+    average_performance = {
+        "experiment": experiment,
+        "model": model_name,
+        **compute_average_metrics(metrics_per_run),
+        **compute_average_metadata(results)
+    }
+    
+    # Save detailed experiment summary
+    average_performance_path = os.path.join(metrics_dir, "average_performance.json")
+    save_dict_to_json(average_performance, average_performance_path)
+    logger.info(f"Saved average results to {average_performance_path}")
+
+    # Extract results for summary by experiment run
+    drop_columns = ["ged_timeout_valid_only", "total_tokens"]
+    average_df = pd.DataFrame([{
+        **{k: v for k, v in average_performance.items() if k not in drop_columns},
+    }])
+    
+    # Append to summary CSV, if it exists, or create new file otherwise
+    if os.path.exists(avg_by_experiment_run_path):
+        existing_results = pd.read_csv(avg_by_experiment_run_path)
+        average_df = pd.concat([existing_results, average_df], ignore_index=True)
+    
+    average_df.to_csv(avg_by_experiment_run_path, index=False)
+    logger.info(f"Saved metrics by experiment to {avg_by_experiment_run_path}")
+        
+    return average_performance
+
+
+def compute_config_level_avg(avg_by_experiment_run_path: str,
+                             avg_by_config_path: str,
+                             logger: logging.Logger) -> pd.DataFrame:
+    """
+    Computes the average metrics acrossnall runs for a given model-mode
+    combination. Saves the results to a CSV file.
+
+    :param avg_by_experiment_run_path: Path to the CSV file with average 
+        metrics by experiment run.
+    :param avg_by_config_path: Path to the output file for the averages by
+        mode-model configuration.
+    :param logger: Logger instance.
+    
+    :return: Dataframe with average metrics per configuration.
+    """
+    avg_by_experiment_run = pd.read_csv(avg_by_experiment_run_path)
+
+    # Extract 'mode' from the 'experiment' column
+    avg_by_experiment_run['mode'] = avg_by_experiment_run['experiment'].str.extract(r'^([^_]+_[^_]+)')
+
+    # Group by 'method' and 'model', then compute mean for all metric columns
+    avg_by_config = avg_by_experiment_run.groupby(['mode', 'model']).mean(numeric_only=True).reset_index().round(4)
+    avg_by_config = round(avg_by_config, 4)
+    
+    # Append to summary CSV, if it exists, or create new file otherwise
+    if os.path.exists(avg_by_config_path):
+        existing_results = pd.read_csv(avg_by_config_path)
+        avg_by_config = pd.concat([existing_results, avg_by_config])
+
+    avg_by_config.to_csv(avg_by_config_path, index=False)
+    logger.info(f"Saved average metrics by configuration to {avg_by_config_path}")
+    
+    return avg_by_config
+
 def evaluate_experiment(experiment: str, 
                         results_dir: str, 
                         shacl_gold_dir: str, 
@@ -295,11 +323,10 @@ def evaluate_experiment(experiment: str,
         
         # If there are no valid runs, skip the average computation
         if len(metrics_per_run) > 0:
-            avg_performance = compute_average_performance(
-                metrics_dir, results, metrics_per_run, model_name, experiment, logger
-            )
-            append_to_evaluation_summary(
-                avg_performance, os.path.join(results_dir, "metrics_by_experiment.csv"), logger
+            avg_by_experiment_run_path = os.path.join(results_dir, "avg_by_experiment_run.csv")
+            # Compute and store average for this experiment run
+            compute_experiment_run_avg(
+                metrics_dir, results, metrics_per_run, model_name, experiment, avg_by_experiment_run_path, logger
             )
         else:
             logger.warning(f"No valid runs found for model {model_name} in experiment {experiment}.")
