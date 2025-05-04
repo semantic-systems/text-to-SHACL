@@ -11,7 +11,7 @@ import os
 import rdflib
 import time
 from rdflib import Graph
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Any
 from sklearn import preprocessing
 from sklearn.metrics import precision_score, recall_score, f1_score, accuracy_score
 from scipy.optimize import linear_sum_assignment
@@ -23,7 +23,7 @@ from Utils.Logger import setup_logger
 from Utils.Parsing import norm_string
 
 # Constants
-GED_TIMEOUT = 100
+GED_TIMEOUT = 120
 
 class GraphMatcher:
     """ 
@@ -48,14 +48,14 @@ class GraphMatcher:
         self.ged_timed_out = 0
         self.logger = setup_logger(__name__, logfile)
     
-    def _normalize_iri(self, iri: str) -> str:
+    def _normalize_resource(self, resource: Any) -> str:
         """Normalizes blank nodes and spelling of IRIs."""
-        if isinstance(iri, rdflib.term.BNode):
+        if isinstance(resource, rdflib.term.BNode):
             # Replace memory address with a common identifier for blank nodes
             return "_:blank"
         else:
             # Convert to lowercase and strip leading/trailing spaces
-            return norm_string(iri)
+            return norm_string(resource)
     
     def _load_triples(self, turtle_file_path: str) -> List[Tuple[str,str,str]]:
         """Extracts a list of normalized triples from a Turtle file."""
@@ -63,11 +63,16 @@ class GraphMatcher:
         try:
             graph = rdflib.Graph()
             graph.parse(turtle_file_path, format="turtle")
-
+            
+            # Ignore SHACL messages
+            SH = rdflib.Namespace("http://www.w3.org/ns/shacl#")
+            exclude_iri = SH.message
             triples = [
-                (self._normalize_iri(s), self._normalize_iri(p), self._normalize_iri(o))
+                (self._normalize_resource(s), self._normalize_resource(p), self._normalize_resource(o))
                 for s, p, o in graph
+                if exclude_iri not in (s, p, o)
             ]
+
             return triples
         except Exception as e:
             self.logger.error(f"Error loading triples from {turtle_file_path}: {e}")
@@ -79,8 +84,12 @@ class GraphMatcher:
             rdf_graph = rdflib.Graph()
             rdf_graph.parse(turtle_file_path, format="turtle")
             digraph = nx.DiGraph()
-            for subject, predicate, object in rdf_graph:
-                digraph.add_edge(subject, object, predicate=predicate)
+            
+            # Ignore SHACL messages
+            exclude_iri = rdflib.URIRef("http://www.w3.org/ns/shacl#message")
+            for s, p, o in rdf_graph:
+                if exclude_iri not in (s, p, o):
+                    digraph.add_edge(s, o, predicate=p)
             return digraph
         except Exception as e:
             self.logger.error(f"Error loading DiGraph from {turtle_file_path}: {e}")
