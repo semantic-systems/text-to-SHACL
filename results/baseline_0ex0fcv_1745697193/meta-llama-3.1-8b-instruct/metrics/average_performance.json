@@ -31,6 +31,5 @@
     "ged_timeout_valid_only": 1.0,
     "runtime (sec)": 11.6638,
     "completion_tokens": 719.9048,
-    "prompt_tokens": 8022.2857,
-    "total_tokens": 8742.1905
+    "prompt_tokens": 8022.2857
 }

@@ -31,6 +31,5 @@
     "validation_f1_valid_only": 0.0232,
     "runtime (sec)": 21.6435,
     "completion_tokens": 500.0952,
-    "prompt_tokens": 8035.2857,
-    "total_tokens": 8535.381
+    "prompt_tokens": 8035.2857
 }
