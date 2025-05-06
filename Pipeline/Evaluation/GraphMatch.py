@@ -182,12 +182,13 @@ class GraphMatcher:
             "gbert_f1": round(gbert_f1,4)
         }
 
-    def compute_ged(self) -> float:
+    def compute_ged(self, timeout: str = GED_TIMEOUT) -> float:
         """
         Computes Graph Edit Distance (GED), which measures the costs of 
         transforming the generated graph into a graph that is isomorphic
         to the gold graph. Normalizes the GED to fall between 0 and 1.
         
+        :param timeout: Timeout for the GED computation in seconds.
         :return: Normalized GED between the generated and gold graphs.
         """
         gold_graph = self._load_digraph(self.gold_file_path)
@@ -202,7 +203,7 @@ class GraphMatcher:
 
         self.logger.info("Computing GED...")
         start_time = time.time()
-        ged = nx.graph_edit_distance(gold_graph, gen_graph, timeout=GED_TIMEOUT)
+        ged = nx.graph_edit_distance(gold_graph, gen_graph, timeout=timeout)
         elapsed_time = time.time() - start_time
 
         # Logging timeout, meaning the result may not be exact
@@ -243,16 +244,16 @@ class GraphMatcher:
                 self.logger.error(f"Error validating {profile_path}: {e}")
                 continue
             
-            if conforms_with_gen and conforms_with_gold:
+            if conforms_with_gen and conforms_with_gold: # true positive
                 y_pred.append(1)
                 y_true.append(1)
-            elif not conforms_with_gen and not conforms_with_gold:
+            elif not conforms_with_gen and not conforms_with_gold: # true negative
                 y_pred.append(0)
                 y_true.append(0)
-            elif conforms_with_gen and not conforms_with_gold:
+            elif conforms_with_gen and not conforms_with_gold: # false positive
                 y_pred.append(1)
                 y_true.append(0)
-            else:
+            else: # false negative
                 y_pred.append(0)
                 y_true.append(1)
                 
