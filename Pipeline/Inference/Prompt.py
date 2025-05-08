@@ -1,7 +1,11 @@
 """ 
 Prompt.py
 
-Class to dynamically construct and render prompts based on a specified mode. 
+Class to construct and render prompts based on a specified mode.
+Supported modes include baseline (no examples), fewshot (variable
+number of examples), and chain-of-thought (CoT) prompting.
+Where applicable, examples are retrieved based on the similarity
+of input embeddings.
 """
 
 import os
@@ -143,35 +147,12 @@ class PromptHandler:
     def _load_fewshot_examples(self) -> str:
         """Returns fewshot examples from train set.
         
-        The examples include an input with a correct solution, and are 
-        selected based on the similarity of input embeddings.
+        Each example includes:
+            - Input: Eligibility requirements for a social benefit.
+            - Output: The corresponding ground truth SHACL graph.
+        They are selected based on the similarity of input embeddings.
         """        
-        # Generate list of correct input-output pairs
-        examples = []
-        for train_file in self.train_files:
-            text = self._load_input(train_file)
-            shacl = self._load_shacl_gold(os.path.basename(train_file))
-            examples.append({"text": text, "shacl": shacl})
-        
-        # Prepare embedding model
-        model_name = "sentence-transformers/all-mpnet-base-v2"
-        model_kwargs = {'device': 'cuda'}
-        encode_kwargs = {'normalize_embeddings': False}
-        embeddings = HuggingFaceEmbeddings(
-            model_name=model_name,
-            model_kwargs=model_kwargs,
-            encode_kwargs=encode_kwargs
-        )
-
-        # Select examples based on similarity of input embeddings
-        example_selector = SemanticSimilarityExampleSelector.from_examples(
-            examples,
-            embeddings=embeddings,
-            vectorstore_cls=Chroma,
-            k=self.num_examples,
-        )
-        selected_examples = example_selector.select_examples({"input": self.prompt_components["input"]})
-        
+        selected_examples = self._select_semantic_similarity_examples()
         example_tmpl_path = os.path.join(self.prompt_components_dir, self.mode, f"example_template.txt")
         
         examples = []
@@ -192,8 +173,11 @@ class PromptHandler:
     def _load_cot_examples(self) -> str:
         """Returns chain-of-thought examples from train set.
         
-        The examples include an input and a step-by-step solution, and are 
-        selected based on the similarity of input embeddings.
+        Each example includes:
+            - Input: Eligibility requirements for a social benefit.
+            - Output: A step-by-step solution including the corresponding 
+                ground truth SHACL graph at the end.
+        They are selected based on the similarity of input embeddings.
         """
         selected_examples = self._select_semantic_similarity_examples()
         example_tmpl_path = os.path.join(self.prompt_components_dir, self.mode, f"example_template.txt")
