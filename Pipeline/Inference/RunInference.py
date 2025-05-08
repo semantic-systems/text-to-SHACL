@@ -21,7 +21,7 @@ from langchain_openai.chat_models.base import ChatOpenAI
 from .Model import ModelHandler
 from .Prompt import PromptHandler
 from Utils.Logger import setup_logger
-from Utils.Parsing import retrieve_parsable_turtle, get_idlb_from_label, normalize_mode, generate_parsed_output_path
+from Utils.Parsing import retrieve_parsable_turtle, get_idlb_from_label, normalize_mode, save_turtle_output
 from resources.schemata.method_schema import supported_modes
 
 # Constants
@@ -117,7 +117,7 @@ def process_file(filepath: str,
     :param parsed_output_dir: Directory to save the parsed output.
     :param logger: Logger instance.
     :param groundtruth_dir: Directory with SHACL gold files for examples.
-    :param train_files: List of files from which examples are sampled.
+    :param train_files: List of filepaths from which examples are sampled.
     :param num_examples: Number of examples for fewshot or cot modes.
     
     :return: Summary of results including metadata, rendered prompt and
@@ -160,7 +160,7 @@ def process_file(filepath: str,
         raw_response = response.content
         token_usage = response.response_metadata["token_usage"]
         turtle_output = retrieve_parsable_turtle(response.content, logfile=logger.log_file)
-        parsed_output_path = generate_parsed_output_path(turtle_output, parsed_output_dir, run_key, logger.log_file)
+        parsed_output_path = save_turtle_output(turtle_output, parsed_output_dir, run_key, logger.log_file)
 
         metadata.update({
             "valid_turtle": int(turtle_output is not None),
