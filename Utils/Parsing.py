@@ -135,13 +135,15 @@ def get_decomposition_section(file_path: str, logger: logging.Logger) -> str:
         logger.error("Failed to extract 'Requirements decomposition' for chain of thought example.")
 
 
-def generate_parsed_output_path(turtle_output: Optional[str], parsed_output_dir: str, run_key: str, logfile: str = "logs/Parsing.log") -> Optional[str]:
+def save_turtle_output(turtle_output: Optional[str], parsed_output_dir: str, run_key: str, logfile: str = "logs/Parsing.log") -> Optional[str]:
     """Writes the given Turtle content to a file if the content is not empty.
 
-    :param turtle_output: The Turtle-formatted RDF content to be saved. If None or empty, nothing is saved.
-    :param parsed_output_dir: Directory where the parsed output file should be saved.
-    :param run_key: Unique identifier used to name the output file.
+    :param turtle_output: The Turtle-formatted RDF content to be saved. 
+        If None or empty, nothing is saved.
+    :param parsed_output_dir: Directory to save the parsed output file.
+    :param run_key: Identifier for naming the output file.
     :param logfile: Path to the log file.
+    
     :return: The path to the saved file if successful, otherwise None.
     """
     logger = setup_logger(__name__, logfile)
