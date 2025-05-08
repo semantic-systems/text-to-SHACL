@@ -1,0 +1,352 @@
+[
+    {
+        "Timeout": 60,
+        "GED": 0.6144578313253012,
+        "Runtime": 60.0077702999115,
+        "SHACL gold": "/home/seike/Thesis_Local/text-to-SHACL/data/processed/shacl_gold/grundsicherung.ttl",
+        "SHACL gen": "results/baseline_0ex0fcv_1745697193/mistral-large-instruct/output/parsed_output/baseline_mistral-large-instruct_grundsicherung.ttl"
+    },
+    {
+        "Timeout": 60,
+        "GED": 0.5259259259259259,
+        "Runtime": 60.006694316864014,
+        "SHACL gold": "/home/seike/Thesis_Local/text-to-SHACL/data/processed/shacl_gold/guv_rente.ttl",
+        "SHACL gen": "results/baseline_0ex0fcv_1745697193/mistral-large-instruct/output/parsed_output/baseline_mistral-large-instruct_guv-rente.ttl"
+    },
+    {
+        "Timeout": 60,
+        "GED": 0.7456647398843931,
+        "Runtime": 60.01141858100891,
+        "SHACL gold": "/home/seike/Thesis_Local/text-to-SHACL/data/processed/shacl_gold/kindergeld.ttl",
+        "SHACL gen": "results/baseline_0ex0fcv_1745697193/mistral-large-instruct/output/parsed_output/baseline_mistral-large-instruct_kindergeld.ttl"
+    },
+    {
+        "Timeout": 60,
+        "GED": 0.4714285714285714,
+        "Runtime": 60.004796743392944,
+        "SHACL gold": "/home/seike/Thesis_Local/text-to-SHACL/data/processed/shacl_gold/bildung_und_teilhabe.ttl",
+        "SHACL gen": "results/baseline_0ex0fcv_1745697193/mistral-large-instruct/output/parsed_output/baseline_mistral-large-instruct_bildung-und-teilhabe.ttl"
+    },
+    {
+        "Timeout": 60,
+        "GED": 0.5072463768115942,
+        "Runtime": 60.005143880844116,
+        "SHACL gold": "/home/seike/Thesis_Local/text-to-SHACL/data/processed/shacl_gold/guv_verletztengeld.ttl",
+        "SHACL gen": "results/baseline_0ex0fcv_1745697193/mistral-large-instruct/output/parsed_output/baseline_mistral-large-instruct_guv-verletztengeld.ttl"
+    },
+    {
+        "Timeout": 120,
+        "GED": 0.5662650602409639,
+        "Runtime": 120.00564885139465,
+        "SHACL gold": "/home/seike/Thesis_Local/text-to-SHACL/data/processed/shacl_gold/grundsicherung.ttl",
+        "SHACL gen": "results/baseline_0ex0fcv_1745697193/mistral-large-instruct/output/parsed_output/baseline_mistral-large-instruct_grundsicherung.ttl"
+    },
+    {
+        "Timeout": 120,
+        "GED": 0.45185185185185184,
+        "Runtime": 120.00476455688477,
+        "SHACL gold": "/home/seike/Thesis_Local/text-to-SHACL/data/processed/shacl_gold/guv_rente.ttl",
+        "SHACL gen": "results/baseline_0ex0fcv_1745697193/mistral-large-instruct/output/parsed_output/baseline_mistral-large-instruct_guv-rente.ttl"
+    },
+    {
+        "Timeout": 120,
+        "GED": 0.7398843930635838,
+        "Runtime": 120.01127791404724,
+        "SHACL gold": "/home/seike/Thesis_Local/text-to-SHACL/data/processed/shacl_gold/kindergeld.ttl",
+        "SHACL gen": "results/baseline_0ex0fcv_1745697193/mistral-large-instruct/output/parsed_output/baseline_mistral-large-instruct_kindergeld.ttl"
+    },
+    {
+        "Timeout": 120,
+        "GED": 0.4857142857142857,
+        "Runtime": 120.00443196296692,
+        "SHACL gold": "/home/seike/Thesis_Local/text-to-SHACL/data/processed/shacl_gold/bildung_und_teilhabe.ttl",
+        "SHACL gen": "results/baseline_0ex0fcv_1745697193/mistral-large-instruct/output/parsed_output/baseline_mistral-large-instruct_bildung-und-teilhabe.ttl"
+    },
+    {
+        "Timeout": 120,
+        "GED": 0.5217391304347826,
+        "Runtime": 120.0044538974762,
+        "SHACL gold": "/home/seike/Thesis_Local/text-to-SHACL/data/processed/shacl_gold/guv_verletztengeld.ttl",
+        "SHACL gen": "results/baseline_0ex0fcv_1745697193/mistral-large-instruct/output/parsed_output/baseline_mistral-large-instruct_guv-verletztengeld.ttl"
+    },
+    {
+        "Timeout": 180,
+        "GED": 0.5662650602409639,
+        "Runtime": 180.00539660453796,
+        "SHACL gold": "/home/seike/Thesis_Local/text-to-SHACL/data/processed/shacl_gold/grundsicherung.ttl",
+        "SHACL gen": "results/baseline_0ex0fcv_1745697193/mistral-large-instruct/output/parsed_output/baseline_mistral-large-instruct_grundsicherung.ttl"
+    },
+    {
+        "Timeout": 180,
+        "GED": 0.48148148148148145,
+        "Runtime": 180.00448632240295,
+        "SHACL gold": "/home/seike/Thesis_Local/text-to-SHACL/data/processed/shacl_gold/guv_rente.ttl",
+        "SHACL gen": "results/baseline_0ex0fcv_1745697193/mistral-large-instruct/output/parsed_output/baseline_mistral-large-instruct_guv-rente.ttl"
+    },
+    {
+        "Timeout": 180,
+        "GED": 0.7398843930635838,
+        "Runtime": 180.0105264186859,
+        "SHACL gold": "/home/seike/Thesis_Local/text-to-SHACL/data/processed/shacl_gold/kindergeld.ttl",
+        "SHACL gen": "results/baseline_0ex0fcv_1745697193/mistral-large-instruct/output/parsed_output/baseline_mistral-large-instruct_kindergeld.ttl"
+    },
+    {
+        "Timeout": 180,
+        "GED": 0.45714285714285713,
+        "Runtime": 180.00443029403687,
+        "SHACL gold": "/home/seike/Thesis_Local/text-to-SHACL/data/processed/shacl_gold/bildung_und_teilhabe.ttl",
+        "SHACL gen": "results/baseline_0ex0fcv_1745697193/mistral-large-instruct/output/parsed_output/baseline_mistral-large-instruct_bildung-und-teilhabe.ttl"
+    },
+    {
+        "Timeout": 180,
+        "GED": 0.4927536231884058,
+        "Runtime": 180.0043647289276,
+        "SHACL gold": "/home/seike/Thesis_Local/text-to-SHACL/data/processed/shacl_gold/guv_verletztengeld.ttl",
+        "SHACL gen": "results/baseline_0ex0fcv_1745697193/mistral-large-instruct/output/parsed_output/baseline_mistral-large-instruct_guv-verletztengeld.ttl"
+    },
+    {
+        "Timeout": 240,
+        "GED": 0.6144578313253012,
+        "Runtime": 240.00553154945374,
+        "SHACL gold": "/home/seike/Thesis_Local/text-to-SHACL/data/processed/shacl_gold/grundsicherung.ttl",
+        "SHACL gen": "results/baseline_0ex0fcv_1745697193/mistral-large-instruct/output/parsed_output/baseline_mistral-large-instruct_grundsicherung.ttl"
+    },
+    {
+        "Timeout": 240,
+        "GED": 0.48148148148148145,
+        "Runtime": 240.0065267086029,
+        "SHACL gold": "/home/seike/Thesis_Local/text-to-SHACL/data/processed/shacl_gold/guv_rente.ttl",
+        "SHACL gen": "results/baseline_0ex0fcv_1745697193/mistral-large-instruct/output/parsed_output/baseline_mistral-large-instruct_guv-rente.ttl"
+    },
+    {
+        "Timeout": 240,
+        "GED": 0.7514450867052023,
+        "Runtime": 240.01178455352783,
+        "SHACL gold": "/home/seike/Thesis_Local/text-to-SHACL/data/processed/shacl_gold/kindergeld.ttl",
+        "SHACL gen": "results/baseline_0ex0fcv_1745697193/mistral-large-instruct/output/parsed_output/baseline_mistral-large-instruct_kindergeld.ttl"
+    },
+    {
+        "Timeout": 240,
+        "GED": 0.42857142857142855,
+        "Runtime": 240.00444865226746,
+        "SHACL gold": "/home/seike/Thesis_Local/text-to-SHACL/data/processed/shacl_gold/bildung_und_teilhabe.ttl",
+        "SHACL gen": "results/baseline_0ex0fcv_1745697193/mistral-large-instruct/output/parsed_output/baseline_mistral-large-instruct_bildung-und-teilhabe.ttl"
+    },
+    {
+        "Timeout": 240,
+        "GED": 0.4927536231884058,
+        "Runtime": 240.00475192070007,
+        "SHACL gold": "/home/seike/Thesis_Local/text-to-SHACL/data/processed/shacl_gold/guv_verletztengeld.ttl",
+        "SHACL gen": "results/baseline_0ex0fcv_1745697193/mistral-large-instruct/output/parsed_output/baseline_mistral-large-instruct_guv-verletztengeld.ttl"
+    },
+    {
+        "Timeout": 300,
+        "GED": 0.6024096385542169,
+        "Runtime": 300.00537943840027,
+        "SHACL gold": "/home/seike/Thesis_Local/text-to-SHACL/data/processed/shacl_gold/grundsicherung.ttl",
+        "SHACL gen": "results/baseline_0ex0fcv_1745697193/mistral-large-instruct/output/parsed_output/baseline_mistral-large-instruct_grundsicherung.ttl"
+    },
+    {
+        "Timeout": 300,
+        "GED": 0.5259259259259259,
+        "Runtime": 300.00470423698425,
+        "SHACL gold": "/home/seike/Thesis_Local/text-to-SHACL/data/processed/shacl_gold/guv_rente.ttl",
+        "SHACL gen": "results/baseline_0ex0fcv_1745697193/mistral-large-instruct/output/parsed_output/baseline_mistral-large-instruct_guv-rente.ttl"
+    },
+    {
+        "Timeout": 300,
+        "GED": 0.7225433526011561,
+        "Runtime": 300.0115613937378,
+        "SHACL gold": "/home/seike/Thesis_Local/text-to-SHACL/data/processed/shacl_gold/kindergeld.ttl",
+        "SHACL gen": "results/baseline_0ex0fcv_1745697193/mistral-large-instruct/output/parsed_output/baseline_mistral-large-instruct_kindergeld.ttl"
+    },
+    {
+        "Timeout": 300,
+        "GED": 0.42857142857142855,
+        "Runtime": 300.0047035217285,
+        "SHACL gold": "/home/seike/Thesis_Local/text-to-SHACL/data/processed/shacl_gold/bildung_und_teilhabe.ttl",
+        "SHACL gen": "results/baseline_0ex0fcv_1745697193/mistral-large-instruct/output/parsed_output/baseline_mistral-large-instruct_bildung-und-teilhabe.ttl"
+    },
+    {
+        "Timeout": 300,
+        "GED": 0.5217391304347826,
+        "Runtime": 300.00449109077454,
+        "SHACL gold": "/home/seike/Thesis_Local/text-to-SHACL/data/processed/shacl_gold/guv_verletztengeld.ttl",
+        "SHACL gen": "results/baseline_0ex0fcv_1745697193/mistral-large-instruct/output/parsed_output/baseline_mistral-large-instruct_guv-verletztengeld.ttl"
+    },
+    {
+        "Timeout": 360,
+        "GED": 0.7514450867052023,
+        "Runtime": 360.01560068130493,
+        "SHACL gold": "/home/seike/Thesis_Local/text-to-SHACL/data/processed/shacl_gold/kindergeld.ttl",
+        "SHACL gen": "results/baseline_0ex0fcv_1745697193/mistral-large-instruct/output/parsed_output/baseline_mistral-large-instruct_kindergeld.ttl"
+    },
+    {
+        "Timeout": 360,
+        "GED": 0.5362318840579711,
+        "Runtime": 360.0049886703491,
+        "SHACL gold": "/home/seike/Thesis_Local/text-to-SHACL/data/processed/shacl_gold/guv_verletztengeld.ttl",
+        "SHACL gen": "results/baseline_0ex0fcv_1745697193/mistral-large-instruct/output/parsed_output/baseline_mistral-large-instruct_guv-verletztengeld.ttl"
+    },
+    {
+        "Timeout": 360,
+        "GED": 0.5783132530120482,
+        "Runtime": 360.00562047958374,
+        "SHACL gold": "/home/seike/Thesis_Local/text-to-SHACL/data/processed/shacl_gold/grundsicherung.ttl",
+        "SHACL gen": "results/baseline_0ex0fcv_1745697193/mistral-large-instruct/output/parsed_output/baseline_mistral-large-instruct_grundsicherung.ttl"
+    },
+    {
+        "Timeout": 360,
+        "GED": 0.4,
+        "Runtime": 360.00437235832214,
+        "SHACL gold": "/home/seike/Thesis_Local/text-to-SHACL/data/processed/shacl_gold/bildung_und_teilhabe.ttl",
+        "SHACL gen": "results/baseline_0ex0fcv_1745697193/mistral-large-instruct/output/parsed_output/baseline_mistral-large-instruct_bildung-und-teilhabe.ttl"
+    },
+    {
+        "Timeout": 360,
+        "GED": 0.4962962962962963,
+        "Runtime": 360.00579810142517,
+        "SHACL gold": "/home/seike/Thesis_Local/text-to-SHACL/data/processed/shacl_gold/guv_rente.ttl",
+        "SHACL gen": "results/baseline_0ex0fcv_1745697193/mistral-large-instruct/output/parsed_output/baseline_mistral-large-instruct_guv-rente.ttl"
+    },
+    {
+        "Timeout": 420,
+        "GED": 0.7514450867052023,
+        "Runtime": 420.01326036453247,
+        "SHACL gold": "/home/seike/Thesis_Local/text-to-SHACL/data/processed/shacl_gold/kindergeld.ttl",
+        "SHACL gen": "results/baseline_0ex0fcv_1745697193/mistral-large-instruct/output/parsed_output/baseline_mistral-large-instruct_kindergeld.ttl"
+    },
+    {
+        "Timeout": 420,
+        "GED": 0.5217391304347826,
+        "Runtime": 420.00500226020813,
+        "SHACL gold": "/home/seike/Thesis_Local/text-to-SHACL/data/processed/shacl_gold/guv_verletztengeld.ttl",
+        "SHACL gen": "results/baseline_0ex0fcv_1745697193/mistral-large-instruct/output/parsed_output/baseline_mistral-large-instruct_guv-verletztengeld.ttl"
+    },
+    {
+        "Timeout": 420,
+        "GED": 0.6024096385542169,
+        "Runtime": 420.005957365036,
+        "SHACL gold": "/home/seike/Thesis_Local/text-to-SHACL/data/processed/shacl_gold/grundsicherung.ttl",
+        "SHACL gen": "results/baseline_0ex0fcv_1745697193/mistral-large-instruct/output/parsed_output/baseline_mistral-large-instruct_grundsicherung.ttl"
+    },
+    {
+        "Timeout": 420,
+        "GED": 0.4714285714285714,
+        "Runtime": 420.00570273399353,
+        "SHACL gold": "/home/seike/Thesis_Local/text-to-SHACL/data/processed/shacl_gold/bildung_und_teilhabe.ttl",
+        "SHACL gen": "results/baseline_0ex0fcv_1745697193/mistral-large-instruct/output/parsed_output/baseline_mistral-large-instruct_bildung-und-teilhabe.ttl"
+    },
+    {
+        "Timeout": 420,
+        "GED": 0.5111111111111111,
+        "Runtime": 420.0046582221985,
+        "SHACL gold": "/home/seike/Thesis_Local/text-to-SHACL/data/processed/shacl_gold/guv_rente.ttl",
+        "SHACL gen": "results/baseline_0ex0fcv_1745697193/mistral-large-instruct/output/parsed_output/baseline_mistral-large-instruct_guv-rente.ttl"
+    },
+    {
+        "Timeout": 480,
+        "GED": 0.7283236994219653,
+        "Runtime": 480.01125931739807,
+        "SHACL gold": "/home/seike/Thesis_Local/text-to-SHACL/data/processed/shacl_gold/kindergeld.ttl",
+        "SHACL gen": "results/baseline_0ex0fcv_1745697193/mistral-large-instruct/output/parsed_output/baseline_mistral-large-instruct_kindergeld.ttl"
+    },
+    {
+        "Timeout": 480,
+        "GED": 0.5217391304347826,
+        "Runtime": 480.00541830062866,
+        "SHACL gold": "/home/seike/Thesis_Local/text-to-SHACL/data/processed/shacl_gold/guv_verletztengeld.ttl",
+        "SHACL gen": "results/baseline_0ex0fcv_1745697193/mistral-large-instruct/output/parsed_output/baseline_mistral-large-instruct_guv-verletztengeld.ttl"
+    },
+    {
+        "Timeout": 480,
+        "GED": 0.5783132530120482,
+        "Runtime": 480.00503492355347,
+        "SHACL gold": "/home/seike/Thesis_Local/text-to-SHACL/data/processed/shacl_gold/grundsicherung.ttl",
+        "SHACL gen": "results/baseline_0ex0fcv_1745697193/mistral-large-instruct/output/parsed_output/baseline_mistral-large-instruct_grundsicherung.ttl"
+    },
+    {
+        "Timeout": 480,
+        "GED": 0.5142857142857142,
+        "Runtime": 480.0045473575592,
+        "SHACL gold": "/home/seike/Thesis_Local/text-to-SHACL/data/processed/shacl_gold/bildung_und_teilhabe.ttl",
+        "SHACL gen": "results/baseline_0ex0fcv_1745697193/mistral-large-instruct/output/parsed_output/baseline_mistral-large-instruct_bildung-und-teilhabe.ttl"
+    },
+    {
+        "Timeout": 480,
+        "GED": 0.5111111111111111,
+        "Runtime": 480.00561904907227,
+        "SHACL gold": "/home/seike/Thesis_Local/text-to-SHACL/data/processed/shacl_gold/guv_rente.ttl",
+        "SHACL gen": "results/baseline_0ex0fcv_1745697193/mistral-large-instruct/output/parsed_output/baseline_mistral-large-instruct_guv-rente.ttl"
+    },
+    {
+        "Timeout": 540,
+        "GED": 0.7456647398843931,
+        "Runtime": 540.0127892494202,
+        "SHACL gold": "/home/seike/Thesis_Local/text-to-SHACL/data/processed/shacl_gold/kindergeld.ttl",
+        "SHACL gen": "results/baseline_0ex0fcv_1745697193/mistral-large-instruct/output/parsed_output/baseline_mistral-large-instruct_kindergeld.ttl"
+    },
+    {
+        "Timeout": 540,
+        "GED": 0.5362318840579711,
+        "Runtime": 540.0056931972504,
+        "SHACL gold": "/home/seike/Thesis_Local/text-to-SHACL/data/processed/shacl_gold/guv_verletztengeld.ttl",
+        "SHACL gen": "results/baseline_0ex0fcv_1745697193/mistral-large-instruct/output/parsed_output/baseline_mistral-large-instruct_guv-verletztengeld.ttl"
+    },
+    {
+        "Timeout": 540,
+        "GED": 0.6385542168674698,
+        "Runtime": 540.0066025257111,
+        "SHACL gold": "/home/seike/Thesis_Local/text-to-SHACL/data/processed/shacl_gold/grundsicherung.ttl",
+        "SHACL gen": "results/baseline_0ex0fcv_1745697193/mistral-large-instruct/output/parsed_output/baseline_mistral-large-instruct_grundsicherung.ttl"
+    },
+    {
+        "Timeout": 540,
+        "GED": 0.45714285714285713,
+        "Runtime": 540.0046784877777,
+        "SHACL gold": "/home/seike/Thesis_Local/text-to-SHACL/data/processed/shacl_gold/bildung_und_teilhabe.ttl",
+        "SHACL gen": "results/baseline_0ex0fcv_1745697193/mistral-large-instruct/output/parsed_output/baseline_mistral-large-instruct_bildung-und-teilhabe.ttl"
+    },
+    {
+        "Timeout": 540,
+        "GED": 0.48148148148148145,
+        "Runtime": 540.0056643486023,
+        "SHACL gold": "/home/seike/Thesis_Local/text-to-SHACL/data/processed/shacl_gold/guv_rente.ttl",
+        "SHACL gen": "results/baseline_0ex0fcv_1745697193/mistral-large-instruct/output/parsed_output/baseline_mistral-large-instruct_guv-rente.ttl"
+    },
+    {
+        "Timeout": 600,
+        "GED": 0.7398843930635838,
+        "Runtime": 600.0125186443329,
+        "SHACL gold": "/home/seike/Thesis_Local/text-to-SHACL/data/processed/shacl_gold/kindergeld.ttl",
+        "SHACL gen": "results/baseline_0ex0fcv_1745697193/mistral-large-instruct/output/parsed_output/baseline_mistral-large-instruct_kindergeld.ttl"
+    },
+    {
+        "Timeout": 600,
+        "GED": 0.5362318840579711,
+        "Runtime": 600.0044162273407,
+        "SHACL gold": "/home/seike/Thesis_Local/text-to-SHACL/data/processed/shacl_gold/guv_verletztengeld.ttl",
+        "SHACL gen": "results/baseline_0ex0fcv_1745697193/mistral-large-instruct/output/parsed_output/baseline_mistral-large-instruct_guv-verletztengeld.ttl"
+    },
+    {
+        "Timeout": 600,
+        "GED": 0.6024096385542169,
+        "Runtime": 600.005145072937,
+        "SHACL gold": "/home/seike/Thesis_Local/text-to-SHACL/data/processed/shacl_gold/grundsicherung.ttl",
+        "SHACL gen": "results/baseline_0ex0fcv_1745697193/mistral-large-instruct/output/parsed_output/baseline_mistral-large-instruct_grundsicherung.ttl"
+    },
+    {
+        "Timeout": 600,
+        "GED": 0.5142857142857142,
+        "Runtime": 600.0041403770447,
+        "SHACL gold": "/home/seike/Thesis_Local/text-to-SHACL/data/processed/shacl_gold/bildung_und_teilhabe.ttl",
+        "SHACL gen": "results/baseline_0ex0fcv_1745697193/mistral-large-instruct/output/parsed_output/baseline_mistral-large-instruct_bildung-und-teilhabe.ttl"
+    },
+    {
+        "Timeout": 600,
+        "GED": 0.5259259259259259,
+        "Runtime": 600.0053734779358,
+        "SHACL gold": "/home/seike/Thesis_Local/text-to-SHACL/data/processed/shacl_gold/guv_rente.ttl",
+        "SHACL gen": "results/baseline_0ex0fcv_1745697193/mistral-large-instruct/output/parsed_output/baseline_mistral-large-instruct_guv-rente.ttl"
+    }
+]
