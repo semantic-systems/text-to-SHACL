@@ -28,26 +28,75 @@ supported_modes = {
     }
 }
 
-avg_syntax_metrics = ['valid_turtle_all', 'valid_shacl_all']
+syntax_metrics = ['valid_turtle_all', 'valid_shacl_all']
 
-avg_all_metrics = [
-    'graph_edit_distance_all', 'gbert_f1_all', 'triple_f1_all', 'validation_f1_all', 
+gm_metrics_all = [
+    'graph_edit_distance_all',
+    'gbert_f1_all',
+    # 'gbert_precision_all',
+    # 'gbert_recall_all',
+    'triple_f1_all', 
+    'triple_precision_all',
+    'triple_recall_all',
+    # 'triple_accuracy_all',
+    'validation_f1_all',
+    'validation_precision_all',
+    'validation_recall_all',
+    'validation_accuracy_all',
 ]
 
-avg_valid_only_metrics = [
-    'graph_edit_distance_valid_only', 'gbert_f1_valid_only', 'triple_f1_valid_only', 
-    'validation_f1_valid_only'
+gm_metrics_valid = [
+    'graph_edit_distance_valid_only',
+    'gbert_f1_valid_only',
+    # 'gbert_precision_valid_only',
+    # 'gbert_recall_valid_only',
+    'triple_f1_valid_only', 
+    'triple_precision_valid_only',
+    'triple_recall_valid_only',
+    # 'triple_accuracy_valid_only',
+    'validation_f1_valid_only',
+    'validation_precision_valid_only',
+    'validation_recall_valid_only',
+    'validation_accuracy_valid_only',
 ]
 
 metric_to_legend = {
+    # Graph Edit Distance
     "graph_edit_distance_all": "GED",
     "graph_edit_distance_valid_only": "GED",
+    
+    # GBERT
     "gbert_f1_all": "GBERT F1",
+    "gbert_precision_all": "GBERT Precision",
+    "gbert_recall_all": "GBERT Recall",
     "gbert_f1_valid_only": "GBERT F1",
+    "gbert_precision_valid_only": "GBERT Precision",
+    "gbert_recall_valid_only": "GBERT Recall",
+    
+    # Triple Matching
     "triple_f1_all": "Triple F1",
+    "triple_precision_all": "Triple Precision",
+    "triple_recall_all": "Triple Recall",
+    "triple_accuracy_all": "Triple Accuracy",
     "triple_f1_valid_only": "Triple F1",
+    "triple_precision_valid_only": "Triple Precision",
+    "triple_recall_valid_only": "Triple Recall",
+    "triple_accuracy_valid_only": "Triple Accuracy",
+    
+    # Validation
     "validation_f1_all": "Validation F1",
+    "validation_precision_all": "Validation Precision",
+    "validation_recall_all": "Validation Recall",
+    "validation_accuracy_all": "Validation Accuracy",
     "validation_f1_valid_only": "Validation F1",
-    "valid_turtle_all": "Valid Turtle",
-    "valid_shacl_all": "Valid SHACL",
+    "validation_precision_valid_only": "Validation Precision",
+    "validation_recall_valid_only": "Validation Recall",
+    "validation_accuracy_valid_only": "Validation Accuracy",
+    
+    # Syntax
+    "valid_turtle_all": "Turtle",
+    "valid_shacl_all": "SHACL",
+    "conversion_rate": "Conversion Rate",
+    
+    "ged_timeout_all": "GED Timeout",
 }
