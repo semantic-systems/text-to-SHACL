@@ -216,7 +216,7 @@ def run_experiment(test_dir: str,
     model_keys = (
         custom_models if custom_models
         else model_handler.base_models if mode == "baseline"
-        else model_handler.main_model
+        else model_handler.main_models
     )
     models = [model_handler.initialize_model(key) for key in model_keys]
     

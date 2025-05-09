@@ -39,7 +39,7 @@ class ModelHandler:
             ModelHandler._model_keys_cache = self.get_available_model_keys(self.base_url, self.api_key)
         self.available_models = ModelHandler._model_keys_cache
 
-        self.main_model = ['mistral-large-instruct'] # TODO: Update depending on results
+        self.main_models = ['llama-3.1-sauerkrautlm-70b-instruct', 'mistral-large-instruct', 'qwen2.5-72b-instruct']
         self.base_models = ['meta-llama-3.1-8b-instruct',
                             'qwq-32b',
                             'deepseek-r1-distill-llama-70b',
