@@ -1,0 +1,24 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+ff:UserShape
+  a sh:NodeShape ;
+  sh:targetNode ff:User ;
+  sh:property [
+    sh:path ff:hasAge ;
+    sh:maxInclusive "24"^^xsd:integer ;
+  ] ;
+  sh:property [
+    sh:path ff:receivesBenefit ;
+    sh:minCount 1 ;
+    sh:in (
+      ff:B100019_LB_106311931  # Bürgergeld
+      ff:L100040_LB_8665924    # Wohngeld
+      ff:B100019_LB_581863     # Kinderzuschlag
+      ff:SocialAssistance      # Sozialhilfe
+      ff:AsylumSeekerBenefits  # Asylbewerberleistungen
+    ) ;
+  ] .

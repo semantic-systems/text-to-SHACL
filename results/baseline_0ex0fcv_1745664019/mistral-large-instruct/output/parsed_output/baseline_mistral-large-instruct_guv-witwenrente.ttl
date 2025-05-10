@@ -1,0 +1,42 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Define the target class for the shapes
+ff:UserShape
+    a sh:NodeShape ;
+    sh:targetClass ff:User ;
+    sh:property [
+        sh:path ff:deceasedSpouse ;
+        sh:minCount 1 ;
+        sh:class ff:Person ;
+    ] ;
+    sh:property [
+        sh:path ff:deceasedCivilPartner ;
+        sh:minCount 1 ;
+        sh:class ff:Person ;
+    ] ;
+    sh:property [
+        sh:path ff:causeOfDeath ;
+        sh:node [
+            sh:or (
+                [ sh:class ff:WorkAccident ]
+                [ sh:class ff:CommutingAccident ]
+                [ sh:class ff:OccupationalDisease ]
+            ) ;
+        ] ;
+    ] ;
+    sh:property [
+        sh:path ff:hasMaritalStatus ;
+        sh:or (
+            [ sh:hasValue ff:Married ]
+            [ sh:hasValue ff:CivilUnion ]
+        ) ;
+    ] ;
+    sh:not [
+        sh:property [
+            sh:path ff:legalUnionBeforeEvent ;
+            sh:minCount 1 ;
+        ] ;
+    ] .

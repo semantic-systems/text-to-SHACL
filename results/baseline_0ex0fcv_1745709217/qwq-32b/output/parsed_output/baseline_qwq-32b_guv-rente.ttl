@@ -1,0 +1,47 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:UserShape
+  a sh:NodeShape ;
+  sh:targetNode ff:User ;
+  sh:property [
+    # Must have statutory accident insurance
+    sh:path ff:hasInsurance ;
+    sh:minCount 1 ;
+    sh:hasValue ff:StatutoryAccidentInsurance ;
+  ],
+  [
+    # Earning capacity requirements
+    sh:path ff:hasEarningCapacity ;
+    sh:minCount 1 ;
+    sh:node [
+      a sh:NodeShape ;
+      sh:property [
+        # At least 20% reduction in earning capacity
+        sh:path ff:reductionInPercent ;
+        sh:minInclusive "20"^^xsd:decimal ;
+      ],
+      [
+        # Reduction must persist beyond 26 weeks (>=27 weeks)
+        sh:path ff:reductionDurationInWeeks ;
+        sh:minInclusive "27"^^xsd:int ;
+      ],
+      [
+        # Triggering event must be an insurance-covered accident/disease
+        sh:path ff:triggeringEvent ;
+        sh:minCount 1 ;
+        sh:class [
+          sh:in (
+            ff:WorkAccident 
+            ff:SchoolAccident 
+            ff:KindergartenAccident 
+            ff:CommutingAccident 
+            ff:OccupationalDisease
+          )
+        ]
+      ]
+    ]
+  ] .

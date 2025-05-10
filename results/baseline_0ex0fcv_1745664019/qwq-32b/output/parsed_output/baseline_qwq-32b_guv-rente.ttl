@@ -1,0 +1,51 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+ff:UserShape a sh:NodeShape ;
+    sh:targetClass ff:User ;
+    sh:property [
+        sh:path ff:hasInsurance ;
+        sh:minCount 1 ;
+        sh:class ff:StatutoryAccidentInsurance ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEarningCapacity ;
+        sh:minCount 1 ;
+        sh:node [
+            a sh:NodeShape ;
+            sh:property [
+                sh:path rdf:type ;
+                sh:hasValue ff:ReducedEarningCapacity ;
+            ] ;
+            sh:property [
+                sh:path ff:reductionInPercent ;
+                sh:minInclusive "20.0"^^xsd:decimal ;
+            ] ;
+            sh:property [
+                sh:path ff:isPermanent ;
+                sh:hasValue "true"^^xsd:boolean ;
+            ] ;
+            sh:property [
+                sh:path ff:reductionDurationInWeeks ;
+                sh:minInclusive "26"^^xsd:int ;
+            ] ;
+            sh:property [
+                sh:path ff:triggeringEvent ;
+                sh:minCount 1 ;
+                sh:node [
+                    a sh:NodeShape ;
+                    sh:or (
+                        [ sh:class ff:WorkAccident ]
+                        [ sh:class ff:OccupationalDisease ]
+                        [ sh:class ff:SchoolAccident ]
+                        [ sh:class ff:KindergartenAccident ]
+                        [ sh:class ff:CommutingAccident ]
+                    )
+                ]
+            ]
+        ]
+    ]
+.

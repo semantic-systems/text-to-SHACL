@@ -1,0 +1,105 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+ff:B100019_LB_582435 a ff:SocialBenefit ;
+    rdfs:label "Gesetzliche Unfallversicherung Waisenrente"@de, "Statutory accident insurance orphan's pension"@en .
+
+# SHACL CONSTRAINTS
+ff:GUVWaisenrenteShape a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    sh:and (
+        # Requirement 1: Relationship to deceased via child/step/foster and cause of death
+        [
+            sh:or (
+                # Natural child
+                [
+                    sh:path ff:naturalChildTo ;
+                    sh:qualifiedMinCount 1 ;
+                    sh:qualifiedValueShape ff:DeceasedWithInsuranceEventShape ;
+                ]
+                # Step child
+                [
+                    sh:path ff:stepChildTo ;
+                    sh:qualifiedMinCount 1 ;
+                    sh:qualifiedValueShape ff:DeceasedWithInsuranceEventShape ;
+                ]
+                # Foster child
+                [
+                    sh:path ff:fosterChildTo ;
+                    sh:qualifiedMinCount 1 ;
+                    sh:qualifiedValueShape ff:DeceasedWithInsuranceEventShape ;
+                ]
+            )
+        ]
+        # Requirement 2: Age conditions
+        [
+            sh:or (
+                # Under 18
+                [
+                    sh:property [
+                        sh:path ff:hasAge ;
+                        sh:maxExclusive 18 ;
+                    ]
+                ]
+                # 18-26 with additional conditions
+                [
+                    sh:and (
+                        [
+                            sh:property [
+                                sh:path ff:hasAge ;
+                                sh:minInclusive 18 ;
+                                sh:maxExclusive 27 ;
+                            ]
+                        ]
+                        [
+                            sh:or (
+                                # In education/training
+                                [
+                                    sh:property [
+                                        sh:path ff:participates ;
+                                        sh:minCount 1 ;
+                                        sh:class ff:Training ;
+                                    ]
+                                ]
+                                # Disabled and cannot support self
+                                [
+                                    sh:property [
+                                        sh:path ff:cannotSupportThemselvesBecause ;
+                                        sh:qualifiedMinCount 1 ;
+                                        sh:qualifiedValueShape [
+                                            sh:property [
+                                                sh:path ff:reducesWorkProspectsPermanently ;
+                                                sh:hasValue true ;
+                                            ]
+                                        ]
+                                    ]
+                                ]
+                                # In transitional period
+                                [
+                                    sh:property [
+                                        sh:path ff:isInTransitionalPeriod ;
+                                        sh:hasValue true ;
+                                    ]
+                                ]
+                            )
+                        ]
+                    )
+                ]
+            )
+        ]
+    ) .
+
+# Supporting shapes
+ff:DeceasedWithInsuranceEventShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:causeOfDeath ;
+        sh:minCount 1 ;
+        sh:or (
+            [ sh:class ff:WorkAccident ]
+            [ sh:class ff:CommutingAccident ]
+            [ sh:class ff:OccupationalDisease ]
+        )
+    ] .

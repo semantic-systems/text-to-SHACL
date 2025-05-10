@@ -1,0 +1,134 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# Benefit definition
+ff:B100019_LB_576986 a ff:SocialBenefit ;
+    rdfs:label "Kindergeld"@de, "Child allowance"@en .
+
+# Main shape for the user
+ff:KindergeldShape a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    sh:message "Does not meet eligibility requirements for Kindergeld."@en ;
+
+    # Requirement: User has at least one child
+    sh:property [
+        sh:path ff:hasChild ;
+        sh:minCount 1 ;
+        sh:message "You must have at least one child."@en
+    ] ;
+
+    # Parent eligibility conditions (OR structure)
+    sh:or (
+        # Option 1: Unlimited income tax liability in Germany
+        [ sh:property [
+            sh:path ff:incomeTaxLiability ;
+            sh:hasValue ff:UnlimitedTaxLiability
+        ] ]
+
+        # Option 2: EU/EEA/Switzerland citizen fulfilling Freedom of Movement Act conditions
+        [ sh:and (
+            # Must be citizen of EU/EEA/Switzerland
+            [ sh:property [
+                sh:path ff:isNationalOf ;
+                sh:qualifiedMinCount 1 ;
+                sh:qualifiedValueShape [
+                    a sh:NodeShape ;
+                    sh:class ff:EEAplusCH
+                ]
+            ] ]
+
+            # Must meet at least one FMA condition
+            [ sh:or (
+                # Employed or self-employed
+                [ sh:property [
+                    sh:path ff:hasEmploymentStatus ;
+                    sh:or (
+                        [ sh:hasValue ff:Employee ]
+                        [ sh:hasValue ff:SelfEmployed ]
+                    )
+                ] ]
+
+                # Job-seeking or involuntarily unemployed
+                [ sh:property [
+                    sh:path ff:hasEmploymentStatus ;
+                    sh:or (
+                        [ sh:hasValue ff:JobSeeker ]
+                        [ sh:hasValue ff:Unemployed ]
+                    )
+                ] ]
+
+                # Derive freedom of movement from family member
+                [ sh:property [
+                    sh:path ff:derivesFreedomOfMovementFrom ;
+                    sh:minCount 1
+                ] ]
+
+                # Sufficient means of subsistence
+                [ sh:property [
+                    sh:path ff:sufficientMeansOfSubsistence ;
+                    sh:hasValue true
+                ] ]
+
+                # Permanent right of residence
+                [ sh:property [
+                    sh:path ff:permanentRightOfResidence ;
+                    sh:hasValue true
+                ] ]
+            ) ]
+        ) ]
+
+        # Option 3: Non-EU citizen with valid residence or refugee/asylee status
+        [ sh:or (
+            # Residence permit entitling to employment
+            [ sh:property [
+                sh:path ff:hasResidencePermit ;
+                sh:qualifiedMinCount 1 ;
+                sh:qualifiedValueShape [
+                    a sh:NodeShape ;
+                    sh:property [
+                        sh:path ff:entitlesToEmployment ;
+                        sh:hasValue true
+                    ]
+                ]
+            ] ]
+
+            # Refugee/asylee status
+            [ sh:or (
+                [ sh:property [
+                    sh:path ff:recognizedRefugee ;
+                    sh:hasValue true
+                ] ]
+                [ sh:property [
+                    sh:path ff:entitledToAsylum ;
+                    sh:hasValue true
+                ] ]
+            ) ]
+        ) ]
+    ) ;
+
+    # Child residence condition (OR structure)
+    sh:or (
+        # Children reside in Germany/EEA/Switzerland
+        [ sh:property [
+            sh:path ff:hasChild ;
+            sh:qualifiedMinCount 1 ;  # At least one child
+            sh:qualifiedValueShape [
+                a sh:NodeShape ;
+                sh:property [
+                    sh:path ff:countryOfResidence ;
+                    sh:or (
+                        [ sh:class ff:Germany ]
+                        [ sh:class ff:EEAplusCH ]
+                    )
+                ]
+            ] ;
+            sh:message "All children must reside in Germany or EEA/Switzerland."@en
+        ] ]
+
+        # Or parent has unlimited income tax liability (covered in Option 1)
+        [ sh:property [
+            sh:path ff:incomeTaxLiability ;
+            sh:hasValue ff:UnlimitedTaxLiability
+        ] ]
+    ) .

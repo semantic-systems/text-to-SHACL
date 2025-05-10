@@ -1,0 +1,13 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+ff:User
+  a sh:Shape ;
+  sh:property [
+      sh:predicate ff:receivesBenefit ;
+      sh:hasValue ff:B100019_LB_102716305 ;
+    ] ;
+  sh:property [
+      sh:predicate ff:needsCare ;
+      sh:class ff:CareNeed ;
+    ] .

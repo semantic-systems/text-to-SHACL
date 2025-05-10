@@ -1,0 +1,70 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:BasicSecurityShape a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    sh:property [
+        sh:path ff:canCoverPersonalBasicNeeds ;
+        sh:lessThan "true"^^xsd:boolean ; # Must be false (cannot cover needs)
+    ] ;
+    sh:or (
+        [ # Condition A: Age limit reached
+            sh:property [
+                sh:path ff:aboveSGBXII41AgeLimit ;
+                sh:hasValue "true"^^xsd:boolean
+            ]
+        ]
+        [ # Condition B: 18+ with permanent reduced earning capacity
+            sh:property [
+                sh:path ff:hasAge ;
+                sh:minInclusive "18"^^xsd:int
+            ] ;
+            sh:property [
+                sh:path ff:hasDisability ;
+                sh:hasValue "true"^^xsd:boolean
+            ] ;
+            sh:property [
+                sh:path ff:hasEarningCapacity ;
+                sh:class [ sh:in ff:ReducedEarningCapacity ] ; # Must have reduced earning capacity
+                sh:property [
+                    sh:path ff:isPermanent ;
+                    sh:hasValue "true"^^xsd:boolean # Permanent reduction
+                ]
+            ]
+        ]
+        [ # Condition C: 18+ in specified training
+            sh:property [
+                sh:path ff:hasAge ;
+                sh:minInclusive "18"^^xsd:int
+            ] ;
+            sh:or (
+                [ # Entry procedure and vocational training
+                    sh:property [
+                        sh:path ff:participates ;
+                        sh:minCount 1 ;
+                        sh:class [ sh:in ff:EntryProcedureAndVocationalTrainingArea ]
+                    ]
+                ]
+                [ # Vocational training with budget
+                    sh:property [
+                        sh:path ff:participates ;
+                        sh:minCount 1 ;
+                        sh:class [ sh:in ff:VocationalTraining ] ;
+                        sh:property [
+                            sh:path ff:commissionedByEmploymentAgency ;
+                            sh:hasValue "true"^^xsd:boolean # Training commissioned by employment agency
+                        ]
+                    ]
+                ]
+            )
+        ]
+    ) ;
+    # Social Assistance is a secondary benefit (no priority claims over it)
+    sh:property [
+        sh:path ff:hasNoPriorityClaimsOver ;
+        sh:minCount 1 ;
+        sh:class [ sh:in ( ff:SocialAssistance ) ] ; # Ensure linked to SocialAssistance
+    ] .

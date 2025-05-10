@@ -1,0 +1,54 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# METADATA
+ff:B100019_LB_102799515 a ff:SocialBenefit ;
+    rdfs:label "Gesetzliche Unfallversicherung Kinderverletztengeld"@de, "Accident Insurance Child Care Allowance"@en .
+
+# CONSTRAINTS
+ff:KinderverletztengeldShape a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    sh:message "Does not meet requirements for 'Accident Insurance Child Care Allowance'."@en ;
+    sh:property [
+        sh:path ff:hasChild ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedValueShape ff:ChildShape ;
+        sh:message "User must have at least one qualifying child in their household."@en ;
+    ] .
+
+ff:ChildShape a sh:NodeShape ;
+    # Child must be under 12 years old
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:maxExclusive 12 ;
+    ] ;
+    # Child must have suffered a school/kindergarten accident
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:minCount 1 ;
+        sh:class (ff:SchoolAccident ff:KindergartenAccident) ;
+    ] ;
+    # Child must be in the user's household
+    sh:property [
+        sh:path ff:sameHouseholdAs ;
+        sh:minCount 1 ;
+        sh:hasValue ff:User ;
+    ] ;
+    # Child must require care that the user provides exclusively
+    sh:property [
+        sh:path ff:needsCare ;
+        sh:minCount 1 ;
+        sh:message "Child must require care due to accident"@en ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedValueShape [
+            a sh:NodeShape ;
+            # Care must be provided exclusively by the user
+            sh:property [
+                sh:path ff:caregiverInHousehold ;
+                sh:minCount 1 ;
+                sh:maxCount 1 ;
+                sh:hasValue ff:User ;
+            ]
+        ]
+    ] .

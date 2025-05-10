@@ -1,0 +1,121 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+ff:B100019_LB_582435 a ff:SocialBenefit ;
+    rdfs:label "Gesetzliche Unfallversicherung Waisenrente"@de, "Statutory accident insurance orphan's pension"@en .
+
+# MAIN SHAPE
+ff:WaisenrenteShape a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    
+    # Requirement: User must have a qualifying relationship to deceased
+    sh:or (
+        # Natural child of deceased
+        [ 
+            sh:path ff:naturalChildTo ;
+            sh:qualifiedMinCount 1 ;
+            sh:qualifiedValueShape ff:DeceasedPersonShape
+        ]
+        # Step/foster child with household condition
+        [ 
+            sh:path ff:stepChildTo ;
+            sh:qualifiedMinCount 1 ;
+            sh:qualifiedValueShape ff:DeceasedStepFosterShape
+        ]
+        [ 
+            sh:path ff:fosterChildTo ;
+            sh:qualifiedMinCount 1 ;
+            sh:qualifiedValueShape ff:DeceasedStepFosterShape
+        ]
+        # Primary caregiver relationship
+        [ 
+            sh:path ff:hasPrimaryCareTaker ;
+            sh:qualifiedMinCount 1 ;
+            sh:qualifiedValueShape ff:DeceasedPersonShape
+        ]
+    ) ;
+    
+    # Age conditions and eligibility criteria for 18-27 years
+    sh:or (
+        # Under 18: No additional conditions needed
+        [ sh:path ff:hasAge ; sh:maxInclusive 17 ] 
+        # 18-27 year old with qualifying status
+        [ 
+            sh:and (
+                # Age between 18 and 27
+                [ sh:path ff:hasAge ; sh:minInclusive 18 ; sh:maxExclusive 27 ]
+                
+                # At least one of the following must apply:
+                [
+                    sh:or (
+                        # In education/training
+                        [
+                            sh:path ff:participates ;
+                            sh:minCount 1 ;
+                            sh:class [ sh:or ( ff:School ff:VocationalTraining ) ]
+                        ]
+                        # Disability preventing self-support
+                        [
+                            sh:and (
+                                # Disability reduces work prospects permanently
+                                [
+                                    sh:path ff:cannotSupportThemselvesBecause ;
+                                    sh:minCount 1 ;
+                                    sh:qualifiedValueShape [
+                                        sh:property [
+                                            sh:path ff:reducesWorkProspectsPermanently ;
+                                            sh:hasValue true
+                                        ]
+                                    ]
+                                ]
+                                # Can't cover basic needs
+                                [ sh:path ff:canCoverPersonalBasicNeeds ; sh:hasValue false ]
+                            )
+                        ]
+                        # In transitional period
+                        [ sh:path ff:isInTransitionalPeriod ; sh:hasValue true ]
+                    )
+                ]
+            )
+        ]
+    ) .
+
+# Shape for deceased persons (natural/primary caregiver)
+ff:DeceasedPersonShape a sh:NodeShape ;
+    # Cause of death must be an insurance event
+    sh:property [
+        sh:path ff:causeOfDeath ;
+        sh:minCount 1 ;
+        sh:class [ sh:or ( ff:WorkAccident ff:CommutingAccident ff:OccupationalDisease ) ]
+    ] ;
+    
+    # Must have statutory accident insurance
+    sh:property [
+        sh:path ff:hasInsurance ;
+        sh:minCount 1 ;
+        sh:hasValue ff:StatutoryAccidentInsurance
+    ] .
+
+# Shape for step/foster deceased (adds household condition)
+ff:DeceasedStepFosterShape a sh:NodeShape ;
+    # Inherit DeceasedPersonShape properties (repeated due to SHACL Core limitations)
+    sh:property [
+        sh:path ff:causeOfDeath ;
+        sh:minCount 1 ;
+        sh:class [ sh:or ( ff:WorkAccident ff:CommutingAccident ff:OccupationalDisease ) ]
+    ] ;
+    sh:property [
+        sh:path ff:hasInsurance ;
+        sh:minCount 1 ;
+        sh:hasValue ff:StatutoryAccidentInsurance
+    ] ;
+    
+    # Must be in same household as user
+    sh:property [
+        sh:path ff:sameHouseholdAs ;
+        sh:minCount 1 ;
+        sh:hasValue ff:User
+    ] .

@@ -1,0 +1,52 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+ff:WitwenrenteShape
+  a sh:NodeShape ;
+  sh:targetNode ff:User ;
+  
+  sh:property [
+    sh:or (
+      # Condition for deceased spouse with valid cause of death
+      [
+        sh:path ff:deceasedSpouse ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedValueShape [
+          a sh:NodeShape ;
+          sh:property [
+            sh:path ff:causeOfDeath ;
+            sh:class [ 
+              sh:or ( ff:WorkAccident ff:CommutingAccident ff:OccupationalDisease ) 
+            ] ;
+          ] ;
+        ] ;
+      ]
+      # Condition for deceased civil partner with valid cause of death
+      [
+        sh:path ff:deceasedCivilPartner ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedValueShape [
+          a sh:NodeShape ;
+          sh:property [
+            sh:path ff:causeOfDeath ;
+            sh:class [ 
+              sh:or ( ff:WorkAccident ff:CommutingAccident ff:OccupationalDisease ) 
+            ] ;
+          ] ;
+        ] ;
+      ]
+    )
+  ] ;
+  
+  # Ensure valid marital status before accident (either Married or CivilUnion)
+  sh:property [
+    sh:path ff:hasMaritalStatus ;
+    sh:or (
+      [ sh:hasValue ff:Married ] 
+      [ sh:hasValue ff:CivilUnion ]
+    )
+  ] ;
+.

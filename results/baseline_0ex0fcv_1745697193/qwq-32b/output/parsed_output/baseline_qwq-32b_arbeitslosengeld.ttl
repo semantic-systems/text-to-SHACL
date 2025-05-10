@@ -1,20 +1,22 @@
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix ff: <https://foerderfunke.org/default#> .
 
-ff:ShapeArbeitslosengeld
-    a sh:NodeShape ;
-    sh:targetClass ff:Person ;
+ff:ArbeitslosengeldShape a sh:NodeShape ;
+    sh:targetNode ff:User ;
     sh:property [
         sh:path ff:hasEmploymentStatus ;
+        sh:minCount 1 ;
         sh:hasValue ff:Unemployed ;
-        sh:message "Person must have employment status 'Unemployed'."@en ;
+    ],
+    [
+        sh:path ff:availableForPlacement ;
+        sh:minCount 1 ;
+        sh:hasValue true ;
     ],
     [
         sh:path ff:compulsoryInsuranceFor12In30 ;
-        sh:hasValue "true"^^xsd:boolean ;
-        sh:message "Must have 12 months of compulsory insurance in last 30 months."@en ;
-    ] ;
-.
+        sh:minCount 1 ;
+        sh:hasValue true ;
+    ] .

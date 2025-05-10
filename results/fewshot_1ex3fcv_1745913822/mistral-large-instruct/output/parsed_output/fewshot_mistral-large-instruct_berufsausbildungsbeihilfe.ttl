@@ -1,0 +1,70 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# METADATA
+
+ff:B100019_LB_574724 a ff:SocialBenefit ;
+    rdfs:label "Berufsausbildungsbeihilfe"@de, "Vocational Training Assistance"@en .
+
+# CONSTRAINTS
+
+ff:Berufsausbildungsbeihilfe a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:minExclusive 18 ;
+        sh:or (
+            [ sh:path ff:hasMaritalStatus ;
+              sh:hasValue ff:Married ]
+            [ sh:path ff:hasChild ;
+              sh:minCount 1 ]
+        ) ;
+        sh:message "User must be at least 18 years old, married, or have a child living with them."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:isNationalOf ;
+        sh:class ff:Country ;
+        sh:not [
+            sh:path ff:hasAsylumActPermit ;
+            sh:hasValue "true"^^xsd:boolean ;
+        ] ;
+        sh:message "User must not have a residence permit under the Asylum Act."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:uninterruptedLegalStayForLessThan15Months ;
+        sh:hasValue "false"^^xsd:boolean ;
+        sh:message "User must have been in Germany for at least 15 months without interruption on a permitted, authorized, or tolerated basis."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:canCoverBasicNeedsOfBenefitUnit ;
+        sh:hasValue "false"^^xsd:boolean ;
+        sh:message "User cannot cover the basic needs of themselves and their benefit unit with their income, assets, and priority benefits."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasDisability ;
+        sh:hasValue "true"^^xsd:boolean ;
+        sh:message "User with a disability must meet additional requirements for Berufsausbildungsbeihilfe."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:participates ;
+        sh:class ff:VocationalTraining ;
+        sh:or (
+            [ sh:path ff:isFirstVocationalTraining ;
+              sh:hasValue "true"^^xsd:boolean ]
+            [ sh:path ff:isVocationalReturnee ;
+              sh:hasValue "true"^^xsd:boolean ]
+        ) ;
+        sh:message "The vocational training must be the user's first training or the user must be a vocational returnee."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEmploymentStatus ;
+        sh:hasValue ff:Unemployed ;
+        sh:message "User must be unemployed to receive Berufsausbildungsbeihilfe."@en ;
+    ] ;
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:hasValue ff:B100019_LB_574724 ;
+        sh:message "User is not eligible for Berufsausbildungsbeihilfe."@en ;
+    ] .

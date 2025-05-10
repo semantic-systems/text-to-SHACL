@@ -1,0 +1,26 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:UserShape
+  a sh:NodeShape ;
+  sh:targetClass ff:User ;
+
+  sh:property [
+    sh:path ff:hasEarningCapacity ;
+    sh:hasValue ff:UnfitForWork ;  # Unfit for work due to event
+  ] ;
+
+  sh:property [
+    sh:path [ sh:sequence ( ff:hasEarningCapacity ff:triggeringEvent ) ] ; 
+    sh:class [
+      sh:or ( 
+        ff:WorkAccident 
+        ff:CommutingAccident 
+        ff:OccupationalDisease 
+      )
+    ] ;
+    sh:minCount 1 ;  # Must have at least one qualifying event
+  ] .

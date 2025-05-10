@@ -1,0 +1,43 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+
+ff:L100040_LB_12280162 a ff:SocialBenefit ;
+    rdfs:label "Bildung und Teilhabe"@de, "Education and participation"@en .
+
+# CONSTRAINTS
+
+ff:BildungUndTeilhabeShape a sh:NodeShape ;
+    ff:checksFundingRequirement ff:L100040_LB_12280162 ;
+    sh:targetNode ff:User ;
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:or (
+            [ sh:hasValue ff:B100019_LB_102716305 ; sh:message "User's family receives Bürgergeld."@en ]
+            [ sh:hasValue ff:L100040_LB_8665924 ; sh:message "User's family receives Wohngeld."@en ]
+            [ sh:hasValue ff:B100019_LB_581863 ; sh:message "User's family receives Kinderzuschlag."@en ]
+            [ sh:hasValue ff:SocialAssistance ; sh:message "User's family receives Sozialhilfe."@en ]
+            [ sh:hasValue ff:AsylumSeekerBenefits ; sh:message "User's family receives Asylbewerberleistungen."@en ]
+        ) ;
+        sh:message "Does not meet requirement 'User's family receives one of the required benefits.'"@en
+    ] ;
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:maxExclusive 25 ;
+        sh:message "Does not meet requirement 'User is not older than 25.'"@en
+    ] ;
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:minInclusive 0 ;
+        sh:message "Does not meet requirement 'User is at least 0 years old.'"@en
+    ] ;
+    # Additional 'or' condition to model users who don't receive any of the given benefits but are eligible for the Bildung und Teilhabe benefit nonetheless
+    sh:or (
+        [ sh:property [
+            sh:path ff:canCoverPersonalBasicNeeds ;
+            sh:equals false ;
+        ] ; sh:message "User cannot cover their personal basic needs with income, assets, and priority benefits."@en ]
+        [ sh:inversePath sh:isEligibleFor ; sh:hasValue ff:L100040_LB_12280162 ; sh:message "User is eligible for Bildung und Teilhabe benefit."@en ]
+    ) .

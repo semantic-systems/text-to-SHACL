@@ -1,0 +1,87 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:UserShape
+    a sh:NodeShape ;
+    sh:targetNode ff:User ;
+
+    # 1. Disability and support requirements
+    sh:property [
+        sh:path ff:hasDisability ;
+        sh:minCount 1 ;
+        sh:hasValue true ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:workforceIntegrationProblemBecause ;
+        sh:minCount 1 ;
+        sh:class ff:Disability ;
+    ] ;
+    
+    sh:property [
+        sh:path ff:hasRehabilitationProvider ;
+        sh:minCount 1 ;
+        sh:hasValue ff:FederalEmploymentAgency ;
+    ] ;
+    
+    # 2. Participation in eligible training measures
+    sh:property [
+        sh:path ff:participates ;
+        sh:minCount 1 ;
+        sh:class [
+            sh:or (
+                sh:instanceOf ff:VocationalTraining
+                sh:instanceOf ff:School
+                sh:instanceOf ff:EntryProcedureAndVocationalTrainingArea
+            )
+        ] ;
+    ] ;
+    
+    # 3. Pre-employment period conditions or exception
+    sh:property [
+        sh:or (
+            # Vocational returnee exception
+            [
+                sh:property [
+                    sh:path ff:isVocationalReturnee ;
+                    sh:hasValue true ;
+                ]
+            ]
+            
+            # Standard pre-employment conditions
+            [
+                sh:or (
+                    # 12 months social security in last 3 years
+                    [
+                        sh:property [
+                            sh:path ff:socialSecurityDuration ;
+                            sh:minCount 1 ;
+                            sh:property [
+                                sh:path ff:monthsWithinLast3Years ;
+                                sh:minInclusive 12 ;
+                            ]
+                        ]
+                    ]
+                    
+                    # Eligibility for unemployment benefit
+                    [
+                        sh:property [
+                            sh:path ff:isEligibleFor ;
+                            sh:hasValue ff:B100019_LB_576842 ;
+                        ]
+                    ]
+                    
+                    # Eligibility for SVG unemployment benefits
+                    [
+                        sh:property [
+                            sh:path ff:isEligibleFor ;
+                            sh:hasValue ff:UnemploymentBenefitsSVG ;
+                        ]
+                    ]
+                )
+            ]
+        )
+    ] .

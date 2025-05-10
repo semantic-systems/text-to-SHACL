@@ -1,0 +1,26 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:UserShape a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    sh:property [
+        # Requirement 1: User must have a work/commute accident or occupational disease
+        sh:path ff:hasEvent ;
+        sh:minCount 1 ;
+        sh:node [
+            sh:or (
+                [ sh:instanceOf ff:WorkAccident ] 
+                [ sh:instanceOf ff:CommutingAccident ] 
+                [ sh:instanceOf ff:OccupationalDisease ] 
+            )
+        ]
+    ] ;
+    sh:property [
+        # Requirement 2: User must participate in occupational rehabilitation (modeled as Training participation)
+        sh:path ff:participates ;
+        sh:minCount 1 ;
+        sh:class ff:Training
+    ] .

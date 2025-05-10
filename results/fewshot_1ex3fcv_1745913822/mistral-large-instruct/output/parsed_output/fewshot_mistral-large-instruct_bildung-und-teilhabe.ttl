@@ -1,0 +1,54 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# METADATA
+
+ff:L100040_LB_12280162 a ff:SocialBenefit ;
+    rdfs:label "Bildung und Teilhabe"@de, "Education and Participation"@en .
+
+# CONSTRAINTS
+
+ff:BildungTeilhabeShape a sh:NodeShape ;
+    ff:checksFundingRequirement ff:L100040_LB_12280162 ;
+    sh:targetNode ff:User ;
+    # User is eligible if they or their family receive one of the specified benefits
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:minCount 1 ;
+        sh:or (
+            [ sh:hasValue ff:B100019_LB_106311931 ] # Bürgergeld
+            [ sh:hasValue ff:L100040_LB_8665924 ] # Wohngeld
+            [ sh:hasValue ff:B100019_LB_581863 ] # Kinderzuschlag
+            [ sh:hasValue ff:SocialAssistance ] # Sozialhilfe
+            [ sh:hasValue ff:AsylumSeekerBenefits ] # Asylbewerberleistungen
+        ) ;
+        sh:message "Does not meet requirement 'User or their family must receive one of the specified benefits.'"@en
+    ] ;
+    # User is eligible if they have low income and cannot cover the costs themselves
+    sh:property [
+        sh:path [ sh:inversePath ff:hasIncome ] ;
+        sh:minCount 1 ;
+        sh:node ff:LowIncomeShape ;
+        sh:message "Does not meet requirement 'User must have low income and cannot cover the costs themselves.'"@en
+    ] ;
+    # User must be under 25 years old
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:minCount 1 ;
+        sh:maxExclusive 25 ;
+        sh:message "Does not meet requirement 'User must be under 25 years old.'"@en
+    ] .
+
+ff:LowIncomeShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:familyGrossIncome ;
+        sh:maxExclusive 1000 ; # Placeholder value for low income threshold
+        sh:message "Does not meet requirement 'User must have low family gross income.'"@en
+    ] ;
+    sh:property [
+        sh:path ff:personalGrossIncome ;
+        sh:maxExclusive 500 ; # Placeholder value for low personal gross income threshold
+        sh:message "Does not meet requirement 'User must have low personal gross income.'"@en
+    ] .

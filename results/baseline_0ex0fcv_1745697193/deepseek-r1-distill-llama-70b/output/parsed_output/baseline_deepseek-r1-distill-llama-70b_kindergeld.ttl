@@ -1,0 +1,41 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:UserShape
+  a sh:Shape ;
+  sh:targetClass ff:User ;
+  sh:property [
+      sh:path ff:incomeTaxLiability ;
+      sh:hasValue ff:UnlimitedTaxLiability ;
+    ] ;
+  sh:property [
+      sh:path ff:isNationalOf ;
+      sh:in (
+        ff:EEAplusCH
+      ) ;
+    ] ;
+  sh:property [
+      sh:path ff:hasResidencePermit ;
+      sh:in (
+        ff:ResidencePermit
+      ) ;
+    ] ;
+  sh:property [
+      sh:path ff:entitlesToEmployment ;
+      sh:hasValue "true" ;
+    ] ;
+  sh:property [
+      sh:path ff:recognizedRefugee ;
+      sh:hasValue "true" ;
+    ] ;
+  sh:property [
+      sh:path ff:entitledToAsylum ;
+      sh:hasValue "true" ;
+    ] ;
+  sh:property [
+      sh:path ff:countryOfResidence ;
+      sh:in (
+        ff:EEAplusCH
+      ) ;
+    ] .

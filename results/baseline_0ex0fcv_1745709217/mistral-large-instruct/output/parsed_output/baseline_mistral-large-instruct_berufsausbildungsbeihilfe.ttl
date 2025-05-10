@@ -1,0 +1,106 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:UserShape
+    a sh:NodeShape ;
+    sh:targetClass ff:User ;
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:minInclusive 18 ;
+    ] ;
+    sh:property [
+        sh:path ff:hasMaritalStatus ;
+        sh:class ff:MaritalStatus ;
+    ] ;
+    sh:property [
+        sh:path ff:hasChild ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ff:hasResidenceStatus ;
+        sh:not [ sh:hasValue ff:Tolerated ] ;
+    ] ;
+    sh:property [
+        sh:path ff:hasAsylumActPermit ;
+        sh:not [ sh:hasValue true ] ;
+    ] ;
+    sh:property [
+        sh:path ff:hasConsiderableAssets ;
+        sh:not [ sh:hasValue true ] ;
+    ] ;
+    sh:property [
+        sh:path ff:canCoverBasicNeedsOfBenefitUnit ;
+        sh:not [ sh:hasValue true ] ;
+    ] ;
+    sh:property [
+        sh:path ff:canCoverPersonalBasicNeeds ;
+        sh:not [ sh:hasValue true ] ;
+    ] ;
+    sh:property [
+        sh:path ff:receivesBenefit ;
+        sh:not [ sh:hasValue ff:B100019_LB_576842 ] ;
+    ] ;
+    sh:property [
+        sh:path ff:uninterruptedLegalStayForLessThan15Months ;
+        sh:not [ sh:hasValue true ] ;
+    ] ;
+    sh:property [
+        sh:path ff:hasDisability ;
+        sh:or (
+            [
+                sh:path ff:hasDisabilityType ;
+                sh:class ff:Disability ;
+            ]
+            [
+                sh:path ff:hasDisabilityType ;
+                sh:class ff:HearingImpairment ;
+            ]
+            [
+                sh:path ff:hasDisabilityType ;
+                sh:class ff:VisualImpairment ;
+            ]
+        ) ;
+    ] .
+
+ff:TrainingShape
+    a sh:NodeShape ;
+    sh:property [
+        sh:path ff:isFirstVocationalTraining ;
+        sh:or (
+            [ sh:hasValue true ]
+            [ sh:hasValue false ;
+              sh:qualifiedValueShape [
+                  sh:property [
+                      sh:path ff:ruleExemptionBecause ;
+                      sh:class ff:Disability ;
+                  ] ;
+              ] ;
+            ]
+        ) ;
+    ] ;
+    sh:property [
+        sh:path ff:recognizedByLaw ;
+        sh:or (
+            [ sh:hasValue ff:CraftsCode ]
+            [ sh:hasValue ff:VocationalTrainingAct ]
+            [ sh:hasValue ff:MaritimeLabourAct ]
+            [ sh:hasValue ff:NursingProfessionsAct ]
+        ) ;
+    ] ;
+    sh:property [
+        sh:path ff:subjectToContract ;
+        sh:class ff:VocationalTrainingContract ;
+    ] ;
+    sh:property [
+        sh:path ff:commissionedByEmploymentAgency ;
+        sh:hasValue true ;
+    ] ;
+    sh:property [
+        sh:path ff:percentAbroad ;
+        sh:lessThanOrEquals 50 ;
+    ] ;
+    sh:property [
+        sh:path ff:monthsAbroad ;
+        sh:maxInclusive 12 ;
+    ] .

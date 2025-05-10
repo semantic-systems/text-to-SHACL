@@ -1,0 +1,33 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+ff:User
+  a sh:Shape ;
+  sh:targetClass ff:User ;
+  sh:property [
+      sh:property ff:hasEvent ;
+      sh:minCount 1 ;
+      sh:maxCount 1 ;
+      sh:in (
+          ff:InsolvencyProceeding
+          ff:DiscontinuationOfBusiness
+          ff:InsolvencyApplication
+      )
+    ] ;
+  sh:property [
+      sh:property ff:hasEmployment ;
+      sh:minCount 1 ;
+      sh:maxCount 1 ;
+      sh:property [
+          sh:property ff:countryOfEmployment ;
+          sh:in (ff:Germany)
+        ] ;
+      sh:or [
+          sh:property ff:socialSecurityCountry ;
+          sh:in (ff:Germany)
+        ]
+    ] ;
+  sh:property [
+      sh:property ff:isEligibleFor ;
+      sh:in (ff:B100019_LB_576848)
+    ] .

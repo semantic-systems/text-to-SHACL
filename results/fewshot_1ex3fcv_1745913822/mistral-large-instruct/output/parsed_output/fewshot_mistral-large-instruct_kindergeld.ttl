@@ -1,0 +1,131 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# METADATA
+
+ff:B100019_LB_576986 a ff:SocialBenefit ;
+    rdfs:label "Kindergeld"@de, "Child allowance"@en .
+
+# CONSTRAINTS
+
+ff:KindergeldShape a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_576986 ;
+    sh:targetNode ff:User ;
+    # User is unlimited tax liable in Germany or is taxed as such
+    sh:property [
+        sh:path ff:incomeTaxLiability ;
+        sh:hasValue ff:UnlimitedTaxLiability ;
+        sh:message "Does not meet requirement 'User is unlimited tax liable in Germany or is taxed as such.'"@en
+    ] ;
+    # User is an EU, EWR, or Swiss citizen, or meets specific residence criteria
+    sh:or (
+        [
+            sh:property [
+                sh:path ff:isNationalOf ;
+                sh:hasValue ff:EEAplusCH ;
+                sh:message "Does not meet requirement 'User is an EU, EWR, or Swiss citizen.'"@en
+            ]
+        ]
+        [
+            sh:property [
+                sh:path ff:hasResidencePermit ;
+                sh:node ff:ResidencePermitShape ;
+                sh:message "Does not meet requirement 'User has a valid residence permit that allows employment.'"@en
+            ]
+        ]
+        [
+            sh:property [
+                sh:path ff:recognizedRefugee ;
+                sh:hasValue "true"^^xsd:boolean ;
+                sh:message "Does not meet requirement 'User is a legally recognized refugee.'"@en
+            ]
+        ]
+    ) ;
+    # User meets the freedom of movement criteria if they moved to Germany after August 2019
+    sh:property [
+        sh:path ff:hasEvent ;
+        sh:class ff:MoveToGermany ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedValueShape [
+            sh:property [
+                sh:path ff:hasDate ;
+                sh:minInclusive "2019-08-01T00:00:00Z"^^xsd:dateTime ;
+                sh:message "Does not meet requirement 'User moved to Germany after August 2019.'"@en
+            ] ;
+            sh:or (
+                [
+                    sh:property [
+                        sh:path ff:hasEmploymentStatus ;
+                        sh:hasValue ff:Employee ;
+                        sh:message "Does not meet requirement 'User is employed.'"@en
+                    ]
+                ]
+                [
+                    sh:property [
+                        sh:path ff:hasEmploymentStatus ;
+                        sh:hasValue ff:JobSeeker ;
+                        sh:message "Does not meet requirement 'User is job seeker.'"@en
+                    ]
+                ]
+                [
+                    sh:property [
+                        sh:path ff:hasEmploymentStatus ;
+                        sh:hasValue ff:Unemployed ;
+                        sh:message "Does not meet requirement 'User is unemployed.'"@en
+                    ]
+                ]
+                [
+                    sh:property [
+                        sh:path ff:derivesFreedomOfMovementFrom ;
+                        sh:minCount 1 ;
+                        sh:message "Does not meet requirement 'User derives freedom of movement from a family member.'"@en
+                    ]
+                ]
+                [
+                    sh:property [
+                        sh:path ff:sufficientMeansOfSubsistence ;
+                        sh:hasValue "true"^^xsd:boolean ;
+                        sh:message "Does not meet requirement 'User has sufficient means of subsistence.'"@en
+                    ]
+                ]
+                [
+                    sh:property [
+                        sh:path ff:adequateHealthInsurance ;
+                        sh:hasValue "true"^^xsd:boolean ;
+                        sh:message "Does not meet requirement 'User has adequate health insurance.'"@en
+                    ]
+                ]
+                [
+                    sh:property [
+                        sh:path ff:permanentRightOfResidence ;
+                        sh:hasValue "true"^^xsd:boolean ;
+                        sh:message "Does not meet requirement 'User has acquired a permanent right of residence.'"@en
+                    ]
+                ]
+            )
+        ]
+    ] ;
+    # User has at least one child that meets the requirements
+    sh:property [
+        sh:path ff:hasChild ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedValueShape ff:ChildShape ;
+        sh:message "Does not meet requirement 'User has at least one child that meets the requirements.'"@en
+    ] .
+
+ff:ResidencePermitShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:entitlesToEmployment ;
+        sh:hasValue "true"^^xsd:boolean ;
+        sh:message "Does not meet requirement 'Residence permit entitles to employment.'"@en
+    ] .
+
+ff:ChildShape a sh:NodeShape ;
+    # The child has residency in Germany, EU, EWR, or Switzerland
+    sh:property [
+        sh:path ff:countryOfResidence ;
+        sh:hasValue ff:Germany ;
+        sh:message "Does not meet requirement 'Child has residency in Germany, EU, EWR, or Switzerland.'"@en
+    ] .

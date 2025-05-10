@@ -1,0 +1,80 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# METADATA
+
+ff:B100019_LB_102716305 a ff:SocialBenefit ;
+    rdfs:label "Übergangsgeld für Menschen mit Behinderung"@de, "Transitional allowance for people with disabilities"@en .
+
+# CONSTRAINTS
+
+ff:ÜbergangsgeldShape a sh:NodeShape ;
+    ff:checksFundingRequirement ff:B100019_LB_102716305 ;
+    sh:targetNode ff:User ;
+    # User has a disability
+	sh:property [
+        sh:path ff:hasDisability ;
+        sh:minCount 1 ;
+        sh:in (true) ;
+        sh:message "Does not meet requirement 'User has a disability'"@en
+    ] ;
+    # User needs special support for integration into working life
+    sh:property [
+        sh:path ff:workforceIntegrationProblemBecause ;
+        sh:minCount 1 ;
+        sh:qualifiedValueShape ff:DisabilityShape ;
+        sh:message "Does not meet requirement 'User needs special support for integration into working life'"@en
+    ] ;
+    # User's rehabilitation provider is the Federal Employment Agency
+    sh:property [
+        sh:path ff:hasRehabilitationProvider ;
+        sh:minCount 1 ;
+        sh:in (ff:FederalEmploymentAgency) ;
+        sh:message "Does not meet requirement 'User's rehabilitation provider is the Federal Employment Agency'"@en
+    ] ;
+    # User participates in vocational training, vocational preparation, individual in-company qualification, measure in the entry procedure or vocational training area of a workshop for disabled people, or professional further training
+    sh:property [
+        sh:path ff:participates ;
+        sh:minCount 1 ;
+        sh:in ( 
+            ff:VocationalTraining ff:EntryProcedureAndVocationalTrainingArea 
+            ff:Berufsvorbereitung ff:UnterstützteBeschäftigung 
+            ff:Weiterbildung 
+        ) ;
+        sh:message "Does not meet requirement 'User participates in vocational training, vocational preparation, individual in-company qualification, measure in the entry procedure or vocational training area of a workshop for disabled people, or professional further training'"@en
+    ] ;
+    # User was socially insured for at least 12 months in the last 3 years
+    sh:property [
+        sh:path ff:compulsoryInsuranceFor12In30 ;
+        sh:minCount 1 ;
+        sh:in (true) ;
+        sh:message "Does not meet requirement 'User was socially insured for at least 12 months in the last 3 years'"@en
+    ] ;
+    # Exceptions to the 3-year pre-employment period
+    sh:or (
+        [
+            sh:message "User is a vocational returnee with disabilities, so the 3-year pre-employment period does not apply"@en ;
+        ]
+        [
+            sh:property [
+                sh:path ff:participates ;
+                sh:qualifiedValueShape ff:TrainingWithinLastYearShape ;
+            ] ;
+        ]
+    ) .
+
+ff:TrainingWithinLastYearShape a sh:NodeShape ;
+    # User has acquired a training certificate from a vocational school or another vocational training institution within the last year before the start of the measure and this training corresponds to vocational training in a recognized training occupation
+    sh:property [
+        sh:path ff:recognizedByLaw ;
+        sh:minCount 1 ;
+        sh:in (ff:VocationalTrainingAct) ;
+    ] ;
+    # User has obtained a certificate of completion that is equivalent to the final certificate of vocational training in a recognized training occupation
+    sh:property [
+        sh:path ff:isFirstVocationalTraining ;
+        sh:minCount 1 ;
+        sh:in (true) ;
+    ] .

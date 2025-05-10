@@ -1,28 +1,32 @@
-@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 ff:UserShape
   a sh:NodeShape ;
   sh:targetNode ff:User ;
-  
-  # Condition 1: Receives Grundsicherung (Bürgergeld)
+
+  # Condition 1: Must receive Social Assistance (Grundsicherung)
   sh:property [
     sh:path ff:receivesBenefit ;
     sh:minCount 1 ;
-    sh:hasValue ff:B100019_LB_106311931 ;  # Bürgergeld (Grundsicherung)
+    sh:hasValue ff:SocialAssistance ;
   ] ;
-  
-  # Condition 3: Participation approved by Jobcenter (commissioned training)
+
+  # Condition 3: Participation must be approved by Jobcenter before measure start
   sh:property [
     sh:path ff:participates ;
-    sh:minCount 1 ;
-    sh:node [
+    sh:minCount 1 ; # User must participate in at least one training
+    sh:qualifiedMinCount 1 ; # At least one participation must meet the criteria
+    sh:qualifiedValueShape [
       a sh:NodeShape ;
+      sh:class ff:Training ; # Ensure it's a formal training program
       sh:property [
         sh:path ff:commissionedByEmploymentAgency ;
-        sh:hasValue true ;
+        sh:minCount 1 ;
+        sh:hasValue "true"^^xsd:boolean ; # Must be commissioned by Employment Agency (Jobcenter)
       ] ;
     ] ;
   ] .

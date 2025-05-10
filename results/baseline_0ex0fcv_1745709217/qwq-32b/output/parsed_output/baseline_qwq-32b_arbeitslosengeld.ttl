@@ -1,0 +1,19 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+ff:UnemploymentBenefitShape
+  a sh:NodeShape ;
+  sh:targetNode ff:User ;
+  sh:property [
+    sh:path ff:hasEmploymentStatus ;
+    sh:hasValue ff:RegisterdUnemployed ;
+  ], [
+    sh:path ff:availableForPlacement ;
+    sh:hasValue "true"^^xsd:boolean ;
+  ], [
+    sh:path ff:compulsoryInsuranceFor12In30 ;
+    sh:hasValue "true"^^xsd:boolean ;
+  ] .

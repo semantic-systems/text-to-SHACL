@@ -1,0 +1,117 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# Metadata
+ff:B100019_LB_576986 a ff:SocialBenefit ;
+    rdfs:label "Kindergeld"@de, "Child allowance"@en .
+
+# Main shape for eligibility validation
+ff:KindergeldShape a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    sh:property [
+        # The user must have at least one child meeting residence requirements
+        sh:path ff:hasChild ;
+        sh:minCount 1 ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedValueShape ff:ChildResidenceShape ;
+        sh:message "Eligibility requires at least one child meeting residence requirements."@en
+    ] ;
+    sh:or (
+        # Condition 1: Unlimited income tax liability in Germany
+        [
+            sh:property [
+                sh:path ff:incomeTaxLiability ;
+                sh:hasValue ff:UnlimitedTaxLiability ;
+                sh:message "Must have unlimited tax liability in Germany."@en
+            ]
+        ]
+        # Condition 2: EU/EAA/CH citizen meets freedom of movement criteria
+        [
+            sh:and (
+                [ 
+                    sh:path ff:isNationalOf ;
+                    sh:class ff:EEAplusCH ;
+                    sh:message "Must be EU/EAA/CH national for this condition."@en 
+                ]
+                [
+                    sh:or (
+                        # Employed (self-employed or regular employment)
+                        [
+                            sh:path ff:hasEmploymentStatus ;
+                            sh:in (ff:Employee ff:SelfEmployed) ;
+                        ]
+                        # Unemployed or job-seeking
+                        [
+                            sh:path ff:hasEmploymentStatus ;
+                            sh:in (ff:JobSeeker ff:Unemployed) ;
+                        ]
+                        # Derives freedom from family member
+                        [
+                            sh:path ff:derivesFreedomOfMovementFrom ;
+                            sh:minCount 1 ;
+                        ]
+                        # Sufficient means and health insurance
+                        [
+                            sh:and (
+                                [
+                                    sh:path ff:sufficientMeansOfSubsistence ;
+                                    sh:hasValue true
+                                ]
+                                [
+                                    sh:path ff:adequateHealthInsurance ;
+                                    sh:hasValue true
+                                ]
+                            )
+                        ]
+                        # Permanent residence right
+                        [
+                            sh:path ff:permanentRightOfResidence ;
+                            sh:hasValue true
+                        ]
+                    )
+                ]
+            )
+        ]
+        # Condition 3: Non-EU citizen has valid permit/refugee status
+        [
+            sh:or (
+                # Valid residence permit allowing work
+                [
+                    sh:property [
+                        sh:path ff:hasResidencePermit ;
+                        sh:someValuesFrom [
+                            a sh:NodeShape ;
+                            sh:property [
+                                sh:path ff:entitlesToEmployment ;
+                                sh:hasValue true
+                            ]
+                        ]
+                    ]
+                ]
+                # Recognized refugee status
+                [
+                    sh:property [
+                        sh:path ff:recognizedRefugee ;
+                        sh:hasValue true
+                    ]
+                ]
+                # Asylum eligibility
+                [
+                    sh:property [
+                        sh:path ff:entitledToAsylum ;
+                        sh:hasValue true
+                    ]
+                ]
+            )
+        ]
+    ) .
+
+# Child residence validation shape
+ff:ChildResidenceShape a sh:NodeShape ;
+    sh:property [
+        # Child must reside in Germany/EU/EAA/CH
+        sh:path ff:countryOfResidence ;
+        sh:class ff:EEAplusCH ;
+        sh:message "Child must reside in Germany or an EU/EAA/CH country."@en
+    ] .

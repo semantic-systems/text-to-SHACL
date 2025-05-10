@@ -1,0 +1,43 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+ff:AusbildungsgeldShape
+  a sh:NodeShape ;
+  sh:targetNode ff:User ;
+  
+  # Bedingung 1: Behinderung und Rehabilitationsträger ist Bundesagentur
+  sh:property [
+    sh:path ff:hasDisability ;
+    sh:minCount 1 ;
+    sh:hasValue true ;
+  ] ;
+  sh:property [
+    sh:path ff:hasRehabilitationProvider ;
+    sh:minCount 1 ;
+    sh:hasValue ff:FederalEmploymentAgency ;
+  ] ;
+  
+  # Bedingung 2: Teilnahme an zulässiger Maßnahme
+  sh:property [
+    sh:path ff:participates ;
+    sh:minCount 1 ;
+    sh:qualifiedMinCount 1 ;
+    sh:qualifiedValueShape [
+      a sh:NodeShape ;
+      sh:or (
+        # Eingangsverfahren/Berufsbildungsbereich
+        [ sh:class ff:EntryProcedureAndVocationalTrainingArea ]
+        # Erste berufliche Ausbildung
+        [ sh:property [ sh:path ff:isFirstVocationalTraining ; sh:hasValue true ] ]
+      )
+    ]
+  ] ;
+  
+  # Bedingung 3: Kein Anspruch auf Übergangsgeld
+  sh:property [
+    sh:path ff:isEligibleFor ;
+    sh:disjoint ( ff:B100019_LB_102716305 )
+  ] .

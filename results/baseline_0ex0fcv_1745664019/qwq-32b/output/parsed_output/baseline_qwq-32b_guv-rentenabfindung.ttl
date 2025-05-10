@@ -1,0 +1,27 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+ff:UserShape a sh:NodeShape ;
+    sh:targetClass ff:User ;
+    sh:property [
+        # Must have statutory accident insurance
+        sh:path ff:hasInsurance ;
+        sh:minCount 1 ;
+        sh:hasValue ff:StatutoryAccidentInsurance ;
+    ],
+    [
+        # Marital status must be Married or CivilUnion
+        sh:path ff:hasMaritalStatus ;
+        sh:minCount 1 ;
+        sh:in (ff:Married ff:CivilUnion) ;
+    ],
+    [
+        # Must have a deceased spouse or civil partner
+        sh:or (
+            [ sh:path ff:deceasedSpouse ; sh:minCount 1 ]
+            [ sh:path ff:deceasedCivilPartner ; sh:minCount 1 ]
+        )
+    ] .

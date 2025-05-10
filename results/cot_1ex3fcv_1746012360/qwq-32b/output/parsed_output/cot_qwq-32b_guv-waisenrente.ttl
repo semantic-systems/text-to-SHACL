@@ -1,0 +1,130 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# Benefit metadata
+ff:B100019_LB_582435 a ff:SocialBenefit ;
+    rdfs:label "Gesetzliche Unfallversicherung Waisenrente"@de, "Statutory accident insurance orphan's pension"@en .
+
+# Event validation for insurance cases
+ff:InsuranceEventShape a sh:NodeShape ;
+    sh:or (
+        [sh:class ff:WorkAccident]
+        [sh:class ff:CommutingAccident]
+        [sh:class ff:OccupationalDisease]
+    ) .
+
+# Disability validation for permanent work reduction
+ff:DisabilityWithPermanentReductionShape a sh:NodeShape ;
+    sh:property [
+        sh:path ff:reducesWorkProspectsPermanently ;
+        sh:hasValue true
+    ] .
+
+# Main validation shape for user
+ff:WaisenrenteShape a sh:NodeShape ;
+    sh:targetNode ff:User ;
+
+    # Requirement 1: Relationship to deceased with valid cause of death
+    sh:or (
+        # Option A: Child relationships (biological/step/foster)
+        [
+            sh:or (
+                # Natural child
+                [
+                    sh:path ff:naturalChildTo ;
+                    sh:minCount 1 ;
+                    sh:qualifiedValueShape [
+                        sh:property [
+                            sh:path ff:causeOfDeath ;
+                            sh:node ff:InsuranceEventShape
+                        ]
+                    ]
+                ]
+                # Step child
+                [
+                    sh:path ff:stepChildTo ;
+                    sh:minCount 1 ;
+                    sh:qualifiedValueShape [
+                        sh:path ff:causeOfDeath ;
+                        sh:node ff:InsuranceEventShape
+                    ]
+                ]
+                # Foster child
+                [
+                    sh:path ff:fosterChildTo ;
+                    sh:minCount 1 ;
+                    sh:qualifiedValueShape [
+                        sh:path ff:causeOfDeath ;
+                        sh:node ff:InsuranceEventShape
+                    ]
+                ]
+            )
+        ]
+        # Option B: Household member with primary care responsibility
+        [
+            sh:path ff:hasPrimaryCareTaker ;
+            sh:qualifiedMinCount 1 ;
+            sh:qualifiedValueShape [
+                sh:and (
+                    [
+                        sh:path ff:sameHouseholdAs ;
+                        sh:hasValue ff:User
+                    ]
+                    [
+                        sh:path ff:causeOfDeath ;
+                        sh:node ff:InsuranceEventShape
+                    ]
+                )
+            ]
+        ]
+    ) ;
+
+    # Requirement 2: Age and conditions for 18-26 age group
+    sh:or (
+        # Not in 18-26 age range (no further conditions required)
+        [
+            sh:not [
+                sh:property [
+                    sh:path ff:hasAge ;
+                    sh:minInclusive 18 ;
+                    sh:maxInclusive 26
+                ]
+            ]
+        ]
+        # In age range and meets at least one condition
+        [
+            sh:and (
+                [
+                    sh:property [
+                        sh:path ff:hasAge ;
+                        sh:minInclusive 18 ;
+                        sh:maxInclusive 26
+                    ]
+                ]
+                [
+                    sh:or (
+                        # In education/training
+                        [
+                            sh:path ff:participates ;
+                            sh:minCount 1 ;
+                            sh:class (ff:Training ff:School)
+                        ]
+                        # Disability preventing self-support
+                        [
+                            sh:path ff:cannotSupportThemselvesBecause ;
+                            sh:minCount 1 ;
+                            sh:qualifiedValueShape ff:DisabilityWithPermanentReductionShape
+                        ]
+                        # In transitional period
+                        [
+                            sh:path ff:isInTransitionalPeriod ;
+                            sh:hasValue true
+                        ]
+                    )
+                ]
+            )
+        ]
+    )
+.

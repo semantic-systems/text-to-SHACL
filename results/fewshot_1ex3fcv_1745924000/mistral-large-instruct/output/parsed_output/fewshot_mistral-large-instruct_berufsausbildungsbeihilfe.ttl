@@ -1,0 +1,102 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:UserShape
+    a sh:NodeShape ;
+    sh:targetClass ff:User ;
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:minInclusive 18
+    ] ;
+    sh:or (
+        [
+            sh:property [
+                sh:path ff:parentalAdress ;
+                sh:hasValue [
+                    sh:path ff:tooFarFromTrainingCompany ;
+                    sh:hasValue "true"^^xsd:boolean
+                ]
+            ] ;
+            sh:property [
+                sh:path ff:isMarried ;
+                sh:hasValue "true"^^xsd:boolean
+            ]
+        ]
+        [
+            sh:property [
+                sh:path ff:hasChild ;
+                sh:minCount 1
+            ]
+        ]
+    ) ;
+    sh:property [
+        sh:path ff:hasResidenceStatus ;
+        sh:not [
+            sh:hasValue ff:Tolerated
+        ]
+    ] ;
+    sh:property [
+        sh:path ff:hasAsylumActPermit ;
+        sh:hasValue "false"^^xsd:boolean
+    ] ;
+    sh:property [
+        sh:path ff:hasConsiderableAssets ;
+        sh:hasValue "false"^^xsd:boolean
+    ] ;
+    sh:property [
+        sh:path ff:hasDisabilityType ;
+        sh:optional false
+    ] ;
+    sh:property [
+        sh:path ff:hasDisability ;
+        sh:hasValue "false"^^xsd:boolean
+    ] ;
+    sh:property [
+        sh:path ff:hasEmploymentStatus ;
+        sh:hasValue ff:Unemployed
+    ] .
+
+ff:TrainingShape
+    a sh:NodeShape ;
+    sh:targetClass ff:Training ;
+    sh:or (
+        [
+            sh:property [
+                sh:path ff:recognizedByLaw ;
+                sh:hasValue ff:VocationalTrainingAct
+            ]
+        ]
+        [
+            sh:property [
+                sh:path ff:recognizedByLaw ;
+                sh:hasValue ff:MaritimeLabourAct
+            ]
+        ]
+        [
+            sh:property [
+                sh:path ff:recognizedByLaw ;
+                sh:hasValue ff:NursingProfessionsAct
+            ]
+        ]
+    ) .
+
+ff:DisabilityTrainingShape
+    a sh:NodeShape ;
+    sh:targetClass ff:Training ;
+    sh:property [
+        sh:path ff:ruleExemptionBecause ;
+        sh:hasValue ff:Disability
+    ] .
+
+ff:ForeignTrainingShape
+    a sh:NodeShape ;
+    sh:targetClass ff:Training ;
+    sh:property [
+        sh:path ff:percentAbroad ;
+        sh:maxInclusive 50
+    ] ;
+    sh:property [
+        sh:path ff:monthsAbroad ;
+        sh:maxInclusive 12
+    ] .

@@ -1,0 +1,68 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+ff:EligibilityShape
+    a sh:NodeShape ;
+    sh:targetNode ff:User ;
+
+    # Condition 1: Disability or risk of severe visual/hearing impairment
+    sh:property [
+        sh:or (
+            # Existing severe visual/hearing disability
+            [
+                sh:path ff:hasDisabilityType ;
+                sh:qualifiedMinCount 1 ;
+                sh:qualifiedValueShape [
+                    a sh:NodeShape ;
+                    sh:property [
+                        sh:path rdf:type ;
+                        sh:in ( ff:VisualImpairment ff:HearingImpairment ) ;
+                    ] ;
+                    sh:property [
+                        sh:path ff:severeDisability ;
+                        sh:hasValue true ;
+                    ]
+                ]
+            ]
+            # At risk of developing visual/hearing disability
+            [
+                sh:path ff:atRiskOfDisabilityType ;
+                sh:qualifiedMinCount 1 ;
+                sh:qualifiedValueShape [
+                    a sh:NodeShape ;
+                    sh:property [
+                        sh:path rdf:type ;
+                        sh:in ( ff:VisualImpairment ff:HearingImpairment ) ;
+                    ]
+                ]
+            ]
+        )
+    ] ;
+
+    # Condition 2: Rehabilitation provider is Federal Employment Agency
+    sh:property [
+        sh:path ff:hasRehabilitationProvider ;
+        sh:hasValue ff:FederalEmploymentAgency
+    ] ;
+
+    # Condition 3: Disability reduces work prospects permanently
+    sh:property [
+        sh:path ff:hasDisabilityType ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedValueShape [
+            a sh:NodeShape ;
+            sh:property [
+                sh:path ff:reducesWorkProspectsPermanently ;
+                sh:hasValue true ;
+            ]
+        ]
+    ] ;
+
+    # Condition 4: Available for placement
+    sh:property [
+        sh:path ff:availableForPlacement ;
+        sh:hasValue true
+    ] .

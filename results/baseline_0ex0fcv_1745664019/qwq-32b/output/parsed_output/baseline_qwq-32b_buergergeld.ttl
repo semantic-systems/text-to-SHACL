@@ -1,44 +1,28 @@
-@prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix ff: <https://foerderfunke.org/default#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 ff:BuergerGeldShape a sh:NodeShape ;
-    sh:targetClass ff:User ;
+    sh:targetNode ff:User ;
     sh:property [
-        # Mindestens 3 Stunden täglich arbeiten können
         sh:path ff:employableHoursPerDay ;
-        sh:minCount 1 ;
-        sh:minInclusive "3.0"^^xsd:decimal ;
-    ],
-    [
-        # Mindestalter 15 Jahre
+        sh:minInclusive "3"^^xsd:decimal ;
+    ], [
         sh:path ff:hasAge ;
-        sh:minCount 1 ;
         sh:minInclusive "15"^^xsd:int ;
-    ],
-    [
-        # Noch nicht rentenberechtigt
+    ], [
         sh:path ff:isPensionable ;
-        sh:minCount 1 ;
         sh:hasValue false ;
-    ],
-    [
-        # Kann die Basisbedürfnisse nicht decken
+    ], [
         sh:path ff:canCoverBasicNeedsOfBenefitUnit ;
-        sh:minCount 1 ;
         sh:hasValue false ;
-    ],
-    [
-        # Keine vorrangigen Ansprüche gegenüber Bürgergeld
+    ], [
         sh:path ff:hasNoPriorityClaimsOver ;
         sh:minCount 1 ;
         sh:hasValue ff:B100019_LB_106311931 ;
-    ],
-    [
-        # Wohnsitz in Deutschland
+    ], [
         sh:path ff:countryOfResidence ;
-        sh:minCount 1 ;
         sh:hasValue ff:Germany ;
     ] .

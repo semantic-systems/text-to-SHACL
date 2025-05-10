@@ -1,0 +1,66 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+# Define the benefit
+ff:B100019_LB_102799515 a ff:SocialBenefit ;
+    rdfs:label "Gesetzliche Unfallversicherung Kinderverletztengeld"@de, "Statutory Accident Insurance Child Injured Allowance"@en .
+
+# Main shape for validation
+ff:KinderverletztengeldShape a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    # Requirement 1: User has an eligible child
+    sh:property [
+        sh:path ff:hasChild ;
+        sh:minCount 1 ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedValueShape ff:EligibleChildShape ;
+        sh:message "User must have at least one eligible child."@en ;
+    ] ;
+    # Requirement 2: User had entitlement to cash benefit before the accident
+    sh:property [
+        sh:path ff:wasEntitledToCashBenefitBefore ;
+        sh:minCount 1 ;
+        sh:class ff:SchoolAccident, ff:KindergartenAccident ;
+        sh:message "User must have had entitlement before the accident event."@en ;
+    ] ;
+    .
+
+# Shape for eligible child constraints
+ff:EligibleChildShape a sh:NodeShape ;
+    # Child must be under 12 years old
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:maxExclusive 12 ;
+        sh:message "Child must be under 12 years old."@en ;
+    ] ;
+    # Child must live in the same household as the user
+    sh:property [
+        sh:path ff:sameHouseholdAs ;
+        sh:hasValue ff:User ;
+        sh:message "Child must be in the user's household."@en ;
+    ] ;
+    # Child must have a care need triggered by the accident
+    sh:property [
+        sh:path ff:needsCare ;
+        sh:minCount 1 ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedValueShape ff:CaredNeedShape ;
+    ] ;
+    .
+
+# Shape for care need constraints
+ff:CaredNeedShape a sh:NodeShape ;
+    # Care need must be caused by a school or kindergarten accident
+    sh:property [
+        sh:path ff:triggeringEvent ;
+        sh:class ff:SchoolAccident, ff:KindergartenAccident ;
+        sh:message "Care need must be triggered by a school/kindergarten accident."@en ;
+    ] ;
+    # User must be the caregiver in the household
+    sh:property [
+        sh:path ff:caregiverInHousehold ;
+        sh:hasValue ff:User ;
+        sh:message "User must be the caregiver in the household."@en ;
+    ] ;
+    .

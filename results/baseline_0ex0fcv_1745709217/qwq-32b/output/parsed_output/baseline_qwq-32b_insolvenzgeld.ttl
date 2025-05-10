@@ -1,0 +1,70 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:InsolvenzgeldEligibilityShape
+  a sh:NodeShape ;
+  sh:targetNode ff:User ;
+  sh:property [
+    sh:path ff:hasEvent ;
+    sh:minCount 1 ;
+    sh:or (
+      # Case 1: InsolvencyProceeding
+      [ sh:class ff:InsolvencyProceeding ;
+        sh:property [
+          sh:path ff:wageCutOffsetMonths ;
+          sh:minInclusive "-3"^^xsd:int ;
+          sh:maxInclusive "0"^^xsd:int
+        ] ;
+        sh:property [
+          sh:path ff:causesLossOfEarnings ;
+          sh:hasValue true
+        ]
+      ]
+      # Case 2: InsolvencyApplication with rejectedForLackOfAssets true
+      [ sh:class ff:InsolvencyApplication ;
+        sh:property [
+          sh:path ff:rejectedForLackOfAssets ;
+          sh:hasValue true
+        ] ;
+        sh:property [
+          sh:path ff:wageCutOffsetMonths ;
+          sh:minInclusive "-3"^^xsd:int ;
+          sh:maxInclusive "0"^^xsd:int
+        ] ;
+        sh:property [
+          sh:path ff:causesLossOfEarnings ;
+          sh:hasValue true
+        ]
+      ]
+      # Case 3: DiscontinuationOfBusiness with obviousLackOfAssets true
+      [ sh:class ff:DiscontinuationOfBusiness ;
+        sh:property [
+          sh:path ff:obviousLackOfAssets ;
+          sh:hasValue true
+        ] ;
+        sh:property [
+          sh:path ff:wageCutOffsetMonths ;
+          sh:minInclusive "-3"^^xsd:int ;
+          sh:maxInclusive "0"^^xsd:int
+        ] ;
+        sh:property [
+          sh:path ff:causesLossOfEarnings ;
+          sh:hasValue true
+        ]
+      ]
+    )
+  ] ;
+  # Social Security in Germany
+  sh:property [
+    sh:path ff:socialSecurityCountry ;
+    sh:hasValue ff:Germany
+  ] ;
+  # Employment Status must be Employee
+  sh:property [
+    sh:path ff:hasEmploymentStatus ;
+    sh:hasValue ff:Employee
+  ] ;
+.

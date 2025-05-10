@@ -1,0 +1,132 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:UserShape
+    a sh:NodeShape ;
+    sh:targetClass ff:User ;
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:datatype xsd:int ;
+        sh:minInclusive 18 ;
+    ] ;
+    sh:property [
+        sh:path ff:hasMaritalStatus ;
+        sh:in ( ff:Married ff:Divorced ff:Widowed ) ;
+    ] ;
+    sh:property [
+        sh:path ff:hasChild ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ff:hasResidenceStatus ;
+        sh:in ( ff:Tolerated ) ;
+    ] ;
+    sh:property [
+        sh:path ff:uninterruptedLegalStayForLessThan15Months ;
+        sh:datatype xsd:boolean ;
+        sh:hasValue false ;
+    ] ;
+    sh:property [
+        sh:path ff:hasAsylumActPermit ;
+        sh:datatype xsd:boolean ;
+        sh:hasValue false ;
+    ] ;
+    sh:property [
+        sh:path ff:hasPrimaryCareTaker ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ff:parentalAdress ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ff:isInTransitionalPeriod ;
+        sh:datatype xsd:boolean ;
+        sh:hasValue false ;
+    ] ;
+    sh:property [
+        sh:path ff:hasDate ;
+        sh:datatype xsd:dateTime ;
+    ] ;
+    sh:property [
+        sh:path ff:isFirstVocationalTraining ;
+        sh:datatype xsd:boolean ;
+        sh:hasValue true ;
+    ] ;
+    sh:property [
+        sh:path ff:participates ;
+        sh:class ff:VocationalTraining ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ff:participates ;
+        sh:class ff:EntryProcedureAndVocationalTrainingArea ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ff:participates ;
+        sh:class ff:School ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ff:participates ;
+        sh:class ff:OccupationalRehabilitation ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ff:subjectToContract ;
+        sh:class ff:VocationalTrainingContract ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ff:recognizedByLaw ;
+        sh:class ff:LegalCode ;
+        sh:in ( ff:VocationalTrainingAct ff:MaritimeLabourAct ff:NursingProfessionsAct ff:CraftsCode ) ;
+    ] ;
+    sh:property [
+        sh:path ff:hasDisability ;
+        sh:datatype xsd:boolean ;
+        sh:hasValue true ;
+    ] ;
+    sh:property [
+        sh:path ff:participates ;
+        sh:class ff:Training ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ff:monthsAbroad ;
+        sh:datatype xsd:int ;
+        sh:maxInclusive 12 ;
+    ] ;
+    sh:property [
+        sh:path ff:percentAbroad ;
+        sh:datatype xsd:decimal ;
+        sh:maxInclusive 50 ;
+    ] ;
+    sh:property [
+        sh:path ff:monthsTotal ;
+        sh:datatype xsd:int ;
+    ] ;
+    sh:property [
+        sh:path ff:monthsWithinLast3Years ;
+        sh:datatype xsd:int ;
+    ] ;
+    sh:property [
+        sh:path ff:commissionedByEmploymentAgency ;
+        sh:datatype xsd:boolean ;
+        sh:hasValue true ;
+    ] ;
+    sh:property [
+        sh:path ff:hasIncome ;
+        sh:class ff:Income ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ff:personalGrossIncome ;
+        sh:datatype xsd:int ;
+    ] ;
+    sh:property [
+        sh:path ff:familyGrossIncome ;
+        sh:datatype xsd:decimal ;
+    ] .

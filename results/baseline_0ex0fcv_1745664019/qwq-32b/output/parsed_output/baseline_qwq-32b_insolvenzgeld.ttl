@@ -1,0 +1,71 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:InsolvenzgeldShape
+    a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    sh:property [
+        # Insolvenzereignis conditions
+        sh:path ff:hasEvent ;
+        sh:minCount 1 ;
+        sh:or (
+            # Case 1: InsolvencyProceeding with open status
+            [
+                sh:class ff:InsolvencyProceeding ;
+                sh:property [
+                    sh:path ff:isOpen ;
+                    sh:hasValue true ;
+                ] ;
+                sh:property [
+                    sh:path ff:wageCutOffsetMonths ;
+                    sh:minInclusive -3 ;
+                    sh:maxInclusive 0 ;
+                ]
+            ]
+            # Case 2: InsolvencyApplication rejected for lack of assets
+            [
+                sh:class ff:InsolvencyApplication ;
+                sh:property [
+                    sh:path ff:rejectedForLackOfAssets ;
+                    sh:hasValue true ;
+                ] ;
+                sh:property [
+                    sh:path ff:wageCutOffsetMonths ;
+                    sh:minInclusive -3 ;
+                    sh:maxInclusive 0 ;
+                ]
+            ]
+            # Case 3: DiscontinuationOfBusiness with obvious lack of assets
+            [
+                sh:class ff:DiscontinuationOfBusiness ;
+                sh:property [
+                    sh:path ff:obviousLackOfAssets ;
+                    sh:hasValue true ;
+                ] ;
+                sh:property [
+                    sh:path ff:wageCutOffsetMonths ;
+                    sh:minInclusive -3 ;
+                    sh:maxInclusive 0 ;
+                ]
+            ]
+        )
+    ] ;
+    sh:property [
+        # Employment status must be Employee
+        sh:path ff:hasEmploymentStatus ;
+        sh:hasValue ff:Employee ;
+    ] ;
+    sh:property [
+        # Social security country must be Germany
+        sh:path ff:socialSecurityCountry ;
+        sh:hasValue ff:Germany ;
+    ] ;
+    sh:property [
+        # Must have at least one employment
+        sh:path ff:hasEmployment ;
+        sh:minCount 1 ;
+    ] ;
+.

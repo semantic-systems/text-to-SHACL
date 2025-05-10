@@ -1,0 +1,85 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:UserShape a sh:NodeShape ;
+    sh:targetClass ff:User ;
+    sh:property [
+        sh:path [ sh:inverse ff:isEligibleFor ] ;
+        sh:minCount 1 ;
+        sh:hasValue ff:B100019_LB_574724 ;
+    ] ;
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:min 18 ;
+    ] ;
+    sh:property [
+        sh:path ff:isSingleParent ;
+        sh:hasValue "true"^^xsd:boolean ;
+    ] ;
+    sh:property [
+        sh:path ff:hasMaritalStatus ;
+        sh:in ( ff:Married ff:Divorced ff:Widowed ) ;
+    ] ;
+    sh:property [
+        sh:path ff:hasChild ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path ff:sameHouseholdAs ;
+        sh:maxCount 0 ;
+        sh:qualifiedValueShape [
+            sh:path ff:naturalChildTo ;
+            sh:hasValue ff:UserShape ;
+        ]
+    ] ;
+    sh:property [
+        sh:path ff:countryOfResidence ;
+        sh:equals ff:Germany ;
+    ] ;
+    sh:property [
+        sh:path ff:hasResidenceStatus ;
+        sh:in ( ff:Tolerated ) ;
+        sh:maxCount 0 ;
+    ] ;
+    sh:property [
+        sh:path ff:uninterruptedLegalStayForLessThan15Months ;
+        sh:hasValue "false"^^xsd:boolean ;
+    ] ;
+    sh:property [
+        sh:path ff:canCoverPersonalBasicNeeds ;
+        sh:hasValue "false"^^xsd:boolean ;
+    ] ;
+    sh:property [
+        sh:path ff:participates ;
+        sh:nodeKind sh:Literal ;
+        sh:datatype xsd:boolean ;
+        sh:hasValue "true" ;
+    ] ;
+    sh:property [
+        sh:path ff:hasEarningCapacity ;
+        sh:node ff:FullEarningCapacity ;
+    ] ;
+    sh:property [
+        sh:path ff:isFirstVocationalTraining ;
+        sh:hasValue "true" ;
+    ] ;
+    sh:property [
+        sh:path ff:recognizedByLaw ;
+        sh:in ( ff:Berufsbildungsgesetz ff:Handwerksordnung ff:Seearbeitsgesetz ff:Pflegeberufegesetz ) ;
+    ] ;
+    sh:property [
+        sh:path ff:subjectToContract ;
+        sh:node ff:VocationalTrainingContract ;
+    ] ;
+    sh:property [
+        sh:path ff:countryOfEmployment ;
+        sh:equals ff:Germany ;
+    ] ;
+    sh:property [
+        sh:path ff:hasDisability ;
+        sh:or (
+            [ sh:path ff:needsCare ; sh:minCount 1 ]
+            [ sh:path ff:hasDisabilityType ; sh:node ff:SevereDisability ]
+        ) ;
+    ] .

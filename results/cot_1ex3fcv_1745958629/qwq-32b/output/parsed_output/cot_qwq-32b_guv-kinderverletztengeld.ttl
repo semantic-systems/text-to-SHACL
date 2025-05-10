@@ -1,0 +1,56 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+ff:B100019_LB_102799515 a ff:SocialBenefit ;
+    rdfs:label "Gesetzliche Unfallversicherung Kinderverletztengeld"@de, "Child injury allowance"@en .
+
+ff:ChildInjuryAllowanceShape a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    # User must have at least one child in their household
+    sh:property [
+        sh:path ff:hasChild ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedValueShape ff:ChildShape ;
+        sh:message "Does not meet requirement 'User has at least one eligible child.'"@en ;
+    ] .
+
+ff:ChildShape a sh:NodeShape ;
+    # Child must live in the same household as the user
+    sh:property [
+        sh:path ff:sameHouseholdAs ;
+        sh:minCount 1 ;
+        sh:hasValue ff:User ;
+    ] ;
+    # Child must be under 12 years old
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:maxInclusive 11 ;
+    ] ;
+    # Child must have a care need triggered by school/kindergarten accident
+    sh:property [
+        sh:path ff:needsCare ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedValueShape [
+            sh:property [
+                # Care need must be supervised by the user
+                sh:path ff:caregiverInHousehold ;
+                sh:hasValue ff:User ;
+            ] ;
+            sh:property [
+                # Triggering event must be school/kindergarten accident causing earnings loss
+                sh:path ff:triggeringEvent ;
+                sh:qualifiedMinCount 1 ;
+                sh:qualifiedValueShape [
+                    sh:or (
+                        [ sh:class ff:SchoolAccident ]
+                        [ sh:class ff:KindergartenAccident ]
+                    ) ;
+                    sh:property [
+                        sh:path ff:causesLossOfEarnings ;
+                        sh:hasValue true ;
+                    ] ;
+                ] ;
+            ] ;
+        ] ;
+    ] .

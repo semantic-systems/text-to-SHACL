@@ -1,0 +1,97 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:WaisenrenteShape a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    sh:property [
+        # Cause of Death and Relationship Conditions (sh:or for different relationships)
+        sh:or (
+            [
+                # Biological child of deceased
+                sh:property [
+                    sh:path [ sh:inversePath ff:hasChild ] ; # The deceased is the parent
+                    sh:minCount 1 ;
+                    sh:property [
+                        sh:path ff:causeOfDeath ;
+                        sh:class [ sh:or ( ff:WorkAccident ff:CommutingAccident ff:OccupationalDisease ) ] ;
+                    ] ;
+                ]
+            ]
+            [
+                # Stepchild of deceased
+                sh:property [
+                    sh:path ff:stepChildTo ;
+                    sh:minCount 1 ;
+                    sh:property [
+                        sh:path ff:causeOfDeath ;
+                        sh:class [ sh:or ( ff:WorkAccident ff:CommutingAccident ff:OccupationalDisease ) ] ;
+                    ] ;
+                ]
+            ]
+            [
+                # Foster child of deceased
+                sh:property [
+                    sh:path ff:fosterChildTo ;
+                    sh:minCount 1 ;
+                    sh:property [
+                        sh:path ff:causeOfDeath ;
+                        sh:class [ sh:or ( ff:WorkAccident ff:CommutingAccident ff:OccupationalDisease ) ] ;
+                    ] ;
+                ]
+            ]
+            [
+                # Grandchild/sibling in household and supported
+                sh:property [
+                    sh:path ff:hasPrimaryCareTaker ;
+                    sh:minCount 1 ;
+                    sh:property [
+                        sh:path ff:sameHouseholdAs ;
+                        sh:hasValue ff:User ; # The caregiver is in the same household as the user
+                    ] ;
+                    sh:property [
+                        sh:path ff:causeOfDeath ;
+                        sh:class [ sh:or ( ff:WorkAccident ff:CommutingAccident ff:OccupationalDisease ) ] ;
+                    ] ;
+                ]
+            ]
+        )
+    ] ;
+    sh:property [
+        # Age between 18 and 27
+        sh:path ff:hasAge ;
+        sh:minInclusive "18"^^xsd:int ;
+        sh:maxExclusive "27"^^xsd:int ;
+    ] ;
+    sh:property [
+        # One of the three options (training, disability, transition period)
+        sh:or (
+            [
+                # In training
+                sh:path ff:participates ;
+                sh:minCount 1 ;
+                sh:class [ sh:or ( ff:School ff:VocationalTraining ) ] ;
+            ]
+            [
+                # Disability preventing self-support
+                sh:path ff:hasDisabilityType ;
+                sh:minCount 1 ;
+                sh:property [
+                    sh:path ff:reducesWorkProspectsPermanently ;
+                    sh:hasValue "true"^^xsd:boolean ;
+                ] ;
+            ]
+            [
+                # In transition period
+                sh:path ff:isInTransitionalPeriod ;
+                sh:hasValue "true"^^xsd:boolean ;
+            ]
+        )
+    ] ;
+    sh:property [
+        # No priority claims over this benefit
+        sh:path ff:hasNoPriorityClaimsOver ;
+        sh:hasValue ff:B100019_LB_582435 ;
+    ] .

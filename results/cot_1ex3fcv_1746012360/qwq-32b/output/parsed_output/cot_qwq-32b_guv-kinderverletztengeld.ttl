@@ -1,0 +1,63 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+
+ff:B100019_LB_102799515 a ff:SocialBenefit ;
+    rdfs:label "Gesetzliche Unfallversicherung Kinderverletztengeld"@de, "Child injured allowance"@en .
+
+ff:KinderverletztengeldShape a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    # User must have at least one eligible child
+    sh:property [
+        sh:path ff:hasChild ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedValueShape ff:EligibleChildShape ;
+        sh:message "You must have at least one eligible child in your household."@en ;
+    ] ;
+    # User must have had entitlement before the accident
+    sh:property [
+        sh:path ff:wasEntitledToCashBenefitBefore ;
+        sh:minCount 1 ;
+        sh:class [ sh:or ( ff:SchoolAccident ff:KindergartenAccident ) ] ;
+        sh:message "You must have had prior entitlement to cash benefits before the accident."@en ;
+    ] ;
+    sh:message "Does not meet requirements for Child injured allowance."@en .
+
+ff:EligibleChildShape a sh:NodeShape ;
+    # Child must be in same household as user
+    sh:property [
+        sh:path ff:sameHouseholdAs ;
+        sh:minCount 1 ;
+        sh:hasValue ff:User ;
+        sh:message "Child must be in your household."@en ;
+    ] ;
+    # Child under 12 years
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:maxExclusive 12 ;
+        sh:message "Child must be under 12 years old."@en ;
+    ] ;
+    # Child needs care due to school/kindergarten accident
+    sh:property [
+        sh:path ff:needsCare ;
+        sh:minCount 1 ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedValueShape ff:CareNeedShape ;
+        sh:message "Child's care requirements not met."@en ;
+    ] .
+
+ff:CareNeedShape a sh:NodeShape ;
+    # CareNeed's triggering event must be school/kindergarten accident
+    sh:property [
+        sh:path ff:triggeringEvent ;
+        sh:class [ sh:or ( ff:SchoolAccident ff:KindergartenAccident ) ] ;
+        sh:message "Accident must be school or kindergarten related."@en ;
+    ] ;
+    # Caregiver must be exactly the user
+    sh:property [
+        sh:path ff:caregiverInHousehold ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:hasValue ff:User ;
+        sh:message "Only you must be the caregiver."@en ;
+    ] .

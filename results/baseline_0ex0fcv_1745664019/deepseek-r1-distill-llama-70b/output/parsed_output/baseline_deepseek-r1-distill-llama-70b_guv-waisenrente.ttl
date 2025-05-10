@@ -1,0 +1,93 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+ff:User
+  a sh:Shape ;
+  sh:targetClass ff:User ;
+  sh:property [
+      sh:path [ sh:inverse ff:closeRelative ] ;
+      sh:condition [
+          a sh:Shape ;
+          sh:property [
+              sh:path ff:causeOfDeath ;
+              sh:condition [
+                  a sh:Shape ;
+                  sh:property [
+                      sh:path ff:triggeringEvent ;
+                      sh:condition [
+                          a sh:Shape ;
+                          sh:property [
+                              sh:path [ sh:inverse ff:resultsInTreatment ] ;
+                              sh:condition ff:OccupationalRehabilitation
+                          ] ;
+                          sh:or [
+                              sh:condition ff:WorkAccident ;
+                          ] ;
+                          sh:or [
+                              sh:condition ff:CommutingAccident ;
+                          ]
+                      ]
+                  ]
+              ]
+          ]
+      ]
+  ] ;
+  sh:property [
+      sh:path ff:hasChild ;
+      sh:condition [
+          a sh:Shape ;
+          sh:property [
+              sh:path ff:stepChildTo ;
+              sh:condition [
+                  sh:equals ff:User
+              ]
+          ] ;
+          sh:or [
+              sh:condition ff:FosterChild
+          ] ;
+          sh:or [
+              sh:condition ff:Grandchild
+          ] ;
+          sh:or [
+              sh:condition ff:Sibling
+          ]
+      ]
+  ] ;
+  sh:property [
+      sh:path ff:sameHouseholdAs ;
+      sh:condition [
+          sh:equals ff:Deceased
+      ]
+  ] ;
+  sh:property [
+      sh:path ff:hasAge ;
+      sh:condition [
+          sh:lessThanOrEqual 27 ;
+          sh:greaterThanOrEqual 18
+      ] ;
+      sh:or [
+          sh:condition [
+              sh:property [
+                  sh:path ff:participates ;
+                  sh:condition [
+                      a sh:Shape ;
+                      sh:property [
+                          sh:path ff:recognizedByLaw ;
+                          sh:condition ff:VocationalTrainingAct
+                      ]
+                  ]
+              ]
+          ] ;
+          sh:or [
+              sh:condition [
+                  sh:property [
+                      sh:path ff:hasDisabilityType ;
+                      sh:condition ff:SevereDisability
+                  ]
+              ] ;
+          ] ;
+          sh:or [
+              sh:condition ff:isInTransitionalPeriod ;
+          ]
+      ]
+  ] .

@@ -1,0 +1,85 @@
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ff:UserShape
+    a sh:NodeShape ;
+    sh:targetClass ff:User ;
+    sh:property [
+        sh:path ff:hasAge ;
+        sh:or (
+            [ sh:minExclusive 18 ]
+            [ sh:path ff:hasMaritalStatus ; sh:hasValue ff:Married ]
+            [ sh:path ff:hasChild ]
+        ) ;
+    ] ;
+    sh:property [
+        sh:path ff:hasResidenceStatus ;
+        sh:not [
+            sh:or (
+                [ sh:path ff:hasAsylumActPermit ; sh:hasValue true ]
+                [ sh:path ff:uninterruptedLegalStayForLessThan15Months ; sh:hasValue true ]
+            ) ;
+        ] ;
+    ] ;
+    sh:property [
+        sh:path ff:hasDisability ;
+        sh:or (
+            [ sh:path ff:hasDisabilityType ; sh:class ff:Disability ]
+            [ sh:path ff:hasDisabilityType ; sh:class ff:HearingImpairment ]
+            [ sh:path ff:hasDisabilityType ; sh:class ff:VisualImpairment ]
+        ) ;
+    ] ;
+    sh:property [
+        sh:path ff:participates ;
+        sh:or (
+            [ sh:class ff:VocationalTraining ; sh:path ff:isFirstVocationalTraining ; sh:hasValue true ]
+            [ sh:class ff:VocationalTraining ; sh:path ff:isFirstVocationalTraining ; sh:hasValue false ; sh:path ff:workforceIntegrationProblemBecause ; sh:class ff:Disability ]
+        ) ;
+    ] ;
+    sh:property [
+        sh:path ff:participates ;
+        sh:class ff:Training ;
+        sh:path ff:recognizedByLaw ;
+        sh:or (
+            [ sh:hasValue ff:VocationalTrainingAct ]
+            [ sh:hasValue ff:CraftsCode ]
+            [ sh:hasValue ff:MaritimeLabourAct ]
+            [ sh:hasValue ff:NursingProfessionsAct ]
+        ) ;
+    ] ;
+    sh:property [
+        sh:path ff:participates ;
+        sh:class ff:Training ;
+        sh:path ff:subjectToContract ;
+        sh:class ff:VocationalTrainingContract ;
+    ] ;
+    sh:property [
+        sh:path ff:participates ;
+        sh:class ff:Training ;
+        sh:path ff:percentAbroad ;
+        sh:or (
+            [ sh:minExclusive 0 ; sh:maxInclusive 50 ]
+            [ sh:minExclusive 50 ; sh:maxInclusive 100 ; sh:path ff:monthsAbroad ; sh:maxInclusive 12 ]
+        ) ;
+    ] ;
+    sh:property [
+        sh:path ff:participates ;
+        sh:class ff:Training ;
+        sh:path ff:commissionedByEmploymentAgency ;
+        sh:hasValue true ;
+    ] ;
+    sh:property [
+        sh:path ff:participates ;
+        sh:class ff:Training ;
+        sh:path ff:intendedFundingPeriod ;
+        sh:path ff:monthsAbroad ;
+        sh:maxInclusive 50 ;
+    ] ;
+    sh:property [
+        sh:path ff:participates ;
+        sh:class ff:Training ;
+        sh:path ff:intendedFundingPeriod ;
+        sh:path ff:monthsAbroad ;
+        sh:maxInclusive 12 ;
+    ] .

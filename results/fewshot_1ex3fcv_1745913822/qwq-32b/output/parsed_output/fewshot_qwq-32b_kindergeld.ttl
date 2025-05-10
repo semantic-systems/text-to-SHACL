@@ -1,0 +1,77 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ff: <https://foerderfunke.org/default#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# Define the social benefit
+ff:B100019_LB_576986 a ff:SocialBenefit ;
+    rdfs:label "Kindergeld"@de, "Child allowance"@en .
+
+# Main validation shape targeting the user node
+ff:KindergeldShape a sh:NodeShape ;
+    sh:targetNode ff:User ;
+    
+    # Requirement: User must have unlimited income tax liability in Germany
+    sh:property [
+        sh:path ff:incomeTaxLiability ;
+        sh:hasValue ff:UnlimitedTaxLiability ;
+        sh:message "Must have unlimited income tax liability in Germany"@en
+    ] ;
+    
+    # Citizenship/residence conditions
+    sh:property [
+        sh:or (
+            # Option 1: Citizen of Germany/EEA+CH
+            [ sh:path ff:isNationalOf ;
+              sh:or (
+                [ sh:hasValue ff:Germany ]
+                [ sh:class ff:EEAplusCH ]
+              )
+            ]
+            # Option 2: Non-citizen but meets residence conditions
+            [ sh:and (
+                # Not a citizen of Germany/EEA+CH
+                [ sh:not [
+                    sh:path ff:isNationalOf ;
+                    sh:or (
+                        [ sh:hasValue ff:Germany ]
+                        [ sh:class ff:EEAplusCH ]
+                    )
+                ] ]
+                # Must meet at least one residence condition
+                [ sh:or (
+                    # Valid residence permit allowing employment
+                    [ sh:path ff:hasResidencePermit ;
+                      sh:property [
+                        sh:path ff:entitlesToEmployment ;
+                        sh:hasValue true
+                      ]
+                    ]
+                    # Recognized refugee status
+                    [ sh:path ff:recognizedRefugee ; sh:hasValue true ]
+                    # Asylum eligibility
+                    [ sh:path ff:entitledToAsylum ; sh:hasValue true ]
+                ) ]
+            ) ]
+        )
+    ] ;
+    
+    # Requirement: Must have at least one eligible child
+    sh:property [
+        sh:path ff:hasChild ;
+        sh:minCount 1 ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedValueShape ff:ChildShape ;
+        sh:message "Must have at least one eligible child"@en
+    ] .
+
+# Child validation shape
+ff:ChildShape a sh:NodeShape ;
+    # Child's residence must be in Germany, EU/EEA, or Switzerland
+    sh:property [
+        sh:path ff:countryOfResidence ;
+        sh:or (
+            [ sh:hasValue ff:Germany ]
+            [ sh:class ff:EEAplusCH ]
+        ) ;
+        sh:message "Child must reside in Germany, EU/EEA, or Switzerland"@en
+    ] .
