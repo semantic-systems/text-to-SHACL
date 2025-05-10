@@ -28,36 +28,30 @@ supported_modes = {
     }
 }
 
-syntax_metrics = ['valid_turtle_all', 'valid_shacl_all']
+syntax_metrics = ["valid_turtle_all", "valid_shacl_all"]
 
 gm_metrics_all = [
-    'graph_edit_distance_all',
-    'gbert_f1_all',
-    # 'gbert_precision_all',
-    # 'gbert_recall_all',
-    'triple_f1_all', 
-    'triple_precision_all',
-    'triple_recall_all',
-    # 'triple_accuracy_all',
-    'validation_f1_all',
-    'validation_precision_all',
-    'validation_recall_all',
-    'validation_accuracy_all',
+    "graph_edit_distance_all",
+    "gbert_f1_all",
+    "triple_f1_all", 
+    "triple_precision_all",
+    "triple_recall_all",
+    "validation_f1_all",
+    "validation_precision_all",
+    "validation_recall_all",
+    "validation_accuracy_all",
 ]
 
 gm_metrics_valid = [
-    'graph_edit_distance_valid_only',
-    'gbert_f1_valid_only',
-    # 'gbert_precision_valid_only',
-    # 'gbert_recall_valid_only',
-    'triple_f1_valid_only', 
-    'triple_precision_valid_only',
-    'triple_recall_valid_only',
-    # 'triple_accuracy_valid_only',
-    'validation_f1_valid_only',
-    'validation_precision_valid_only',
-    'validation_recall_valid_only',
-    'validation_accuracy_valid_only',
+    "graph_edit_distance_valid_only",
+    "gbert_f1_valid_only",
+    "triple_f1_valid_only", 
+    "triple_precision_valid_only",
+    "triple_recall_valid_only",
+    "validation_f1_valid_only",
+    "validation_precision_valid_only",
+    "validation_recall_valid_only",
+    "validation_accuracy_valid_only",
 ]
 
 metric_to_legend = {
@@ -99,4 +93,20 @@ metric_to_legend = {
     "conversion_rate": "Conversion Rate",
     
     "ged_timeout_all": "GED Timeout",
+}
+
+models_to_legend = {
+    "meta-llama-3.1-8b-instruct": "Llama 8b",
+    "qwq-32b": "QwQ",
+    "deepseek-r1-distill-llama-70b": "DeepSeek",
+    "llama-3.3-70b-instruct": "LLama 70b",
+    "llama-3.1-sauerkrautlm-70b-instruct": "Sauerkraut",
+    "mistral-large-instruct": "Mistral",
+    "qwen2.5-72b-instruct": "Qwen"
+}
+
+modes_to_legend = {
+    'baseline_0ex0fcv': 'Base',
+    'fewshot_1ex3fcv': 'FS',
+    'cot_1ex3fcv': 'CoT'
 }
