@@ -273,17 +273,16 @@ def run_experiment(test_dir: str,
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run LLM prompting experiment for SHACL generation from text.")
-    parser.add_argument("--test_dir", required=True, help="Directory containing the test files.")
-    parser.add_argument("--prompt_components_dir", required=True, help="Directory containing the prompt components")
-    parser.add_argument("--results_dir", required=True, help="Directory to save the results.")
     parser.add_argument("--mode", required=True, choices=["baseline", "fewshot", "cot"], help="Prompting strategy to use.")
     parser.add_argument("--api_key", required=True, help="API key for Chat-AI API.")
     parser.add_argument("--base_url", required=True, help="Base URL for the Chat-AI API endpoint.")
+    parser.add_argument("--test_dir", default="data/processed/requirements_texts", help="Directory containing the test files.")
     parser.add_argument("--num_examples", type=int, default=0, help="Number of examples for fewshot or cot modes.")
     parser.add_argument("--k", type=int, default=0, help="Number of folds for k-fold cross-validation.")
-    parser.add_argument("--groundtruth_dir", help="Directory containing SHACL gold files for examples")
     parser.add_argument("--custom_models", nargs="+", help="Optional list of custom model names to use.")
-
+    parser.add_argument("--prompt_components_dir", default="resources/prompt_components", help="Directory containing the prompt components")
+    parser.add_argument("--results_dir", default="results", help="Directory to save the results.")
+    parser.add_argument("--groundtruth_dir", default="data/processed/shacl_gold" ,help="Directory containing SHACL gold files for examples") 
     args = parser.parse_args()
 
     run_experiment(

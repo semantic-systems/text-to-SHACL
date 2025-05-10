@@ -338,9 +338,9 @@ def evaluate_experiment(experiment: str,
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Compute evaluation metrics for a given experiment.")
     parser.add_argument("--experiment", required=True, help="Name of the experiment to evaluate.")
-    parser.add_argument("--results_dir", required=True, help="Directory containing results from all experiments.")
-    parser.add_argument("--shacl_gold_dir", required=True, help="Directory with groundtruth SHACL shapes.")
-    parser.add_argument("--profiles_dir", required=True, help="Directory with synthetic user profiles.")
+    parser.add_argument("--results_dir", default="results", help="Directory containing results from all experiments.")
+    parser.add_argument("--shacl_gold_dir", default="data/processed/shacl_gold", help="Directory with groundtruth SHACL shapes.")
+    parser.add_argument("--profiles_dir", default="resources/user_profiles", help="Directory with synthetic user profiles.")
     
     args = parser.parse_args()
     evaluate_experiment(
