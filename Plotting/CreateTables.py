@@ -1,6 +1,6 @@
 import pandas as pd
 from typing import List
-from resources.schemata.method_schema import var_name_to_fig_label
+from resources.schemata.method_schema import metric_to_legend
 
 # Fixed model order
 model_order = [
@@ -13,7 +13,7 @@ model_order = [
     'deepseek-r1-distill-llama-70b',
 ]
 
-def filter_df_by_metrics_and_model(csv_path: str, experiment: str, metrics: List[str]) -> pd.DataFrame:
+def filter_df_by_metrics_and_model(csv_path: str, experiment: str, metrics: List[str], models: List[str] = None) -> pd.DataFrame:
     """
     Generate a filtered table comparing rows from a specific experiment 
     and selecting only the specified metrics.
@@ -28,6 +28,9 @@ def filter_df_by_metrics_and_model(csv_path: str, experiment: str, metrics: List
 
     # Filter rows based on the experiment name (in 'mode' column)
     filtered_df = df[df['mode'] == experiment]
+    
+    if models:
+        filtered_df = filtered_df[filtered_df['model'].isin(models)]
 
     # Select only the specified columns (metrics) and include 'mode' and 'model'
     selected_columns = ['mode', 'model'] + metrics
@@ -67,12 +70,14 @@ def get_df_for_model_across_modes(csv_path: str, model: str, metrics: List[str])
     # Pivot the data so metrics are rows and modes are columns
     final_df = model_df.set_index('mode_label')[metrics].T
     
-    final_df.index = [clear_name for var_name, clear_name in var_name_to_fig_label.items() if var_name in metrics]
+    final_df.index = [clear_name for var_name, clear_name in metric_to_legend.items() if var_name in metrics]
 
     # Compute differences for FS and CoT vs BL
     if 'BL' in final_df.columns:
         for col in ['FS', 'CoT']:
             if col in final_df.columns:
-                final_df[col] = (final_df[col] - final_df['BL']).round(3)
+                final_df[col] = (final_df[col] - final_df['BL'])
+    # Rearrange order to be BL, FS, CoT
+    final_df = final_df[['BL', 'FS', 'CoT']]
 
-    return final_df
+    return final_df.round(3)
