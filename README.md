@@ -18,42 +18,51 @@ TODO: A few more sentences on the thesis
 
 TODO
 
+### Example of an eligible / ineligible user
+
 ## Usage
 
 ### Installation
 
 Run `pip install -r requirements.txt`
 
-### Runnning an Experiment
+### Running an Experiment
 
-To run an experiment with the default configurations from the thesis, clone this repository and use the following command:
+To run an experiment with the default configurations from the thesis, first clone this repository and run the following command from the root-directory, replacing the placeholders as specified below:
 
 ```bash
-python Pipeline/Inference/RunInference.py   --mode <experiment_mode> \
-                                            --api_key <your_api_key> \
-                                            --base_url <your_base_url> \
+python Pipeline/Inference/RunInference.py   --mode <mode> \
+                                            --api_key <api_key> \
+                                            --base_url <base_url> \
 ```
 
-Replace the parameters as follows:
-- `<experiment_mode>`: One of "baseline", "fewshot", or "cot" (chain-of-thought).
-- `<your_api_key>`: Your API key for the [Chat-AI API](https://docs.hpc.gwdg.de/services/saia/index.html#api-request).
-- `<your_base_url>`: Base URL for the Chat-AI API endpoint.
+| Parameter                 | Required | Description                                                                                        | Default                             |
+| ------------------------- | -------- | -------------------------------------------------------------------------------------------------- | ----------------------------------- |
+| `--mode`                  | ✅        | Prompting strategy: `baseline`, `fewshot`, or `cot` (chain-of-thought).                            | —                                   |
+| `--api_key`               | ✅        | Your API key for the [Chat-AI API](https://docs.hpc.gwdg.de/services/saia/index.html#api-request) | —                                   |
+| `--base_url`              | ✅        | Base URL for the Chat-AI API endpoint.                                                             | —                                   |
+| `--num_examples`          | ❌        | Number of examples (`fewshot`/`cot` only)                       | `1` (`fewshot`/`cot`), `0` (`baseline`)                                 |
+| `--k`                     | ❌        | Number of folds for k-fold cross-validation (`fewshot`/`cot` only). Must be at least 2.            | `3` (`fewshot`/`cot`), `0` (`baseline`)                                 |
+| `--custom_models`         | ❌        | Space-separated list of model names to use. See [Chat-AI documentation](https://docs.hpc.gwdg.de/services/chat-ai/models/index.html) for available models.   | `None`                              |
 
-Optionally, you can customize the following parameters:
-- `num_examples`: Number of examples for fewshot or cot modes, defaults to 1.
-- `k`: Number of folds for k-fold cross-validation in fewshot or cot modes, defaults to 3.
-- `custom_models`: Space-separated list of model names to use.
+**Note**: The script expects a standard directory structure for test inputs, prompt components, results, and gold data. You can override these: `--test_dir`, `--prompt_components_dir`, `--results_dir`, `--groundtruth_dir`
 
 ### Evaluating an Experiment
 
-To evaluate an experiment run, use the following command:
-```bash 
-# TODO: Insert code
+To evaluate an experiment and compute performance metrics, run the following command from the root-directory:
+```bash
+python Pipeline/Evaluation/RunEvaluation.py --experiment <experiment>
 ```
+
+| Parameter                 | Required | Description                                                                                        | Default                             |
+| ------------------------- | -------- | -------------------------------------------------------------------------------------------------- | ----------------------------------- |
+| `--experiment`                  | ✅        | Name of the experiment to evaluate. Must match the name of the experiment folder.                           | —
+
+**Note**: The script expects a standard directory structure for results, SHACL gold files, and user profiles. You can override these: `--results_dir`, `--shacl_gold_dir`, `--profiles_dir`
 
 ### Implementation Details
 
-The experiments and evaluation were conducted using `Python 3.12.3` on `Ubuntu 24.04.2 LTS`, with model inference run on the high-performance computing system provided by the [Gesellschaft für wissenschaftliche Datenverarbeitung mbH Göttingen](https://docs.hpc.gwdg.de/services/chat-ai/).
+The experiments and evaluation were conducted using `Python 3.12.3` on `Ubuntu 24.04.2 LTS`, with model inference run on the HPC infrastructure provided by the [Gesellschaft für wissenschaftliche Datenverarbeitung mbH Göttingen](https://docs.hpc.gwdg.de/services/chat-ai/).
 
 ## Data Source
 
