@@ -122,25 +122,31 @@ def plot_heatmap(target_data_path: str, evaluation_metrics_path: str, save_path:
     - validation recall over well-formed SHACL graphs
     - validation precision over well-formed SHACL graphs
     """
-     # Create cmap
+    # Create cmap
     light_blue = "#c1d2ff"
     dark_blue = "#00278e"
     custom_cmap = LinearSegmentedColormap.from_list("custom_blue", [light_blue, dark_blue])
     sns.set_theme(style="white")
-    
+
+    # Load data
     df1 = pd.read_csv(target_data_path)
     df2 = pd.read_csv(evaluation_metrics_path)
 
-    # Fix model order
+    # Fix model and prompt order
     prompt_order = ["baseline", "fewshot", "cot"]
     priority_models = ["mistral-large-instruct", "llama-3.1-sauerkrautlm-70b-instruct", "qwq-32b"]
     all_models = sorted(set(df1["model"]) | set(df2["model"]))
     other_models = [m for m in all_models if m not in priority_models]
     ordered_models = other_models + priority_models
-    abbreviated_index = [models_to_legend.get(model, model) for model in ordered_models]
+
+    # Abbreviated labels, adding * to QwQ
+    abbreviated_index = [
+        models_to_legend.get(model, model) + ("*" if model == "qwq-32b" else "")
+        for model in ordered_models
+    ]
 
     # Create subplots for each metric
-    _, axes = plt.subplots(1, 3, figsize=(18, 8), sharey=True)
+    fig, axes = plt.subplots(1, 3, figsize=(18, 8), sharey=True)
     metrics = [
         ("Proportion with User Target", df1, "Proportion with User Node Target"),
         ("validation_recall_valid_only", df2, "Validation Recall"),
@@ -172,11 +178,21 @@ def plot_heatmap(target_data_path: str, evaluation_metrics_path: str, save_path:
         ax.set_xticklabels(["Base", "FS", "CoT"])
         if ax == axes[0]:
             ax.set_ylabel("Model")
+            ax.set_yticklabels(abbreviated_index, rotation=0, fontsize=10)
         else:
             ax.set_ylabel("")
-        ax.set_yticklabels(abbreviated_index, rotation=0, fontsize=10)
+            ax.set_yticks([])
+
+    # Add footnote for QwQ
+    note = "*Third baseline run omitted due to frequent request timeouts."
+    ax.text(1, -0.08, note,
+            transform=ax.transAxes,
+            ha='right', va='top',
+            fontsize=10, color='gray')
     
+    # Save and show
     if save_path:
         plt.savefig(save_path, bbox_inches='tight', dpi=300)
 
+    plt.tight_layout()
     plt.show()
