@@ -9,13 +9,13 @@ import matplotlib.cm as cm
 import numpy as np
 from typing import List, Dict, Any
 from Pipeline.Evaluation.GraphMatch import GraphMatcher
-from Utils.Logger import set_up_logger
+from Utils.Logger import setup_logger
 
 # Constants
 TIMEOUTS = [60, 120, 180, 240, 300, 360, 420, 480, 540, 600]
 
 # Logging
-logger = set_up_logger("ged_timeout_logger", "logs/ged_timeout_inspection.log")
+logger = setup_logger("ged_timeout_logger", "logs/ged_timeout_inspection.log")
 
 def get_ged_timeout_data(raw_output_path: str, timeouts: List[int] = TIMEOUTS, k: int = 5) -> List[Dict[str,Any]]:
     """
@@ -97,25 +97,37 @@ def plot_ged_timeout_data(data: List[Dict[str, Any]], figure_output_path: str = 
 
     # Plot line for individual benefits in shades of blue
     colors = cm.Blues(np.linspace(0.4, 0.9, pivot_df.shape[1]))
-    ax = pivot_df.plot(color=colors, marker='o', legend=False)
+    ax = pivot_df.plot(color=colors, marker='o', markersize=4, linewidth=1, legend=False)
+
+    # ax = pivot_df.plot(color=colors, marker='o', legend=False)
 
     # Plot the mean line in red
-    pivot_df.mean(axis=1).plot(ax=ax, color='red', linestyle='--', marker='o', label='Mean GED')
+    pivot_df.mean(axis=1).plot(ax=ax, color='red', linestyle='--', marker='o',
+                           markersize=4, linewidth=1.5, label='Mean GED')
 
+    #pivot_df.mean(axis=1).plot(ax=ax, color='red', linestyle='--', marker='o', label='Mean GED')
+
+    # Style background
+    ax.set_facecolor("#f0f0f0")
+    ax.grid(True, axis='y', color="white", linewidth=0.5)
+    ax.set_axisbelow(True)
+    for spine in ax.spines.values():
+        spine.set_visible(False)
+    ax.tick_params(axis='both', which='both', length=0)
+    ax.set_ylim(0.2, 1)
+    
     # Format plot
-    plt.title("GED in Relation to Timeout")
     plt.xlabel("Timeout (seconds)")
-    plt.ylabel("GED")
-    plt.legend(title="Plotted Benefits", bbox_to_anchor=(1.05, 1), loc='upper left')
-    plt.grid(True)
+    plt.ylabel("Graph Edit Distance")
+    plt.legend(loc='upper right', ncol=2)
     plt.tight_layout()
-    plt.show()
     
     # Optionally save the figure as svg
     if figure_output_path:
         plt.savefig(figure_output_path, format='svg', bbox_inches='tight')
         logger.info(f"Figure saved to {figure_output_path}")
 
+    plt.show()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Compute and plot GED vs Timeout")
