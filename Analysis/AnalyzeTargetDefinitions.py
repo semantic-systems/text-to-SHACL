@@ -32,7 +32,7 @@ def analyze_target_definitions(file_path: str) -> Tuple[bool, Counter]:
 
     return has_user_target, target_type_counts
 
-def analyze_all_runs(data_root: str) -> Tuple[pd.DataFrame, pd.DataFrame]:
+def analyze_all_runs(results_dir: str) -> Tuple[pd.DataFrame, pd.DataFrame]:
     """
     Analyze the target definitions in all experiment runs and return two DataFrames:
     - Proportion of graphs with user target (per model and run)
@@ -42,8 +42,8 @@ def analyze_all_runs(data_root: str) -> Tuple[pd.DataFrame, pd.DataFrame]:
     model_user_target_counts: Dict[Tuple[str, str], int] = defaultdict(int)
     model_target_type_totals: Dict[Tuple[str, str], Counter] = defaultdict(Counter)
 
-    for run in os.listdir(data_root):
-        run_path = os.path.join(data_root, run)
+    for run in os.listdir(results_dir):
+        run_path = os.path.join(results_dir, run)
         prompt = run.split("_")[0]
         if not os.path.isdir(run_path):
             continue

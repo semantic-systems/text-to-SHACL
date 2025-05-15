@@ -44,7 +44,7 @@ def compute_unknown_shacl_term_ratio(vocab_path: str, core_vocab_path: str, shap
 
     return len(unknown_terms) / len(used_sh_terms), len(unknown_terms_core) / len(used_sh_terms)
 
-def analyze_vocab_over_all_results(
+def analyze_all_runs(
     results_dir: str,
     vocab_path: str,
     core_vocab_path: str,
