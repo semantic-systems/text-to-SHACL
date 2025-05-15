@@ -138,6 +138,7 @@ def plot_heatmap(target_data_path: str, evaluation_metrics_path: str, save_path:
     all_models = sorted(set(df1["model"]) | set(df2["model"]))
     other_models = [m for m in all_models if m not in priority_models]
     ordered_models = other_models + priority_models
+    ordered_models = priority_models
 
     # Abbreviated labels, adding * to QwQ
     abbreviated_index = [
@@ -146,7 +147,8 @@ def plot_heatmap(target_data_path: str, evaluation_metrics_path: str, save_path:
     ]
 
     # Create subplots for each metric
-    fig, axes = plt.subplots(1, 3, figsize=(18, 8), sharey=True)
+    # fig, axes = plt.subplots(1, 3, figsize=(18, 8), sharey=True)
+    _, axes = plt.subplots(1, 3, figsize=(18,5), sharey=True)
     metrics = [
         ("Proportion with User Target", df1, "Proportion with User Node Target"),
         ("validation_recall_valid_only", df2, "Validation Recall"),
@@ -157,7 +159,7 @@ def plot_heatmap(target_data_path: str, evaluation_metrics_path: str, save_path:
         pivot = df.pivot(index="model", columns="prompt", values=value_col) \
                 .reindex(index=ordered_models, columns=prompt_order)
 
-        annot_data = pivot.copy().applymap(lambda x: "-" if pd.isna(x) else f"{x:.2f}")
+        annot_data = pivot.copy().applymap(lambda x: "-" if pd.isna(x) else f"{x:.3f}")
 
         sns.heatmap(
             pivot,
@@ -173,19 +175,16 @@ def plot_heatmap(target_data_path: str, evaluation_metrics_path: str, save_path:
         )
 
         # Set titles and labels
-        ax.set_title(title, pad=20)
+        ax.set_title(title, fontsize=16, pad=20)
         ax.set_xlabel("")
         ax.set_xticklabels(["Base", "FS", "CoT"])
-        if ax == axes[0]:
-            ax.set_ylabel("Model")
-            ax.set_yticklabels(abbreviated_index, rotation=0, fontsize=10)
-        else:
-            ax.set_ylabel("")
-            ax.set_yticks([])
+        ax.set_yticklabels(abbreviated_index, rotation=0, fontsize=10)
+        ax.set_ylabel("")
+           
 
     # Add footnote for QwQ
     note = "*Third baseline run omitted due to frequent request timeouts."
-    ax.text(1, -0.08, note,
+    ax.text(1, -0.15, note,
             transform=ax.transAxes,
             ha='right', va='top',
             fontsize=10, color='gray')

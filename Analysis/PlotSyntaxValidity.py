@@ -97,7 +97,7 @@ def plot_syntax_bar_chart(csv_path: str, save_path: Optional[str] = None, mode: 
     ax.tick_params(axis='both', which='both', length=0)
     
     note = "*Third run omitted due to frequent request timeouts."
-    ax.text(1.0, -0.15, note,  # move up (closer to axis)
+    ax.text(1.0, -0.15, note,
             transform=ax.transAxes,
             ha='right', va='top',
             fontsize=10, color='gray')
