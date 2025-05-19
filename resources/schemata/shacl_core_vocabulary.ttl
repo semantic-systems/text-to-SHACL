@@ -1,7 +1,6 @@
-
-# W3C Shapes Constraint Language (SHACL) Vocabulary - Only SHACL Core
+# W3C Shapes Constraint Language (SHACL Core) Vocabulary
 # Version from 2017-07-20
-# Retrieved from https://www.w3.org/ns/shacl.ttl on May 14, 2025
+# Retrieved from https://www.w3.org/ns/shacl.ttl on May 14, 2025, removed advanced SHACL features
 
 @prefix owl:  <http://www.w3.org/2002/07/owl#> .
 @prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
