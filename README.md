@@ -1,6 +1,6 @@
 # text-to-SHACL
 
-This repository contains the code for the Master's thesis **Text2SHACL: LLM-Driven Generation of Validation Graphs for Automatic Assessment of Social Benefit Eligibility**. The project explores how large language models (LLMs) can support the automatic generation of SHACL shapes graphs from natural language text, in particulr descriptions of eligibility requirements for social benefits.
+This repository contains the code for the Master's thesis **Text2SHACL: LLM-Driven Generation of Validation Graphs for Automatic Assessment of Social Benefit Eligibility**. The project explores how large language models (LLMs) can support the automatic generation of SHACL shapes graphs from natural language text, in particular descriptions of eligibility requirements for social benefits.
 
 ## Author
 
