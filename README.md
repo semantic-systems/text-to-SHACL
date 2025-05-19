@@ -17,7 +17,7 @@ This repository contains the code for the Master's thesis **Text2SHACL: LLM-Driv
 Each experiment consists of prompting one or more LLM to generate SHACL shapes graphs from natural language eligibility requirements. They differ in the components included in the prompts:
 - **Baseline**: Instruction + ontology + input text
 - **Fewshot**: Instruction + ontology + selected worked examples + input text
-- **Chain-of-Thought (CoT)**: Instruction + ontology selected worked examples with intermediate reasoning steps + input text
+- **Chain-of-Thought (CoT)**: Instruction + ontology + selected worked examples with intermediate reasoning steps + input text
 
 The ontology specifies the classes, properties, and individuals used in the RDF data to be validated. When applicable, examples are selected based on input embedding similarity.
 
