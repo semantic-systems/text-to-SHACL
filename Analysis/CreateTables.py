@@ -1,9 +1,17 @@
+"""
+CreateTables.py
+
+Functions for generating DataFrames for evaluation results with different filters:
+- get results for selected experiment run, metrics, and models
+- get difference between baseline vs FS and CoT for selected model and metrics
+"""
+
 import pandas as pd
 from typing import List
 from resources.schemata.method_schema import metric_to_legend
 
 # Fixed model order
-model_order = [
+MODEL_ORDER = [
     'meta-llama-3.1-8b-instruct',
     'llama-3.1-sauerkrautlm-70b-instruct',
     'llama-3.3-70b-instruct',
@@ -37,7 +45,7 @@ def filter_df_by_metrics_and_model(csv_path: str, experiment: str, metrics: List
     result_df = filtered_df[selected_columns].round(3)
 
     # Set 'model' as a categorical variable for sorting
-    result_df['model'] = pd.Categorical(result_df['model'], categories=model_order, ordered=True)
+    result_df['model'] = pd.Categorical(result_df['model'], categories=MODEL_ORDER, ordered=True)
 
     # Sort by model order
     result_df = result_df.sort_values('model')
@@ -46,7 +54,7 @@ def filter_df_by_metrics_and_model(csv_path: str, experiment: str, metrics: List
 
 def get_df_for_model_across_modes(csv_path: str, model: str, metrics: List[str]) -> pd.DataFrame:
     """
-    Generate a DataFrame comparing the performance of a model across various decoding modes.
+    Generate a DataFrame comparing the performance of a model across various prompt.
     For 'FS' and 'CoT', shows the difference compared to 'BL'.
 
     :param csv_path: Path to the CSV file.

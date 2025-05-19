@@ -1,11 +1,16 @@
+"""
+PlotSyntaxValidity.py
+
+Functions for visualizing proportion of LLM outputs with well-formed Turtle 
+and SHACL as barplots.
+"""
+
 import os
 import pandas as pd
 import matplotlib.pyplot as plt
 from typing import Optional, List
 from resources.schemata.method_schema import metric_to_legend, models_to_legend, modes_to_legend
-from Utils.Logger import setup_logger
 
-logger = setup_logger("PlotSyntaxValidity", "logs/plot_syntax_validity.log")
 
 # Colorblind-safe IBM palette
 ibm_palette = [
@@ -109,7 +114,7 @@ def plot_syntax_bar_chart(csv_path: str, save_path: Optional[str] = None, mode: 
     if save_path:
         os.makedirs(os.path.dirname(save_path), exist_ok=True)
         plt.savefig(save_path, format="svg", facecolor=fig.get_facecolor())
-        logger.info(f"Saved bar chart for all metrics to {os.path.abspath(save_path)}")
+        print(f"Saved bar chart to {os.path.abspath(save_path)}")
     
     plt.show()
 
@@ -186,7 +191,7 @@ def plot_shacl_conformance_over_exp(csv_path: str,
     if save_path:
         os.makedirs(os.path.dirname(save_path), exist_ok=True)
         plt.savefig(save_path, format="svg", facecolor=fig.get_facecolor())
-        logger.info(f"Saved SHACL bar chart to {os.path.abspath(save_path)}")
+        print(f"Saved SHACL conformance bar chart to {os.path.abspath(save_path)}")
 
     plt.show()
     

@@ -1,3 +1,10 @@
+"""
+PlotGedToTimeouts.py
+
+Functions for evaluating and visualizing how SHACL graph edit distance (GED) 
+varies with algorithm timeout using NetworkX.
+"""
+
 import random
 import json
 import time

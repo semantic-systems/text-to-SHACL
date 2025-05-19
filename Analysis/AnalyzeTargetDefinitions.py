@@ -1,3 +1,12 @@
+"""
+AnalyzeTargetDefinitions.py
+
+Functions for analyzing SHACL target definitions across experiment runs:
+- ratio of SHACL graphs with user target node
+- distribution of SHACL target types
+- visualization in a heatmap
+"""
+
 import os
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -17,7 +26,13 @@ USER_NODE = URIRef("https://foerderfunke.org/default#User")
 
 
 def analyze_target_definitions(file_path: str) -> Tuple[bool, Counter]:
-    """Analyze target definitions in a single SHACL Turtle file."""
+    """
+    Analyze target definitions in a single SHACL shapes graphs.
+    
+    :param file_path: Path to the shapes graph (.ttl)
+    :return: Tuple with the presence of the user target (True/False),
+                and the counts of each target type.
+    """
     g = Graph()
     g.parse(file_path, format="turtle")
 
@@ -34,9 +49,12 @@ def analyze_target_definitions(file_path: str) -> Tuple[bool, Counter]:
 
 def analyze_all_runs(results_dir: str) -> Tuple[pd.DataFrame, pd.DataFrame]:
     """
-    Analyze the target definitions in all experiment runs and return two DataFrames:
-    - Proportion of graphs with user target (per model and run)
-    - Distribution of SHACL target types (per model and run)
+    Analyze the target definitions in all experiment runs.
+    
+    :param results_dir: Path to the top-level results directory.
+    :return: Two DataFrames:
+                - Proportion of graphs with user target (per model and run)
+                - Distribution of SHACL target types (per model and run)
     """
     model_graph_counts: Dict[Tuple[str, str], int] = defaultdict(int)
     model_user_target_counts: Dict[Tuple[str, str], int] = defaultdict(int)
@@ -99,7 +117,7 @@ def analyze_all_runs(results_dir: str) -> Tuple[pd.DataFrame, pd.DataFrame]:
     return user_target_df, target_types_df
 
 def summarize_by_prompt(df: pd.DataFrame) -> pd.DataFrame:
-    """Average the DataFrame over runs by prompt."""
+    """Macro-average over runs by prompt."""
     df['prompt'] = df['experiment'].apply(lambda x: x.split('_')[0])
 
     # Aggregate: sum Total Graphs, mean the rest
@@ -116,18 +134,17 @@ def summarize_by_prompt(df: pd.DataFrame) -> pd.DataFrame:
 
     return avg_results
 
-def plot_heatmap(target_data_path: str, evaluation_metrics_path: str, save_path: str = None):
-    """Create a heatmap with models on the y-axis and prompts on the x-axis, and three subplots:
+def plot_target_definitions_heatmap(target_data_path: str, evaluation_metrics_path: str, save_path: str = None):
+    """
+    Create a heatmap with models on the y-axis and prompts on the x-axis, and three subplots:
     - proportion of generated SHACL graphs with correctly defined target node user
     - validation recall over well-formed SHACL graphs
     - validation precision over well-formed SHACL graphs
+    
+    :param target_data_path: Path to the CSV file with target definition distributions.
+    :param evaluation_metrics_path: Path to the CSV file with evaluation results per prompt.
+    :save_path: Path to save the heatmap image.
     """
-    # Create cmap
-    light_blue = "#c1d2ff"
-    dark_blue = "#00278e"
-    custom_cmap = LinearSegmentedColormap.from_list("custom_blue", [light_blue, dark_blue])
-    sns.set_theme(style="white")
-
     # Load data
     df1 = pd.read_csv(target_data_path)
     df2 = pd.read_csv(evaluation_metrics_path)
@@ -147,7 +164,6 @@ def plot_heatmap(target_data_path: str, evaluation_metrics_path: str, save_path:
     ]
 
     # Create subplots for each metric
-    # fig, axes = plt.subplots(1, 3, figsize=(18, 8), sharey=True)
     _, axes = plt.subplots(1, 3, figsize=(18,5), sharey=True)
     metrics = [
         ("Proportion with User Target", df1, "Proportion with User Node Target"),
@@ -165,7 +181,7 @@ def plot_heatmap(target_data_path: str, evaluation_metrics_path: str, save_path:
             pivot,
             annot=annot_data,
             fmt="",
-            cmap=custom_cmap,
+            cmap="Blues",
             linewidths=0.5,
             linecolor='white',
             cbar=False,

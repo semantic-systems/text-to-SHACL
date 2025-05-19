@@ -1,3 +1,10 @@
+"""
+AnalyzeVocabConformance.py
+
+Functions for computing the average ratio of unknown SHACL (Core) terms 
+in the generated shapes graphs over multiple experiment runs.
+"""
+
 import os
 import pandas as pd
 from rdflib import Graph, URIRef
@@ -44,12 +51,7 @@ def compute_unknown_shacl_term_ratio(vocab_path: str, core_vocab_path: str, shap
 
     return len(unknown_terms) / len(used_sh_terms), len(unknown_terms_core) / len(used_sh_terms)
 
-def analyze_all_runs(
-    results_dir: str,
-    vocab_path: str,
-    core_vocab_path: str,
-    save_path: str = None
-) -> pd.DataFrame:
+def analyze_vocab_conformanc_over_all_runs(results_dir: str, vocab_path: str, core_vocab_path: str, save_path: str = None) -> pd.DataFrame:
     """
     Traverse the experiment folder and compute average unknown SHACL term ratios.
 
@@ -57,6 +59,8 @@ def analyze_all_runs(
     :param vocab_path: Path to SHACL vocabulary file (.ttl).
     :param core_vocab_path: Path to SHACL core vocabulary file (.ttl).
     :param save_path: Optionally save output to this path.
+    
+    :return: DataFrame with average unknown SHACL term ratios.
     """
     records = []
 
@@ -75,9 +79,9 @@ def analyze_all_runs(
             ratios = []
             core_ratios = []
 
-            for fname in os.listdir(shapes_dir):
-                if fname.endswith(".ttl"):
-                    shapes_path = os.path.join(shapes_dir, fname)
+            for file_name in os.listdir(shapes_dir):
+                if file_name.endswith(".ttl"):
+                    shapes_path = os.path.join(shapes_dir, file_name)
                     try:
                         ratio, core_ratio = compute_unknown_shacl_term_ratio(
                             vocab_path, core_vocab_path, shapes_path
@@ -105,6 +109,9 @@ def analyze_all_runs(
         "unknown_shacl_ratio": "mean",
         "unknown_shacl_core_ratio": "mean"
     })
+    
+    macro_avg_df["unknown_shacl_ratio"] = macro_avg_df["unknown_shacl_ratio"].round(3)
+    macro_avg_df["unknown_shacl_core_ratio"] = macro_avg_df["unknown_shacl_core_ratio"].round(3)
 
     
     if save_path:
