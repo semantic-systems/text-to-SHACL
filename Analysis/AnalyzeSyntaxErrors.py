@@ -416,7 +416,7 @@ def plot_source_shape_distribution_heatmap(json_path: str, prompts: List[str], s
     
     # Save if specified
     if save_path:
-        plt.savefig(save_path, dpi=300)
+        plt.savefig(save_path, bbox_inches='tight')
         print(f"Plot saved to {save_path}")
         
     plt.show()
