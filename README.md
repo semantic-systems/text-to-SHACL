@@ -83,6 +83,11 @@ The repository is structured as follows.
 
 - text-to-SHACL
     - **[Analysis](Analysis)**: Code and files for analyzing and visualization results.
+    - **[Pipeline](Pipeline)**
+        - **[Inference](Pipeline/Inference)**: Code for generating model output with different prompts.
+        - **[Evaluation](Pipeline/Evaluation)**: Code for evaluating LLM-generated SHACL shapes.
+    - **[Preprocessing](Preprocessing)**: Code for scraping and preparing the dataset.
+    - **[Utils](Utils)**: General helper functions used throughout the repository.
     - **[data](data)**
         - **[processed](data/processed)**
             - **[requirements_texts](data/processed/shacl_gold)**: Input requirements texts for selected benefits.
@@ -91,10 +96,6 @@ The repository is structured as follows.
             - **[service_catalogs](data/raw/service_catalogs)**: All administrative services by municiaplity.
             - **[all_service_descriptions](data/raw/service_descriptions)**: Full descriptions of all adminsitrative services.
             - **[social_benefit_descriptions](data/raw/social_benefit_descriptions)**: Intermediate benefit selection.
-    - **[Pipeline](Pipeline)**
-        - **[Inference](Pipeline/Inference)**: Code for generating model output with different prompts.
-        - **[Evaluation](Pipeline/Evaluation)**: Code for evaluating LLM-generated SHACL shapes.
-    - **[Preprocessing](Preprocessing)**: Code for scraping and preparing the dataset.
     - **[resources](resources)**
         - **[requiremets_decomposition](resources/requirements_decomposition)**: Extracted individual requirements.
         - **[schemata](resources/schemata)**: Metadata about benefits, experiments, and SHACL vocabulary.
@@ -106,9 +107,8 @@ The repository is structured as follows.
                 - metrics/: Evaluation metrics for this model
                 - output/: Raw and parsed model outputs
                     - parsed_output/: Generated SHACL graphs per requirement
-    - **[Utils](Utils)**: General helper functions used throughout the repository.
 
 
-## Acknowledgments & Demo
+## Acknowledgements & Demo
 
 Special thanks to [Ben](https://github.com/wbglaeser) and [Benjamin](github.com/benjaminaaron) from **Förderfunke** for supporting the annotation process with their practical expertise and providing the idea to use SHACL validation to assess social benefit eligibility, which inspired and shaped this project. A running demo of their system is available on their [website](https://foerderfunke.org/), and additional resources can be found on their [GitHub](https://github.com/Citizen-Knowledge-Graph).
