@@ -1,8 +1,6 @@
 # text-to-SHACL
 
-This repository contains the code for my Master's thesis **Text2SHACL: LLM-Driven Generation of Validation Graphs for Automatic Assessment of Social Benefit Eligibility**. The project explores how LLMs can support the automatic generation of SHACL shapes from natural language text.
-
-TODO: A few more sentences on the thesis
+This repository contains the code for the Master's thesis **Text2SHACL: LLM-Driven Generation of Validation Graphs for Automatic Assessment of Social Benefit Eligibility**. The project explores how large language models (LLMs) can support the automatic generation of SHACL shapes graphs from natural language text.
 
 ## Author
 
@@ -14,11 +12,18 @@ TODO: A few more sentences on the thesis
 
 **Program**: Management & Data Science
 
-## An Example
+## Experiment Setups and Evaluation
 
-TODO
+Each experiment consists of prompting one or more LLM to generate SHACL shapes graphs from natural language eligibility requirements. They differ in the components included in the prompts:
+- **Baseline**: Instruction + ontology + input text
+- **Fewshot**: Instruction + ontology + selected worked examples + input text
+- **Chain-of-Thought (CoT)**: Instruction + ontology selected worked examples with intermediate reasoning steps + input text
 
-### Example of an eligible / ineligible user
+The ontology specifies the classes, properties, and individuals used in the RDF data to be validated. When applicable, examples are selected based on input embedding similarity.
+
+The generated shapes graphs are compared against expert-annotated gold graphs using two groups of metrics:
+- **Syntactic quality**: Graph Edit Distance (GED), G-BERTScore, Triple Match (Precision, Recall, F1)
+- **Semantic quality**: Comparison of validation outcomes on synthetic user profiles (Precsion, Recall, F1, Accuracy)
 
 ## Usage
 
@@ -77,6 +82,7 @@ The dataset consists of two parts:
 The repository is structured as follows.
 
 - text-to-SHACL
+    - **[Analysis](Analysis)**: Code and files for analyzing and visualization results.
     - **[data](data)**
         - **[processed](data/processed)**
             - **[requirements_texts](data/processed/shacl_gold)**: Input requirements texts for selected benefits.
@@ -88,14 +94,13 @@ The repository is structured as follows.
     - **[Pipeline](Pipeline)**
         - **[Inference](Pipeline/Inference)**: Code for generating model output with different prompts.
         - **[Evaluation](Pipeline/Evaluation)**: Code for evaluating LLM-generated SHACL shapes.
-    - **[Plotting](Plotting)**: Code and files visualizing the evaluation results.
     - **[Preprocessing](Preprocessing)**: Code for scraping and preparing the dataset.
     - **[resources](resources)**
         - **[requiremets_decomposition](resources/requirements_decomposition)**: Extracted individual requirements.
-        - **[schemata](resources/schemata)**: Metadata about benefits and experiments.
+        - **[schemata](resources/schemata)**: Metadata about benefits, experiments, and SHACL vocabulary.
         - **[templates](resources/templates)**: SHACL & Decomposition templates.
         - **[user_profiles](resources/user_profiles)**: Synthetic usre profiles in RDF.
-    - **[results](path/)**: Model output and evaluation metrics per experiment run.
+    - **[results](results)**: Model output and main syntactic and semantic evaluation metrics.
          - <run_id>/: One folder per experiment run (e.g., baseline_0ex0fcv_1745664019)
             - <model_name>/: One folder per model used in the run
                 - metrics/: Evaluation metrics for this model
@@ -104,6 +109,6 @@ The repository is structured as follows.
     - **[Utils](Utils)**: General helper functions used throughout the repository.
 
 
-## Acknowledgments
+## Acknowledgments & Demo
 
-Special thanks to Ben and Benjamin from [Förderfunke](https://foerderfunke.org/) for inspiring the use of SHACL and RDF for eligibility assessment and supporting the annotation process with their practical expertise. For those curious about civic tech their [GitHub](https://github.com/Citizen-Knowledge-Graph) and website linked above are well worth exploring.
+Special thanks to [Ben](https://github.com/wbglaeser) and [Benjamin](github.com/benjaminaaron) from **Förderfunke** for supporting the annotation process with their practical expertise and providing the idea to use SHACL validation to assess social benefit eligibility, which inspired and shaped this project. A running demo of their system is available on their [website](https://foerderfunke.org/), and additional resources can be found on their [GitHub](https://github.com/Citizen-Knowledge-Graph).
