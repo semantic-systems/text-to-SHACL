@@ -1,6 +1,6 @@
 # text-to-SHACL
 
-This repository contains the code for the Master's thesis **Text2SHACL: LLM-Driven Generation of Validation Graphs for Automatic Assessment of Social Benefit Eligibility**. The project explores how large language models (LLMs) can support the automatic generation of SHACL shapes graphs from natural language text.
+This repository contains the code for the Master's thesis **Text2SHACL: LLM-Driven Generation of Validation Graphs for Automatic Assessment of Social Benefit Eligibility**. The project explores how large language models (LLMs) can support the automatic generation of SHACL shapes graphs from natural language text, in particulr descriptions of eligibility requirements for social benefits.
 
 ## Author
 
@@ -33,7 +33,7 @@ Run `pip install -r requirements.txt`
 
 ### Running an Experiment
 
-To run an experiment with the default configurations from the thesis, first clone this repository and run the following command from the root-directory, replacing the placeholders as specified below:
+To run an experiment with the default configurations from the thesis, run the following command from the root-directory, replacing the placeholders as specified below:
 
 ```bash
 python Pipeline/Inference/RunInference.py   --mode <mode> \
@@ -54,7 +54,7 @@ python Pipeline/Inference/RunInference.py   --mode <mode> \
 
 ### Evaluating an Experiment
 
-To evaluate an experiment and compute performance metrics, run the following command from the root-directory:
+To compute the performance metrics specified above for a given experiment run, run the following command from the root-directory:
 ```bash
 python Pipeline/Evaluation/RunEvaluation.py --experiment <experiment>
 ```
