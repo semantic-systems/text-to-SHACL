@@ -381,7 +381,6 @@ def plot_source_shape_distribution_heatmap(json_path: str, prompts: List[str], s
         annot=False,
         cmap="Blues",
         linewidths=0.5,
-        cbar=False,
     )
 
     # Set axes labels and ticks
@@ -416,7 +415,7 @@ def plot_source_shape_distribution_heatmap(json_path: str, prompts: List[str], s
     
     # Save if specified
     if save_path:
-        plt.savefig(save_path, bbox_inches='tight')
+        plt.savefig(save_path)
         print(f"Plot saved to {save_path}")
         
     plt.show()

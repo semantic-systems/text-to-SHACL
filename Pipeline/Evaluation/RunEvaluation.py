@@ -257,11 +257,10 @@ def compute_experiment_run_avg(metrics_dir: str,
 
 
 def compute_config_level_avg(avg_by_experiment_run_path: str,
-                             avg_by_config_path: str,
-                             logger: logging.Logger) -> pd.DataFrame:
+                             save_path: str = None) -> pd.DataFrame:
     """
-    Computes the average metrics acrossnall runs for a given model-mode
-    combination. Saves the results to a CSV file.
+    Computes the average and standard deviation of metrics across all runs 
+    for a given model-mode combination. Saves the results to a CSV file.
 
     :param avg_by_experiment_run_path: Path to the CSV file with average 
         metrics by experiment run.
@@ -269,26 +268,34 @@ def compute_config_level_avg(avg_by_experiment_run_path: str,
         mode-model configuration.
     :param logger: Logger instance.
     
-    :return: Dataframe with average metrics per configuration.
+    :return: Dataframe with average and std metrics per configuration.
     """
     avg_by_experiment_run = pd.read_csv(avg_by_experiment_run_path)
 
-    # Extract 'mode' from the 'experiment' column
+    # Extract prompt from the experiment run key
     avg_by_experiment_run['mode'] = avg_by_experiment_run['experiment'].str.extract(r'^([^_]+_[^_]+)')
-
-    # Group by 'method' and 'model', then compute mean for all metric columns
-    avg_by_config = avg_by_experiment_run.groupby(['mode', 'model']).mean(numeric_only=True).reset_index().round(4)
-    avg_by_config = round(avg_by_config, 4)
     
-    # Append to summary CSV, if it exists, or create new file otherwise
-    if os.path.exists(avg_by_config_path):
-        existing_results = pd.read_csv(avg_by_config_path)
-        avg_by_config = pd.concat([existing_results, avg_by_config])
+    # Filter out non-numeric columns
+    metric_columns = avg_by_experiment_run.select_dtypes(include='number').columns.tolist()
 
-    avg_by_config.to_csv(avg_by_config_path, index=False)
-    logger.info(f"Saved average metrics by configuration to {avg_by_config_path}")
+    # Compute mean and SD for each mode-model configuration
+    grouped = avg_by_experiment_run.groupby(['mode', 'model'])[metric_columns]
+    agg = grouped.agg(['mean', 'std']).reset_index()
+
+    # Flatten multi-level column names and round results
+    agg.columns = ['_'.join(col).strip('_') for col in agg.columns.values]
+    agg = agg.round(4)
+
+    # Append to existing results or create new file, if save_path is provided
+    if save_path and os.path.exists(save_path):
+        existing_results = pd.read_csv(save_path)
+        agg = pd.concat([existing_results, agg], ignore_index=True)
+        agg.to_csv(save_path, index=False)
+    elif save_path:
+        agg.to_csv(save_path, index=False)
+        print(f"Saved average and std metrics by configuration to {save_path}")
     
-    return avg_by_config
+    return agg
 
 def evaluate_experiment(experiment: str, 
                         results_dir: str, 

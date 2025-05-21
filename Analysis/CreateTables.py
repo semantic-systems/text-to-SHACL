@@ -52,14 +52,15 @@ def filter_df_by_metrics_and_model(csv_path: str, experiment: str, metrics: List
 
     return result_df
 
-def get_df_for_model_across_modes(csv_path: str, model: str, metrics: List[str]) -> pd.DataFrame:
+def get_df_for_model_across_modes(csv_path: str, model: str, metrics: List[str], diff: bool = True) -> pd.DataFrame:
     """
     Generate a DataFrame comparing the performance of a model across various prompt.
-    For 'FS' and 'CoT', shows the difference compared to 'BL'.
+    If diff == True, 'FS' and 'CoT' indicate the change of the mean compared to 'BL'.
 
     :param csv_path: Path to the CSV file.
     :param model: Model name to filter by.
     :param metrics: List of metric column names to include.
+    :param diff: If True, compute differences for FS and CoT vs BL.
     :return: A DataFrame with metrics as rows and modes ('BL', 'FS', 'CoT') as columns.
     """
     df = pd.read_csv(csv_path)
@@ -81,11 +82,13 @@ def get_df_for_model_across_modes(csv_path: str, model: str, metrics: List[str])
     final_df.index = [clear_name for var_name, clear_name in metric_to_legend.items() if var_name in metrics]
 
     # Compute differences for FS and CoT vs BL
-    if 'BL' in final_df.columns:
+    if diff:
         for col in ['FS', 'CoT']:
             if col in final_df.columns:
-                final_df[col] = (final_df[col] - final_df['BL'])
-    # Rearrange order to be BL, FS, CoT
-    final_df = final_df[['BL', 'FS', 'CoT']]
+                final_df[f"{col}_diff"] = (final_df[col] - final_df['BL'])
+        final_df = final_df[['BL', 'FS', 'FS_diff', 'CoT', 'CoT_diff']]
+    else:
+        final_df = final_df.loc[final_df.index.str.contains('SD')]
+        final_df = final_df[['BL', 'FS', 'CoT']]
 
     return final_df.round(3)
