@@ -38,7 +38,7 @@ def create_benefits_selection_sankey(node_labels: List[str],
             thickness=30,
             line=dict(color="black", width=1),
             label=node_labels,
-            color=node_colors
+            color=node_colors,
         ),
         link=dict(
             source=sources,
@@ -53,12 +53,13 @@ def create_benefits_selection_sankey(node_labels: List[str],
         paper_bgcolor="white",
         plot_bgcolor="white",
         width=1200,
-        height=600
+        height=600,
+        font=dict(size=16, color="black"),
     )
 
     # Optionally save to SVG
     if save_path:
-        fig.write_image(save_path, format='svg')
+        fig.write_image(save_path, format='png')
         print(f"Sankey diagram saved to: {save_path}")
 
     fig.show()
