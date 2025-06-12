@@ -187,9 +187,9 @@ def plot_target_definitions_heatmap(target_data_path: str, evaluation_metrics_pa
     # Create subplots for each metric
     _, axes = plt.subplots(1, 3, figsize=figsize, sharey=True)
     metrics = [
-        ("user_target", df1, "User Node Target Ratio"),
-        ("validation_recall_valid_only", df2, "Validation Recall"),
-        ("validation_precision_valid_only", df2, "Validation Precision")
+        ("user_target", df1, "(a) User Node Target Ratio"),
+        ("validation_recall_valid_only", df2, "(b) Validation Recall"),
+        ("validation_precision_valid_only", df2, "(c) Validation Precision")
     ]
 
     for ax, (metric_base, df, title) in zip(axes, metrics):
