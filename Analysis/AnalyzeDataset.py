@@ -172,6 +172,7 @@ def analyze_data_graphs(file_path):
     total_entries = []
     dict_sizes = {}
     fractions_eligible = []
+    fractions_ineligible = []
 
     print("=== RDF Profiles Analysis ===\n")
 
@@ -188,6 +189,8 @@ def analyze_data_graphs(file_path):
         # Calculate fraction eligible for this dictionary (avoid division by zero)
         frac_eligible = eligible / total if total > 0 else 0
         fractions_eligible.append(frac_eligible)
+        frac_ineligible = ineligible / total if total > 0 else 0
+        fractions_ineligible.append(frac_ineligible)
 
     # Compute summary stats
     total_profiles = len(total_entries)
@@ -210,6 +213,7 @@ def analyze_shapes(shacl_folder_path: str, shacl_core_vocab: str):
     target_distribution = Counter()
     constraint_distribution = Counter()
     constraints_per_file = {}
+    triples_per_file = []
 
     targets = {
         SH.targetNode,
@@ -225,6 +229,9 @@ def analyze_shapes(shacl_folder_path: str, shacl_core_vocab: str):
             g = Graph()
             g.parse(os.path.join(shacl_folder_path, filename), format="turtle")
             constraint_count = 0
+            
+            triples_count = len(g)
+            triples_per_file.append(triples_count)
 
             for s, p, o in g:
                 if (p == RDF.type and o == SH.NodeShape) or (p == SH.node and isinstance(o, BNode)):
@@ -246,6 +253,11 @@ def analyze_shapes(shacl_folder_path: str, shacl_core_vocab: str):
     print("=== SHACL Shapes Analysis ===")
     print(f"Total Unique Node Shapes     : {len(node_shapes)}")
     print(f"Total Unique Property Shapes : {len(property_shapes)}\n")
+    
+    print("=== Graph Size in Triples ===")
+    print(f"Min:  {min(triples_per_file)} triples per graph")
+    print(f"Max:  {max(triples_per_file)} triples per graph")
+    print(f"Mean: {np.mean(triples_per_file):.2f} triples per graph")
 
     print("=== Target Declarations Distribution ===")
     for target in targets:
